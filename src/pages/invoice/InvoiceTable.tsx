@@ -53,9 +53,9 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
     const styles = {
       Need_Approval: 'bg-red-100 text-red-800',
       Approved: 'bg-green-100 text-green-800',
-      Waiting_Payment: 'bg-[#FEF6ED] text-[#C47E5E]',
+      Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
       Paid: 'bg-green-100 text-green-800',
-      Close0Complete: 'bg-blue-100 text-blue-800',
+      Close0Complete: 'bg-blue-100 text-[#363F72]',
     };
 
     return (
