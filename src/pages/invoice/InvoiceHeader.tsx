@@ -15,12 +15,14 @@ interface InvoiceProps {
   onFiltersChange: (filters: InvoiceFilters) => void;
   onSortChange: (sort: SortOption) => void;
   onSearchChange: (search: string) => void;
+  onCreate: () => void;
 }
 
 export function InvoiceHeader({ 
   onFiltersChange, 
   onSortChange, 
-  onSearchChange 
+  onSearchChange,
+  onCreate,
 }: InvoiceProps) {
   const [filters, setFilters] = useState<InvoiceFilters>({
     status: 'all'
@@ -36,7 +38,7 @@ export function InvoiceHeader({
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">Invoice</h2>
-        <Button className="gap-2">
+        <Button className="gap-2" onClick={() => { onCreate() }}>
           <Plus className="h-4 w-4" />
           Create Invoice
         </Button>

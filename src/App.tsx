@@ -5,14 +5,14 @@ import Routes from './routes'
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[url('./assets/img/screen.png')]">
       <Header />
       <Navigation />
-      <div className="flex m-4  border rounded-xl">
+      <div className="flex mx-8 rounded-xl">
         {/* <aside className="w-64 bg-white border-r min-h-[calc(100vh-73px)]">
           <Navigation />
         </aside> */}
-        <main className="flex-1 p-6">
+        <main className="flex-1">
           <Routes />
         </main>
       </div>
