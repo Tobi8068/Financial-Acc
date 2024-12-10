@@ -13,6 +13,7 @@ export function useInvoiceData(
   const itemsPerPage = 5;
 
   const filteredAndSortedData = useMemo(() => {
+
     let result = [...invoiceData];
 
     // Apply search
@@ -47,6 +48,17 @@ export function useInvoiceData(
 
     return result;
   }, [invoiceData, filters, sortOption, searchQuery]);
+
+  useEffect(() => {
+    // const fetchFunc = async () => {
+    //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
+    //     method: 'GET'
+    //   });
+  
+    //   console.log("Data", response.json());
+    // }
+    // fetchFunc();
+  }, []);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
