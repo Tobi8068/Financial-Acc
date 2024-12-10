@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { useShippingData } from '@/hooks/useShippingData';
 import { ShippingStatus, ShippingFilters, SortOption } from '@/types/shipping';
 import { formatDate } from '@/lib/date';
-import { Pagination } from './Pagination';
+import { Pagination } from '../../components/pagination/Pagination';
 
 interface ShippingTableProps {
   filters: ShippingFilters;

@@ -14,7 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useInvoiceData } from '@/hooks/useInvoiceData';
 import { InvoiceStatus, InvoiceFilters, SortOption } from '@/types/invoice';
 import { formatDate } from '@/lib/date';
-import { Pagination } from './Pagination';
+import { Pagination } from '../../components/pagination/Pagination';
 
 interface InvoiceTableProps {
   filters: InvoiceFilters;
