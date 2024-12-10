@@ -1,4 +1,4 @@
-export type InvoiceStatus = 'need_approval' | 'approve' | 'waiting_payment' | 'paid' | 'complete';
+export type InvoiceStatus = 'Need_Approval' | 'Approved' | 'Waiting_Payment' | 'Paid' | 'Close0Complete';
 
 export type SortOption = 'newest' | 'oldest' | 'amount-high' | 'amount-low';
 

@@ -51,16 +51,16 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
 
   const getStatusBadge = (status: InvoiceStatus) => {
     const styles = {
-      need_approval: 'bg-yellow-100 text-yellow-800',
-      approve: 'bg-green-100 text-green-800',
-      waiting_payment: 'bg-blue-100 text-blue-800',
-      paid: 'bg-red-100 text-red-800',
-      complete: 'bg-green-100 text-yellow-800',
+      Need_Approval: 'bg-red-100 text-red-800',
+      Approved: 'bg-green-100 text-green-800',
+      Waiting_Payment: 'bg-[#FEF6ED] text-[#C47E5E]',
+      Paid: 'bg-green-100 text-green-800',
+      Close0Complete: 'bg-blue-100 text-blue-800',
     };
 
     return (
       <Badge className={styles[status]} variant="secondary">
-        {status.charAt(0).toUpperCase() + status.slice(1)}
+        {status.replace("_", " ").replace("0", "/")}
       </Badge>
     );
   };
@@ -71,12 +71,12 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">
+              {/* <TableHead className="w-12">
                 <Checkbox
                   checked={selectedItems.length === data.length}
                   onCheckedChange={handleSelectAll}
                 />
-              </TableHead>
+              </TableHead> */}
               <TableHead>Invoice No.</TableHead>
               <TableHead>Date Created</TableHead>
               <TableHead>Client</TableHead>
@@ -88,9 +88,9 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
               <TableHead>Total Net Amount</TableHead>
               <TableHead>Total Amount</TableHead>
               <TableHead>Contact</TableHead>
-              <TableHead>Turn of PDF</TableHead>
+              {/* <TableHead>Turn of PDF</TableHead>
               <TableHead>Approval</TableHead>
-              <TableHead>Sales Num</TableHead>
+              <TableHead>Sales Num</TableHead> */}
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -101,12 +101,12 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
                 key={item.id}
                 className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
-                <TableCell>
+                {/* <TableCell>
                   <Checkbox
                     checked={selectedItems.includes(item.id)}
                     onCheckedChange={(checked) => handleSelectItem(item.id, checked as boolean)}
                   />
-                </TableCell>
+                </TableCell> */}
                 <TableCell className="font-medium">{item.id}</TableCell>
                 <TableCell>{formatDate(item.dateCreated)}</TableCell>
                 <TableCell>{item.client}</TableCell>
@@ -118,9 +118,9 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
                 <TableCell>${item.totalNetAmount.toFixed(2)}</TableCell>
                 <TableCell>${item.totalAmount.toFixed(2)}</TableCell>
                 <TableCell>{item.contact}</TableCell>
-                <TableCell>{item.turnTOpdf}</TableCell>
+                {/* <TableCell>{item.turnTOpdf}</TableCell>
                 <TableCell>{item.clientApproval}</TableCell>
-                <TableCell>{item.salesNum}</TableCell>
+                <TableCell>{item.salesNum}</TableCell> */}
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
