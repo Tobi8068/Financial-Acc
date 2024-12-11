@@ -68,7 +68,6 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
       </Badge>
     );
   };
-
   const handleView = (id: string) => {
     setViewDialogOpen(true);
   };
@@ -89,13 +88,11 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
       setDeleteItemId(null);
     }
   };
-
   useEffect(() => {
     // const fetchFunc = async () => {
     //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
     //     method: 'GET'
     //   });
-
     //   console.log("Data", response.json());
     // }
     // fetchFunc();
