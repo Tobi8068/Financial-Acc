@@ -30,8 +30,8 @@ export function CreateInvoice({ onClick }: CreateInvoiceProps) {
         setFormData(prev => ({ ...prev, [field]: value }))
     }
     return (
-        <div className="w-full flex flex-col justify-center">
-            <h2>Create Invoice</h2>
+        <div className="w-full flex flex-col justify-center overflow-y-auto">
+            <h2 className="text-xl font-semibold mb-6">Create Invoice</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[40%] flex flex-col gap-3">
                     <div className="grid w-full grid-cols-2 gap-12">
