@@ -13,12 +13,12 @@ function Invoice() {
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
 
-  const handleCreate = () => {
-    setScene(2);
+  const handlePage = (page: number) => {
+    setScene(page);
   }
 
-  const handleHome = () => {
-    setScene(1);
+  const handleCreate = () => {
+
   }
 
   return (
@@ -26,13 +26,13 @@ function Invoice() {
       {
         scene === 1 ? (
           <>
-            <InsideNavbar text="" onClick={handleHome}/>
+            <InsideNavbar text="" onClick={() => handlePage(2)}/>
             <main className="flex-1 p-6 bg-white bg-opacity-50">
               <InvoiceHeader
                 onFiltersChange={setFilters}
                 onSortChange={setSortOption}
                 onSearchChange={setSearchQuery}
-                onCreate={handleCreate}
+                onCreate={() => handlePage(2)}
               />
               <InvoiceTable
                 filters={filters}
@@ -44,14 +44,14 @@ function Invoice() {
 
         ) : scene === 2 ? (
           <>
-            <InsideNavbar text="Invoices" onClick={handleHome}/>
-            <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <CreateInvoice />
+            <InsideNavbar text="Invoices" onClick={() => handlePage(1)}/>
+            <main className="flex justify-center items-center p-6 bg-white bg-opacity-50">
+              <CreateInvoice onClick={() => handleCreate()}/>
             </main>
           </>
         ) : scene === 3 ? (
           <>
-            <InsideNavbar text="Invoices" onClick={handleHome}/>
+            <InsideNavbar text="Invoices" onClick={() => handlePage(1)}/>
             <main className="flex-1 p-6 bg-white bg-opacity-50">
 
             </main>
