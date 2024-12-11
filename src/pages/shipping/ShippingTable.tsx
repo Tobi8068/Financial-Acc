@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MoreVertical } from 'lucide-react';
 import {
   Table,
@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
 import { useShippingData } from '@/hooks/useShippingData';
 import { ShippingStatus, ShippingFilters, SortOption } from '@/types/shipping';
@@ -63,18 +63,29 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
     );
   };
 
+  useEffect(() => {
+    // const fetchFunc = async () => {
+    //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
+    //     method: 'GET'
+    //   });
+  
+    //   console.log("Data", response.json());
+    // }
+    // fetchFunc();
+  }, []);
+
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-white">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">
+              {/* <TableHead className="w-12">
                 <Checkbox 
                   checked={selectedItems.length === data.length}
                   onCheckedChange={handleSelectAll}
                 />
-              </TableHead>
+              </TableHead> */}
               <TableHead>No.</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Notes</TableHead>
@@ -82,7 +93,7 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
               <TableHead>Status</TableHead>
               <TableHead>Sales</TableHead>
               <TableHead>Carrier</TableHead>
-              <TableHead className="w-12"></TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           
@@ -92,12 +103,12 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
                 key={item.id}
                 className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
-                <TableCell>
+                {/* <TableCell>
                   <Checkbox 
                     checked={selectedItems.includes(item.id)}
                     onCheckedChange={(checked) => handleSelectItem(item.id, checked as boolean)}
-                  />
-                </TableCell>
+                  /> 
+                </TableCell> */}
                 <TableCell className="font-medium">{item.id}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.notes}</TableCell>
@@ -106,9 +117,20 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
                 <TableCell>${item.sales.toFixed(2)}</TableCell>
                 <TableCell>{item.carrier}</TableCell>
                 <TableCell>
-                  <button className="p-2 hover:bg-gray-100 rounded-full">
-                    <MoreVertical className="h-4 w-4" />
-                  </button>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="p-2 hover:bg-gray-100 rounded-full">
+                        <MoreVertical className="h-4 w-4" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent align="end" className='w-24' sideOffset={2}>
+                      <ul className="space-y-2">
+                        <li onClick={() => console.log('View action for item', item.id)}>View</li>
+                        <li onClick={() => console.log('Edit action for item', item.id)}>Edit</li>
+                        <li onClick={() => console.log('Delete action for item', item.id)}>Delete</li>
+                      </ul>
+                    </PopoverContent>
+                  </Popover>
                 </TableCell>
               </TableRow>
             ))}
