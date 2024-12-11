@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MoreVertical } from 'lucide-react';
 import {
   Table,
@@ -8,12 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
 import { useShippingData } from '@/hooks/useShippingData';
 import { ShippingStatus, ShippingFilters, SortOption } from '@/types/shipping';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
+
+import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface ShippingTableProps {
   filters: ShippingFilters;
@@ -24,7 +26,11 @@ interface ShippingTableProps {
 export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  const [editableDialogOpen, setEditableDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+
   const { data, totalPages, totalItems, itemsPerPage } = useShippingData(
     currentPage,
     filters,
@@ -62,6 +68,35 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
       </Badge>
     );
   };
+  const handleView = (id: string) => {
+    setViewDialogOpen(true);
+  };
+
+  const handleEditable = (id: string) => {
+    setEditableDialogOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteItemId) {
+      console.log('Deleting item with id:', deleteItemId);
+      setDeleteDialogOpen(false);
+      setDeleteItemId(null);
+    }
+  };
+  useEffect(() => {
+    // const fetchFunc = async () => {
+    //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
+    //     method: 'GET'
+    //   });
+    //   console.log("Data", response.json());
+    // }
+    // fetchFunc();
+  }, []);
 
   return (
     <div className="space-y-4">
@@ -69,12 +104,12 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">
+              {/* <TableHead className="w-12">
                 <Checkbox 
                   checked={selectedItems.length === data.length}
                   onCheckedChange={handleSelectAll}
                 />
-              </TableHead>
+              </TableHead> */}
               <TableHead>No.</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Notes</TableHead>
@@ -82,22 +117,22 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
               <TableHead>Status</TableHead>
               <TableHead>Sales</TableHead>
               <TableHead>Carrier</TableHead>
-              <TableHead className="w-12"></TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
-          
+
           <TableBody>
             {data.map((item) => (
-              <TableRow 
+              <TableRow
                 key={item.id}
                 className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
-                <TableCell>
+                {/* <TableCell>
                   <Checkbox 
                     checked={selectedItems.includes(item.id)}
                     onCheckedChange={(checked) => handleSelectItem(item.id, checked as boolean)}
-                  />
-                </TableCell>
+                  /> 
+                </TableCell> */}
                 <TableCell className="font-medium">{item.id}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.notes}</TableCell>
@@ -106,22 +141,39 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
                 <TableCell>${item.sales.toFixed(2)}</TableCell>
                 <TableCell>{item.carrier}</TableCell>
                 <TableCell>
-                  <button className="p-2 hover:bg-gray-100 rounded-full">
-                    <MoreVertical className="h-4 w-4" />
-                  </button>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="p-2 hover:bg-gray-100 rounded-full">
+                        <MoreVertical className="h-4 w-4" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent align="end" className='w-24' sideOffset={2}>
+                      <ul className="space-y-2">
+                        <li className='cursor-pointer' onClick={() => handleView(item.id)}>View</li>
+                        <li className='cursor-pointer' onClick={() => handleEditable(item.id)}>Edit</li>
+                        <li className='cursor-pointer' onClick={() => handleDelete(item.id)}>Delete</li>
+                      </ul>
+                    </PopoverContent>
+                  </Popover>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
+      />
+
+      <DeleteDialog 
+        open={deleteDialogOpen} 
+        onClose={() => setDeleteDialogOpen(false)} 
+        onConfirm={handleConfirmDelete} 
       />
     </div>
   );
