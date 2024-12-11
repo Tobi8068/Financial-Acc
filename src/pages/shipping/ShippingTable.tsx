@@ -13,7 +13,9 @@ import { Badge } from '@/components/ui/badge';
 import { useShippingData } from '@/hooks/useShippingData';
 import { ShippingStatus, ShippingFilters, SortOption } from '@/types/shipping';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
+
+import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface ShippingTableProps {
   filters: ShippingFilters;
@@ -24,7 +26,11 @@ interface ShippingTableProps {
 export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  const [editableDialogOpen, setEditableDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+
   const { data, totalPages, totalItems, itemsPerPage } = useShippingData(
     currentPage,
     filters,
@@ -63,12 +69,33 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
     );
   };
 
+  const handleView = (id: string) => {
+    setViewDialogOpen(true);
+  };
+
+  const handleEditable = (id: string) => {
+    setEditableDialogOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteItemId) {
+      console.log('Deleting item with id:', deleteItemId);
+      setDeleteDialogOpen(false);
+      setDeleteItemId(null);
+    }
+  };
+
   useEffect(() => {
     // const fetchFunc = async () => {
     //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
     //     method: 'GET'
     //   });
-  
+
     //   console.log("Data", response.json());
     // }
     // fetchFunc();
@@ -96,10 +123,10 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
-          
+
           <TableBody>
             {data.map((item) => (
-              <TableRow 
+              <TableRow
                 key={item.id}
                 className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
@@ -125,9 +152,9 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
                     </PopoverTrigger>
                     <PopoverContent align="end" className='w-24' sideOffset={2}>
                       <ul className="space-y-2">
-                        <li onClick={() => console.log('View action for item', item.id)}>View</li>
-                        <li onClick={() => console.log('Edit action for item', item.id)}>Edit</li>
-                        <li onClick={() => console.log('Delete action for item', item.id)}>Delete</li>
+                        <li className='cursor-pointer' onClick={() => handleView(item.id)}>View</li>
+                        <li className='cursor-pointer' onClick={() => handleEditable(item.id)}>Edit</li>
+                        <li className='cursor-pointer' onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>
                     </PopoverContent>
                   </Popover>
@@ -137,13 +164,19 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
           </TableBody>
         </Table>
       </div>
-      
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
+      />
+
+      <DeleteDialog 
+        open={deleteDialogOpen} 
+        onClose={() => setDeleteDialogOpen(false)} 
+        onConfirm={handleConfirmDelete} 
       />
     </div>
   );

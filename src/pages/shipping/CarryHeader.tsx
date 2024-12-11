@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -9,26 +9,25 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Filter } from 'lucide-react';
-import { ShippingFilters, SortOption } from '@/types/shipping';
+import { CarriesFilters, SortOption } from '@/types/shipping';
 
-interface ShippingHeaderProps {
-  onFiltersChange: (filters: ShippingFilters) => void;
+interface CarriesHeaderProps {
+  onFiltersChange: (filters: CarriesFilters) => void;
   onSortChange: (sort: SortOption) => void;
   onSearchChange: (search: string) => void;
 }
 
-export function ShippingHeader({ 
-  onFiltersChange, 
-  onSortChange, 
-  onSearchChange 
-}: ShippingHeaderProps) {
-  const [filters, setFilters] = useState<ShippingFilters>({
+export function CarriesHeader({
+  onFiltersChange,
+  onSortChange,
+  onSearchChange
+}: CarriesHeaderProps) {
+  const [filters, setFilters] = useState<CarriesFilters>({
     status: 'all',
-    carrier: 'all'
   });
 
   const handleStatusChange = (status: string) => {
-    const newFilters = { ...filters, status: status as ShippingFilters['status'] };
+    const newFilters = { ...filters, status: status as CarriesFilters['status'] };
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
@@ -42,13 +41,15 @@ export function ShippingHeader({
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">Shipping</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">
+          Carriers
+        </h2>
         <Button className="gap-2">
           <Plus className="h-4 w-4" />
-          New Shipment
+          Add Carrier
         </Button>
       </div>
-      
+
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input
@@ -59,7 +60,7 @@ export function ShippingHeader({
             onChange={(e) => onSearchChange(e.target.value as string)}
           />
         </div>
-        <Select 
+        <Select
           defaultValue="all"
           onValueChange={handleStatusChange}
         >
@@ -75,8 +76,8 @@ export function ShippingHeader({
             <SelectItem value="cancelled">Cancelled</SelectItem>
           </SelectContent>
         </Select>
-        
-        <Select 
+
+        <Select
           defaultValue="newest"
           onValueChange={(value) => onSortChange(value as SortOption)}
         >
