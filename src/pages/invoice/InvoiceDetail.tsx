@@ -42,7 +42,7 @@ export function InvoiceDetail() {
     ];
     return (
         <div>
-            <h2 className="text-xl font-semibold mb-6">Invoice Details</h2>
+            <h2 className="text-xl font-semibold">Invoice Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                     <div className="space-y-4">
@@ -67,7 +67,7 @@ export function InvoiceDetail() {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
+                                    <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Description</TableHead>
                                     <TableHead>Unit</TableHead>
                                     <TableHead>Price</TableHead>
@@ -81,7 +81,7 @@ export function InvoiceDetail() {
                                 {
                                     data.map((item) => (
                                         <TableRow>
-                                            <TableCell>{item.name}</TableCell>
+                                            <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
                                             <TableCell>{item.unit}</TableCell>
                                             <TableCell>{item.price}</TableCell>

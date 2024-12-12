@@ -23,7 +23,7 @@ interface InvoiceTableProps {
   searchQuery: string;
 }
 
-export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableProps) {
+export function SalesTable({ filters, sortOption, searchQuery }: InvoiceTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
