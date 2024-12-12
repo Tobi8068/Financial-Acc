@@ -4,6 +4,7 @@ import { InvoiceTable } from "./InvoiceTable";
 import { InvoiceFilters, SortOption } from "@/types/invoice";
 import { CreateInvoice } from "./CreateInvoice";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
+import { InvoiceDetail } from "./InvoiceDetail";
 
 function Invoice() {
   const [filters, setFilters] = useState<InvoiceFilters>({
@@ -18,7 +19,7 @@ function Invoice() {
   }
 
   const handleCreate = () => {
-
+    setScene(3);
   }
 
   return (
@@ -26,7 +27,7 @@ function Invoice() {
       {
         scene === 1 ? (
           <>
-            <InsideNavbar text="" onClick={() => handlePage(2)}/>
+            <InsideNavbar text="" onClick={() => handlePage(2)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
               <InvoiceHeader
                 onFiltersChange={setFilters}
@@ -44,16 +45,16 @@ function Invoice() {
 
         ) : scene === 2 ? (
           <>
-            <InsideNavbar text="Invoices" onClick={() => handlePage(1)}/>
+            <InsideNavbar text="Invoices" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center p-6 bg-white bg-opacity-50">
-              <CreateInvoice onClick={() => handleCreate()}/>
+              <CreateInvoice onClick={() => handleCreate()} />
             </main>
           </>
         ) : scene === 3 ? (
           <>
-            <InsideNavbar text="Invoices" onClick={() => handlePage(1)}/>
+            <InsideNavbar text="Invoices" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-
+              <InvoiceDetail />
             </main>
           </>
         ) : ''

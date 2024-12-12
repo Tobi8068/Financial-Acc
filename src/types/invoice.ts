@@ -1,7 +1,5 @@
 export type InvoiceStatus = 'Need_Approval' | 'Approved' | 'Waiting_Payment' | 'Paid' | 'Close0Complete';
 
-export type SortOption = 'newest' | 'oldest' | 'amount-high' | 'amount-low';
-
 export interface InvoiceFilters {
   status: InvoiceStatus | 'all';
 }
@@ -9,7 +7,11 @@ export interface InvoiceFilters {
 export interface InvoiceData {
   id: string;
   dateCreated: string;
-  client: string;
+  client: {
+    name: string,
+    avatar: string,
+    email: string,
+  };
   requiredData: string;
   shipTo: string;
   billTo: string;

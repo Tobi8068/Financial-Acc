@@ -1,27 +1,26 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ShippingData, ShippingFilters } from '@/types/shipping';
+import { SalesData, SalesFilters } from '@/types/sales';
 import { SortOption } from '@/types/utils';
-import { shippingData } from '@/lib/mock-data';
+import { salesData } from '@/lib/mock-data';
 
-export function useShippingData(
+export function useSalesData(
   page: number,
-  filters: ShippingFilters,
+  filters: SalesFilters,
   sortOption: SortOption,
   searchQuery: string
 ) {
-  const [data, setData] = useState<ShippingData[]>([]);
+  const [data, setData] = useState<SalesData[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 5;
 
   const filteredAndSortedData = useMemo(() => {
-    let result = [...shippingData];
+
+    let result = [...salesData];
 
     // Apply search
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item => 
-        item.name.toLowerCase().includes(query) ||
-        item.notes.toLowerCase().includes(query) ||
         item.id.toLowerCase().includes(query)
       );
     }
@@ -30,10 +29,7 @@ export function useShippingData(
     if (filters.status && filters.status !== 'all') {
       result = result.filter(item => item.status === filters.status);
     }
-    if (filters.carrier && filters.carrier !== 'all') {
-      result = result.filter(item => item.carrier === filters.carrier);
-    }
-
+  
     // Apply sorting
     switch (sortOption) {
       case 'newest':
@@ -43,15 +39,26 @@ export function useShippingData(
         result.sort((a, b) => new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime());
         break;
       case 'amount-high':
-        result.sort((a, b) => b.sales - a.sales);
+        result.sort((a, b) => b.totalAmount - a.totalAmount);
         break;
       case 'amount-low':
-        result.sort((a, b) => a.sales - b.sales);
+        result.sort((a, b) => a.totalAmount - b.totalAmount);
         break;
     }
 
     return result;
-  }, [shippingData, filters, sortOption, searchQuery]);
+  }, [salesData, filters, sortOption, searchQuery]);
+
+  useEffect(() => {
+    // const fetchFunc = async () => {
+    //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
+    //     method: 'GET'
+    //   });
+  
+    //   console.log("Data", response.json());
+    // }
+    // fetchFunc();
+  }, []);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { InvoiceData, InvoiceFilters, SortOption } from '@/types/invoice';
+import { InvoiceData, InvoiceFilters } from '@/types/invoice';
+import { SortOption } from '@/types/utils';
 import { invoiceData } from '@/lib/mock-data';
 
 export function useInvoiceData(
@@ -20,7 +21,7 @@ export function useInvoiceData(
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item => 
-        item.client.toLowerCase().includes(query) ||
+        item.client.name.toLowerCase().includes(query) ||
         item.id.toLowerCase().includes(query)
       );
     }
