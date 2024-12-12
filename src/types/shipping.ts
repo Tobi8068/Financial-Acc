@@ -1,8 +1,6 @@
 export type ShippingStatus = 'pending' | 'shipped' | 'delivered' | 'cancelled';
 export type CarriesStatus = 'expired' | 'active';
 
-export type SortOption = 'newest' | 'oldest' | 'amount-high' | 'amount-low';
-
 export interface ShippingFilters {
   status: ShippingStatus | 'all';
   carrier: string | 'all';

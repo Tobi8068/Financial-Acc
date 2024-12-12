@@ -6,11 +6,11 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { SalesStatus, SalesData } from '@/types/sales';
+import { SalesDetailData } from '@/types/sales';
+import { getStatusBadge } from './SalesBadge';
 
 export function SalesDetail() {
-    const data: SalesData[] = [
+    const data: SalesDetailData[] = [
         {
             name: 'Computer',
             description: 'Monthly Subscription',
@@ -87,21 +87,6 @@ export function SalesDetail() {
             account: 'Account'
         },
     ];
-    const getStatusBadge = (status: SalesStatus) => {
-        const styles = {
-            Created: 'bg-[#EFF8FF] text-[#175CD3]',
-            Approved: 'bg-[#ECFDF3] text-[#027A48]',
-            Sent: 'bg-[#F8F9FC] text-[#363F72]',
-            Partially_Received: 'bg-[#FFF6ED] text-[#C4320A]',
-            Completed: 'bg-]#ECFDF3] text-[#027A48]',
-        };
-
-        return (
-            <Badge className={styles[status]} variant="secondary">
-                {status.replace("_", " ").replace("0", "/")}
-            </Badge>
-        );
-    };
     return (
         <div>
             <h2 className="text-xl font-semibold">Sales Details</h2>

@@ -9,10 +9,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Filter } from 'lucide-react';
-import { InvoiceFilters, SortOption } from '@/types/invoice';
+import { SalesFilters } from '@/types/sales';
+import { SortOption } from '@/types/utils';
 
 interface InvoiceProps {
-  onFiltersChange: (filters: InvoiceFilters) => void;
+  onFiltersChange: (filters: SalesFilters) => void;
   onSortChange: (sort: SortOption) => void;
   onSearchChange: (search: string) => void;
 }
@@ -22,12 +23,12 @@ export function SalesHeader({
   onSortChange, 
   onSearchChange,
 }: InvoiceProps) {
-  const [filters, setFilters] = useState<InvoiceFilters>({
+  const [filters, setFilters] = useState<SalesFilters>({
     status: 'all'
   });
 
   const handleStatusChange = (status: string) => {
-    const newFilters = { ...filters, status: status as InvoiceFilters['status'] };
+    const newFilters = { ...filters, status: status as SalesFilters['status'] };
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
@@ -35,14 +36,14 @@ export function SalesHeader({
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">Invoice</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Sales</h2>
       </div>
       
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input
             type="search"
-            placeholder="Search invoices..."
+            placeholder="Search sales..."
             className="h-9"
             // prefix={<Search className="h-4 w-4 text-gray-500" />}/
             onChange={(e) => onSearchChange(e.target.value)}

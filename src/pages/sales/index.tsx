@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { InvoiceFilters, SortOption } from "@/types/invoice";
+import { SalesFilters } from "@/types/sales";
+import { SortOption } from "@/types/utils";
 import { SalesHeader } from "./SalesHeader";
 import { SalesTable } from "./SalesTable";
 import { SalesDetail } from "./SalesDetail";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
 function Sales() {
-  const [filters, setFilters] = useState<InvoiceFilters>({
+  const [filters, setFilters] = useState<SalesFilters>({
     status: "all"
   });
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [searchQuery, setSearchQuery] = useState("");
-  const [scene, setScene] = useState(2);
+  const [scene, setScene] = useState(1);
 
   const handlePage = (page: number) => {
     setScene(page);

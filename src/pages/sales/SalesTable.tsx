@@ -9,25 +9,26 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useInvoiceData } from '@/hooks/useInvoiceData';
-import { InvoiceStatus, InvoiceFilters, SortOption } from '@/types/invoice';
+import { useSalesData } from '@/hooks/useSalesData';
+import { SalesFilters } from '@/types/sales';
+import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
+import { getStatusBadge } from './SalesBadge';
 import AvatarImg from '../../assets/img/Avatar.png';
 
-interface InvoiceTableProps {
-  filters: InvoiceFilters;
+interface SalesTableProps {
+  filters: SalesFilters;
   sortOption: SortOption;
   searchQuery: string;
 }
 
-export function SalesTable({ filters, sortOption, searchQuery }: InvoiceTableProps) {
+export function SalesTable({ filters, sortOption, searchQuery }: SalesTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  const { data, totalPages, totalItems, itemsPerPage } = useInvoiceData(
+  const { data, totalPages, totalItems, itemsPerPage } = useSalesData(
     currentPage,
     filters,
     sortOption,
@@ -50,22 +51,6 @@ export function SalesTable({ filters, sortOption, searchQuery }: InvoiceTablePro
     }
   };
 
-  const getStatusBadge = (status: InvoiceStatus) => {
-    const styles = {
-      Need_Approval: 'bg-red-100 text-red-800',
-      Approved: 'bg-green-100 text-green-800',
-      Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
-      Paid: 'bg-green-100 text-green-800',
-      Close0Complete: 'bg-blue-100 text-[#363F72]',
-    };
-
-    return (
-      <Badge className={styles[status]} variant="secondary">
-        {status.replace("_", " ").replace("0", "/")}
-      </Badge>
-    );
-  };
-
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-white">
@@ -78,17 +63,17 @@ export function SalesTable({ filters, sortOption, searchQuery }: InvoiceTablePro
                   onCheckedChange={handleSelectAll}
                 />
               </TableHead> */}
-              <TableHead className='pl-6'>Invoice No.</TableHead>
+              <TableHead className='pl-6'>No.</TableHead>
               <TableHead>Date Created</TableHead>
-              <TableHead>Client</TableHead>
-              <TableHead>Required Data</TableHead>
-              <TableHead>Status</TableHead>
               <TableHead>Ship To</TableHead>
               <TableHead>Bill To</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Approved By</TableHead>
+              <TableHead>Created By</TableHead>
+              <TableHead>Client Approval</TableHead>
               <TableHead>Total Tax Amount</TableHead>
               <TableHead>Total Net Amount</TableHead>
               <TableHead>Total Amount</TableHead>
-              <TableHead>Contact</TableHead>
               {/* <TableHead>Turn of PDF</TableHead>
               <TableHead>Approval</TableHead>
               <TableHead>Sales Num</TableHead> */}
@@ -110,26 +95,33 @@ export function SalesTable({ filters, sortOption, searchQuery }: InvoiceTablePro
                 </TableCell> */}
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.dateCreated)}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-1'>
-                  <div>
-                    <img src={AvatarImg} className='rounded-[100%]'></img>
-                  </div>
-                  <div className='flex flex-col'>
-                    <span>{item.client.name}</span>
-                    <span>{item.client.email}</span>
-                  </div>
-                </TableCell>
-                <TableCell className='text-[#535862]'>{formatDate(item.requiredData)}</TableCell>
-                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.shipTo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.billTo}</TableCell>
+                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-1'>
+                    <div>
+                      <img src={AvatarImg} className='rounded-[100%]'></img>
+                    </div>
+                    <div className='flex flex-col'>
+                      <span>{item.approvedBy.name}</span>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-1'>
+                    <div>
+                      <img src={AvatarImg} className='rounded-[100%]'></img>
+                    </div>
+                    <div className='flex flex-col'>
+                      <span>{item.createdBy.name}</span>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className='text-[#535862]'>{getStatusBadge(item.clientApproval)}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalTaxAmount.toFixed(2)}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalNetAmount.toFixed(2)}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalAmount.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>{item.contact}</TableCell>
-                {/* <TableCell>{item.turnTOpdf}</TableCell>
-                <TableCell>{item.clientApproval}</TableCell>
-                <TableCell>{item.salesNum}</TableCell> */}
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

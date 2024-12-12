@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { InvoiceData, InvoiceFilters, SortOption } from '@/types/invoice';
+import { InvoiceData, InvoiceFilters } from '@/types/invoice';
+import { SortOption } from '@/types/utils';
 import { invoiceData } from '@/lib/mock-data';
 
 export function useInvoiceData(
