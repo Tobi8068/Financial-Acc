@@ -15,6 +15,7 @@ import { useInvoiceData } from '@/hooks/useInvoiceData';
 import { InvoiceStatus, InvoiceFilters, SortOption } from '@/types/invoice';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
+import AvatarImg from '../../assets/img/Avatar.png';
 
 interface InvoiceTableProps {
   filters: InvoiceFilters;
@@ -108,16 +109,24 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
                   />
                 </TableCell> */}
                 <TableCell className="font-medium">{item.id}</TableCell>
-                <TableCell>{formatDate(item.dateCreated)}</TableCell>
-                <TableCell>{item.client}</TableCell>
-                <TableCell>{formatDate(item.requiredData)}</TableCell>
-                <TableCell>{getStatusBadge(item.status)}</TableCell>
-                <TableCell>{item.shipTo}</TableCell>
-                <TableCell>{item.billTo}</TableCell>
-                <TableCell>${item.totalTaxAmount.toFixed(2)}</TableCell>
-                <TableCell>${item.totalNetAmount.toFixed(2)}</TableCell>
-                <TableCell>${item.totalAmount.toFixed(2)}</TableCell>
-                <TableCell>{item.contact}</TableCell>
+                <TableCell className='text-[#535862]'>{formatDate(item.dateCreated)}</TableCell>
+                <TableCell className='text-[#535862] flex items-center gap-1'>
+                  <div>
+                    <img src={AvatarImg} className='rounded-[100%]'></img>
+                  </div>
+                  <div className='flex flex-col'>
+                    <span>{item.client.name}</span>
+                    <span>{item.client.email}</span>
+                  </div>
+                </TableCell>
+                <TableCell className='text-[#535862]'>{formatDate(item.requiredData)}</TableCell>
+                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
+                <TableCell className='text-[#535862]'>{item.shipTo}</TableCell>
+                <TableCell className='text-[#535862]'>{item.billTo}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalTaxAmount.toFixed(2)}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalNetAmount.toFixed(2)}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalAmount.toFixed(2)}</TableCell>
+                <TableCell className='text-[#535862]'>{item.contact}</TableCell>
                 {/* <TableCell>{item.turnTOpdf}</TableCell>
                 <TableCell>{item.clientApproval}</TableCell>
                 <TableCell>{item.salesNum}</TableCell> */}

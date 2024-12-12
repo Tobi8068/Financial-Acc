@@ -116,7 +116,11 @@ export const invoiceData:InvoiceData[] = [
   {
     id: '#3066',
     dateCreated: '2024-01-06',
-    client: 'John',
+    client: {
+      name: 'John',
+      avatar: '',
+      email: 'test@gmail.com'
+    },
     requiredData: '2024-01-06',
     shipTo: 'Monthly Subscription',
     billTo: 'Monthly Subscription',
@@ -132,7 +136,11 @@ export const invoiceData:InvoiceData[] = [
   {
     id: '#3065',
     dateCreated: '2024-01-06',
-    client: 'william',
+    client: {
+      name: 'william',
+      avatar: '',
+      email: 'test@gmail.com'
+    },
     requiredData: '2024-01-06',
     shipTo: 'Monthly Subscription',
     billTo: 'Monthly Subscription',
@@ -148,7 +156,11 @@ export const invoiceData:InvoiceData[] = [
   {
     id: '#3064',
     dateCreated: '2024-01-06',
-    client: 'william',
+    client: {
+      name: 'william',
+      avatar: '',
+      email: 'test@gmail.com'
+    },
     requiredData: '2024-01-06',
     shipTo: 'Monthly Subscription',
     billTo: 'Monthly Subscription',
@@ -164,7 +176,11 @@ export const invoiceData:InvoiceData[] = [
   {
     id: '#3063',
     dateCreated: '2024-01-06',
-    client: 'william',
+    client: {
+      name: 'william',
+      avatar: '',
+      email: 'test@gmail.com'
+    },
     requiredData: '2024-01-06',
     shipTo: 'Monthly Subscription',
     billTo: 'Monthly Subscription',
@@ -180,7 +196,11 @@ export const invoiceData:InvoiceData[] = [
   {
     id: '#3062',
     dateCreated: '2024-01-06',
-    client: 'william',
+    client: {
+      name: 'william',
+      avatar: '',
+      email: 'test@gmail.com'
+    },
     requiredData: '2024-01-06',
     shipTo: 'Monthly Subscription',
     billTo: 'Monthly Subscription',
@@ -196,7 +216,11 @@ export const invoiceData:InvoiceData[] = [
   {
     id: '#3061',
     dateCreated: '2024-01-06',
-    client: 'william',
+    client: {
+      name: 'william',
+      avatar: '',
+      email: 'test@gmail.com'
+    },
     requiredData: '2024-01-06',
     shipTo: 'Monthly Subscription',
     billTo: 'Monthly Subscription',

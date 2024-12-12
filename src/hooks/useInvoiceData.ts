@@ -20,7 +20,7 @@ export function useInvoiceData(
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item => 
-        item.client.toLowerCase().includes(query) ||
+        item.client.name.toLowerCase().includes(query) ||
         item.id.toLowerCase().includes(query)
       );
     }

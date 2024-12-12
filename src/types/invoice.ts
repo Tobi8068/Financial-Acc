@@ -9,7 +9,11 @@ export interface InvoiceFilters {
 export interface InvoiceData {
   id: string;
   dateCreated: string;
-  client: string;
+  client: {
+    name: string,
+    avatar: string,
+    email: string,
+  };
   requiredData: string;
   shipTo: string;
   billTo: string;
