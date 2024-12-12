@@ -138,7 +138,7 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
                         <MoreVertical className="h-4 w-4" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent align="end" className='w-24' sideOffset={2}>
+                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                       <ul className="space-y-2">
                         <li>View</li>
                         <li>Edit</li>

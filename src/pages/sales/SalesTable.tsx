@@ -129,12 +129,8 @@ export function SalesTable({ filters, sortOption, searchQuery }: SalesTableProps
                         <MoreVertical className="h-4 w-4" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent align="end" className='w-24' sideOffset={2}>
-                      <ul className="space-y-2">
-                        <li>View</li>
-                        <li>Edit</li>
-                        <li>Delete</li>
-                      </ul>
+                    <PopoverContent align="end" className='w-fit cursor-pointer' sideOffset={1}>
+                      <span>View Sales Item</span>
                     </PopoverContent>
                   </Popover>
                 </TableCell>
