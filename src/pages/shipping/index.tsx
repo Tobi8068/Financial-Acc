@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { CarriesHeader } from "./CarryHeader";
 // import { CarriesTable } from "./CarriesTable";
-import { CarriesFilters, SortOption } from "@/types/shipping";
+import { CarriesFilters } from "@/types/shipping";
+import { SortOption } from "@/types/utils";
 
 function App() {
   const [filters, setFilters] = useState<CarriesFilters>({

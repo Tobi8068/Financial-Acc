@@ -9,7 +9,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Filter } from 'lucide-react';
-import { ShippingFilters, SortOption } from '@/types/shipping';
+import { ShippingFilters } from '@/types/shipping';
+import { SortOption } from '@/types/utils';
 
 interface ShippingHeaderProps {
   onFiltersChange: (filters: ShippingFilters) => void;

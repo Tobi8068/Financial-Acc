@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ShippingHeader } from "./ShippingHeader";
 import { ShippingTable } from "./ShippingTable";
-import { ShippingFilters, SortOption } from "@/types/shipping";
+import { ShippingFilters } from "@/types/shipping";
+import { SortOption } from "@/types/utils";
 
 export default function Shipping() {
   const [filters, setFilters] = useState<ShippingFilters>({

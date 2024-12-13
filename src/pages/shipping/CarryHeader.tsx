@@ -9,7 +9,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Filter } from 'lucide-react';
-import { CarriesFilters, SortOption } from '@/types/shipping';
+import { CarriesFilters } from '@/types/shipping';
+import { SortOption } from '@/types/utils';
 
 interface CarriesHeaderProps {
   onFiltersChange: (filters: CarriesFilters) => void;

@@ -2,6 +2,7 @@ import { ClientData } from '@/types/client';
 import { InvoiceData } from '@/types/invoice';
 import { SalesData } from '@/types/sales';
 import { ShippingData } from '@/types/shipping';
+import { PurchaseOrderData } from '@/types/purchaseOrder';
 
 export const shippingData: ShippingData[] = [
   {
@@ -420,5 +421,74 @@ export const clientData:ClientData[] = [
     address: '24 Heartley Street, Old Market, Otawa',
     billingAddress: '24 Heartley Street, Old Market, Otawa',
     shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+]
+
+export const purchaseOrderData:PurchaseOrderData[] = [
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Created',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3065',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Approved',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3064',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Sent',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3063',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Partially_Received',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3062',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Completed',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3061',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Cancelled',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
   },
 ]
