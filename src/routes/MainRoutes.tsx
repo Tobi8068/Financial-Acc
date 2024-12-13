@@ -10,6 +10,7 @@ import Trial_Balance from "@/pages/trialBalance"
 import Financial_Statement from "@/pages/financialStatement"
 import Inventory from "@/pages/inventory"
 import Requisitions from "@/pages/requisitions"
+import PurchaseOrder from "@/pages/purchaseOrder"
  
 const MainRoutes = {
     path: "/",
@@ -61,6 +62,10 @@ const MainRoutes = {
         {
             path: "/requisitions",
             element: <Requisitions />
+        },
+        {
+            path: "/purchase-order",
+            element: <PurchaseOrder />
         },
     ],
 }

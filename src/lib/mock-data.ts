@@ -1,3 +1,4 @@
+import { ClientData } from '@/types/client';
 import { InvoiceData } from '@/types/invoice';
 import { SalesData } from '@/types/sales';
 import { ShippingData } from '@/types/shipping';
@@ -350,5 +351,74 @@ export const salesData:SalesData[] = [
     totalTaxAmount: 200,
     totalNetAmount: 12,
     totalAmount: 12,
+  },
+]
+
+export const clientData:ClientData[] = [
+  {
+    id: '#3066',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3065',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3064',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3063',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3062',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3061',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
   },
 ]

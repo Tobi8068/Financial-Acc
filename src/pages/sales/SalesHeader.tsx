@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
   Select,
@@ -8,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import { SalesFilters } from '@/types/sales';
 import { SortOption } from '@/types/utils';
 
@@ -45,7 +44,6 @@ export function SalesHeader({
             type="search"
             placeholder="Search sales..."
             className="h-9"
-            // prefix={<Search className="h-4 w-4 text-gray-500" />}/
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
