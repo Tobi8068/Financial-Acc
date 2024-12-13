@@ -1,5 +1,5 @@
 export type ShippingStatus = 'pending' | 'shipped' | 'delivered' | 'cancelled';
-export type CarriesStatus = 'expired' | 'active';
+export type CarriesStatus = 'Expired' | 'Active';
 
 export interface ShippingFilters {
   status: ShippingStatus | 'all';
@@ -21,6 +21,7 @@ export interface ShippingData {
 }
 
 export interface CarrierData {
+  id: string;
   name: string;
   description: string;
   contractID: number;

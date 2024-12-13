@@ -10,20 +10,24 @@ import {
 } from '@/components/ui/table';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
-import { useShippingData } from '@/hooks/useShippingData';
-import { ShippingStatus, ShippingFilters, SortOption } from '@/types/shipping';
+import { useCarriesData } from '@/hooks/useCarriesData';
+import { CarriesStatus, CarriesFilters } from '@/types/shipping';
+import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '@/components/pagination/Pagination';
 
 import DeleteDialog from '@/components/table/DeleteDialog';
+import CarrierDetails from './ViewCarries';
+import EditCarries from './EditCarries';
 
 interface CarriesTableProps {
-  filters: ShippingFilters;
+  filters: CarriesFilters;
   sortOption: SortOption;
   searchQuery: string;
+  onClick: () => void;
 }
 
-export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableProps) {
+export function CarriesTable({ filters, sortOption, searchQuery, onClick }: CarriesTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
@@ -31,7 +35,7 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
-  const { data, totalPages, totalItems, itemsPerPage } = useShippingData(
+  const { data, totalPages, totalItems, itemsPerPage } = useCarriesData(
     currentPage,
     filters,
     sortOption,
@@ -54,12 +58,10 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
     }
   };
 
-  const getStatusBadge = (status: ShippingStatus) => {
+  const getStatusBadge = (status: CarriesStatus) => {
     const styles = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      shipped: 'bg-green-100 text-green-800',
-      delivered: 'bg-blue-100 text-blue-800',
-      cancelled: 'bg-red-100 text-red-800',
+      Expired: 'bg-yellow-100 text-yellow-800',
+      Active: 'bg-green-100 text-green-800',
     };
 
     return (
@@ -115,11 +117,11 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
               </TableHead> */}
               <TableHead>No.</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Notes</TableHead>
-              <TableHead>Date Created</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Contact ID</TableHead>
+              <TableHead>Start Date</TableHead>
+              <TableHead>End Date</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Sales</TableHead>
-              <TableHead>Carrier</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -138,11 +140,12 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
                 </TableCell> */}
                 <TableCell className="font-medium">{item.id}</TableCell>
                 <TableCell>{item.name}</TableCell>
-                <TableCell>{item.notes}</TableCell>
-                <TableCell>{formatDate(item.dateCreated)}</TableCell>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>${item.contractID.toFixed(2)}</TableCell>
+                <TableCell>{formatDate(item.startDate)}</TableCell>
+                <TableCell>{formatDate(item.endDate)}</TableCell>
                 <TableCell>{getStatusBadge(item.status)}</TableCell>
-                <TableCell>${item.sales.toFixed(2)}</TableCell>
-                <TableCell>{item.carrier}</TableCell>
+
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -173,10 +176,20 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
         totalItems={totalItems}
       />
 
-      <DeleteDialog 
-        open={deleteDialogOpen} 
-        onClose={() => setDeleteDialogOpen(false)} 
-        onConfirm={handleConfirmDelete} 
+      <CarrierDetails
+        open={viewDialogOpen}
+        onClose={() => setViewDialogOpen(false)}
+      />
+
+      <EditCarries
+        open={editableDialogOpen}
+        onClose={() => setEditableDialogOpen(false)}
+      />
+
+      <DeleteDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );

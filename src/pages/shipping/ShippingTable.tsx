@@ -11,7 +11,9 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
 import { useShippingData } from '@/hooks/useShippingData';
-import { ShippingStatus, ShippingFilters, SortOption } from '@/types/shipping';
+import { ShippingStatus, ShippingFilters} from '@/types/shipping';
+import { SortOption } from '@/types/utils';
+
 import { formatDate } from '@/lib/date';
 import { Pagination } from '@/components/pagination/Pagination';
 
@@ -21,15 +23,17 @@ interface ShippingTableProps {
   filters: ShippingFilters;
   sortOption: SortOption;
   searchQuery: string;
+  onClick: () => void;
 }
 
-export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTableProps) {
+export function ShippingTable({ filters, sortOption, searchQuery, onClick }: ShippingTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
   const [editableDialogOpen, setEditableDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+  const [viewItemId, setViewItemId] = useState<string | null>(null); // Added to track the item to view
 
   const { data, totalPages, totalItems, itemsPerPage } = useShippingData(
     currentPage,
@@ -69,7 +73,9 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
     );
   };
   const handleView = (id: string) => {
+
     setViewDialogOpen(true);
+    setViewItemId(id); // Set the item to view
   };
 
   const handleEditable = (id: string) => {
@@ -149,7 +155,7 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
                     </PopoverTrigger>
                     <PopoverContent align="end" className='w-24' sideOffset={2}>
                       <ul className="space-y-2">
-                        <li className='cursor-pointer' onClick={() => handleView(item.id)}>View</li>
+                        <li className='cursor-pointer' onClick={ onClick }>View</li>
                         <li className='cursor-pointer' onClick={() => handleEditable(item.id)}>Edit</li>
                         <li className='cursor-pointer' onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>
@@ -175,6 +181,8 @@ export function ShippingTable({ filters, sortOption, searchQuery }: ShippingTabl
         onClose={() => setDeleteDialogOpen(false)} 
         onConfirm={handleConfirmDelete} 
       />
+      {/* Assuming there's a ShippingDetail component for viewing details
+      {viewDialogOpen && viewItemId && <ShippingDetail itemId={Number(viewItemId)} />} */}
     </div>
   );
 }

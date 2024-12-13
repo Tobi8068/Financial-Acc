@@ -1,6 +1,6 @@
 import { InvoiceData } from '@/types/invoice';
 import { SalesData } from '@/types/sales';
-import { ShippingData } from '@/types/shipping';
+import { CarrierData, ShippingData } from '@/types/shipping';
 
 export const shippingData: ShippingData[] = [
   {
@@ -350,5 +350,27 @@ export const salesData:SalesData[] = [
     totalTaxAmount: 200,
     totalNetAmount: 12,
     totalAmount: 12,
+  },
+]
+
+
+export const carriesData:CarrierData[] = [
+  {
+    id: '#3066',
+    name: 'computer',
+    description: 'dddddddddddddddddddddddddd',  
+    contractID: 4,
+    startDate: '2022-01-06',
+    endDate: '2024-01-06',
+    status: 'Expired',
+  },
+  {
+    id: '#3066',
+    name: 'mobile',
+    description: 'mobile is very important of our live',  
+    contractID: 12,
+    startDate: '2022-01-06',
+    endDate: '2024-01-06',
+    status: 'Active',
   },
 ]

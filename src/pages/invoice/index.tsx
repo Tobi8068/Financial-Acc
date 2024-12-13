@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { InvoiceHeader } from "./InvoiceHeader";
 import { InvoiceTable } from "./InvoiceTable";
-import { InvoiceFilters, SortOption } from "@/types/invoice";
+import { InvoiceFilters } from "@/types/invoice";
+import { SortOption } from "@/types/utils";
 import { CreateInvoice } from "./CreateInvoice";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
 import { InvoiceDetail } from "./InvoiceDetail";
