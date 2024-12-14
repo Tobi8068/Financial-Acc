@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { InvoiceHeader } from "./InvoiceHeader";
-import { InvoiceTable } from "./InvoiceTable";
-import { InvoiceFilters } from "@/types/invoice";
+import { RequisitionsHeader } from "./RequisitionsHeader";
+import { RequisitionsTable } from "./RequisitionsTable";
+import { RequisitionsFilters } from "@/types/requisitions";
 import { SortOption } from "@/types/utils";
-import { CreateInvoice } from "./CreateInvoice";
+import { CreateRequisitions } from "./CreateRequisitions";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
-import { InvoiceDetail } from "./InvoiceDetail";
+import { RequisitionsDetail } from "./RequisitionsDetail";
 
-function Invoice() {
-  const [filters, setFilters] = useState<InvoiceFilters>({
+function Requisitions() {
+  const [filters, setFilters] = useState<RequisitionsFilters>({
     status: "all"
   });
   const [sortOption, setSortOption] = useState<SortOption>("newest");
@@ -30,13 +30,13 @@ function Invoice() {
           <>
             <InsideNavbar text="" onClick={() => handlePage(2)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <InvoiceHeader
+              <RequisitionsHeader
                 onFiltersChange={setFilters}
                 onSortChange={setSortOption}
                 onSearchChange={setSearchQuery}
                 onCreate={() => handlePage(2)}
               />
-              <InvoiceTable
+              <RequisitionsTable
                 filters={filters}
                 sortOption={sortOption}
                 searchQuery={searchQuery}
@@ -46,16 +46,16 @@ function Invoice() {
 
         ) : scene === 2 ? (
           <>
-            <InsideNavbar text="Invoices" onClick={() => handlePage(1)} />
+            <InsideNavbar text="Requisitions" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center p-6 bg-white bg-opacity-50">
-              <CreateInvoice onClick={() => handleCreate()} />
+              <CreateRequisitions onClick={() => handleCreate()} />
             </main>
           </>
         ) : scene === 3 ? (
           <>
-            <InsideNavbar text="Invoices" onClick={() => handlePage(1)} />
+            <InsideNavbar text="Requisitions" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <InvoiceDetail />
+              <RequisitionsDetail />
             </main>
           </>
         ) : ''
@@ -64,4 +64,4 @@ function Invoice() {
   );
 }
 
-export default Invoice;
+export default Requisitions;

@@ -4,13 +4,13 @@ import { DateInput } from "@/components/ui/date-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { CurrencyInput } from "@/components/ui/currency-input";
 
-interface CreateInvoiceProps {
+interface CreateRequisitionsProps {
     onClick: () => void;
 }
 
-export function CreateInvoice({ onClick }: CreateInvoiceProps) {
+export function CreateRequisitions({ onClick }: CreateRequisitionsProps) {
     const [formData, setFormData] = useState({
-        invoiceNumber: '',
+        RequisitionsNumber: '',
         dateCreated: null as Date | null,
         client: '',
         requiredDate: null as Date | null,
@@ -31,11 +31,11 @@ export function CreateInvoice({ onClick }: CreateInvoiceProps) {
     }
     return (
         <div className="w-full flex flex-col justify-center overflow-y-auto">
-            <h2 className="text-xl font-semibold mb-6">Create Invoice</h2>
+            <h2 className="text-xl font-semibold mb-6">Create Requisitions</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[40%] flex flex-col gap-3">
                     <div className="grid w-full grid-cols-2 gap-12">
-                        <TextInput text='Invoice Number#' onChange={(value) => handleChange('invoiceNumber', value)} />
+                        <TextInput text='Requisitions Number#' onChange={(value) => handleChange('RequisitionsNumber', value)} />
                         <DateInput text='Date Created' onChange={(value) => handleChange('dateCreated', value)} />
                     </div>
                     <TextInput text='Client' onChange={(value) => handleChange('client', value)} />

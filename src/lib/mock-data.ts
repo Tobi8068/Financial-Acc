@@ -3,6 +3,7 @@ import { InvoiceData } from '@/types/invoice';
 import { SalesData } from '@/types/sales';
 import { ShippingData } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
+import { RequisitionsData } from '@/types/requisitions';
 
 export const shippingData: ShippingData[] = [
   {
@@ -490,5 +491,73 @@ export const purchaseOrderData:PurchaseOrderData[] = [
     createdBy: 'Monthly',
     approved: false,
     approvedBy: 'Approver Name',
+  },
+]
+
+export const requisitionsData:RequisitionsData[] = [
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Created',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
+  },
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Approved',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
+  },
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Sent',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
+  },
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Partially_Received',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
+  },
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Completed',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
   },
 ]

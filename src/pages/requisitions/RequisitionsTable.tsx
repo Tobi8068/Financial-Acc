@@ -11,24 +11,24 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useInvoiceData } from '@/hooks/useInvoiceData';
-import { InvoiceStatus, InvoiceFilters } from '@/types/invoice';
+import { useRequisitionsData } from '@/hooks/useRequisitionsData';
+import { RequisitionsStatus, RequisitionsFilters } from '@/types/requisitions';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import AvatarImg from '../../assets/img/Avatar.png';
 
-interface InvoiceTableProps {
-  filters: InvoiceFilters;
+interface RequisitionsTableProps {
+  filters: RequisitionsFilters;
   sortOption: SortOption;
   searchQuery: string;
 }
 
-export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableProps) {
+export function RequisitionsTable({ filters, sortOption, searchQuery }: RequisitionsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  const { data, totalPages, totalItems, itemsPerPage } = useInvoiceData(
+  const { data, totalPages, totalItems, itemsPerPage } = useRequisitionsData(
     currentPage,
     filters,
     sortOption,
@@ -51,13 +51,14 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
     }
   };
 
-  const getStatusBadge = (status: InvoiceStatus) => {
+  const getStatusBadge = (status: RequisitionsStatus) => {
     const styles = {
-      Need_Approval: 'bg-red-100 text-red-800',
-      Approved: 'bg-green-100 text-green-800',
-      Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
-      Paid: 'bg-green-100 text-green-800',
-      Close0Complete: 'bg-blue-100 text-[#363F72]',
+      Created: 'bg-[#F5F5F5] text-[#414651]',
+      Approved: 'bg-[#ECFDF3] text-[#027A48]',
+      Sent: 'bg-[#EFF8FF] text-[#175CD3]',
+      Partially_Received: 'bg-[#F4F3FF] text-[#5925DC]',
+      Completed: 'bg-[#ECFDF3] text-[#027A48]',
+      Cancelled: 'bg-[#FEF3F2] text-[#B42318]',
     };
 
     return (
@@ -79,20 +80,17 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
                   onCheckedChange={handleSelectAll}
                 />
               </TableHead> */}
-              <TableHead className='pl-6'>Invoice No.</TableHead>
+              <TableHead className='pl-6'>No.</TableHead>
               <TableHead>Date Created</TableHead>
-              <TableHead>Client</TableHead>
-              <TableHead>Required Data</TableHead>
-              <TableHead>Status</TableHead>
               <TableHead>Ship To</TableHead>
               <TableHead>Bill To</TableHead>
+              <TableHead>Department</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Approved By</TableHead>
+              <TableHead>Created By</TableHead>
+              <TableHead>Total Amount Before Tax</TableHead>
               <TableHead>Total Tax Amount</TableHead>
-              <TableHead>Total Net Amount</TableHead>
               <TableHead>Total Amount</TableHead>
-              <TableHead>Contact</TableHead>
-              {/* <TableHead>Turn of PDF</TableHead>
-              <TableHead>Approval</TableHead>
-              <TableHead>Sales Num</TableHead> */}
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -103,34 +101,17 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
                 key={item.id}
                 className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
-                {/* <TableCell>
-                  <Checkbox
-                    checked={selectedItems.includes(item.id)}
-                    onCheckedChange={(checked) => handleSelectItem(item.id, checked as boolean)}
-                  />
-                </TableCell> */}
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.dateCreated)}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-1'>
-                  <div>
-                    <img src={AvatarImg} className='rounded-[100%]'></img>
-                  </div>
-                  <div className='flex flex-col'>
-                    <span>{item.client.name}</span>
-                    <span>{item.client.email}</span>
-                  </div>
-                </TableCell>
-                <TableCell className='text-[#535862]'>{formatDate(item.requiredData)}</TableCell>
-                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.shipTo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.billTo}</TableCell>
+                <TableCell className='text-[#535862]'>{item.department}</TableCell>
+                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
+                <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
+                <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalAmountBeforeTax.toFixed(2)}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalTaxAmount.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalNetAmount.toFixed(2)}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalAmount.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>{item.contact}</TableCell>
-                {/* <TableCell>{item.turnTOpdf}</TableCell>
-                <TableCell>{item.clientApproval}</TableCell>
-                <TableCell>{item.salesNum}</TableCell> */}
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

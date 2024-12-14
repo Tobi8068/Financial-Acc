@@ -9,28 +9,28 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Filter } from 'lucide-react';
-import { InvoiceFilters } from '@/types/invoice';
+import { RequisitionsFilters } from '@/types/requisitions';
 import { SortOption } from '@/types/utils';
 
-interface InvoiceProps {
-  onFiltersChange: (filters: InvoiceFilters) => void;
+interface RequisitionsProps {
+  onFiltersChange: (filters: RequisitionsFilters) => void;
   onSortChange: (sort: SortOption) => void;
   onSearchChange: (search: string) => void;
   onCreate: () => void;
 }
 
-export function InvoiceHeader({ 
+export function RequisitionsHeader({ 
   onFiltersChange, 
   onSortChange, 
   onSearchChange,
   onCreate,
-}: InvoiceProps) {
-  const [filters, setFilters] = useState<InvoiceFilters>({
+}: RequisitionsProps) {
+  const [filters, setFilters] = useState<RequisitionsFilters>({
     status: 'all'
   });
 
   const handleStatusChange = (status: string) => {
-    const newFilters = { ...filters, status: status as InvoiceFilters['status'] };
+    const newFilters = { ...filters, status: status as RequisitionsFilters['status'] };
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
@@ -38,10 +38,10 @@ export function InvoiceHeader({
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">Invoice</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Requisitions</h2>
         <Button className="gap-2" onClick={() => { onCreate() }}>
           <Plus className="h-4 w-4" />
-          Create Invoice
+          Create Requisition
         </Button>
       </div>
       
@@ -49,7 +49,7 @@ export function InvoiceHeader({
         <div className="flex-1">
           <Input
             type="search"
-            placeholder="Search invoices..."
+            placeholder="Search requisitions..."
             className="h-9"
             // prefix={<Search className="h-4 w-4 text-gray-500" />}/
             onChange={(e) => onSearchChange(e.target.value)}

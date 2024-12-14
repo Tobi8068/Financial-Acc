@@ -7,7 +7,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 
-export function InvoiceDetail() {
+export function RequisitionsDetail() {
     const data = [
         {
             name: 'Computer',
@@ -42,11 +42,11 @@ export function InvoiceDetail() {
     ];
     return (
         <div>
-            <h2 className="text-xl font-semibold">Invoice Details</h2>
+            <h2 className="text-xl font-semibold">Requisitions Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                     <div className="space-y-4">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Invoice Number:&nbsp;</span><span>XY2345</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Requisitions Number:&nbsp;</span><span>XY2345</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date Created:&nbsp;</span><span>Jan 21, 2024</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Client:&nbsp;</span><span>Client Name</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Ship To:&nbsp;</span><span>Name</span></div>
