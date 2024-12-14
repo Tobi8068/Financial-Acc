@@ -62,7 +62,7 @@ export function InvoiceDetail() {
                     </div>
                 </div>
                 <div className='flex flex-col gap-6'>
-                    <h2>Invoice Items</h2>
+                    <h2>Shipping Items</h2>
                     <div className='rounded-lg border bg-white'>
                         <Table>
                             <TableHeader>

@@ -6,81 +6,98 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { PurchaseOrderData, PurchaseOrderDetailData } from '@/types/purchaseOrder';
+import { PurchaseOrderData, PurchaseOrderDetailData, PurchaseOrderStatus } from '@/types/purchaseOrder';
+import { Badge } from '@/components/ui/badge';
 
 export function PurchaseOrderDetail(props: PurchaseOrderData) {
     const data: PurchaseOrderDetailData[] = [
-            {
-                name: 'Computer',
-                description: 'Monthly Subscription',
-                manufacturerCode: '35412AB',
-                manufacturerName: 'Apple Inc',
-                supplierCode: '35412AB',
-                supplierName: '35412AB',
-                quantity: 5,
-                unitOfMeasure: 'Unit',
-                price: 10,
-                total: 10,
-                taxGroup: 'Account',
-                status: 'Created',
-            },
-            {
-                name: 'Computer',
-                description: 'Monthly Subscription',
-                manufacturerCode: '35412AB',
-                manufacturerName: 'Apple Inc',
-                supplierCode: '35412AB',
-                supplierName: '35412AB',
-                quantity: 5,
-                unitOfMeasure: 'Unit',
-                price: 10,
-                total: 10,
-                taxGroup: 'Account',
-                status: 'Created',
-            },
-            {
-                name: 'Computer',
-                description: 'Monthly Subscription',
-                manufacturerCode: '35412AB',
-                manufacturerName: 'Apple Inc',
-                supplierCode: '35412AB',
-                supplierName: '35412AB',
-                quantity: 5,
-                unitOfMeasure: 'Unit',
-                price: 10,
-                total: 10,
-                taxGroup: 'Account',
-                status: 'Created',
-            },
-            {
-                name: 'Computer',
-                description: 'Monthly Subscription',
-                manufacturerCode: '35412AB',
-                manufacturerName: 'Apple Inc',
-                supplierCode: '35412AB',
-                supplierName: '35412AB',
-                quantity: 5,
-                unitOfMeasure: 'Unit',
-                price: 10,
-                total: 10,
-                taxGroup: 'Account',
-                status: 'Created',
-            },
-            {
-                name: 'Computer',
-                description: 'Monthly Subscription',
-                manufacturerCode: '35412AB',
-                manufacturerName: 'Apple Inc',
-                supplierCode: '35412AB',
-                supplierName: '35412AB',
-                quantity: 5,
-                unitOfMeasure: 'Unit',
-                price: 10,
-                total: 10,
-                taxGroup: 'Account',
-                status: 'Created',
-            },
-        ];
+        {
+            name: 'Computer',
+            description: 'Monthly Subscription',
+            manufacturerCode: '35412AB',
+            manufacturerName: 'Apple Inc',
+            supplierCode: '35412AB',
+            supplierName: '35412AB',
+            quantity: 5,
+            unitOfMeasure: 'Unit',
+            price: 10,
+            total: 10,
+            taxGroup: 'Account',
+            status: 'Created',
+        },
+        {
+            name: 'Computer',
+            description: 'Monthly Subscription',
+            manufacturerCode: '35412AB',
+            manufacturerName: 'Apple Inc',
+            supplierCode: '35412AB',
+            supplierName: '35412AB',
+            quantity: 5,
+            unitOfMeasure: 'Unit',
+            price: 10,
+            total: 10,
+            taxGroup: 'Account',
+            status: 'Created',
+        },
+        {
+            name: 'Computer',
+            description: 'Monthly Subscription',
+            manufacturerCode: '35412AB',
+            manufacturerName: 'Apple Inc',
+            supplierCode: '35412AB',
+            supplierName: '35412AB',
+            quantity: 5,
+            unitOfMeasure: 'Unit',
+            price: 10,
+            total: 10,
+            taxGroup: 'Account',
+            status: 'Created',
+        },
+        {
+            name: 'Computer',
+            description: 'Monthly Subscription',
+            manufacturerCode: '35412AB',
+            manufacturerName: 'Apple Inc',
+            supplierCode: '35412AB',
+            supplierName: '35412AB',
+            quantity: 5,
+            unitOfMeasure: 'Unit',
+            price: 10,
+            total: 10,
+            taxGroup: 'Account',
+            status: 'Created',
+        },
+        {
+            name: 'Computer',
+            description: 'Monthly Subscription',
+            manufacturerCode: '35412AB',
+            manufacturerName: 'Apple Inc',
+            supplierCode: '35412AB',
+            supplierName: '35412AB',
+            quantity: 5,
+            unitOfMeasure: 'Unit',
+            price: 10,
+            total: 10,
+            taxGroup: 'Account',
+            status: 'Approved',
+        },
+    ];
+    const getStatusBadge = (status: PurchaseOrderStatus) => {
+        const styles = {
+            Created: 'bg-[#F5F5F5] text-[#414651]',
+            Approved: 'bg-[#ECFDF3] text-[#027A48]',
+            Sent: 'bg-[#EFF8FF] text-[#175CD3]',
+            Partially_Received: 'bg-[#F4F3FF] text-[#5925DC]',
+            Completed: 'bg-[#ECFDF3] text-[#027A48]',
+            Cancelled: 'bg-[#FEF3F2] text-[#B42318]',
+        };
+
+        return (
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
+        );
+    };
     return (
         <div>
             <h2 className="text-xl font-semibold">Purchase Order Details</h2>
@@ -97,12 +114,12 @@ export function PurchaseOrderDetail(props: PurchaseOrderData) {
                     <div className="space-y-4">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span className="text-green-700 bg-[#ECFDF3] rounded-lg px-2 font-semibold">{props.status}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created By:&nbsp;</span><span>{props.createdBy}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Approved:&nbsp;</span><span>{props.approved}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Approved:&nbsp;</span><span>{props.approved ? "Yes" : "No"}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Approved By:&nbsp;</span><span>{props.approvedBy}</span></div>
                     </div>
                 </div>
                 <div className='flex flex-col gap-6'>
-                    <h2>Shipping Items</h2>
+                    <h2>Purchase Order Items</h2>
                     <div className='rounded-lg border bg-white'>
                         <Table>
                             <TableHeader>
@@ -136,7 +153,7 @@ export function PurchaseOrderDetail(props: PurchaseOrderData) {
                                             <TableCell>${item.price}</TableCell>
                                             <TableCell>${item.total}</TableCell>
                                             <TableCell>{item.taxGroup}</TableCell>
-                                            <TableCell>{item.status}</TableCell>
+                                            <TableCell>{getStatusBadge(item.status)}</TableCell>
                                         </TableRow>
                                     ))
                                 }
