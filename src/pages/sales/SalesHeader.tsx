@@ -64,7 +64,7 @@ export function SalesHeader({
             <SelectItem value="cancelled">Cancelled</SelectItem>
           </SelectContent>
         </Select>
-        
+{/*         
         <Select 
           defaultValue="newest"
           onValueChange={(value) => onSortChange(value as SortOption)}
@@ -78,7 +78,7 @@ export function SalesHeader({
             <SelectItem value="amount-high">Amount: High to Low</SelectItem>
             <SelectItem value="amount-low">Amount: Low to High</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
       </div>
     </div>
   );

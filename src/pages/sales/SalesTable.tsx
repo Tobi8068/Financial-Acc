@@ -21,9 +21,10 @@ interface SalesTableProps {
   filters: SalesFilters;
   sortOption: SortOption;
   searchQuery: string;
+  onClickView: (item: any) => void;
 }
 
-export function SalesTable({ filters, sortOption, searchQuery }: SalesTableProps) {
+export function SalesTable({ filters, sortOption, searchQuery, onClickView }: SalesTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -129,7 +130,7 @@ export function SalesTable({ filters, sortOption, searchQuery }: SalesTableProps
                       </button>
                     </PopoverTrigger>
                     <PopoverContent align="end" className='w-fit cursor-pointer' sideOffset={1}>
-                      <span>View Sales Item</span>
+                      <span onClick={() => onClickView(item)}>View Sales Item</span>
                     </PopoverContent>
                   </Popover>
                 </TableCell>

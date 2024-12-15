@@ -6,10 +6,11 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { SalesDetailData } from '@/types/sales';
+import { SalesData, SalesDetailData } from '@/types/sales';
 import { getStatusBadge } from './SalesBadge';
+import { formatDate } from '@/lib/date';
 
-export function SalesDetail() {
+export function SalesDetail(props: SalesData) {
     const data: SalesDetailData[] = [
         {
             name: 'Computer',
@@ -92,10 +93,10 @@ export function SalesDetail() {
             <h2 className="text-xl font-semibold">Sales Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <div className="space-y-4">
-                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Number:&nbsp;</span><span>XY2345</span></div>
+                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Number:&nbsp;</span><span>{props.id}</span></div>
                     <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Name:&nbsp;</span><span>Computer</span></div>
                     <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Notes:&nbsp;</span><span>Client Name</span></div>
-                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date Created:&nbsp;</span><span>Jan 21, 2024</span></div>
+                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date Created:&nbsp;</span><span>{formatDate(props.dateCreated)}</span></div>
                     <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Carrier:&nbsp;</span><span>Carrier Name</span></div>
                 </div>
                 <div className='flex flex-col gap-6'>
