@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RequisitionsHeader } from "./RequisitionsHeader";
 import { RequisitionsTable } from "./RequisitionsTable";
-import { RequisitionsFilters } from "@/types/requisitions";
+import { RequisitionsFilters, RequisitionsData } from "@/types/requisitions";
 import { SortOption } from "@/types/utils";
 import { CreateRequisitions } from "./CreateRequisitions";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
@@ -14,6 +14,19 @@ function Requisitions() {
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
+  const [detailData, setDetailData] = useState<RequisitionsData>({
+    id: '',
+    dateCreated: '',
+    shipTo: '',
+    billTo: '',
+    department: '',
+    status: 'Created',
+    approvedBy: '',
+    createdBy: '',
+    totalAmountBeforeTax: 0,
+    totalTaxAmount: 0,
+    totalAmount: 0,
+  });
 
   const handlePage = (page: number) => {
     setScene(page);
@@ -40,6 +53,10 @@ function Requisitions() {
                 filters={filters}
                 sortOption={sortOption}
                 searchQuery={searchQuery}
+                onClickView={(item) => {
+                  handlePage(3);
+                  setDetailData(item);
+                }}
               />
             </main>
           </>
@@ -55,7 +72,7 @@ function Requisitions() {
           <>
             <InsideNavbar text="Requisitions" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <RequisitionsDetail />
+              <RequisitionsDetail {...detailData} />
             </main>
           </>
         ) : ''

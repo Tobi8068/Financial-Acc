@@ -126,16 +126,13 @@ export const invoiceData:InvoiceData[] = [
       email: 'test@gmail.com'
     },
     requiredData: '2024-01-06',
-    shipTo: 'Monthly Subscription',
-    billTo: 'Monthly Subscription',
-    totalTaxAmount: 200,
-    totalNetAmount: 12,
-    totalAmount: 12,
+    shipTo: 'Monthly ShipTo',
+    billTo: 'Monthly BillTo',
+    totalTaxAmount: 300,
+    totalNetAmount: 122,
+    totalAmount: 121,
     status: 'Paid',
-    contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 12,
+    contact: 'Contact',
   },
   {
     id: '#3065',
@@ -153,9 +150,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Approved',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
   {
     id: '#3064',
@@ -173,9 +167,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Need_Approval',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
   {
     id: '#3063',
@@ -193,9 +184,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Waiting_Payment',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
   {
     id: '#3062',
@@ -213,9 +201,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Close0Complete',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
   {
     id: '#3061',
@@ -233,9 +218,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Approved',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
 ]
 

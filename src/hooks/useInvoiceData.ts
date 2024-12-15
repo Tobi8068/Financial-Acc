@@ -21,7 +21,16 @@ export function useInvoiceData(
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item => 
+        item.dateCreated.toLowerCase().includes(query) ||
         item.client.name.toLowerCase().includes(query) ||
+        item.client.email.toLowerCase().includes(query) ||
+        item.requiredData.toLowerCase().includes(query) ||
+        item.shipTo.toLowerCase().includes(query) ||
+        item.billTo.toLowerCase().includes(query) ||
+        item.totalTaxAmount.toString().includes(query) ||
+        item.totalNetAmount.toString().includes(query) ||
+        item.totalAmount.toString().includes(query) ||
+        item.contact.toLowerCase().includes(query) ||
         item.id.toLowerCase().includes(query)
       );
     }

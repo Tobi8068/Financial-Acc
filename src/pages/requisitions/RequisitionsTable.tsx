@@ -22,9 +22,10 @@ interface RequisitionsTableProps {
   filters: RequisitionsFilters;
   sortOption: SortOption;
   searchQuery: string;
+  onClickView: (item: any) => void;
 }
 
-export function RequisitionsTable({ filters, sortOption, searchQuery }: RequisitionsTableProps) {
+export function RequisitionsTable({ filters, sortOption, searchQuery, onClickView }: RequisitionsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -121,7 +122,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery }: Requisit
                     </PopoverTrigger>
                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                       <ul className="space-y-2">
-                        <li>View</li>
+                        <li onClick={() => onClickView(item)}>View</li>
                         <li>Edit</li>
                         <li>Delete</li>
                       </ul>

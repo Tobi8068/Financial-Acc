@@ -20,7 +20,7 @@ function Invoice() {
   }
 
   const handleCreate = () => {
-    setScene(3);
+    
   }
 
   return (

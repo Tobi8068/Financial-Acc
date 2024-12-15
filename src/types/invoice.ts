@@ -20,7 +20,4 @@ export interface InvoiceData {
   totalAmount: number;
   status: InvoiceStatus;
   contact: string;
-  turnTOpdf: boolean;
-  clientApproval: boolean;
-  salesNum: number;
 }
