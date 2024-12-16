@@ -15,7 +15,7 @@ export function useShippingData(
 
   const filteredAndSortedData = useMemo(() => {
     let result = [...shippingData];
-
+    
     // Apply search
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -25,14 +25,14 @@ export function useShippingData(
         item.id.toLowerCase().includes(query)
       );
     }
-
+    
     // Apply filters
     if (filters.status && filters.status !== 'all') {
-      result = result.filter(item => item.status === filters.status);
+      result = result.filter(item => item.status.toLowerCase() === filters.status);
     }
-    if (filters.carrier && filters.carrier !== 'all') {
-      result = result.filter(item => item.carrier === filters.carrier);
-    }
+    // if (filters.carrier && filters.carrier !== 'all') {
+    //   result = result.filter(item => item.carrier === filters.carrier);
+    // }
 
     // Apply sorting
     switch (sortOption) {
@@ -54,7 +54,9 @@ export function useShippingData(
   }, [shippingData, filters, sortOption, searchQuery]);
 
   useEffect(() => {
-    const startIndex = (page - 1) * itemsPerPage;
+    const totalPages = Math.ceil(filteredAndSortedData.length / itemsPerPage);
+    const currentPage = Math.min(page, totalPages);
+    const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setData(filteredAndSortedData.slice(startIndex, endIndex));
     setTotalItems(filteredAndSortedData.length);
@@ -66,6 +68,6 @@ export function useShippingData(
     data, 
     totalPages, 
     totalItems,
-    itemsPerPage
+    itemsPerPage,
   };
 }

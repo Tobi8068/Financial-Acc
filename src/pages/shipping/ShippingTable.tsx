@@ -42,6 +42,12 @@ export function ShippingTable({ filters, sortOption, searchQuery, onClickView }:
     searchQuery
   );
 
+  useEffect(() => {
+    if(totalPages < currentPage) {
+      setCurrentPage(1);
+    }
+  }, [totalPages])
+
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       setSelectedItems(data.map(item => item.id));
