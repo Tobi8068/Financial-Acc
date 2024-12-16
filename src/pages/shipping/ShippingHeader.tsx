@@ -11,7 +11,6 @@ import {
 import { Plus, Filter } from 'lucide-react';
 import { ShippingFilters } from '@/types/shipping';
 import { SortOption } from '@/types/utils';
-
 interface ShippingHeaderProps {
   onFiltersChange: (filters: ShippingFilters) => void;
   onSortChange: (sort: SortOption) => void;
@@ -44,10 +43,10 @@ export function ShippingHeader({
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">Shipping</h2>
-        <Button className="gap-2">
+        {/* <Button className="gap-2">
           <Plus className="h-4 w-4" />
           New Shipment
-        </Button>
+        </Button> */}
       </div>
       
       <div className="flex items-center gap-4">
@@ -55,7 +54,7 @@ export function ShippingHeader({
           <Input
             type="search"
             placeholder="Search shipments..."
-            className="h-9 w-96"
+            className="h-9 w-96 bg-white"
             // prefix={<Search className="h-4 w-4 text-gray-500" />}
             onChange={(e) => onSearchChange(e.target.value as string)}
           />
@@ -64,7 +63,7 @@ export function ShippingHeader({
           defaultValue="all"
           onValueChange={handleStatusChange}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] bg-white">
             <Filter className="h-4 w-4 mr-2" />
             <SelectValue placeholder="Status" />
           </SelectTrigger>
@@ -81,7 +80,7 @@ export function ShippingHeader({
           defaultValue="newest"
           onValueChange={(value) => onSortChange(value as SortOption)}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px] bg-white">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>

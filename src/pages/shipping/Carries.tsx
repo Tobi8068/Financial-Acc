@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { CarriesHeader } from "./CarriesHeader";
+import { CarriesTable } from "./CarriesTable";
+import { CarriesFilters } from "@/types/shipping";
 import { ShippingHeader } from "./ShippingHeader";
 import { ShippingTable } from "./ShippingTable";
 import { ShippingFilters } from "@/types/shipping";
 import { SortOption } from "@/types/utils";
 
-export default function Shipping() {
-  const [filters, setFilters] = useState<ShippingFilters>({
+
+function Carries() {
+  const [filters, setFilters] = useState<CarriesFilters>({
     status: "all",
-    carrier: "all",
   });
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,19 +18,19 @@ export default function Shipping() {
   return (
     <div>
         <main className="flex-1 p-6">
-          <ShippingHeader
+          <CarriesHeader
             onFiltersChange={setFilters}
             onSortChange={setSortOption}
             onSearchChange={setSearchQuery}
           />
-          <ShippingTable
+          {/* <CarriesTable
             filters={filters}
             sortOption={sortOption}
             searchQuery={searchQuery}
-          />
+          /> */}
         </main>
     </div>
   );
 }
 
-
+export default Carries;
