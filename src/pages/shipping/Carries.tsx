@@ -2,6 +2,9 @@ import { useState } from "react";
 import { CarriesHeader } from "./CarriesHeader";
 import { CarriesTable } from "./CarriesTable";
 import { CarriesFilters } from "@/types/shipping";
+import { ShippingHeader } from "./ShippingHeader";
+import { ShippingTable } from "./ShippingTable";
+import { ShippingFilters } from "@/types/shipping";
 import { SortOption } from "@/types/utils";
 
 

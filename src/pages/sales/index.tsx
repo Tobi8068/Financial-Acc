@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SalesFilters } from "@/types/sales";
+import { SalesData, SalesFilters } from "@/types/sales";
 import { SortOption } from "@/types/utils";
 import { SalesHeader } from "./SalesHeader";
 import { SalesTable } from "./SalesTable";
@@ -12,6 +12,25 @@ function Sales() {
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
+  const [detailData, setDetailData] = useState<SalesData>({
+    id: '',
+    dateCreated: '',
+    shipTo: '',
+    billTo: '',
+    status: 'Approved',
+    approvedBy: {
+      name: '',
+      avatar: '',
+    },
+    createdBy: {
+      name: '',
+      avatar: '',
+    },
+    clientApproval: 'Approved',
+    totalTaxAmount: 0,
+    totalNetAmount: 0,
+    totalAmount: 0,
+  });
 
   const handlePage = (page: number) => {
     setScene(page);
@@ -32,6 +51,10 @@ function Sales() {
                 filters={filters}
                 sortOption={sortOption}
                 searchQuery={searchQuery}
+                onClickView={(item) => {
+                  handlePage(2);
+                  setDetailData(item);
+                }}
               />
             </main>
           </>
@@ -40,7 +63,7 @@ function Sales() {
           <>
             <InsideNavbar text="Sales" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <SalesDetail />
+              <SalesDetail {...detailData} />
             </main>
           </>
         ) : ''

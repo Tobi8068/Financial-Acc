@@ -1,45 +1,43 @@
 import { useState, useEffect, useMemo } from 'react';
-import { InvoiceData, InvoiceFilters } from '@/types/invoice';
+import { RequisitionsData, RequisitionsFilters } from '@/types/requisitions';
 import { SortOption } from '@/types/utils';
-import { invoiceData } from '@/lib/mock-data';
+import { requisitionsData } from '@/lib/mock-data';
 
-export function useInvoiceData(
+export function useRequisitionsData(
   page: number,
-  filters: InvoiceFilters,
+  filters: RequisitionsFilters,
   sortOption: SortOption,
   searchQuery: string
 ) {
-  const [data, setData] = useState<InvoiceData[]>([]);
+  const [data, setData] = useState<RequisitionsData[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 5;
 
   const filteredAndSortedData = useMemo(() => {
 
-    let result = [...invoiceData];
+    let result = [...requisitionsData];
 
     // Apply search
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      result = result.filter(item => 
+      result = result.filter(item =>
+        item.id.toLowerCase().includes(query) ||
         item.dateCreated.toLowerCase().includes(query) ||
-        item.client.name.toLowerCase().includes(query) ||
-        item.client.email.toLowerCase().includes(query) ||
-        item.requiredData.toLowerCase().includes(query) ||
         item.shipTo.toLowerCase().includes(query) ||
         item.billTo.toLowerCase().includes(query) ||
-        item.totalTaxAmount.toString().includes(query) ||
-        item.totalNetAmount.toString().includes(query) ||
-        item.totalAmount.toString().includes(query) ||
-        item.contact.toLowerCase().includes(query) ||
-        item.id.toLowerCase().includes(query)
+        item.department.toLowerCase().includes(query) ||
+        item.approvedBy.toLowerCase().includes(query) ||
+        item.createdBy.toLowerCase().includes(query) ||
+        item.totalAmountBeforeTax.toString().toLowerCase().includes(query) ||
+        item.totalTaxAmount.toString().toLowerCase().includes(query) ||
+        item.totalAmount.toString().toLowerCase().includes(query)
       );
     }
 
     // Apply filters
     if (filters.status && filters.status !== 'all') {
-      result = result.filter(item => item.status === filters.status);
+      result = result.filter(item => item.status.toLowerCase() === filters.status);
     }
-  
     // Apply sorting
     switch (sortOption) {
       case 'newest':
@@ -57,17 +55,9 @@ export function useInvoiceData(
     }
 
     return result;
-  }, [invoiceData, filters, sortOption, searchQuery]);
+  }, [requisitionsData, filters, sortOption, searchQuery]);
 
   useEffect(() => {
-    // const fetchFunc = async () => {
-    //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
-    //     method: 'GET'
-    //   });
-  
-    //   console.log("Data", response.json());
-    // }
-    // fetchFunc();
   }, []);
 
   useEffect(() => {
@@ -79,9 +69,9 @@ export function useInvoiceData(
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  return { 
-    data, 
-    totalPages, 
+  return {
+    data,
+    totalPages,
     totalItems,
     itemsPerPage
   };

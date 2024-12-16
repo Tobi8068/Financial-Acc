@@ -29,6 +29,13 @@ export function Navigation() {
       <NavItem icon={FileBarChart} label="Financial Statement" />
       <NavItem icon={Package2} label="Inventory" />
       <NavItem icon={ClipboardList} label="Requisitions" />
+      <NavItem icon={LayoutGrid} label="Purchase Order" />
+      <NavItem icon={LayoutGrid} label="Count" />
+      {/* <NavItem icon={LayoutGrid} label="Issues" />
+      <NavItem icon={LayoutGrid} label="Receptions" />
+      <NavItem icon={LayoutGrid} label="Reorder" />
+      <NavItem icon={LayoutGrid} label="Reservation" />
+      <NavItem icon={LayoutGrid} label="Transfers" /> */}
     </nav>
   );
 }

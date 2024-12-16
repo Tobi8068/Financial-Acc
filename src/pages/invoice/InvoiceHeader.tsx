@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Filter } from 'lucide-react';
-import { InvoiceFilters } from '@/types/invoice';
+import { InvoiceFilters, InvoiceStatus } from '@/types/invoice';
 import { SortOption } from '@/types/utils';
 
 interface InvoiceProps {
@@ -66,25 +66,11 @@ export function InvoiceHeader({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="shipped">Shipped</SelectItem>
-            <SelectItem value="delivered">Delivered</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
-          </SelectContent>
-        </Select>
-        
-        <Select 
-          defaultValue="newest"
-          onValueChange={(value) => onSortChange(value as SortOption)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="newest">Newest First</SelectItem>
-            <SelectItem value="oldest">Oldest First</SelectItem>
-            <SelectItem value="amount-high">Amount: High to Low</SelectItem>
-            <SelectItem value="amount-low">Amount: Low to High</SelectItem>
+            <SelectItem value="Need_Approval">Need Approval</SelectItem>
+            <SelectItem value="Approved">Approved</SelectItem>
+            <SelectItem value="Waiting_Payment">Waiting Payment</SelectItem>
+            <SelectItem value="Paid">Paid</SelectItem>
+            <SelectItem value="Close0Complete">Close/Complete</SelectItem>
           </SelectContent>
         </Select>
       </div>

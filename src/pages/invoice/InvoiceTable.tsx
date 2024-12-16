@@ -22,9 +22,10 @@ interface InvoiceTableProps {
   filters: InvoiceFilters;
   sortOption: SortOption;
   searchQuery: string;
+  onClickView: (item: any) => void;
 }
 
-export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableProps) {
+export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: InvoiceTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -140,7 +141,7 @@ export function InvoiceTable({ filters, sortOption, searchQuery }: InvoiceTableP
                     </PopoverTrigger>
                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                       <ul className="space-y-2">
-                        <li>View</li>
+                        <li onClick={() => onClickView(item)}>View</li>
                         <li>Edit</li>
                         <li>Delete</li>
                       </ul>

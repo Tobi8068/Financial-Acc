@@ -1,6 +1,9 @@
+import { ClientData } from '@/types/client';
 import { InvoiceData } from '@/types/invoice';
 import { SalesData } from '@/types/sales';
 import { CarrierData, ShippingData } from '@/types/shipping';
+import { PurchaseOrderData } from '@/types/purchaseOrder';
+import { RequisitionsData } from '@/types/requisitions';
 
 export const shippingData: ShippingData[] = [
   {
@@ -123,16 +126,13 @@ export const invoiceData:InvoiceData[] = [
       email: 'test@gmail.com'
     },
     requiredData: '2024-01-06',
-    shipTo: 'Monthly Subscription',
-    billTo: 'Monthly Subscription',
-    totalTaxAmount: 200,
-    totalNetAmount: 12,
-    totalAmount: 12,
+    shipTo: 'Monthly ShipTo',
+    billTo: 'Monthly BillTo',
+    totalTaxAmount: 300,
+    totalNetAmount: 122,
+    totalAmount: 121,
     status: 'Paid',
-    contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 12,
+    contact: 'Contact',
   },
   {
     id: '#3065',
@@ -150,9 +150,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Approved',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
   {
     id: '#3064',
@@ -170,9 +167,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Need_Approval',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
   {
     id: '#3063',
@@ -190,9 +184,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Waiting_Payment',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
   {
     id: '#3062',
@@ -210,9 +201,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Close0Complete',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
   {
     id: '#3061',
@@ -230,9 +218,6 @@ export const invoiceData:InvoiceData[] = [
     totalAmount: 12,
     status: 'Approved',
     contact: 'Monthly',
-    turnTOpdf: true,
-    clientApproval: true,
-    salesNum: 79,
   },
 ]
 
@@ -353,7 +338,6 @@ export const salesData:SalesData[] = [
   },
 ]
 
-
 export const carriesData:CarrierData[] = [
   {
     id: '#3066',
@@ -372,5 +356,211 @@ export const carriesData:CarrierData[] = [
     startDate: '2022-01-06',
     endDate: '2024-01-06',
     status: 'Active',
+  }
+]
+
+export const clientData:ClientData[] = [
+  {
+    id: '#3066',
+    client: {
+      name: 'Olga Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3065',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3064',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3063',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3062',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+  {
+    id: '#3061',
+    client: {
+      name: 'Olivia Rhye',
+      avatar: '../assets/img/Avatar.png',
+    },
+    dateCreated: '2024-01-06',
+    address: '24 Heartley Street, Old Market, Otawa',
+    billingAddress: '24 Heartley Street, Old Market, Otawa',
+    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+  },
+]
+
+export const purchaseOrderData:PurchaseOrderData[] = [
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'ShipTo Name',
+    billTo: 'BillTo Name',
+    department: 'Dept.Name',
+    status: 'Created',
+    createdBy: 'User',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3065',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Approved',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3064',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Sent',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3063',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Partially_Received',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3062',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Completed',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3061',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Cancelled',
+    createdBy: 'Monthly',
+    approved: false,
+    approvedBy: 'Approver Name',
+  },
+]
+
+export const requisitionsData:RequisitionsData[] = [
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Created',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
+  },
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Approved',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
+  },
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Sent',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
+  },
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Partially_Received',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
+  },
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    shipTo: 'Name',
+    billTo: 'Name',
+    department: 'Dept.Name',
+    status: 'Completed',
+    approvedBy: 'Approver Name',
+    createdBy: 'Creator Name',
+    totalAmountBeforeTax: 750,
+    totalTaxAmount: 250,
+    totalAmount: 1000
   },
 ]

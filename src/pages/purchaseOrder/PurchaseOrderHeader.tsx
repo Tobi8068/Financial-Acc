@@ -1,54 +1,52 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { 
+import { Filter } from 'lucide-react';
+
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Filter } from 'lucide-react';
-import { SalesFilters } from '@/types/sales';
-import { SortOption } from '@/types/utils';
+import { PurchaseOrderFilters } from '@/types/purchaseOrder';
 
 interface InvoiceProps {
-  onFiltersChange: (filters: SalesFilters) => void;
-  onSortChange: (sort: SortOption) => void;
+  onFiltersChange: (filters: PurchaseOrderFilters) => void;
   onSearchChange: (search: string) => void;
 }
 
-export function SalesHeader({ 
-  onFiltersChange, 
-  onSortChange, 
+export function PurchaseOrderHeader({
+  onFiltersChange,
   onSearchChange,
 }: InvoiceProps) {
-  const [filters, setFilters] = useState<SalesFilters>({
+  const [filters, setFilters] = useState<PurchaseOrderFilters>({
     status: 'all'
   });
 
   const handleStatusChange = (status: string) => {
-    const newFilters = { ...filters, status: status as SalesFilters['status'] };
+    const newFilters = { ...filters, status: status as PurchaseOrderFilters['status'] };
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
- 
+
+
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">Sales</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Purchase Order</h2>
       </div>
-      
+
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input
             type="search"
-            placeholder="Search sales..."
+            placeholder="Search ..."
             className="h-9"
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
-        
-        <Select 
+        <Select
           defaultValue="all"
           onValueChange={handleStatusChange}
         >
@@ -65,21 +63,6 @@ export function SalesHeader({
             <SelectItem value="completed">Completed</SelectItem>
           </SelectContent>
         </Select>
-{/*         
-        <Select 
-          defaultValue="newest"
-          onValueChange={(value) => onSortChange(value as SortOption)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="newest">Newest First</SelectItem>
-            <SelectItem value="oldest">Oldest First</SelectItem>
-            <SelectItem value="amount-high">Amount: High to Low</SelectItem>
-            <SelectItem value="amount-low">Amount: Low to High</SelectItem>
-          </SelectContent>
-        </Select> */}
       </div>
     </div>
   );

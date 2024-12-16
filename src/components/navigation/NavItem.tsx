@@ -9,7 +9,7 @@ interface NavItemProps {
 export function NavItem({ icon: Icon, label }: NavItemProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const isActive = location.pathname === `/${label.toLowerCase()}`;
+  const isActive = location.pathname === `/${label.toLowerCase().replace(" ", '-')}`;
 
   const handleClick = () => {
     if (label == 'Dashboard')
