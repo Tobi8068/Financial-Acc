@@ -19,6 +19,10 @@ export function useClientData(
       const query = searchQuery.toLowerCase();
       result = result.filter(item => 
         item.client.name.toLowerCase().includes(query) ||
+        item.dateCreated.toLowerCase().includes(query) ||
+        item.address.toLowerCase().includes(query) ||
+        item.billingAddress.toLowerCase().includes(query) ||
+        item.shippingAddress.toLowerCase().includes(query) ||
         item.id.toLowerCase().includes(query)
       );
     }

@@ -342,7 +342,7 @@ export const clientData:ClientData[] = [
   {
     id: '#3066',
     client: {
-      name: 'Olivia Rhye',
+      name: 'Olga Rhye',
       avatar: '../assets/img/Avatar.png',
     },
     dateCreated: '2024-01-06',
