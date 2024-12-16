@@ -5,7 +5,7 @@ import { purchaseOrderData } from '@/lib/mock-data';
 
 export function usePurchaseOrderData(
   page: number,
-  // filters: PurchaseOrderFilters,
+  filters: PurchaseOrderFilters,
   // sortOption: SortOption,
   searchQuery: string
 ) {
@@ -21,17 +21,23 @@ export function usePurchaseOrderData(
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item => 
-        item.id.toLowerCase().includes(query)
+        item.id.toLowerCase().includes(query) ||
+        item.dateCreated.toLowerCase().includes(query) ||
+        item.shipTo.toLowerCase().includes(query) ||
+        item.billTo.toLowerCase().includes(query) ||
+        item.department.toLowerCase().includes(query) ||
+        item.createdBy.toLowerCase().includes(query) ||
+        item.approvedBy.toLowerCase().includes(query)
       );
     }
 
     // Apply filters
-    // if (filters.status && filters.status !== 'all') {
-    //   result = result.filter(item => item.status === filters.status);
-    // }
+    if (filters.status && filters.status !== 'all') {
+      result = result.filter(item => item.status.toLowerCase() === filters.status);
+    }
 
     return result;
-  }, [purchaseOrderData, searchQuery]);
+  }, [purchaseOrderData, filters, searchQuery]);
 
   useEffect(() => {
   }, []);

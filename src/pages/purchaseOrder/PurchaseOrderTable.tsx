@@ -18,17 +18,18 @@ import { Pagination } from '../../components/pagination/Pagination';
 import AvatarImg from '../../assets/img/Avatar.png';
 
 interface PurchaseOrderTableProps {
-  // filters: PurchaseOrderFilters;
+  filters: PurchaseOrderFilters;
   // sortOption: SortOption;
   searchQuery: string;
   onClickView: (item: any) => void;
 }
 
-export function PurchaseOrderTable({ searchQuery, onClickView }: PurchaseOrderTableProps) {
+export function PurchaseOrderTable({ filters, searchQuery, onClickView }: PurchaseOrderTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, totalPages, totalItems, itemsPerPage } = usePurchaseOrderData(
     currentPage,
+    filters,
     searchQuery
   );
 
