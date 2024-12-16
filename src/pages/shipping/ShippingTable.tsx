@@ -23,10 +23,10 @@ interface ShippingTableProps {
   filters: ShippingFilters;
   sortOption: SortOption;
   searchQuery: string;
-  onClick: () => void;
+  onClickView: (item: any) => void;
 }
 
-export function ShippingTable({ filters, sortOption, searchQuery, onClick }: ShippingTableProps) {
+export function ShippingTable({ filters, sortOption, searchQuery, onClickView }: ShippingTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
@@ -155,7 +155,7 @@ export function ShippingTable({ filters, sortOption, searchQuery, onClick }: Shi
                     </PopoverTrigger>
                     <PopoverContent align="end" className='w-24' sideOffset={2}>
                       <ul className="space-y-2">
-                        <li className='cursor-pointer' onClick={ onClick }>View</li>
+                        <li className='cursor-pointer' onClick={ () => onClickView(item) }>View</li>
                         <li className='cursor-pointer' onClick={() => handleEditable(item.id)}>Edit</li>
                         <li className='cursor-pointer' onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>

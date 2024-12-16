@@ -1,4 +1,3 @@
-import { useState } from 'react'; 
 import {
     Table,
     TableBody,
@@ -6,12 +5,14 @@ import {
     TableHead,
     TableRow,
 } from '@/components/ui/table';
+import { formatDate } from '@/lib/date';
+import { ShippingData } from '@/types/shipping';
 
 interface ShippingDetailProps {
-    itemId: number;
-    onClick: () => void;
+    props: ShippingData;
+    onClickCarrier: () => void;
   }
-export default function ShippingDetail({ itemId, onClick }: ShippingDetailProps) {
+export default function ShippingDetail({ props, onClickCarrier }: ShippingDetailProps) {
     const data = [
         {
             name: 'Computer',
@@ -57,11 +58,11 @@ export default function ShippingDetail({ itemId, onClick }: ShippingDetailProps)
             <h2 className="text-xl font-semibold">Shipping Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <div className="space-y-2">
-                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Number:&nbsp;</span><span>XY2345</span></div>
-                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Name:&nbsp;</span><span>Computer</span></div>
-                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Notes:&nbsp;</span><span>Welcome to here</span></div>
-                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Date Created:&nbsp;</span><span>Jan 21, 2024</span></div>
-                    <div className="text-md text-[#2B2D40] flex  cursor-pointer" onClick={ onClick }><span className="font-bold w-[128px]" >Carrier:&nbsp;</span><span>Carrier Name</span>
+                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Number:&nbsp;</span><span>{props.id}</span></div>
+                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Name:&nbsp;</span><span>{props.name}</span></div>
+                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Notes:&nbsp;</span><span>{props.notes}</span></div>
+                    <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Date Created:&nbsp;</span><span>{formatDate(props.dateCreated)}</span></div>
+                    <div className="text-md text-[#2B2D40] flex  cursor-pointer" onClick={ onClickCarrier }><span className="font-bold w-[128px]" >Carrier:&nbsp;</span><span>{props.carrier}</span>
                          
                     </div>
                 </div>

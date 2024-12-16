@@ -6,7 +6,7 @@ import { CarriesHeader } from "./CarriesHeader";
 import { CarriesTable } from "./CarriesTable";
 
 import ShippingDetail from "./ShippingDetail";
-import { ShippingFilters, CarriesFilters } from "@/types/shipping";
+import { ShippingFilters, CarriesFilters, ShippingData } from "@/types/shipping";
 import { SortOption } from "@/types/utils";
 
 import { InsideNavbar } from "@/components/ui/inside-navbar";
@@ -22,13 +22,23 @@ export default function Shipping() {
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
+  const [detailData, setDetailData] = useState<ShippingData>({
+    id: '',
+    name: '',
+    notes: '',
+    dateCreated: '',
+    status: 'pending',
+    sales: 0,
+    carrier: '',
+  });
 
   const handlePage = (page: number) => {
     setScene(page);
   }
 
-  const handleView = () => {
+  const handleView = (item: any) => {
     setScene(2);
+    setDetailData(item);
   }
 
   const handleCarrier = () => {
@@ -51,7 +61,7 @@ export default function Shipping() {
                 filters={shippingfilters}
                 sortOption={sortOption}
                 searchQuery={searchQuery}
-                onClick={() => handleView()}
+                onClickView={(item: any) => handleView(item)}
               />
             </main>
           </>
@@ -60,8 +70,9 @@ export default function Shipping() {
           <>
             <InsideNavbar text="Shipping" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <ShippingDetail 
-                onClick={ () => handleCarrier() }
+              <ShippingDetail
+                props={detailData}
+                onClickCarrier={() => handleCarrier()}
               />
             </main>
           </>
