@@ -54,9 +54,7 @@ export function useShippingData(
   }, [shippingData, filters, sortOption, searchQuery]);
 
   useEffect(() => {
-    const totalPages = Math.ceil(filteredAndSortedData.length / itemsPerPage);
-    const currentPage = Math.min(page, totalPages);
-    const startIndex = (currentPage - 1) * itemsPerPage;
+    const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setData(filteredAndSortedData.slice(startIndex, endIndex));
     setTotalItems(filteredAndSortedData.length);

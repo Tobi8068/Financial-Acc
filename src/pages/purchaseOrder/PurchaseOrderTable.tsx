@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MoreVertical } from 'lucide-react';
 import {
   Table,
@@ -32,6 +32,12 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
     filters,
     searchQuery
   );
+
+  useEffect(() => {
+    if (totalPages < currentPage) {
+      setCurrentPage(1);
+    }
+  }, [totalPages])
 
   const getStatusBadge = (status: PurchaseOrderStatus) => {
     const styles = {

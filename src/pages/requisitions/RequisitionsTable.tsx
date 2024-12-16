@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MoreVertical } from 'lucide-react';
 import {
   Table,
@@ -35,6 +35,12 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
     sortOption,
     searchQuery
   );
+
+  useEffect(() => {
+    if (totalPages < currentPage) {
+      setCurrentPage(1);
+    }
+  }, [totalPages])
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
