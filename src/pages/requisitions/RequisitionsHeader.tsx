@@ -73,7 +73,7 @@ export function RequisitionsHeader({
           </SelectContent>
         </Select>
         
-        <Select 
+        {/* <Select 
           defaultValue="newest"
           onValueChange={(value) => onSortChange(value as SortOption)}
         >
@@ -86,7 +86,7 @@ export function RequisitionsHeader({
             <SelectItem value="amount-high">Amount: High to Low</SelectItem>
             <SelectItem value="amount-low">Amount: Low to High</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
       </div>
     </div>
   );

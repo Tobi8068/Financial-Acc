@@ -11,6 +11,12 @@ import Financial_Statement from "@/pages/financialStatement"
 import Inventory from "@/pages/inventory"
 import Requisitions from "@/pages/requisitions"
 import PurchaseOrder from "@/pages/purchaseOrder"
+import Count from "@/pages/count"
+import Issues from "@/pages/issues"
+import Receptions from "@/pages/receptions"
+import Reorder from "@/pages/reorder"
+import Reservation from "@/pages/reservation"
+import Transfers from "@/pages/transfers"
  
 const MainRoutes = {
     path: "/",
@@ -66,6 +72,30 @@ const MainRoutes = {
         {
             path: "/purchase-order",
             element: <PurchaseOrder />
+        },
+        {
+            path: "/count",
+            element: <Count />
+        },
+        {
+            path: "/issues",
+            element: <Issues />
+        },
+        {
+            path: "/receptions",
+            element: <Receptions />
+        },
+        {
+            path: "/reorder",
+            element: <Reorder />
+        },
+        {
+            path: "/reservation",
+            element: <Reservation />
+        },
+        {
+            path: "/transfers",
+            element: <Transfers />
         },
     ],
 }

@@ -58,10 +58,11 @@ export function SalesHeader({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="shipped">Shipped</SelectItem>
-            <SelectItem value="delivered">Delivered</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
+            <SelectItem value="created">Created</SelectItem>
+            <SelectItem value="approved">Approved</SelectItem>
+            <SelectItem value="sent">Sent</SelectItem>
+            <SelectItem value="partially_received">Partially Received</SelectItem>
+            <SelectItem value="completed">Completed</SelectItem>
           </SelectContent>
         </Select>
 {/*         
