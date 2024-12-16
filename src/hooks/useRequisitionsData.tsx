@@ -21,13 +21,22 @@ export function useRequisitionsData(
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item =>
-        item.id.toLowerCase().includes(query)
+        item.id.toLowerCase().includes(query) ||
+        item.dateCreated.toLowerCase().includes(query) ||
+        item.shipTo.toLowerCase().includes(query) ||
+        item.billTo.toLowerCase().includes(query) ||
+        item.department.toLowerCase().includes(query) ||
+        item.approvedBy.toLowerCase().includes(query) ||
+        item.createdBy.toLowerCase().includes(query) ||
+        item.totalAmountBeforeTax.toString().toLowerCase().includes(query) ||
+        item.totalTaxAmount.toString().toLowerCase().includes(query) ||
+        item.totalAmount.toString().toLowerCase().includes(query)
       );
     }
 
     // Apply filters
     if (filters.status && filters.status !== 'all') {
-      result = result.filter(item => item.status === filters.status);
+      result = result.filter(item => item.status.toLowerCase() === filters.status);
     }
     // Apply sorting
     switch (sortOption) {
