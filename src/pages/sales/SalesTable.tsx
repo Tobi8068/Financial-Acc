@@ -41,22 +41,6 @@ export function SalesTable({ filters, sortOption, searchQuery, onClickView }: Sa
     }
   }, [totalPages])
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedItems(data.map(item => item.id));
-    } else {
-      setSelectedItems([]);
-    }
-  };
-
-  const handleSelectItem = (id: string, checked: boolean) => {
-    if (checked) {
-      setSelectedItems([...selectedItems, id]);
-    } else {
-      setSelectedItems(selectedItems.filter(item => item !== id));
-    }
-  };
-
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-white">

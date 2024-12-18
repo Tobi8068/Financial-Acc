@@ -21,7 +21,6 @@ interface RequisitionsProps {
 
 export function RequisitionsHeader({ 
   onFiltersChange, 
-  onSortChange, 
   onSearchChange,
   onCreate,
 }: RequisitionsProps) {

@@ -40,10 +40,10 @@ export function useCarriesData(
         result.sort((a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime());
         break;
       case 'amount-high':
-        result.sort((a, b) => b.name - a.name);
+        // result.sort((a, b) => b.name - a.name);
         break;
       case 'amount-low':
-        result.sort((a, b) => a.name - b.name);
+        // result.sort((a, b) => a.name - b.name);
         break;
     }
 

@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PurchaseOrderData, PurchaseOrderFilters } from '@/types/purchaseOrder';
-import { SortOption } from '@/types/utils';
 import { purchaseOrderData } from '@/lib/mock-data';
 
 export function usePurchaseOrderData(

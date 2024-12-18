@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRequisitionsData } from '@/hooks/useRequisitionsData';
@@ -16,7 +15,6 @@ import { RequisitionsStatus, RequisitionsFilters } from '@/types/requisitions';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
-import AvatarImg from '../../assets/img/Avatar.png';
 import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface RequisitionsTableProps {
@@ -28,7 +26,6 @@ interface RequisitionsTableProps {
 
 export function RequisitionsTable({ filters, sortOption, searchQuery, onClickView }: RequisitionsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
@@ -44,22 +41,6 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
       setCurrentPage(1);
     }
   }, [totalPages])
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedItems(data.map(item => item.id));
-    } else {
-      setSelectedItems([]);
-    }
-  };
-
-  const handleSelectItem = (id: string, checked: boolean) => {
-    if (checked) {
-      setSelectedItems([...selectedItems, id]);
-    } else {
-      setSelectedItems(selectedItems.filter(item => item !== id));
-    }
-  };
 
   const getStatusBadge = (status: RequisitionsStatus) => {
     const styles = {
@@ -122,7 +103,6 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
             {data.map((item) => (
               <TableRow
                 key={item.id}
-                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.dateCreated)}</TableCell>

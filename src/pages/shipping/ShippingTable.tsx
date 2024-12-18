@@ -28,12 +28,10 @@ interface ShippingTableProps {
 
 export function ShippingTable({ filters, sortOption, searchQuery, onClickView }: ShippingTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [viewDialogOpen, setViewDialogOpen] = useState(false);
-  const [editableDialogOpen, setEditableDialogOpen] = useState(false);
+  // const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  // const [editableDialogOpen, setEditableDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
-  const [viewItemId, setViewItemId] = useState<string | null>(null); // Added to track the item to view
 
   const { data, totalPages, totalItems, itemsPerPage } = useShippingData(
     currentPage,
@@ -47,22 +45,6 @@ export function ShippingTable({ filters, sortOption, searchQuery, onClickView }:
       setCurrentPage(1);
     }
   }, [totalPages])
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedItems(data.map(item => item.id));
-    } else {
-      setSelectedItems([]);
-    }
-  };
-
-  const handleSelectItem = (id: string, checked: boolean) => {
-    if (checked) {
-      setSelectedItems([...selectedItems, id]);
-    } else {
-      setSelectedItems(selectedItems.filter(item => item !== id));
-    }
-  };
 
   const getStatusBadge = (status: ShippingStatus) => {
     const styles = {
@@ -78,15 +60,14 @@ export function ShippingTable({ filters, sortOption, searchQuery, onClickView }:
       </Badge>
     );
   };
-  const handleView = (id: string) => {
+  // const handleView = (id: string) => {
 
-    setViewDialogOpen(true);
-    setViewItemId(id); // Set the item to view
-  };
+  //   setViewDialogOpen(true);
+  // };
 
-  const handleEditable = (id: string) => {
-    setEditableDialogOpen(true);
-  };
+  // const handleEditable = (id: string) => {
+  //   setEditableDialogOpen(true);
+  // };
 
   const handleDelete = (id: string) => {
     setDeleteDialogOpen(true);
@@ -137,7 +118,6 @@ export function ShippingTable({ filters, sortOption, searchQuery, onClickView }:
             {data.map((item) => (
               <TableRow
                 key={item.id}
-                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
                 {/* <TableCell>
                   <Checkbox 
@@ -162,7 +142,7 @@ export function ShippingTable({ filters, sortOption, searchQuery, onClickView }:
                     <PopoverContent align="end" className='w-24' sideOffset={2}>
                       <ul className="space-y-2">
                         <li className='cursor-pointer' onClick={ () => onClickView(item) }>View</li>
-                        <li className='cursor-pointer' onClick={() => handleEditable(item.id)}>Edit</li>
+                        {/* <li className='cursor-pointer' onClick={() => handleEditable(item.id)}>Edit</li> */}
                         <li className='cursor-pointer' onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>
                     </PopoverContent>

@@ -10,7 +10,6 @@ import { formatDate } from '@/lib/date';
 import { ProductionData, ProductionItem } from '@/types/production';
 import { Badge } from '@/components/ui/badge';
 import { ProductionStatus } from '@/types/production';
-import { Cancel } from '@radix-ui/react-alert-dialog';
 
 export function ProductionDetail(props: ProductionData) {
     const data: ProductionItem[] = [

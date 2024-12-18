@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
+// import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useProductionData } from '@/hooks/useProductionData';
@@ -16,7 +16,6 @@ import { ProductionStatus, ProductionFilters } from '@/types/production';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
-import AvatarImg from '../../assets/img/Avatar.png';
 
 import DeleteDialog from '@/components/table/DeleteDialog';
 
@@ -29,7 +28,7 @@ interface ProductionTableProps {
 
 export function ProductionTable({ filters, sortOption, searchQuery, onClickView }: ProductionTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
   const { data, totalPages, totalItems, itemsPerPage } = useProductionData(
@@ -44,22 +43,6 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
       setCurrentPage(1);
     }
   }, [totalPages])
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedItems(data.map(item => item.id));
-    } else {
-      setSelectedItems([]);
-    }
-  };
-
-  const handleSelectItem = (id: string, checked: boolean) => {
-    if (checked) {
-      setSelectedItems([...selectedItems, id]);
-    } else {
-      setSelectedItems(selectedItems.filter(item => item !== id));
-    }
-  };
 
   const handleDelete = (id: string) => {
     setDeleteDialogOpen(true);

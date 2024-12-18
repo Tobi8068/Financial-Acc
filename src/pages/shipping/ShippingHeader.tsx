@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
   Select,
@@ -8,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import { ShippingFilters } from '@/types/shipping';
 import { SortOption } from '@/types/utils';
 interface ShippingHeaderProps {
@@ -19,7 +18,6 @@ interface ShippingHeaderProps {
 
 export function ShippingHeader({ 
   onFiltersChange, 
-  onSortChange, 
   onSearchChange 
 }: ShippingHeaderProps) {
   const [filters, setFilters] = useState<ShippingFilters>({
@@ -75,21 +73,6 @@ export function ShippingHeader({
             <SelectItem value="cancelled">Cancelled</SelectItem>
           </SelectContent>
         </Select>
-        
-        {/* <Select 
-          defaultValue="newest"
-          onValueChange={(value) => onSortChange(value as SortOption)}
-        >
-          <SelectTrigger className="w-[180px] bg-white">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="newest">Newest First</SelectItem>
-            <SelectItem value="oldest">Oldest First</SelectItem>
-            <SelectItem value="amount-high">Amount: High to Low</SelectItem>
-            <SelectItem value="amount-low">Amount: Low to High</SelectItem>
-          </SelectContent>
-        </Select> */}
       </div>
     </div>
   );

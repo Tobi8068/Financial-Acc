@@ -171,7 +171,7 @@ export default function EditCarrier({ initialData, onSave, open, onClose }: Edit
                   type="number"
                   id="quantity"
                   name="quantity"
-                  value={formData.quantity}
+                  // value={formData.quantity}
                   onChange={handleInputChange}
                   className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
@@ -202,21 +202,21 @@ export default function EditCarrier({ initialData, onSave, open, onClose }: Edit
 }
 
 // Example usage:
-function Example() {
-  const initialData = {
-    name: "Computer",
-    contractId: "Search",
-    contractStartDate: "Apple Inc",
-    contractEndDate: "16 Jan, 2025",
-    contractStatus: "active",
-    quantity: 5
-  }
+// function Example() {
+//   const initialData = {
+//     name: "Computer",
+//     contractId: "Search",
+//     contractStartDate: "Apple Inc",
+//     contractEndDate: "16 Jan, 2025",
+//     contractStatus: "active",
+//     quantity: 5
+//   }
 
-  const handleSave = (data: CarrierFormData) => {
-    console.log('Saving carrier data:', data)
-    // Add your save logic here
-  }
+//   const handleSave = (data: CarrierFormData) => {
+//     console.log('Saving carrier data:', data)
+//     // Add your save logic here
+//   }
 
-  return <EditCarrier initialData={initialData} onSave={handleSave} />
-}
+//   return <EditCarrier initialData={initialData} onSave={handleSave} />
+// }
 

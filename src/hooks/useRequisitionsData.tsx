@@ -58,14 +58,23 @@ export function useRequisitionsData(
   }, [requisitionsData, filters, sortOption, searchQuery]);
 
   useEffect(() => {
-  }, []);
-
-  useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setData(filteredAndSortedData.slice(startIndex, endIndex));
     setTotalItems(filteredAndSortedData.length);
   }, [page, filteredAndSortedData]);
+
+
+  useEffect(() => {
+    const fetchFunc = async () => {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
+        method: 'GET'
+      });
+  
+      console.log("Data", response.json());
+    }
+    fetchFunc();
+  }, [])
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
