@@ -18,6 +18,7 @@ import Reorder from "@/pages/reorder"
 import Reservation from "@/pages/reservation"
 import Transfers from "@/pages/transfers"
 import Production from "@/pages/production"
+import Suppliers from "@/pages/suppliers"
  
 const MainRoutes = {
     path: "/",
@@ -102,6 +103,10 @@ const MainRoutes = {
             path: "/production",
             element: <Production />
         },
+        {
+            path: "/suppliers",
+            element: <Suppliers />
+        }
     ],
 }
 

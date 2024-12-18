@@ -120,16 +120,16 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                             <div className="col-span-2 grid grid-row-2 gap-4">
                                 <div className="grid grid-cols-3 gap-4">
                                     <TextInput text='Quantity' onChange={(value) => handleChange('quantity', value)} />
-                                    <CurrencyInput
+                                    {/* <CurrencyInput
                                         label="Price"
                                         value={formData.price.toString()}
                                         onChange={(value) => handleChange('price', value)}
                                         currency="USD"
-                                        onCurrencyChange={(currency) => handleChange('totalTaxCurrency', currency)} />
+                                        onCurrencyChange={(currency) => handleChange('totalTaxCurrency', currency)} /> */}
                                     <TextInput text='Total' onChange={(value) => handleChange('client', value)} />
                                 </div>
                                 <div className="grid grid-cols-3 gap-4">
-                                    <SelectInput
+                                    {/* <SelectInput
                                         label="Status"
                                         value={formData.taxGroup}
                                         onChange={(value) => handleChange('status', value)}
@@ -156,7 +156,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                                             { value: 'paid', label: 'Paid' },
                                             { value: 'waiting-payment', label: 'Waiting Payment' },
                                             { value: 'close-complete', label: 'Close/Complete' },
-                                        ]} />
+                                        ]} /> */}
                                 </div>
                             </div>
                             <div className="col-span-2 grid grid-row-2 gap-4">
