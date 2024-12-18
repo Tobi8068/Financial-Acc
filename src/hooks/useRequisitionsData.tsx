@@ -67,12 +67,21 @@ export function useRequisitionsData(
 
   useEffect(() => {
     const fetchFunc = async () => {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
-        method: 'GET'
-      });
-  
-      console.log("Data", response.json());
-    }
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
+          method: 'GET',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        const data = await response.json();
+        console.log("Data", data);
+      } catch (error) {
+        console.error("Error fetching requisitions:", error);
+      }
+    };
     fetchFunc();
   }, [])
 
