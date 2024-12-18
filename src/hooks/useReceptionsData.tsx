@@ -1,18 +1,18 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ReceptionsData } from '@/types/receptions';
-import { receptionsData } from '@/lib/mock-data';
+import { receptionsData, receptionItemsData } from '@/lib/mock-data';
 
-export function useReceptionsData(
+function useData(
+  sourceData: any,
   page: number,
-  searchQuery: string
+  searchQuery?: string
 ) {
-  const [data, setData] = useState<ReceptionsData[]>([]);
+  const [data, setData] = useState<any[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 5;
 
   const filteredAndSortedData = useMemo(() => {
 
-    let result = [...receptionsData];
+    let result = [...sourceData];
 
     // Apply search
     if (searchQuery) {
@@ -27,7 +27,7 @@ export function useReceptionsData(
     }
 
     return result;
-  }, [receptionsData, searchQuery]);
+  }, [sourceData, searchQuery]);
 
   useEffect(() => {
   }, []);
@@ -47,4 +47,12 @@ export function useReceptionsData(
     totalItems,
     itemsPerPage
   };
+}
+
+export function useReceptionsData(page: number, searchQuery?: string) {
+  return useData(receptionsData, page, searchQuery);
+}
+
+export function useReceptionItemsData(page: number, searchQuery?: string) {
+  return useData(receptionItemsData, page, searchQuery);
 }
