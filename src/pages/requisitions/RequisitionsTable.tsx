@@ -17,6 +17,7 @@ import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import AvatarImg from '../../assets/img/Avatar.png';
+import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface RequisitionsTableProps {
   filters: RequisitionsFilters;
@@ -28,6 +29,8 @@ interface RequisitionsTableProps {
 export function RequisitionsTable({ filters, sortOption, searchQuery, onClickView }: RequisitionsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
   const { data, totalPages, totalItems, itemsPerPage } = useRequisitionsData(
     currentPage,
@@ -73,6 +76,19 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
         {status.replace("_", " ").replace("0", "/")}
       </Badge>
     );
+  };
+
+  const handleDelete = (id: string) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteItemId) {
+      console.log('Deleting item with id:', deleteItemId);
+      setDeleteDialogOpen(false);
+      setDeleteItemId(null);
+    }
   };
 
   return (
@@ -130,7 +146,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
                       <ul className="space-y-2">
                         <li onClick={() => onClickView(item)}>View</li>
                         <li>Edit</li>
-                        <li>Delete</li>
+                        <li onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>
                     </PopoverContent>
                   </Popover>
@@ -147,6 +163,11 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
+      />
+      <DeleteDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );
