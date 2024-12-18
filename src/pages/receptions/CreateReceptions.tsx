@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { CurrencyInput } from "@/components/ui/currency-input";
-import { RequisitionsItemsData, RequisitionItem } from "@/types/requisitions";
+import { ReceptionItem } from "@/types/receptions";
 import {
     Table,
     TableBody,
@@ -12,63 +12,49 @@ import {
     TableRow,
 } from '@/components/ui/table';
 
-interface CreateRequisitionsProps {
+interface CreateReceptionsProps {
     onClick: () => void;
 }
 
-export function CreateRequisitions({ onClick }: CreateRequisitionsProps) {
-    const data: RequisitionItem[] = [
+export function CreateReceptions({ onClick }: CreateReceptionsProps) {
+    const data: ReceptionItem[] = [
         {
             name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
+            itemCode: '352644B',
+            description: 'Monthly subscription',
             manufacturerName: 'Apple Inc',
-            supplierName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
+            manufacturerCode: '35412AB',
             quantity: 5,
-            price: 50,
-            taxAmount: 10,
-            taxGroup: 'Account',
+            bin: 5,
         },
         {
-            name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
+            name: 'Mobile',
+            itemCode: '352644B',
+            description: 'Monthly subscription',
             manufacturerName: 'Apple Inc',
-            supplierName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
+            manufacturerCode: '35412AB',
             quantity: 5,
-            price: 50,
-            taxAmount: 10,
-            taxGroup: 'Account',
+            bin: 5,
         },
         {
-            name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
+            name: 'Keyboard',
+            itemCode: '352644B',
+            description: 'Monthly subscription',
             manufacturerName: 'Apple Inc',
-            supplierName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
+            manufacturerCode: '35412AB',
             quantity: 5,
-            price: 50,
-            taxAmount: 10,
-            taxGroup: 'Account',
+            bin: 5,
         },
     ];
-    const [formData, setFormData] = useState<RequisitionsItemsData>(
+    const [formData, setFormData] = useState<ReceptionItem>(
         {
             name: '',
+            itemCode: '',
             description: '',
-            quantity: 0,
-            price: 0,
-            total: 0,
-            taxGroup: '',
-            taxAmount: 0,
-            unitOfMeasure: '',
-            supplier: '',
-            supplierCode: '',
             manufacturerName: '',
             manufacturerCode: '',
+            quantity: 0,
+            bin: 0,
         }
     );
 
@@ -81,7 +67,7 @@ export function CreateRequisitions({ onClick }: CreateRequisitionsProps) {
     }
 
     const handleSaveAndAddItem = () => {
-        
+
     }
 
     return (
@@ -90,57 +76,21 @@ export function CreateRequisitions({ onClick }: CreateRequisitionsProps) {
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <SelectInput
-                            label="Ship To"
-                            value=''
-                            onChange={(value) => handleChange('status', value)}
-                            options={[
-                                { value: 'Ship_1', label: 'Ship To 1' },
-                                { value: 'Ship_2', label: 'Ship To 2' },
-                            ]} />
-                        <SelectInput
-                            label="Bill To"
-                            value=''
-                            onChange={(value) => handleChange('status', value)}
-                            options={[
-                                { value: 'Bill_1', label: 'Bill To 1' },
-                                { value: 'Bill_2', label: 'Bill To 2' },
-                            ]} />
-                        <SelectInput
-                            label="Department"
-                            value=''
-                            onChange={(value) => handleChange('status', value)}
-                            options={[
-                                { value: 'Department_1', label: 'Department 1' },
-                                { value: 'Department_2', label: 'Department 2' },
-                            ]} />
-                        <SelectInput
-                            label="Status"
-                            value=''
-                            onChange={(value) => handleChange('status', value)}
-                            options={[
-                                { value: 'need-approval', label: 'Need Approval' },
-                                { value: 'approved', label: 'Approved' },
-                                { value: 'paid', label: 'Paid' },
-                                { value: 'waiting-payment', label: 'Waiting Payment' },
-                                { value: 'close-complete', label: 'Close/Complete' },
-                            ]} />
+                        <TextInput text='Purchase Order Number' onChange={(value) => handleChange('name', value)} />
+                        <TextInput text='Storekeeper' onChange={(value) => handleChange('name', value)} />
                     </div>
-                    <h2 className="font-semibold text-[18px] text-[#636692]">Requistion Items</h2>
+                    <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
                         <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
+                                    <TableHead>Item Code</TableHead>
                                     <TableHead>Description</TableHead>
-                                    <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Manufacturer Name</TableHead>
-                                    <TableHead>Supplier Name</TableHead>
-                                    <TableHead>Unit of Measure</TableHead>
+                                    <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
-                                    <TableHead>Price</TableHead>
-                                    <TableHead>Tax Amount</TableHead>
-                                    <TableHead>Tax Group</TableHead>
+                                    <TableHead>Bin</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -148,22 +98,19 @@ export function CreateRequisitions({ onClick }: CreateRequisitionsProps) {
                                     data.map((item) => (
                                         <TableRow>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
+                                            <TableCell>{item.itemCode}</TableCell>
                                             <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
                                             <TableCell>{item.manufacturerName}</TableCell>
-                                            <TableCell>{item.supplierName}</TableCell>
-                                            <TableCell>{item.unitOfMeasure}</TableCell>
+                                            <TableCell>{item.manufacturerCode}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>{item.price}</TableCell>
-                                            <TableCell>{item.taxAmount}</TableCell>
-                                            <TableCell>{item.taxGroup}</TableCell>
+                                            <TableCell>{item.bin}</TableCell>
                                         </TableRow>
                                     ))
                                 }
                             </TableBody>
                         </Table>
                     </div>
-                    <h2 className="font-semibold text-[18px] text-[#636692]">Requistion Items</h2>
+                    <h2 className="font-semibold text-[18px] text-[#636692]">New Items</h2>
                     <div className="flex flex-col gap-2 w-full">
                         <div className="grid grid-cols-5 gap-8">
                             <div className="col-span-1 grid grid-row-2 gap-4">

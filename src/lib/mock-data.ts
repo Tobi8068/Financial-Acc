@@ -4,6 +4,7 @@ import { SalesData } from '@/types/sales';
 import { CarrierData, ShippingData } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
+import { ReceptionsData } from '@/types/receptions';
 
 export const shippingData: ShippingData[] = [
   {
@@ -590,4 +591,8 @@ export const requisitionsData:RequisitionsData[] = [
     totalTaxAmount: 250,
     totalAmount: 1000
   },
+]
+
+export const receptionsData:ReceptionsData[] = [
+  
 ]
