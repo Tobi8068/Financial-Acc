@@ -18,6 +18,8 @@ import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import AvatarImg from '../../assets/img/Avatar.png';
 
+import DeleteDialog from '@/components/table/DeleteDialog';
+
 interface InvoiceTableProps {
   filters: InvoiceFilters;
   sortOption: SortOption;
@@ -28,6 +30,8 @@ interface InvoiceTableProps {
 export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: InvoiceTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
   const { data, totalPages, totalItems, itemsPerPage } = useInvoiceData(
     currentPage,
@@ -37,10 +41,10 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
   );
 
   useEffect(() => {
-      if(totalPages < currentPage) {
-        setCurrentPage(1);
-      }
-    }, [totalPages])
+    if (totalPages < currentPage) {
+      setCurrentPage(1);
+    }
+  }, [totalPages])
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
@@ -55,6 +59,19 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
       setSelectedItems([...selectedItems, id]);
     } else {
       setSelectedItems(selectedItems.filter(item => item !== id));
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteItemId) {
+      console.log('Deleting item with id:', deleteItemId);
+      setDeleteDialogOpen(false);
+      setDeleteItemId(null);
     }
   };
 
@@ -149,7 +166,7 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
                       <ul className="space-y-2">
                         <li onClick={() => onClickView(item)}>View</li>
                         <li>Edit</li>
-                        <li>Delete</li>
+                        <li onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>
                     </PopoverContent>
                   </Popover>
@@ -166,6 +183,11 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
+      />
+      <DeleteDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );
