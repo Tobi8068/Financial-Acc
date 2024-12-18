@@ -5,6 +5,7 @@ import { CarrierData, ShippingData } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData } from '@/types/receptions';
+import { ProductionData } from '@/types/production';
 
 export const shippingData: ShippingData[] = [
   {
@@ -593,6 +594,91 @@ export const requisitionsData:RequisitionsData[] = [
   },
 ]
 
-export const receptionsData:ReceptionsData[] = [
+export const receptionsData:ReceptionsData[] = []
   
+export const productionData:ProductionData[] = [
+  {
+    id: '#3066',
+    date: '2024-01-04',
+    name: 'Name',
+    project: 'Project',
+    productionStartDate: '2024-01-04',
+    productionEndDate: '2024-01-04',
+    status: 'Created',
+    createdBy: 'Creator Name',
+    approved: true,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3067',
+    date: '2024-01-04',
+    name: 'Name',
+    project: 'Project',
+    productionStartDate: '2024-01-04',
+    productionEndDate: '2024-01-04',
+    status: 'Waiting_Approval',
+    createdBy: 'Creator Name',
+    approved: true,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3068',
+    date: '2024-01-05',
+    name: 'Name',
+    project: 'Project',
+    productionStartDate: '2024-01-05',
+    productionEndDate: '2024-01-05',
+    status: 'Approved',
+    createdBy: 'Creator Name',
+    approved: true,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3069',
+    date: '2024-01-05',
+    name: 'Name',
+    project: 'Project',
+    productionStartDate: '2024-01-05',
+    productionEndDate: '2024-01-05',
+    status: 'Ended',
+    createdBy: 'Creator Name',
+    approved: true,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3070',
+    date: '2024-01-06',
+    name: 'Name',
+    project: 'Project',
+    productionStartDate: '2024-01-06',
+    productionEndDate: '2024-01-06',
+    status: 'Approved',
+    createdBy: 'Creator Name',
+    approved: true,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3071',
+    date: '2024-01-06',
+    name: 'Name',
+    project: 'Project',
+    productionStartDate: '2024-01-06',
+    productionEndDate: '2024-01-06',
+    status: 'Waiting_Approval',
+    createdBy: 'Creator Name',
+    approved: true,
+    approvedBy: 'Approver Name',
+  },
+  {
+    id: '#3072',
+    date: '2024-01-06',
+    name: 'Name',
+    project: 'Project',
+    productionStartDate: '2024-01-06',
+    productionEndDate: '2024-01-06',
+    status: 'Created',
+    createdBy: 'Creator Name',
+    approved: true,
+    approvedBy: 'Approver Name',
+  },
 ]
