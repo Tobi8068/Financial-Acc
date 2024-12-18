@@ -18,6 +18,8 @@ import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import AvatarImg from '../../assets/img/Avatar.png';
 
+import DeleteDialog from '@/components/table/DeleteDialog';
+
 interface ProductionTableProps {
   filters: ProductionFilters;
   sortOption: SortOption;
@@ -28,7 +30,8 @@ interface ProductionTableProps {
 export function ProductionTable({ filters, sortOption, searchQuery, onClickView }: ProductionTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
-
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
   const { data, totalPages, totalItems, itemsPerPage } = useProductionData(
     currentPage,
     filters,
@@ -58,12 +61,27 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
     }
   };
 
+  const handleDelete = (id: string) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteItemId) {
+      console.log('Deleting item with id:', deleteItemId);
+      setDeleteDialogOpen(false);
+      setDeleteItemId(null);
+    }
+  };
+
   const getStatusBadge = (status: ProductionStatus) => {
     const styles = {
       Created: 'bg-[#F5F5F5] text-[#414651]',
       Approved: 'bg-[#ECFDF3] text-[#027A48]',
       Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
       Ended: 'bg-[#F4F3FF] text-[#5925DC]',
+      Cancelled: 'bg-[#FEF3F2] text-[#9A3412]',
+      Partially_Approved: 'bg-[#FFFBEB] text-[#B45309]',
     };
 
     return (
@@ -130,7 +148,7 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
                       <ul className="space-y-2">
                         <li onClick={() => onClickView(item)}>View</li>
                         <li>Edit</li>
-                        <li>Delete</li>
+                        <li onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>
                     </PopoverContent>
                   </Popover>
@@ -147,6 +165,12 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
+      />
+
+      <DeleteDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );
