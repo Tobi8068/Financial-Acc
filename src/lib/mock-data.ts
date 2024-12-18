@@ -6,6 +6,7 @@ import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData } from '@/types/receptions';
 import { ProductionData } from '@/types/production';
+import { ReOrderData } from '@/types/reOrder';
 
 export const shippingData: ShippingData[] = [
   {
@@ -681,4 +682,64 @@ export const productionData:ProductionData[] = [
     approved: true,
     approvedBy: 'Approver Name',
   },
+]
+
+export const reOrderData:ReOrderData[] = [
+  {
+    id: '321',
+    name: 'Name',
+    date: '2024-01-04',
+    numberOfItem: 2,
+    numberOfRequisition: 2,
+    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    orderUnit: 'Order Unit',
+    preferredSupplier: 'Supplier',
+    price: 250,
+    itemCode: 'XB12345',
+    manufacturerName: 'Manufacturer',
+    manufacturerCode: 'XB12345',
+  },
+  {
+    id: '321',
+    name: 'Name',
+    date: '2024-01-04',
+    numberOfItem: 2,
+    numberOfRequisition: 2,
+    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    orderUnit: 'Order Unit',
+    preferredSupplier: 'Supplier',
+    price: 250,
+    itemCode: 'XB12345',
+    manufacturerName: 'Manufacturer',
+    manufacturerCode: 'XB12345',
+  },
+  {
+    id: '321',
+    name: 'Name',
+    date: '2024-01-04',
+    numberOfItem: 2,
+    numberOfRequisition: 2,
+    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    orderUnit: 'Order Unit',
+    preferredSupplier: 'Supplier',
+    price: 250,
+    itemCode: 'XB12345',
+    manufacturerName: 'Manufacturer',
+    manufacturerCode: 'XB12345',
+  },
+  {
+    id: '321',
+    name: 'Name',
+    date: '2024-01-04',
+    numberOfItem: 2,
+    numberOfRequisition: 2,
+    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    orderUnit: 'Order Unit',
+    preferredSupplier: 'Supplier',
+    price: 250,
+    itemCode: 'XB12345',
+    manufacturerName: 'Manufacturer',
+    manufacturerCode: 'XB12345',
+  },
+  
 ]

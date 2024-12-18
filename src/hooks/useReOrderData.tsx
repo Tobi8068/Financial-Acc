@@ -1,43 +1,42 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ProductionData, ProductionFilters } from '@/types/production';
+import { ReOrderData, ReOrderFilters } from '@/types/reOrder';
 import { SortOption } from '@/types/utils';
-import { productionData } from '@/lib/mock-data';
+import { reOrderData } from '@/lib/mock-data';
 
-export function useProductionData(
+export function useReOrderData(
   page: number,
-  filters: ProductionFilters,
+  filters: ReOrderFilters,
   sortOption: SortOption,
   searchQuery: string
 ) {
-  const [data, setData] = useState<ProductionData[]>([]);
+  const [data, setData] = useState<ReOrderData[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 5;
 
   const filteredAndSortedData = useMemo(() => {
 
-    let result = [...productionData];
+    let result = [...reOrderData];
 
     // Apply search
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(item =>
         item.id.toLowerCase().includes(query) ||
-        item.date.toLowerCase().includes(query) ||
         item.name.toLowerCase().includes(query) ||
-        item.project.toLowerCase().includes(query) ||
-        item.productionStartDate.toLowerCase().includes(query) ||
-        item.productionEndDate.toLowerCase().includes(query) ||
-        item.status.toLowerCase().includes(query) ||
-        item.createdBy.toLowerCase().includes(query) ||
-        item.approved.toString().toLowerCase().includes(query) ||
-        item.approvedBy.toString().toLowerCase().includes(query)
+        item.date.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.orderUnit.toLowerCase().includes(query) ||
+        item.preferredSupplier.toLowerCase().includes(query) ||
+        item.itemCode.toLowerCase().includes(query) ||
+        item.manufacturerName.toString().toLowerCase().includes(query) ||
+        item.manufacturerCode.toString().toLowerCase().includes(query)
       );
     }
 
     // Apply filters
-    if (filters.status && filters.status !== 'all') {
-      result = result.filter(item => item.status.toLowerCase() === filters.status);
-    }
+    // if (filters.status && filters.status !== 'all') {
+    //   result = result.filter(item => item.status.toLowerCase() === filters.status);
+    // }
     // Apply sorting
     
 
