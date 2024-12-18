@@ -18,14 +18,10 @@ import { Notes } from "@/components/organisms/notes";
 import NumberInput from "@/components/organisms/numberInput";
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
-import { useReceptionItemsData, useReceptionsData } from '@/hooks/useReceptionsData';
+import { useReceptionItemsData } from '@/hooks/useReceptionsData';
 
 interface CreateReceptionsProps {
     onClick: () => void;
-}
-interface Document {
-    id: number
-    name: string
 }
 
 export function CreateReceptions({ onClick }: CreateReceptionsProps) {
@@ -87,10 +83,6 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
     };
 
     const handleSaveItem = () => {
-
-    }
-
-    const handleSaveAndAddItem = () => {
 
     }
 
