@@ -3,6 +3,8 @@ import { Upload } from 'lucide-react';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { ReceptionItem } from "@/types/receptions";
+import { MoreVertical } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
     Table,
     TableBody,
@@ -14,6 +16,9 @@ import {
 import { Note } from "@/types/utils";
 import { Notes } from "@/components/organisms/notes";
 import NumberInput from "@/components/organisms/numberInput";
+import { Pagination } from '../../components/pagination/Pagination';
+import DeleteDialog from '@/components/table/DeleteDialog';
+import { useReceptionItemsData, useReceptionsData } from '@/hooks/useReceptionsData';
 
 interface CreateReceptionsProps {
     onClick: () => void;
@@ -57,35 +62,6 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
         },
     ])
 
-    const data: ReceptionItem[] = [
-        {
-            name: 'Computer',
-            itemCode: '352644B',
-            description: 'Monthly subscription',
-            manufacturerName: 'Apple Inc',
-            manufacturerCode: '35412AB',
-            quantity: 5,
-            bin: 5,
-        },
-        {
-            name: 'Mobile',
-            itemCode: '352644B',
-            description: 'Monthly subscription',
-            manufacturerName: 'Apple Inc',
-            manufacturerCode: '35412AB',
-            quantity: 5,
-            bin: 5,
-        },
-        {
-            name: 'Keyboard',
-            itemCode: '352644B',
-            description: 'Monthly subscription',
-            manufacturerName: 'Apple Inc',
-            manufacturerCode: '35412AB',
-            quantity: 5,
-            bin: 5,
-        },
-    ];
     const [formData, setFormData] = useState<ReceptionItem>(
         {
             name: '',
@@ -97,6 +73,14 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
             bin: 0,
         }
     );
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const { data, totalPages, totalItems, itemsPerPage } = useReceptionItemsData(
+        currentPage,
+    );
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
@@ -109,6 +93,19 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
     const handleSaveAndAddItem = () => {
 
     }
+
+    const handleDelete = (id: string) => {
+        setDeleteDialogOpen(true);
+        setDeleteItemId(id);
+    };
+
+    const handleConfirmDelete = () => {
+        if (deleteItemId) {
+            console.log('Deleting item with id:', deleteItemId);
+            setDeleteDialogOpen(false);
+            setDeleteItemId(null);
+        }
+    };
 
     return (
         <div className="relative w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
@@ -131,6 +128,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Bin</TableHead>
+                                    <TableHead>Action</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -144,12 +142,39 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                                             <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.bin}</TableCell>
+                                            <TableCell>
+                                                <Popover>
+                                                    <PopoverTrigger asChild>
+                                                        <button className="p-2 hover:bg-gray-100 rounded-full">
+                                                            <MoreVertical className="h-4 w-4" />
+                                                        </button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
+                                                        <ul className="space-y-2">
+                                                            <li>Edit</li>
+                                                            <li onClick={() => handleDelete(item.name)}>Delete</li>
+                                                        </ul>
+                                                    </PopoverContent>
+                                                </Popover>
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 }
                             </TableBody>
                         </Table>
                     </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={totalItems}
+                    />
+                    <DeleteDialog
+                        open={deleteDialogOpen}
+                        onClose={() => setDeleteDialogOpen(false)}
+                        onConfirm={handleConfirmDelete}
+                    />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-10 gap-3">
                         <div className="col-span-2"><TextInput text='Name' onChange={(value) => handleChange('name', value)} /></div>

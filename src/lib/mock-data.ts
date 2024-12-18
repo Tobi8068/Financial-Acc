@@ -4,7 +4,7 @@ import { SalesData } from '@/types/sales';
 import { CarrierData, ShippingData } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
-import { ReceptionsData } from '@/types/receptions';
+import { ReceptionsData, ReceptionItem } from '@/types/receptions';
 import { ProductionData } from '@/types/production';
 
 export const shippingData: ShippingData[] = [
@@ -145,7 +145,7 @@ export const shippingData: ShippingData[] = [
   }
 ];
 
-export const invoiceData:InvoiceData[] = [
+export const invoiceData: InvoiceData[] = [
   {
     id: '#3066',
     dateCreated: '2024-01-06',
@@ -250,7 +250,7 @@ export const invoiceData:InvoiceData[] = [
   },
 ]
 
-export const salesData:SalesData[] = [
+export const salesData: SalesData[] = [
   {
     id: '#3066',
     dateCreated: '2024-01-06',
@@ -367,11 +367,11 @@ export const salesData:SalesData[] = [
   },
 ]
 
-export const carriesData:CarrierData[] = [
+export const carriesData: CarrierData[] = [
   {
     id: '#3066',
     name: 'computer',
-    description: 'dddddddddddddddddddddddddd',  
+    description: 'dddddddddddddddddddddddddd',
     contractID: 4,
     startDate: '2022-01-06',
     endDate: '2024-01-06',
@@ -380,7 +380,7 @@ export const carriesData:CarrierData[] = [
   {
     id: '#3066',
     name: 'mobile',
-    description: 'mobile is very important of our live',  
+    description: 'mobile is very important of our live',
     contractID: 12,
     startDate: '2022-01-06',
     endDate: '2024-01-06',
@@ -388,7 +388,7 @@ export const carriesData:CarrierData[] = [
   }
 ]
 
-export const clientData:ClientData[] = [
+export const clientData: ClientData[] = [
   {
     id: '#3066',
     client: {
@@ -398,7 +398,7 @@ export const clientData:ClientData[] = [
     dateCreated: '2024-01-06',
     address: '24 Heartley Street, Old Market, Otawa',
     billingAddress: '24 Heartley Street, Old Market, Otawa',
-    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+    shippingAddress: '24 Heartley Street, Old Market, Otawa',
   },
   {
     id: '#3065',
@@ -409,7 +409,7 @@ export const clientData:ClientData[] = [
     dateCreated: '2024-01-06',
     address: '24 Heartley Street, Old Market, Otawa',
     billingAddress: '24 Heartley Street, Old Market, Otawa',
-    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+    shippingAddress: '24 Heartley Street, Old Market, Otawa',
   },
   {
     id: '#3064',
@@ -420,7 +420,7 @@ export const clientData:ClientData[] = [
     dateCreated: '2024-01-06',
     address: '24 Heartley Street, Old Market, Otawa',
     billingAddress: '24 Heartley Street, Old Market, Otawa',
-    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+    shippingAddress: '24 Heartley Street, Old Market, Otawa',
   },
   {
     id: '#3063',
@@ -431,7 +431,7 @@ export const clientData:ClientData[] = [
     dateCreated: '2024-01-06',
     address: '24 Heartley Street, Old Market, Otawa',
     billingAddress: '24 Heartley Street, Old Market, Otawa',
-    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+    shippingAddress: '24 Heartley Street, Old Market, Otawa',
   },
   {
     id: '#3062',
@@ -442,7 +442,7 @@ export const clientData:ClientData[] = [
     dateCreated: '2024-01-06',
     address: '24 Heartley Street, Old Market, Otawa',
     billingAddress: '24 Heartley Street, Old Market, Otawa',
-    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+    shippingAddress: '24 Heartley Street, Old Market, Otawa',
   },
   {
     id: '#3061',
@@ -453,11 +453,11 @@ export const clientData:ClientData[] = [
     dateCreated: '2024-01-06',
     address: '24 Heartley Street, Old Market, Otawa',
     billingAddress: '24 Heartley Street, Old Market, Otawa',
-    shippingAddress: '24 Heartley Street, Old Market, Otawa', 
+    shippingAddress: '24 Heartley Street, Old Market, Otawa',
   },
 ]
 
-export const purchaseOrderData:PurchaseOrderData[] = [
+export const purchaseOrderData: PurchaseOrderData[] = [
   {
     id: '#3066',
     dateCreated: '2024-01-06',
@@ -526,7 +526,7 @@ export const purchaseOrderData:PurchaseOrderData[] = [
   },
 ]
 
-export const requisitionsData:RequisitionsData[] = [
+export const requisitionsData: RequisitionsData[] = [
   {
     id: '#3066',
     dateCreated: '2024-01-06',
@@ -594,7 +594,7 @@ export const requisitionsData:RequisitionsData[] = [
   },
 ]
 
-export const receptionsData:ReceptionsData[] = [
+export const receptionsData: ReceptionsData[] = [
   {
     id: '#3066',
     purchaseOrderNo: 12345,
@@ -638,8 +638,38 @@ export const receptionsData:ReceptionsData[] = [
     purchaseOrder: 'Name',
   },
 ]
-  
-export const productionData:ProductionData[] = [
+
+export const receptionItemsData: ReceptionItem[] = [
+  {
+    name: 'Computer',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+  },
+  {
+    name: 'Mobile',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+  },
+  {
+    name: 'Keyboard',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+  },
+];
+
+export const productionData: ProductionData[] = [
   {
     id: '#3066',
     date: '2024-01-04',
