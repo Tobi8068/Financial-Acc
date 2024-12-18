@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/table';
 import { Note } from "@/types/utils";
 import { Notes } from "@/components/organisms/notes";
+import NumberInput from "@/components/organisms/numberInput";
 
 interface CreateReceptionsProps {
     onClick: () => void;
@@ -53,7 +54,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
             message: "Sure thing, I'll have a look today.",
             timestamp: "Friday 2:20pm",
             isYou: true
-        }
+        },
     ])
 
     const data: ReceptionItem[] = [
@@ -110,8 +111,8 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
     }
 
     return (
-        <div className="w-full flex flex-col justify-center overflow-y-auto">
-            <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
+        <div className="relative w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
+            <h2 className="text-xl font-semibold mb-6">Add Reception</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
@@ -134,8 +135,8 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item) => (
-                                        <TableRow>
+                                    data.map((item, index) => (
+                                        <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
@@ -156,7 +157,10 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                         <div className="col-span-3"><TextInput text='Description' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1"><TextInput text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1"><TextInput text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Quantity' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1">
+                            {/* <TextInput text='Quantity' onChange={(value) => handleChange('name', value)} /> */}
+                            <NumberInput label="Quantity" value={formData.quantity} onChange={(value) => handleChange('quantity', value)} />
+                        </div>
                         <div className="col-span-1">
                             <SelectInput
                                 label="Bin"
@@ -177,16 +181,16 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                         {/* Notes Section */}
-                        <Notes messages={messages}/>
+                        <Notes messages={messages} />
 
                         {/* Documents Section */}
-                        {/* <div className="bg-white rounded-lg p-6 shadow-sm">
+                        <div className="bg-transparent">
                             <h2 className="text-lg font-semibold text-gray-900 mb-6">Documents</h2>
                             <div className="space-y-3">
                                 {[1, 2, 3].map((index) => (
                                     <div
                                         key={index}
-                                        className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg"
+                                        className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white"
                                     >
                                         <input
                                             type="text"
@@ -194,18 +198,21 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                                             className="flex-1 bg-transparent focus:outline-none"
                                             readOnly
                                         />
-                                        <button className="text-gray-500 hover:text-gray-700">
-                                            <Upload className="w-5 h-5" />
-                                        </button>
+                                        <Upload className="w-5 h-5 text-gray-500 hover:text-gray-700 cursor-pointer" />
                                     </div>
                                 ))}
                             </div>
                             <div className="mt-4 flex justify-end">
-                                <button className="px-4 py-2 bg-[#1d2939] text-white rounded-lg hover:bg-[#2c3b4f] transition-colors">
+                                <button className="px-4 py-2 bg-[#3A3B55] text-white rounded-lg hover:bg-[#2c3b4f] transition-colors">
                                     Add Document
                                 </button>
                             </div>
-                        </div> */}
+                        </div>
+                    </div>
+                    <div className="w-full flex justify-end">
+                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
+                            <span className="text-white font-semibold">Create Requisition</span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -49,7 +49,7 @@ function Receptions() {
         ) : scene === 2 ? (
           <>
             <InsideNavbar text="Receptions" onClick={() => handlePage(1)} />
-            <main className="flex justify-center items-center p-6 bg-white bg-opacity-50">
+            <main className="flex justify-center items-end bg-white bg-opacity-50">
               <CreateReceptions onClick={() => handleCreate()} />
             </main>
           </>
