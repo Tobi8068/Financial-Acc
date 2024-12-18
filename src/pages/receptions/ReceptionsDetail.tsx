@@ -69,13 +69,13 @@ export function ReceptionsDetail(props: ReceptionsData) {
                                 {
                                     data.map((item) => (
                                         <TableRow>
-                                            <TableCell className='pl-6'>{item.name}</TableCell>
-                                            <TableCell>{item.itemCode}</TableCell>
-                                            <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturerName}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>{item.bin}</TableCell>
+                                            <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.bin}</TableCell>
                                         </TableRow>
                                     ))
                                 }

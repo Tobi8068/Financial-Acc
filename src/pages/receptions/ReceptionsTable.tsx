@@ -72,7 +72,6 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
                 <TableCell className='text-[#535862]'>{item.items}</TableCell>
                 <TableCell className='text-[#535862]'>{item.storeKeeper}</TableCell>
                 <TableCell className='text-[#535862]'>{item.purchaseOrder}</TableCell>
-                <TableCell className='text-[#535862]'>{item.storeKeeper}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

@@ -84,13 +84,13 @@ export function InvoiceDetail(props: InvoiceData) {
                                     data.map((item, id) => (
                                         <TableRow key={id}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
-                                            <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.unit}</TableCell>
-                                            <TableCell>{item.price}</TableCell>
-                                            <TableCell>{item.totalPerLine}</TableCell>
-                                            <TableCell>{item.taxGroup}</TableCell>
-                                            <TableCell>{item.taxAmount}</TableCell>
-                                            <TableCell>{item.account}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.unit}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.price}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.totalPerLine}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.taxGroup}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.taxAmount}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.account}</TableCell>
                                         </TableRow>
                                     ))
                                 }

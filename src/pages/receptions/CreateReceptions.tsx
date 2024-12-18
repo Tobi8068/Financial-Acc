@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { Upload } from 'lucide-react';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { CurrencyInput } from "@/components/ui/currency-input";
 import { ReceptionItem } from "@/types/receptions";
 import {
     Table,
@@ -11,12 +11,51 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { Note } from "@/types/utils";
+import { Notes } from "@/components/organisms/notes";
 
 interface CreateReceptionsProps {
     onClick: () => void;
 }
+interface Document {
+    id: number
+    name: string
+}
 
 export function CreateReceptions({ onClick }: CreateReceptionsProps) {
+    const [messages] = useState<Note[]>([
+        {
+            id: 1,
+            sender: "Phoenix Baker",
+            avatar: "/placeholder.svg?height=40&width=40",
+            message: "Hey Olivia, can you please review the latest design when you can?",
+            timestamp: "Friday 2:20pm"
+        },
+        {
+            id: 2,
+            sender: "You",
+            avatar: "/placeholder.svg?height=40&width=40",
+            message: "Sure thing, I'll have a look today.",
+            timestamp: "Friday 2:20pm",
+            isYou: true
+        },
+        {
+            id: 3,
+            sender: "Phoenix Baker",
+            avatar: "/placeholder.svg?height=40&width=40",
+            message: "Hey Olivia, can you please review the latest design when you can?",
+            timestamp: "Friday 2:20pm"
+        },
+        {
+            id: 4,
+            sender: "You",
+            avatar: "/placeholder.svg?height=40&width=40",
+            message: "Sure thing, I'll have a look today.",
+            timestamp: "Friday 2:20pm",
+            isYou: true
+        }
+    ])
+
     const data: ReceptionItem[] = [
         {
             name: 'Computer',
@@ -97,88 +136,76 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                                 {
                                     data.map((item) => (
                                         <TableRow>
-                                            <TableCell className='pl-6'>{item.name}</TableCell>
-                                            <TableCell>{item.itemCode}</TableCell>
-                                            <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturerName}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>{item.bin}</TableCell>
+                                            <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.bin}</TableCell>
                                         </TableRow>
                                     ))
                                 }
                             </TableBody>
                         </Table>
                     </div>
-                    <h2 className="font-semibold text-[18px] text-[#636692]">New Items</h2>
-                    <div className="flex flex-col gap-2 w-full">
-                        <div className="grid grid-cols-5 gap-8">
-                            <div className="col-span-1 grid grid-row-2 gap-4">
-                                <TextInput text='Name' onChange={(value) => handleChange('name', value)} />
-                                <TextInput text='Description' onChange={(value) => handleChange('description', value)} />
-                            </div>
-                            <div className="col-span-2 grid grid-row-2 gap-4">
-                                <div className="grid grid-cols-3 gap-4">
-                                    <TextInput text='Quantity' onChange={(value) => handleChange('quantity', value)} />
-                                    {/* <CurrencyInput
-                                        label="Price"
-                                        value={formData.price.toString()}
-                                        onChange={(value) => handleChange('price', value)}
-                                        currency="USD"
-                                        onCurrencyChange={(currency) => handleChange('totalTaxCurrency', currency)} /> */}
-                                    <TextInput text='Total' onChange={(value) => handleChange('client', value)} />
-                                </div>
-                                <div className="grid grid-cols-3 gap-4">
-                                    {/* <SelectInput
-                                        label="Status"
-                                        value={formData.taxGroup}
-                                        onChange={(value) => handleChange('status', value)}
-                                        options={[
-                                            { value: 'need-approval', label: 'Need Approval' },
-                                            { value: 'approved', label: 'Approved' },
-                                            { value: 'paid', label: 'Paid' },
-                                            { value: 'waiting-payment', label: 'Waiting Payment' },
-                                            { value: 'close-complete', label: 'Close/Complete' },
-                                        ]} />
-                                    <CurrencyInput
-                                        label="Tax Amount"
-                                        value={formData.taxAmount.toString()}
-                                        onChange={(value) => handleChange('totalTaxAmount', value)}
-                                        currency="USD"
-                                        onCurrencyChange={(currency) => handleChange('totalTaxCurrency', currency)} />
-                                    <SelectInput
-                                        label="Unit of Measure"
-                                        value={formData.unitOfMeasure}
-                                        onChange={(value) => handleChange('status', value)}
-                                        options={[
-                                            { value: 'need-approval', label: 'Need Approval' },
-                                            { value: 'approved', label: 'Approved' },
-                                            { value: 'paid', label: 'Paid' },
-                                            { value: 'waiting-payment', label: 'Waiting Payment' },
-                                            { value: 'close-complete', label: 'Close/Complete' },
-                                        ]} /> */}
-                                </div>
-                            </div>
-                            <div className="col-span-2 grid grid-row-2 gap-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <TextInput text="Supplier" onChange={(value) => handleChange('shipTo', value)} />
-                                    <TextInput text="Supplier Code" onChange={(value) => handleChange('shipTo', value)} />
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <TextInput text="Manufacturer Name" onChange={(value) => handleChange('shipTo', value)} />
-                                    <TextInput text="Manufacturer Code" onChange={(value) => handleChange('shipTo', value)} />
-                                </div>
-                            </div>
+                    <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
+                    <div className="w-full grid grid-cols-10 gap-3">
+                        <div className="col-span-2"><TextInput text='Name' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Item Code' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-3"><TextInput text='Description' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Quantity' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1">
+                            <SelectInput
+                                label="Bin"
+                                value={formData.bin.toString()}
+                                onChange={(value) => handleChange('bin', value)}
+                                options={[
+                                    { value: '1', label: '1' },
+                                    { value: '2', label: '2' },
+                                    { value: '3', label: '3' },
+                                    { value: '4', label: '4' },
+                                    { value: '5', label: '5' },
+                                ]} />
                         </div>
                     </div>
+                    <hr className="border-t border-[#D7D8E4] w-full" />
                     <div className="w-full flex gap-4 justify-end">
-                        <span className="cursor-pointer bg-white px-3 py-1 rounded-md text-[#414651] w-fit" onClick={handleSaveAndAddItem}>Save & Add Another</span>
                         <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
                     </div>
-                    <div className="w-full flex justify-end">
-                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
-                            <span className="text-white font-semibold">Create Requisition</span>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                        {/* Notes Section */}
+                        <Notes messages={messages}/>
+
+                        {/* Documents Section */}
+                        {/* <div className="bg-white rounded-lg p-6 shadow-sm">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-6">Documents</h2>
+                            <div className="space-y-3">
+                                {[1, 2, 3].map((index) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg"
+                                    >
+                                        <input
+                                            type="text"
+                                            placeholder="Upload Document"
+                                            className="flex-1 bg-transparent focus:outline-none"
+                                            readOnly
+                                        />
+                                        <button className="text-gray-500 hover:text-gray-700">
+                                            <Upload className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="mt-4 flex justify-end">
+                                <button className="px-4 py-2 bg-[#1d2939] text-white rounded-lg hover:bg-[#2c3b4f] transition-colors">
+                                    Add Document
+                                </button>
+                            </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

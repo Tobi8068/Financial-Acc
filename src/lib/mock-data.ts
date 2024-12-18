@@ -594,7 +594,50 @@ export const requisitionsData:RequisitionsData[] = [
   },
 ]
 
-export const receptionsData:ReceptionsData[] = []
+export const receptionsData:ReceptionsData[] = [
+  {
+    id: '#3066',
+    purchaseOrderNo: 12345,
+    items: 'Item',
+    storeKeeper: 'Store Keeper',
+    purchaseOrder: 'Name',
+  },
+  {
+    id: '#3067',
+    purchaseOrderNo: 12345,
+    items: 'Item',
+    storeKeeper: 'Name',
+    purchaseOrder: 'Name',
+  },
+  {
+    id: '#3068',
+    purchaseOrderNo: 12345,
+    items: 'Item',
+    storeKeeper: 'Name',
+    purchaseOrder: 'Name',
+  },
+  {
+    id: '#3069',
+    purchaseOrderNo: 12345,
+    items: 'Item',
+    storeKeeper: 'Name',
+    purchaseOrder: 'Name',
+  },
+  {
+    id: '#3070',
+    purchaseOrderNo: 12345,
+    items: 'Item',
+    storeKeeper: 'Name',
+    purchaseOrder: 'Name',
+  },
+  {
+    id: '#3071',
+    purchaseOrderNo: 12345,
+    items: 'Item',
+    storeKeeper: 'Name',
+    purchaseOrder: 'Name',
+  },
+]
   
 export const productionData:ProductionData[] = [
   {

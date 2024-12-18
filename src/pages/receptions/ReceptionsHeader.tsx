@@ -18,7 +18,7 @@ export function ReceptionsHeader({
         <h2 className="text-2xl font-semibold text-gray-900">Receptions</h2>
         <Button className="gap-2" onClick={() => { onCreate() }}>
           <Plus className="h-4 w-4" />
-          Create Requisition
+          Add Reception
         </Button>
       </div>
       
