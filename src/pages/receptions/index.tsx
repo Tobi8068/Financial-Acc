@@ -56,7 +56,7 @@ function Receptions() {
         ) : scene === 3 ? (
           <>
             <InsideNavbar text="Receptions" onClick={() => handlePage(1)} />
-            <main className="flex-1 p-6 bg-white bg-opacity-50">
+            <main className="flex-1 bg-white bg-opacity-50">
               <ReceptionsDetail {...detailData} />
             </main>
           </>

@@ -13,50 +13,18 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Note } from "@/types/utils";
 import { Notes } from "@/components/organisms/notes";
 import NumberInput from "@/components/organisms/numberInput";
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useReceptionItemsData } from '@/hooks/useReceptionsData';
+import { messageData } from "@/lib/message-data";
 
 interface CreateReceptionsProps {
     onClick: () => void;
 }
 
 export function CreateReceptions({ onClick }: CreateReceptionsProps) {
-    const [messages] = useState<Note[]>([
-        {
-            id: 1,
-            sender: "Phoenix Baker",
-            avatar: "/placeholder.svg?height=40&width=40",
-            message: "Hey Olivia, can you please review the latest design when you can?",
-            timestamp: "Friday 2:20pm"
-        },
-        {
-            id: 2,
-            sender: "You",
-            avatar: "/placeholder.svg?height=40&width=40",
-            message: "Sure thing, I'll have a look today.",
-            timestamp: "Friday 2:20pm",
-            isYou: true
-        },
-        {
-            id: 3,
-            sender: "Phoenix Baker",
-            avatar: "/placeholder.svg?height=40&width=40",
-            message: "Hey Olivia, can you please review the latest design when you can?",
-            timestamp: "Friday 2:20pm"
-        },
-        {
-            id: 4,
-            sender: "You",
-            avatar: "/placeholder.svg?height=40&width=40",
-            message: "Sure thing, I'll have a look today.",
-            timestamp: "Friday 2:20pm",
-            isYou: true
-        },
-    ])
 
     const [formData, setFormData] = useState<ReceptionItem>(
         {
@@ -100,7 +68,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
     };
 
     return (
-        <div className="relative w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
+        <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
             <h2 className="text-xl font-semibold mb-6">Add Reception</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
@@ -198,7 +166,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                         {/* Notes Section */}
-                        <Notes messages={messages} />
+                        <Notes messages={messageData} />
 
                         {/* Documents Section */}
                         <div className="bg-transparent">
