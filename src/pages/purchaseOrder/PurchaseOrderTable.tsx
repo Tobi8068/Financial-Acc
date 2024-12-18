@@ -12,10 +12,8 @@ import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { usePurchaseOrderData } from '@/hooks/usePurchaseOrderData';
 import { PurchaseOrderStatus, PurchaseOrderFilters } from '@/types/purchaseOrder';
-import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
-import AvatarImg from '../../assets/img/Avatar.png';
 
 interface PurchaseOrderTableProps {
   filters: PurchaseOrderFilters;

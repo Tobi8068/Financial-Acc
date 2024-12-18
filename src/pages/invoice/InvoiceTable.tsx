@@ -29,7 +29,7 @@ interface InvoiceTableProps {
 
 export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: InvoiceTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  // const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
@@ -125,7 +125,7 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
             {data.map((item) => (
               <TableRow
                 key={item.id}
-                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
+                // className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
                 {/* <TableCell>
                   <Checkbox
