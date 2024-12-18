@@ -24,13 +24,14 @@ export function Navigation() {
       <NavItem icon={Users} label="Clients" />
       <NavItem icon={Receipt} label="Bills" />
       <NavItem icon={BookOpen} label="Journal" />
-      <NavItem icon={LayoutGrid} label="T-Account" />
-      <NavItem icon={ClipboardCheck} label="Trial Balance" />
+      {/* <NavItem icon={LayoutGrid} label="T-Account" /> */}
+      {/* <NavItem icon={ClipboardCheck} label="Trial Balance" /> */}
       <NavItem icon={FileBarChart} label="Financial Statement" />
       <NavItem icon={Package2} label="Inventory" />
       <NavItem icon={ClipboardList} label="Requisitions" />
       <NavItem icon={LayoutGrid} label="Purchase Order" />
       <NavItem icon={LayoutGrid} label="Count" />
+      <NavItem icon={LayoutGrid} label="Production" />
       {/* <NavItem icon={LayoutGrid} label="Issues" />
       <NavItem icon={LayoutGrid} label="Receptions" />
       <NavItem icon={LayoutGrid} label="Reorder" />
