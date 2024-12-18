@@ -26,7 +26,6 @@ interface SalesTableProps {
 
 export function SalesTable({ filters, sortOption, searchQuery, onClickView }: SalesTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const { data, totalPages, totalItems, itemsPerPage } = useSalesData(
     currentPage,
@@ -75,7 +74,6 @@ export function SalesTable({ filters, sortOption, searchQuery, onClickView }: Sa
             {data.map((item) => (
               <TableRow
                 key={item.id}
-                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
                 {/* <TableCell>
                   <Checkbox
