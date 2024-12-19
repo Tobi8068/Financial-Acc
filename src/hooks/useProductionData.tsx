@@ -30,7 +30,7 @@ export function useProductionData(
         item.status.toLowerCase().includes(query) ||
         item.createdBy.toLowerCase().includes(query) ||
         item.approved.toString().toLowerCase().includes(query) ||
-        item.approvedBy.toString().toLowerCase().includes(query)
+        item.approvedBy.toLowerCase().includes(query)
       );
     }
 

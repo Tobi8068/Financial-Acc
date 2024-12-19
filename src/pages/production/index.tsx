@@ -59,7 +59,6 @@ function Production() {
               />
             </main>
           </>
-
         ) : scene === 2 ? (
           <>
             <InsideNavbar text="Production" onClick={() => handlePage(1)} />
