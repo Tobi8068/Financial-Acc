@@ -70,13 +70,20 @@ export function useRequisitionsData(
       try {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
           method: 'GET',
-          mode: 'no-cors',
           headers: {
-            'Content-Type': 'application/json'
-          }
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          },
+          credentials: 'include'
         });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
-        const data = await response.json();
+        const text = await response.text(); // First get the raw response text
+        const data = text ? JSON.parse(text) : null; // Then parse if there's content
         console.log("Data", data);
       } catch (error) {
         console.error("Error fetching requisitions:", error);
