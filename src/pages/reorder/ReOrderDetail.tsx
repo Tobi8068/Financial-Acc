@@ -118,7 +118,6 @@ export function ReOrderDetail(props: ReOrderData) {
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">No. of Requisitions:&nbsp;</span><span>{props.numberOfRequisition}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Description:&nbsp;</span><span>{props.description}</span></div>
                     </div>
-
                     <div className="space-y-4">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Order Unit:&nbsp;</span><span>{props.orderUnit}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Preferred Supplier:&nbsp;</span><span>{props.preferredSupplier}</span></div>
@@ -128,7 +127,6 @@ export function ReOrderDetail(props: ReOrderData) {
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Manufacturer Code:&nbsp;</span><span>{props.manufacturerCode}</span></div>
                     </div>
                 </div>
-
                 <div className='flex flex-col gap-6'>
                     <h2>Reorder Items</h2>
                     <div className='rounded-lg border bg-white'>
