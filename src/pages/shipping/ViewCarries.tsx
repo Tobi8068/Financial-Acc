@@ -1,7 +1,7 @@
 'use client'
 
 import * as Dialog from '@radix-ui/react-dialog'
-import { CircleX, X } from 'lucide-react'
+import { CircleX } from 'lucide-react'
 
 interface CarrierDetailsProps {
     carrier?: {
@@ -15,7 +15,7 @@ interface CarrierDetailsProps {
     onClose: () => void;
 }
 
-export default function CarrierDetails({ open, onClose, carrier }: CarrierDetailsProps) {
+export default function CarrierDetails({ open, onClose }: CarrierDetailsProps) {
     return (
         <Dialog.Root open={open} onOpenChange={onClose}>
             <Dialog.Trigger asChild>
@@ -92,15 +92,15 @@ export default function CarrierDetails({ open, onClose, carrier }: CarrierDetail
 }
 
 // Example usage:
-function Example() {
-    const carrier = {
-        name: "Computer",
-        contractId: "lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol",
-        contractStartDate: "Apple Inc",
-        contractEndDate: "16 Jan, 2025",
-        contractStatus: "Active"
-    }
+// function Example() {
+//     const carrier = {
+//         name: "Computer",
+//         contractId: "lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol",
+//         contractStartDate: "Apple Inc",
+//         contractEndDate: "16 Jan, 2025",
+//         contractStatus: "Active"
+//     }
 
-    return <CarrierDetails carrier={carrier} />
-}
+//     return <CarrierDetails carrier={carrier} />
+// }
 

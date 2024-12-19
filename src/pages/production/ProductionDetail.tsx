@@ -10,7 +10,6 @@ import { formatDate } from '@/lib/date';
 import { ProductionData, ProductionItem } from '@/types/production';
 import { Badge } from '@/components/ui/badge';
 import { ProductionStatus } from '@/types/production';
-import { Cancel } from '@radix-ui/react-alert-dialog';
 
 export function ProductionDetail(props: ProductionData) {
     const data: ProductionItem[] = [
@@ -102,8 +101,8 @@ export function ProductionDetail(props: ProductionData) {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item) => (
-                                        <TableRow>
+                                    data.map((item, index) => (
+                                        <TableRow key={index}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
                                             <TableCell>{item.manufacturerCode}</TableCell>

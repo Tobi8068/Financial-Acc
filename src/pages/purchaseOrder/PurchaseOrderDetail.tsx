@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/table';
 import { PurchaseOrderData, PurchaseOrderDetailData, PurchaseOrderStatus } from '@/types/purchaseOrder';
 import { Badge } from '@/components/ui/badge';
+import { formatDate } from '@/lib/date';
 
 export function PurchaseOrderDetail(props: PurchaseOrderData) {
     const data: PurchaseOrderDetailData[] = [
@@ -105,7 +106,7 @@ export function PurchaseOrderDetail(props: PurchaseOrderData) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                     <div className="space-y-4">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Number:&nbsp;</span><span>{props.id}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date Created:&nbsp;</span><span>{props.dateCreated}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date Created:&nbsp;</span><span>{formatDate(props.dateCreated)}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Ship To:&nbsp;</span><span>{props.shipTo}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Bill To:&nbsp;</span><span>{props.billTo}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Department:&nbsp;</span><span>{props.department}</span></div>
@@ -140,8 +141,8 @@ export function PurchaseOrderDetail(props: PurchaseOrderData) {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item) => (
-                                        <TableRow>
+                                    data.map((item, index) => (
+                                        <TableRow key={index}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
                                             <TableCell>{item.manufacturerCode}</TableCell>

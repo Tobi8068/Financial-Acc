@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PurchaseOrderData, PurchaseOrderFilters } from '@/types/purchaseOrder';
-import { SortOption } from '@/types/utils';
 import { purchaseOrderData } from '@/lib/mock-data';
 
 export function usePurchaseOrderData(
@@ -38,9 +37,6 @@ export function usePurchaseOrderData(
 
     return result;
   }, [purchaseOrderData, filters, searchQuery]);
-
-  useEffect(() => {
-  }, []);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;

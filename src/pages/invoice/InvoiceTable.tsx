@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
+// import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useInvoiceData } from '@/hooks/useInvoiceData';
@@ -16,7 +16,7 @@ import { InvoiceStatus, InvoiceFilters } from '@/types/invoice';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
-import AvatarImg from '../../assets/img/Avatar.png';
+import AvatarImg from '../../assets/img/avatar.png';
 
 import DeleteDialog from '@/components/table/DeleteDialog';
 
@@ -29,7 +29,7 @@ interface InvoiceTableProps {
 
 export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: InvoiceTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  // const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
@@ -46,21 +46,21 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
     }
   }, [totalPages])
 
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedItems(data.map(item => item.id));
-    } else {
-      setSelectedItems([]);
-    }
-  };
+  // const handleSelectAll = (checked: boolean) => {
+  //   if (checked) {
+  //     setSelectedItems(data.map(item => item.id));
+  //   } else {
+  //     setSelectedItems([]);
+  //   }
+  // };
 
-  const handleSelectItem = (id: string, checked: boolean) => {
-    if (checked) {
-      setSelectedItems([...selectedItems, id]);
-    } else {
-      setSelectedItems(selectedItems.filter(item => item !== id));
-    }
-  };
+  // const handleSelectItem = (id: string, checked: boolean) => {
+  //   if (checked) {
+  //     setSelectedItems([...selectedItems, id]);
+  //   } else {
+  //     setSelectedItems(selectedItems.filter(item => item !== id));
+  //   }
+  // };
 
   const handleDelete = (id: string) => {
     setDeleteDialogOpen(true);
@@ -122,10 +122,10 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
           </TableHeader>
 
           <TableBody>
-            {data.map((item) => (
+            {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
-                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
+                // className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
                 {/* <TableCell>
                   <Checkbox

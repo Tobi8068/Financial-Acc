@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Plus, Filter } from 'lucide-react';
-import { InvoiceFilters, InvoiceStatus } from '@/types/invoice';
+import { InvoiceFilters } from '@/types/invoice';
 import { SortOption } from '@/types/utils';
 
 interface InvoiceProps {
@@ -21,7 +21,7 @@ interface InvoiceProps {
 
 export function InvoiceHeader({ 
   onFiltersChange, 
-  onSortChange, 
+  // onSortChange, 
   onSearchChange,
   onCreate,
 }: InvoiceProps) {

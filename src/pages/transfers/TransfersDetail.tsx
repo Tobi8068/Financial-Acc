@@ -47,12 +47,12 @@ export function TransfersDetail(props: TransfersData) {
                 <h2 className='text-[#636692] font-semibold'>Transfer Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">Transfer No.:&nbsp;</span><span>{props.id}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Transfer No:&nbsp;</span><span>{props.id}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{props.date}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reason:&nbsp;</span><span>{props.reason}</span></div>
                     </div>
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">Created By:&nbsp;</span><span>{props.createdBy.name}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created By:&nbsp;</span><span>{props.createdBy.name}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                     </div>
                 </div>
@@ -74,8 +74,8 @@ export function TransfersDetail(props: TransfersData) {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item) => (
-                                        <TableRow>
+                                    data.map((item, index) => (
+                                        <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>

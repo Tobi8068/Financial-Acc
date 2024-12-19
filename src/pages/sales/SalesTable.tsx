@@ -15,7 +15,7 @@ import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import { getStatusBadge } from './SalesBadge';
-import AvatarImg from '../../assets/img/Avatar.png';
+import AvatarImg from '../../assets/img/avatar.png';
 
 interface SalesTableProps {
   filters: SalesFilters;
@@ -26,7 +26,6 @@ interface SalesTableProps {
 
 export function SalesTable({ filters, sortOption, searchQuery, onClickView }: SalesTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const { data, totalPages, totalItems, itemsPerPage } = useSalesData(
     currentPage,
@@ -40,22 +39,6 @@ export function SalesTable({ filters, sortOption, searchQuery, onClickView }: Sa
       setCurrentPage(1);
     }
   }, [totalPages])
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedItems(data.map(item => item.id));
-    } else {
-      setSelectedItems([]);
-    }
-  };
-
-  const handleSelectItem = (id: string, checked: boolean) => {
-    if (checked) {
-      setSelectedItems([...selectedItems, id]);
-    } else {
-      setSelectedItems(selectedItems.filter(item => item !== id));
-    }
-  };
 
   return (
     <div className="space-y-4">
@@ -88,10 +71,9 @@ export function SalesTable({ filters, sortOption, searchQuery, onClickView }: Sa
           </TableHeader>
 
           <TableBody>
-            {data.map((item) => (
+            {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
-                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
                 {/* <TableCell>
                   <Checkbox

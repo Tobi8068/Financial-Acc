@@ -10,7 +10,6 @@ import { formatDate } from '@/lib/date';
 import { ReOrderData, ReOrderItem } from '@/types/reOrder';
 import { Badge } from '@/components/ui/badge';
 import { ReOrderStatus } from '@/types/reOrder';
-import { Cancel } from '@radix-ui/react-alert-dialog';
 
 export function ReOrderDetail(props: ReOrderData) {
     const data: ReOrderItem[] = [
@@ -153,8 +152,8 @@ export function ReOrderDetail(props: ReOrderData) {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item) => (
-                                        <TableRow>
+                                    data.map((item, index) => (
+                                        <TableRow key={index}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
                                             <TableCell>{item.manufacturerCode}</TableCell>

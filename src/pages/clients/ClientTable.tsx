@@ -19,7 +19,6 @@ interface ClientTableProps {
 
 export function ClientTable({ searchQuery }: ClientTableProps) {
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
     const { data, totalPages, totalItems, itemsPerPage } = useClientData(
         currentPage,
@@ -43,10 +42,9 @@ export function ClientTable({ searchQuery }: ClientTableProps) {
                     </TableHeader>
 
                     <TableBody>
-                        {data.map((item) => (
+                        {data.length !== 0 && data.map((item) => (
                             <TableRow
                                 key={item.id}
-                                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
                             >
                                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                                 <TableCell className='text-[#535862]'>

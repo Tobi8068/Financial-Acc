@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import { ProductionFilters } from '@/types/production';
 import { SortOption } from '@/types/utils';
 
@@ -21,7 +21,7 @@ interface ProductionProps {
 
 export function ProductionHeader({ 
   onFiltersChange, 
-  onSortChange, 
+  // onSortChange, 
   onSearchChange,
   onCreate,
 }: ProductionProps) {

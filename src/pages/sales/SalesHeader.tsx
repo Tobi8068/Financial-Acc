@@ -19,7 +19,6 @@ interface InvoiceProps {
 
 export function SalesHeader({ 
   onFiltersChange, 
-  onSortChange, 
   onSearchChange,
 }: InvoiceProps) {
   const [filters, setFilters] = useState<SalesFilters>({
