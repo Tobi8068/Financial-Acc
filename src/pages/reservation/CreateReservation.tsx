@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Upload } from 'lucide-react';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { ReceptionItem } from "@/types/receptions";
+import { ReservationItem } from "@/types/reservation";
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -17,16 +17,20 @@ import { Notes } from "@/components/organisms/notes";
 import NumberInput from "@/components/organisms/numberInput";
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
-import { useReceptionItemsData } from '@/hooks/useReceptionsData';
+import { useReservationItemsData } from '@/hooks/useReservationData';
 import { messageData } from "@/lib/message-data";
+import { DateInput } from "@/components/ui/date-input";
 
-interface CreateReceptionsProps {
+interface CreateReservationProps {
     onClick: () => void;
 }
 
-export function CreateReceptions({ onClick }: CreateReceptionsProps) {
+export function CreateReservation({ onClick }: CreateReservationProps) {
 
-    const [formData, setFormData] = useState<ReceptionItem>(
+    const [currentPage, setCurrentPage] = useState(1);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+    const [formDataItem, setFormDataItem] = useState<ReservationItem>(
         {
             name: '',
             itemCode: '',
@@ -37,22 +41,28 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
             bin: 0,
         }
     );
-    const [currentPage, setCurrentPage] = useState(1);
+    const [formData, setFormData] = useState<any>(
+        {
+            reservationDate: '',
+            project: '',
+            storeKeeper: '',
+            reservedBy: '',
+            status: '',
+        }
+    );
 
-    const { data, totalPages, totalItems, itemsPerPage } = useReceptionItemsData(
+    const { data, totalPages, totalItems, itemsPerPage } = useReservationItemsData(
         currentPage,
     );
 
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
-
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
+        setFormDataItem({ ...formDataItem, [field]: value });
     };
 
     const handleSaveItem = () => {
 
-    }
+    };
 
     const handleDelete = (id: string) => {
         setDeleteDialogOpen(true);
@@ -73,8 +83,25 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput text='Purchase Order Number' onChange={(value) => handleChange('name', value)} />
-                        <TextInput text='Storekeeper' onChange={(value) => handleChange('name', value)} />
+                        <DateInput text='Reservation Date' onChange={(value) => handleChange('name', value)} />
+                        <TextInput text='Project' onChange={(value) => handleChange('project', value)} />
+                        <TextInput text='Storekeeper' onChange={(value) => handleChange('storeKeeper', value)} />
+                    </div>
+                    <div className="grid w-full grid-cols-4 gap-12">
+                        <TextInput text='Reservation By' onChange={(value) => handleChange('reservedBy', value)} />
+                        <SelectInput
+                            label="Status"
+                            value={formData.status}
+                            onChange={(value) => handleChange('status', value)}
+                            options={[
+                                { value: 'created', label: 'Created' },
+                                { value: 'approved', label: 'Approved' },
+                                { value: 'completed', label: 'Completed' },
+                                { value: 'cancelled', label: 'Cancelled' },
+                            ]} />
+                    </div>
+                    <div className="grid w-full grid-cols-4 gap-12">
+                        <TextInput text='Reason' onChange={(value) => handleChange('reason', value)} />
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -143,13 +170,12 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                         <div className="col-span-1"><TextInput text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1"><TextInput text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1">
-                            {/* <TextInput text='Quantity' onChange={(value) => handleChange('name', value)} /> */}
-                            <NumberInput label="Quantity" value={formData.quantity} onChange={(value) => handleChange('quantity', value)} />
+                            <NumberInput label="Quantity" value={formDataItem.quantity} onChange={(value) => handleChange('quantity', value)} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput
                                 label="Bin"
-                                value={formData.bin.toString()}
+                                value={formDataItem.bin.toString()}
                                 onChange={(value) => handleChange('bin', value)}
                                 options={[
                                     { value: '1', label: '1' },
@@ -196,7 +222,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                     </div>
                     <div className="w-full flex justify-end">
                         <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
-                            <span className="text-white font-semibold">Create Requisition</span>
+                            <span className="text-white font-semibold">Add Reservation</span>
                         </div>
                     </div>
                 </div>

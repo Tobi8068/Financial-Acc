@@ -8,28 +8,50 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { ReceptionsData } from '@/types/receptions';
-import { useReceptionItemsData } from '@/hooks/useReceptionsData';
+import { ReservationData, ReservationStatus } from '@/types/reservation';
+import { useReservationItemsData } from '@/hooks/useReservationData';
 import { Pagination } from '../../components/pagination/Pagination';
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
+import { Badge } from '@/components/ui/badge';
 
-export function ReceptionsDetail(props: ReceptionsData) {
+export function ReservationDetail(props: ReservationData) {
     const [currentPage, setCurrentPage] = useState(1);
 
-    const { data, totalPages, totalItems, itemsPerPage } = useReceptionItemsData(
+    const { data, totalPages, totalItems, itemsPerPage } = useReservationItemsData(
         currentPage,
     );
+
+    const getStatusBadge = (status: ReservationStatus) => {
+        const styles = {
+            Created: 'bg-red-100 text-red-800',
+            Approved: 'bg-green-100 text-green-800',
+            Completed: 'bg-[#FEF6ED] text-[#C4320A]',
+            Cancelled: 'bg-gray-100 text-green-800',
+        };
+
+        return (
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
+        );
+    };
+
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-200px)]">
-            <h2 className="text-xl font-semibold">Receptions Details</h2>
+            <h2 className="text-xl font-semibold">Reservations Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
-                <h2 className='text-[#636692] font-semibold'>Reception Info</h2>
+                <h2 className='text-[#636692] font-semibold'>Reservation Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">Purchase Order No:&nbsp;</span><span>{props.purchaseOrderNo}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">StoreKeeper:&nbsp;</span><span>{props.storeKeeper}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Purchase Order:&nbsp;</span><span>{props.purchaseOrder}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{props.dateCreated}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">StoreKeeper:&nbsp;</span><span>{props.storeKeeper.name}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reason:&nbsp;</span><span>{props.reason}</span></div>
+                    </div>
+                    <div className="space-y-3">
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reservation Date:&nbsp;</span><span>{props.reservationDate}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reserved By:&nbsp;</span><span>{props.reservedBy.name}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                     </div>
                 </div>
                 <div className='flex flex-col gap-6'>

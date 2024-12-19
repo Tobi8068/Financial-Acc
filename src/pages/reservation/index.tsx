@@ -1,20 +1,30 @@
 import { useState } from "react";
 import { ReservationHeader } from "./ReservationHeader";
 import { ReservationTable } from "./ReservationTable";
-import { ReceptionsData } from "@/types/receptions";
-import { CreateReceptions } from "./CreateReservation";
+import { ReservationData } from "@/types/reservation";
+import { CreateReservation } from "./CreateReservation";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
-import { ReceptionsDetail } from "./ReservationDetail";
+import { ReservationDetail } from "./ReservationDetail";
 
-function Receptions() {
+function Reservation() {
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
-  const [detailData, setDetailData] = useState<ReceptionsData>({
+  const [detailData, setDetailData] = useState<ReservationData>({
     id: '',
-    purchaseOrderNo: 0,
+    dateCreated: '',
     items: '',
-    storeKeeper: '',
-    purchaseOrder: '',
+    reservationDate: '',
+    reason: '',
+    project: '',
+    storeKeeper: {
+      name: '',
+      avatar: '',
+    },
+    reservedBy: {
+      name: '',
+      avatar: '',
+    },
+    status: 'Approved',
   });
 
   const handlePage = (page: number) => {
@@ -48,16 +58,16 @@ function Receptions() {
 
         ) : scene === 2 ? (
           <>
-            <InsideNavbar text="Receptions" onClick={() => handlePage(1)} />
+            <InsideNavbar text="Reservation" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-end bg-white bg-opacity-50">
-              <CreateReceptions onClick={() => handleCreate()} />
+              <CreateReservation onClick={() => handleCreate()} />
             </main>
           </>
         ) : scene === 3 ? (
           <>
-            <InsideNavbar text="Receptions" onClick={() => handlePage(1)} />
+            <InsideNavbar text="Reservation" onClick={() => handlePage(1)} />
             <main className="flex-1 bg-white bg-opacity-50">
-              <ReceptionsDetail {...detailData} />
+              <ReservationDetail {...detailData} />
             </main>
           </>
         ) : ''
@@ -66,4 +76,4 @@ function Receptions() {
   );
 }
 
-export default Receptions;
+export default Reservation;

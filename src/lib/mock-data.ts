@@ -943,7 +943,7 @@ export const transfersItemsData: TransfersItems[] = [
 
 export const reservationData:ReservationData[] = [
   {
-    id: '#3066',
+    id: '#3063',
     dateCreated: '2024-01-06',
     items: 'Item',
     reservationDate: '2024-01-06',
@@ -959,11 +959,63 @@ export const reservationData:ReservationData[] = [
     },
     status: 'Approved',
   },
+  {
+    id: '#3064',
+    dateCreated: '2024-01-06',
+    items: 'aa',
+    reservationDate: '2024-01-06',
+    reason: 'bb',
+    project: 'cc',
+    storeKeeper: {
+      name: 'dd',
+      avatar: '',
+    },
+    reservedBy: {
+      name: 'ee',
+      avatar: '',
+    },
+    status: 'Approved',
+  },
+  {
+    id: '#3065',
+    dateCreated: '2024-01-06',
+    items: 'ff',
+    reservationDate: '2024-01-06',
+    reason: 'gg',
+    project: 'hh',
+    storeKeeper: {
+      name: 'ii',
+      avatar: '',
+    },
+    reservedBy: {
+      name: 'jj',
+      avatar: '',
+    },
+    status: 'Cancelled',
+  },
 ]
 
 export const reservationItemsData:ReservationItem[] = [
   {
     name: '#3066',
+    itemCode: "35412AB",
+    description: "Monthly subscription",
+    manufacturerName: "Apple Inc.",
+    manufacturerCode: "35412AB",
+    quantity: 5,
+    bin: 5,
+  },
+  {
+    name: '#3067',
+    itemCode: "35412AB",
+    description: "Monthly subscription",
+    manufacturerName: "Apple Inc.",
+    manufacturerCode: "35412AB",
+    quantity: 5,
+    bin: 5,
+  },
+  {
+    name: '#3068',
     itemCode: "35412AB",
     description: "Monthly subscription",
     manufacturerName: "Apple Inc.",

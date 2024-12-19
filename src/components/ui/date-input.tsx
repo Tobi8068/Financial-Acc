@@ -29,7 +29,7 @@ export function DateInput(props: DateInputProps) {
     return (
         <div className="space-y-1 gap-3 flex flex-col ">
             <DatePicker
-                label="Date Created"
+                label={props.text}
                 onChange={(date) => props.onChange(date)}
             />
         </div>

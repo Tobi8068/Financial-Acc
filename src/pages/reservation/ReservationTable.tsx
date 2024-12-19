@@ -12,6 +12,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useReservationData } from '@/hooks/useReservationData';
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
+import { Badge } from '@/components/ui/badge';
+import { ReservationStatus } from '@/types/reservation';
 import AvatarImg from '../../assets/img/Avatar.png';
 
 interface ReservationTableProps {
@@ -48,6 +50,21 @@ export function ReservationTable({ searchQuery, onClickView }: ReservationTableP
     }
   };
 
+  const getStatusBadge = (status: ReservationStatus) => {
+    const styles = {
+      Created: 'bg-red-100 text-red-800',
+      Approved: 'bg-green-100 text-green-800',
+      Completed: 'bg-[#FEF6ED] text-[#C4320A]',
+      Cancelled: 'bg-gray-100 text-green-800',
+    };
+
+    return (
+      <Badge className={styles[status]} variant="secondary">
+        {status.replace("_", " ").replace("0", "/")}
+      </Badge>
+    );
+  };
+
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-white">
@@ -60,7 +77,7 @@ export function ReservationTable({ searchQuery, onClickView }: ReservationTableP
               <TableHead>Reservation Date</TableHead>
               <TableHead>Reason</TableHead>
               <TableHead>Project</TableHead>
-              <TableHead>Storekeeper</TableHead>
+              <TableHead>Store keeper</TableHead>
               <TableHead>Reserved By</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-12">Action</TableHead>
@@ -78,16 +95,27 @@ export function ReservationTable({ searchQuery, onClickView }: ReservationTableP
                 <TableCell className='text-[#535862]'>{item.reservationDate}</TableCell>
                 <TableCell className='text-[#535862]'>{item.reason}</TableCell>
                 <TableCell className='text-[#535862]'>{item.project}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-1'>
-                  <div>
-                    <img src={AvatarImg} className='rounded-[100%]'></img>
-                  </div>
-                  <div className='flex flex-col'>
-                    <span>{item.createdBy.name}</span>
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-1'>
+                    <div>
+                      <img src={AvatarImg} className='rounded-[100%]'></img>
+                    </div>
+                    <div className='flex flex-col'>
+                      <span>{item.storeKeeper.name}</span>
+                    </div>
                   </div>
                 </TableCell>
-                <TableCell className='text-[#535862]'>{item.reason}</TableCell>
-                <TableCell className='text-[#535862]'>{item.status}</TableCell>
+                <TableCell className='text-[#535862] flex items-center gap-1'>
+                  <div className='flex items-center gap-1'>
+                    <div>
+                      <img src={AvatarImg} className='rounded-[100%]'></img>
+                    </div>
+                    <div className='flex flex-col'>
+                      <span>{item.reservedBy.name}</span>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
