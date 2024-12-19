@@ -38,14 +38,9 @@ export function useProductionData(
     if (filters.status && filters.status !== 'all') {
       result = result.filter(item => item.status.toLowerCase() === filters.status);
     }
-    // Apply sorting
-    
 
     return result;
   }, [filters, sortOption, searchQuery]);
-
-  useEffect(() => {
-  }, []);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;

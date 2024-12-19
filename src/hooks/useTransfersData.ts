@@ -1,9 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { transfersData, transfersItemsData } from '@/lib/mock-data';
+import { TransfersFilters } from '@/types/transfers';
 
 function useData(
   sourceData: any,
   page: number,
+  filters?: TransfersFilters,
   searchQuery?: string
 ) {
   const [data, setData] = useState<any[]>([]);
@@ -28,11 +30,15 @@ function useData(
       );
     }
 
+    if (filters) {
+      if (filters.status && filters.status !== 'all') {
+        result = result.filter(item => item.status.toLowerCase() === filters.status.toLowerCase());
+      }
+    }
+
+
     return result;
   }, [sourceData, searchQuery]);
-
-  useEffect(() => {
-  }, []);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -51,10 +57,10 @@ function useData(
   };
 }
 
-export function useTransfersData(page: number, searchQuery?: string) {
-  return useData(transfersData, page, searchQuery);
+export function useTransfersData(page: number, filters: TransfersFilters, searchQuery?: string) {
+  return useData(transfersData, page, filters, searchQuery);
 }
 
-export function useTransferItemsData(page: number, searchQuery?: string) {
-  return useData(transfersItemsData, page, searchQuery);
+export function useTransferItemsData(page: number, filters?: TransfersFilters, searchQuery?: string) {
+  return useData(transfersItemsData, page, filters, searchQuery);
 }

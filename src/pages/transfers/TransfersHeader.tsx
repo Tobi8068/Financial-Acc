@@ -8,8 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Filter } from 'lucide-react';
-import { TransfersFilters, TransfersStatus } from '@/types/transfers';
+import { Filter } from 'lucide-react';
+import { TransfersFilters } from '@/types/transfers';
 import { SortOption } from '@/types/utils';
 
 interface TransfersProps {
@@ -21,7 +21,6 @@ interface TransfersProps {
 
 export function TransfersHeader({ 
   onFiltersChange, 
-  onSortChange, 
   onSearchChange,
   onCreate,
 }: TransfersProps) {
@@ -66,11 +65,8 @@ export function TransfersHeader({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Need_Approval">Need Approval</SelectItem>
+            <SelectItem value="Need_Approval">Transfered</SelectItem>
             <SelectItem value="Approved">Approved</SelectItem>
-            <SelectItem value="Waiting_Payment">Waiting Payment</SelectItem>
-            <SelectItem value="Paid">Paid</SelectItem>
-            <SelectItem value="Close0Complete">Close/Complete</SelectItem>
           </SelectContent>
         </Select>
       </div>

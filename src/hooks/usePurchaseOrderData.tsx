@@ -39,9 +39,6 @@ export function usePurchaseOrderData(
   }, [purchaseOrderData, filters, searchQuery]);
 
   useEffect(() => {
-  }, []);
-
-  useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setData(filteredAndSortedData.slice(startIndex, endIndex));

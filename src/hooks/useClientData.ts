@@ -27,11 +27,6 @@ export function useClientData(
       );
     }
 
-    // Apply filters
-    // if (filters.status && filters.status !== 'all') {
-    //   result = result.filter(item => item.status === filters.status);
-    // }
-
     return result;
   }, [clientData, searchQuery]);
 
