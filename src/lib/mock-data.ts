@@ -9,6 +9,7 @@ import { ReservationData, ReservationItem } from '@/types/reservation';
 import { ProductionData, ProductionItem } from '@/types/production';
 import { ReOrderData } from '@/types/reOrder';
 import { TransfersData, TransfersItems } from '@/types/transfers';
+import { BillsData } from '@/types/bills';
 
 export const shippingData: ShippingData[] = [
   {
@@ -1044,5 +1045,36 @@ export const reservationItemsData:ReservationItem[] = [
     manufacturerCode: "35412AB",
     quantity: 5,
     bin: 5,
+  },
+]
+
+export const billsData:BillsData[] = [
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    supplier: 'Jackson',
+    requiredDate: '2024-01-06',
+    status: 'Approved',
+    terms: 'View Terms',
+    shipTo: 'Name',
+    billTo: 'Name',
+    totalTaxAmount: 250,
+    totalNetAmount: 250,
+    totalAmount: 150,
+    contact: 123456789,
+  },
+  {
+    id: '#3067',
+    dateCreated: '2024-01-06',
+    supplier: 'Lena',
+    requiredDate: '2024-01-06',
+    status: 'Need_Approval',
+    terms: 'View Terms',
+    shipTo: 'Name',
+    billTo: 'Name',
+    totalTaxAmount: 250,
+    totalNetAmount: 250,
+    totalAmount: 150,
+    contact: 123456789,
   },
 ]
