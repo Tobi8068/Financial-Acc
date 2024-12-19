@@ -81,7 +81,7 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <h2 className="text-xl font-semibold mb-6">Add Reception</h2>
+            <h2 className="text-xl font-semibold mb-6">Add Transfers</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
