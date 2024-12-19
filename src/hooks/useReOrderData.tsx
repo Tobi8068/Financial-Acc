@@ -24,9 +24,12 @@ export function useReOrderData(
         item.id.toLowerCase().includes(query) ||
         item.name.toLowerCase().includes(query) ||
         item.date.toLowerCase().includes(query) ||
+        item.numberOfItem.toString().toLowerCase().includes(query) ||
+        item.numberOfRequisition.toString().toLowerCase().includes(query) ||
         item.description.toLowerCase().includes(query) ||
         item.orderUnit.toLowerCase().includes(query) ||
         item.preferredSupplier.toLowerCase().includes(query) ||
+        item.price.toString().toLowerCase().includes(query) ||
         item.itemCode.toLowerCase().includes(query) ||
         item.manufacturerName.toString().toLowerCase().includes(query) ||
         item.manufacturerCode.toString().toLowerCase().includes(query)

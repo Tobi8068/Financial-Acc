@@ -43,6 +43,7 @@ export function useRequisitionsData(
         item.shipTo.toLowerCase().includes(query) ||
         item.billTo.toLowerCase().includes(query) ||
         item.department.toLowerCase().includes(query) ||
+        item.status.toLowerCase().includes(query) ||
         item.approvedBy.toLowerCase().includes(query) ||
         item.createdBy.toLowerCase().includes(query) ||
         item.totalAmountBeforeTax.toString().toLowerCase().includes(query) ||

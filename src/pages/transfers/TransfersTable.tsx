@@ -102,7 +102,7 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
           </TableHeader>
 
           <TableBody>
-            {data.map((item) => (
+            {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
               >

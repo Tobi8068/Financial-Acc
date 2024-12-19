@@ -122,7 +122,7 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
           </TableHeader>
 
           <TableBody>
-            { data.length !== 0 ? data.map((item) => (
+            {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
                 // className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
@@ -172,7 +172,7 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
                   </Popover>
                 </TableCell>
               </TableRow>
-            )) : ''}
+            ))}
           </TableBody>
         </Table>
       </div>

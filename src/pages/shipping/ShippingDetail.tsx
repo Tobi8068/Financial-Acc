@@ -83,8 +83,8 @@ export default function ShippingDetail({ props, onClickCarrier }: ShippingDetail
                             </TableRow>
                             <TableBody>
                                 {
-                                    data.map((item) => (
-                                        <TableRow key={item.name}>
+                                    data.map((item, index) => (
+                                        <TableRow key={index}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
                                             <TableCell>{item.unit}</TableCell>

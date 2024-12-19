@@ -74,8 +74,8 @@ export function TransfersDetail(props: TransfersData) {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item) => (
-                                        <TableRow>
+                                    data.map((item, index) => (
+                                        <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>

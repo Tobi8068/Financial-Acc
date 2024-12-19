@@ -25,6 +25,7 @@ function useData(
         item.reason.toString().toLowerCase().includes(query) ||
         item.createdBy.name.toLowerCase().includes(query) ||
         item.status.toLowerCase().includes(query) ||
+        item.bin.toString().toLowerCase().includes(query) ||
         item.reservationDate.toLowerCase().includes(query) ||
         item.reservedBy.name.toLowerCase().includes(query)
       );

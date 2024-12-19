@@ -78,12 +78,6 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
         <Table>
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
-              {/* <TableHead className="w-12">
-                <Checkbox
-                  checked={selectedItems.length === data.length}
-                  onCheckedChange={handleSelectAll}
-                />
-              </TableHead> */}
               <TableHead className='pl-6'>No.</TableHead>
               <TableHead>Date Created</TableHead>
               <TableHead>Ship To</TableHead>
@@ -100,7 +94,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
           </TableHeader>
 
           <TableBody>
-            { data.length !== 0 ? data.map((item) => (
+            {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
               >
@@ -113,7 +107,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
                 <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalAmountBeforeTax.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalTaxAmount.toFixed(2)}</TableCell>
+                <TableCell className='text-[#3e4450]'>${item.totalTaxAmount.toFixed(2)}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalAmount.toFixed(2)}</TableCell>
                 <TableCell>
                   <Popover>
@@ -132,7 +126,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
                   </Popover>
                 </TableCell>
               </TableRow>
-            )) : ''}
+            ))}
           </TableBody>
         </Table>
       </div>

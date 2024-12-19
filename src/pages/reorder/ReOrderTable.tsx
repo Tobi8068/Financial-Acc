@@ -44,12 +44,6 @@ export function ReOrderTable({ filters, sortOption, searchQuery, onClickView }: 
         <Table>
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
-              {/* <TableHead className="w-12">
-                <Checkbox
-                  checked={selectedItems.length === data.length}
-                  onCheckedChange={handleSelectAll}
-                />
-              </TableHead> */}
               <TableHead className='pl-6'>No.</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Date</TableHead>
@@ -67,7 +61,7 @@ export function ReOrderTable({ filters, sortOption, searchQuery, onClickView }: 
           </TableHeader>
 
           <TableBody>
-            {data.map((item) => (
+            {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
               >

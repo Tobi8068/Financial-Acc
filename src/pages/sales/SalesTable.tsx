@@ -71,7 +71,7 @@ export function SalesTable({ filters, sortOption, searchQuery, onClickView }: Sa
           </TableHeader>
 
           <TableBody>
-            { data.length !== 0 ? data.map((item) => (
+            {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
               >
@@ -123,7 +123,7 @@ export function SalesTable({ filters, sortOption, searchQuery, onClickView }: Sa
                   </Popover>
                 </TableCell>
               </TableRow>
-            )) : ''}
+            ))}
           </TableBody>
         </Table>
       </div>

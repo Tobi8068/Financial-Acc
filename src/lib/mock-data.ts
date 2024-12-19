@@ -822,7 +822,7 @@ export const transfersData:TransfersData[] = [
   {
     id: '#3066',
     date: '2024-01-06',
-    items: 'Item',
+    items: 'Item Name',
     reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
     createdBy: {
       name: 'John',
