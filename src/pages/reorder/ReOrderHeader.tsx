@@ -9,16 +9,15 @@ interface ReOrderProps {
   onCreate: () => void;
 }
 
-export function ReorderHeader({ 
+export function ReorderHeader({
   onSearchChange,
 }: ReOrderProps) {
- 
+
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">Reorder</h2>
       </div>
-      
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input
@@ -28,7 +27,6 @@ export function ReorderHeader({
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
-        
       </div>
     </div>
   );

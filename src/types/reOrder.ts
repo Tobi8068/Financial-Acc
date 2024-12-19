@@ -1,4 +1,4 @@
-export type ReOrderStatus = 'Created' | 'Waiting_Approval' | 'Approved' | 'Ended' | 'Cancelled' | 'Partially_Approved' | 'Partially_Received' | 'Completed';
+export type ReOrderStatus = 'Created' | 'Cancelled' | 'Approved' | 'Partially_Received' | 'Completed';
 
 export interface ReOrderFilters {
   status: ReOrderStatus | 'all';
