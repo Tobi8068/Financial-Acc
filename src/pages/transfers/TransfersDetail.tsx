@@ -18,26 +18,23 @@ import { Badge } from '@/components/ui/badge';
 
 export function TransfersDetail(props: TransfersData) {
     const [currentPage, setCurrentPage] = useState(1);
-
     const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
         currentPage,
     );
 
     const getStatusBadge = (status: TransfersStatus) => {
         const styles = {
-          Transfered: 'bg-red-100 text-red-800',
-          Approved: 'bg-green-100 text-green-800',
-          Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
-          Paid: 'bg-green-100 text-green-800',
-          Close0Complete: 'bg-blue-100 text-[#363F72]',
+            Transfered: 'bg-red-100 text-red-800',
+            Approved: 'bg-green-100 text-green-800',
+            Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
         };
-    
+
         return (
-          <Badge className={styles[status]} variant="secondary">
-            {status.replace("_", " ").replace("0", "/")}
-          </Badge>
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
         );
-      };
+    };
 
 
     return (

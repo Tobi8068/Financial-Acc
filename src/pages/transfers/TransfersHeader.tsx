@@ -20,7 +20,7 @@ interface TransfersProps {
 }
 
 export function TransfersHeader({ 
-  onFiltersChange, 
+  onFiltersChange,
   onSearchChange,
   onCreate,
 }: TransfersProps) {
@@ -39,22 +39,18 @@ export function TransfersHeader({
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">Transfers</h2>
         <Button className="gap-2" onClick={() => { onCreate() }}>
-          {/* <Plus className="h-4 w-4" /> */}
           Add Transfer
         </Button>
       </div>
-      
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input
             type="search"
             placeholder="Search"
             className="h-9"
-            // prefix={<Search className="h-4 w-4 text-gray-500" />}/
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
-        
         <Select 
           defaultValue="all"
           onValueChange={handleStatusChange}

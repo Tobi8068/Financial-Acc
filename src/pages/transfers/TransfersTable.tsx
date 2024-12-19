@@ -16,7 +16,6 @@ import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import AvatarImg from '../../assets/img/Avatar.png';
-
 import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface TransfersTableProps {
@@ -34,7 +33,6 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
   const { data, totalPages, totalItems, itemsPerPage } = useTransfersData(
     currentPage,
     filters,
-    // sortOption,
     searchQuery
   );
 
@@ -61,9 +59,7 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
     const styles = {
       Transfered: 'bg-red-100 text-red-800',
       Approved: 'bg-green-100 text-green-800',
-      Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
-      Paid: 'bg-green-100 text-green-800',
-      Close0Complete: 'bg-blue-100 text-[#363F72]',
+      Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
     };
 
     return (
@@ -79,12 +75,6 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
         <Table>
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
-              {/* <TableHead className="w-12">
-                <Checkbox
-                  checked={selectedItems.length === data.length}
-                  onCheckedChange={handleSelectAll}
-                />
-              </TableHead> */}
               <TableHead className='pl-6'>Transfer No.</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Items</TableHead>
@@ -94,13 +84,9 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
               <TableHead>Bin</TableHead>
               <TableHead>Reservation Date</TableHead>
               <TableHead>Reserved By</TableHead>
-              {/* <TableHead>Turn of PDF</TableHead>
-              <TableHead>Approval</TableHead>
-              <TableHead>Sales Num</TableHead> */}
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
-
           <TableBody>
             {data.length !== 0 && data.map((item) => (
               <TableRow
@@ -150,7 +136,6 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
           </TableBody>
         </Table>
       </div>
-
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

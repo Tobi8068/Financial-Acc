@@ -21,8 +21,9 @@ function useData(
       const query = searchQuery.toLowerCase();
       result = result.filter(item =>
         item.id.toLowerCase().includes(query) ||
+        item.date.toLowerCase().includes(query) ||
         item.items.toLowerCase().includes(query) ||
-        item.reason.toString().toLowerCase().includes(query) ||
+        item.reason.toLowerCase().includes(query) ||
         item.createdBy.name.toLowerCase().includes(query) ||
         item.status.toLowerCase().includes(query) ||
         item.bin.toString().toLowerCase().includes(query) ||

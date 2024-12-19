@@ -69,9 +69,7 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
         const styles = {
             Transfered: 'bg-red-100 text-red-800',
             Approved: 'bg-green-100 text-green-800',
-            Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
-            Paid: 'bg-green-100 text-green-800',
-            Close0Complete: 'bg-blue-100 text-[#363F72]',
+            Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
         };
 
         return (
@@ -200,7 +198,6 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                     <div className="w-full flex gap-4 justify-end">
                         <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
                     </div>
-
                     <div className="w-full flex justify-end">
                         <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
                             <span className="text-white font-semibold">Add Transfer</span>
