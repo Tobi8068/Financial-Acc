@@ -68,14 +68,14 @@ function Transfers() {
         ) : scene === 2 ? (
           <>
             <InsideNavbar text="transfers" onClick={() => handlePage(1)} />
-            <main className="flex justify-center items-center p-6 bg-white bg-opacity-50">
+            <main className="flex justify-center items-center bg-white bg-opacity-50">
               <CreateTransfers onClick={() => handleCreate()} />
             </main>
           </>
         ) : scene === 3 ? (
           <>
             <InsideNavbar text="Transfers" onClick={() => handlePage(1)} />
-            <main className="flex-1 p-6 bg-white bg-opacity-50">
+            <main className="flex-1 bg-white bg-opacity-50">
               <TransfersDetail {...detailData} />
             </main>
           </>
