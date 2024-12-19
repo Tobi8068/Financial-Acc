@@ -35,8 +35,8 @@ export function TransfersTable({ filters, sortOption, searchQuery, onClickView }
 
   const { data, totalPages, totalItems, itemsPerPage } = useTransfersData(
     currentPage,
-    filters,
-    sortOption,
+    // filters,
+    // sortOption,
     searchQuery
   );
 

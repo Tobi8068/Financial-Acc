@@ -1,102 +1,223 @@
 import { useState } from "react";
+import { Upload } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { 
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from '@/components/ui/select';
 import { TextInput } from "@/components/ui/text-input";
-import { DateInput } from "@/components/ui/date-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { CurrencyInput } from "@/components/ui/currency-input";
+import { TransfersItems, TransfersStatus } from "@/types/transfers";
+import { transfersItemsData } from "@/lib/mock-data";
+import { MoreVertical } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
+import { Notes } from "@/components/organisms/notes";
+import NumberInput from "@/components/organisms/numberInput";
+import { Pagination } from '../../components/pagination/Pagination';
+import DeleteDialog from '@/components/table/DeleteDialog';
+import { useTransfersData, useTransferItemsData } from '@/hooks/useTransfersData';
+import { messageData } from "@/lib/message-data";
 
-interface CreateTransferProps {
+interface CreateTransfersProps {
     onClick: () => void;
 }
 
-export function CreateTransfer({ onClick }: CreateTransferProps) {
-    const [formData, setFormData] = useState({
-        transferNumber: '',
-        dateCreated: null as Date | null,
-        client: '',
-        requiredDate: null as Date | null,
-        status: 'need-approval',
-        shipTo: '',
-        billTo: '',
-        totalTaxAmount: '',
-        totalTaxCurrency: 'USD',
-        totalNetAmount: '',
-        totalNetCurrency: 'USD',
-        totalAmount: '',
-        totalAmountCurrency: 'USD',
-        contact: ''
-    })
+export function CreateTransfers({ onClick }: CreateTransfersProps) {
+
+    const [formData, setFormData] = useState<TransfersItems>(
+        {
+            name: '',
+            itemCode: '',
+            description: '',
+            manufacturerName: '',
+            manufacturerCode: '',
+            quantity: 0,
+            bin: 0,
+            status: 'Approved',
+        }
+    );
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
+        currentPage,
+    );
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
     const handleChange = (field: string, value: any) => {
-        setFormData(prev => ({ ...prev, [field]: value }))
+        setFormData({ ...formData, [field]: value });
+    };
+
+    const handleSaveItem = () => {
+
     }
+
+    const handleDelete = (id: string) => {
+        setDeleteDialogOpen(true);
+        setDeleteItemId(id);
+    };
+
+    const handleConfirmDelete = () => {
+        if (deleteItemId) {
+            console.log('Deleting item with id:', deleteItemId);
+            setDeleteDialogOpen(false);
+            setDeleteItemId(null);
+        }
+    };
+
+    const getStatusBadge = (status: TransfersStatus) => {
+        const styles = {
+          Transfered: 'bg-red-100 text-red-800',
+          Approved: 'bg-green-100 text-green-800',
+          Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
+          Paid: 'bg-green-100 text-green-800',
+          Close0Complete: 'bg-blue-100 text-[#363F72]',
+        };
+    
+        return (
+          <Badge className={styles[status]} variant="secondary">
+            {status.replace("_", " ").replace("0", "/")}
+          </Badge>
+        );
+      };
+
     return (
-        <div className="w-full flex flex-col justify-center overflow-y-auto">
-            <h2 className="text-xl font-semibold mb-6">Add Transfer</h2>
+        <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
+            <h2 className="text-xl font-semibold mb-6">Add Reception</h2>
             <div className="w-full flex items-center justify-center">
-                <div className="w-[40%] flex flex-col gap-3">
-                    <div className="grid w-full grid-cols-3 gap-12">
-                        <TextInput text='Number' onChange={(value) => handleChange('Number', value)} />
-                        <TextInput text='Number' onChange={(value) => handleChange('Number', value)} />
-                        <DateInput text='Date Created' onChange={(value) => handleChange('dateCreated', value)} />
-                    </div>
-                    <TextInput text='Client' onChange={(value) => handleChange('client', value)} />
-                    <div className="grid w-full grid-cols-2 gap-12">
-                        <DateInput text="Required Date" onChange={(value) => handleChange('requiredDate', value)} />
+                <div className="w-[98%] flex flex-col gap-3 item">
+                    <div className="grid w-full grid-cols-4 gap-12">
+                        <TextInput text='Number' onChange={(value) => handleChange('number', value)} />
+                        <TextInput text='Created By' onChange={(value) => handleChange('createdBy', value)} />
                         <SelectInput
                             label="Status"
                             value={formData.status}
                             onChange={(value) => handleChange('status', value)}
                             options={[
-                                { value: 'need-approval', label: 'Need Approval' },
+                                { value: 'transfered', label: 'Tranansfered' },
                                 { value: 'approved', label: 'Approved' },
-                                { value: 'paid', label: 'Paid' },
-                                { value: 'waiting-payment', label: 'Waiting Payment' },
-                                { value: 'close-complete', label: 'Close/Complete' },
                             ]} />
                     </div>
-                    <div className="grid w-full grid-cols-2 gap-12">
-                        <TextInput text="Ship To" onChange={(value) => handleChange('shipTo', value)} />
-                        <TextInput text="Bill To" onChange={(value) => handleChange('billTo', value)} />
-                    </div>
-                    <div className="grid w-full grid-cols-2 gap-12">
-                        <CurrencyInput
-                            label="Total Tax Amount"
-                            value={formData.totalTaxAmount}
-                            onChange={(value) => handleChange('totalTaxAmount', value)}
-                            currency={formData.totalTaxCurrency}
-                            onCurrencyChange={(currency) => handleChange('totalTaxCurrency', currency)} />
-                        <CurrencyInput
-                            label="Total Net Amount"
-                            value={formData.totalNetAmount}
-                            onChange={(value) => handleChange('totalNetAmount', value)}
-                            currency={formData.totalNetCurrency}
-                            onCurrencyChange={(currency) => handleChange('totalNetCurrency', currency)} />
-                    </div>
-                    <div className="grid w-full grid-cols-2 gap-12">
-                        <CurrencyInput
-                            label="Total Amount"
-                            value={formData.totalAmount}
-                            onChange={(value) => handleChange('totalAmount', value)}
-                            currency={formData.totalAmountCurrency}
-                            onCurrencyChange={(currency) => handleChange('totalAmountCurrency', currency)} />
-                        <SelectInput
-                            label="Contact"
-                            value={formData.contact}
-                            onChange={(value) => handleChange('contact', value)}
+                    <div className="grid w-full grid-cols-4 gap-12">
+                    <SelectInput
+                            label="Bin"
+                            value={formData.status}
+                            onChange={(value) => handleChange('bin', value)}
                             options={[
-                                { value: 'contact1', label: 'Contact 1' },
-                                { value: 'contact2', label: 'Contact 2' },
-                                { value: 'contact3', label: 'Contact 3' }
+                                { value: '1', label: '1' },
+                                { value: '2', label: '2' },
+                                { value: '3', label: '3' },
+                                { value: '4', label: '4' },
+                                { value: '5', label: '5' },
                             ]} />
                     </div>
-                    <div className="w-fill flex gap-3">
-                        <input type="checkbox"></input> <span className="text-gray-900">Create PDF</span>
+                    <div className="grid w-full grid-cols-2 gap-12">
+                    <TextInput text='Reason' onChange={(value) => handleChange('reason', value)}  />
                     </div>
-                </div>
-            </div>
-            <div className="w-full flex justify-end">
-                <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
-                    <span className="text-white font-semibold">Send for Approval</span>
+                    <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
+                    <div className='rounded-lg border bg-white'>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className='pl-6'>Name</TableHead>
+                                    <TableHead>Item Code</TableHead>
+                                    <TableHead>Description</TableHead>
+                                    <TableHead>Manufacturer Name</TableHead>
+                                    <TableHead>Manufacturer Code</TableHead>
+                                    <TableHead>Quantity</TableHead>
+                                    <TableHead>Bin</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Action</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {
+                                    data.map((item, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.bin}</TableCell>
+                                            <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
+                                            <TableCell>
+                                                <Popover>
+                                                    <PopoverTrigger asChild>
+                                                        <button className="p-2 hover:bg-gray-100 rounded-full">
+                                                            <MoreVertical className="h-4 w-4" />
+                                                        </button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
+                                                        <ul className="space-y-2">
+                                                            <li>Edit</li>
+                                                            <li onClick={() => handleDelete(item.name)}>Delete</li>
+                                                        </ul>
+                                                    </PopoverContent>
+                                                </Popover>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={totalItems}
+                    />
+                    <DeleteDialog
+                        open={deleteDialogOpen}
+                        onClose={() => setDeleteDialogOpen(false)}
+                        onConfirm={handleConfirmDelete}
+                    />
+                    <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
+                    <div className="w-full grid grid-cols-10 gap-3">
+                        <div className="col-span-1"><TextInput text='Name' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Description' onChange={(value) => handleChange('description', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1">
+                            <NumberInput label="Quantity" value={formData.quantity} onChange={(value) => handleChange('quantity', value)} />
+                        </div>
+                        <div className="col-span-1"><TextInput text='Unit of measurement' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1">
+                            <SelectInput
+                                label="Status"
+                                value={formData.bin.toString()}
+                                onChange={(value) => handleChange('status', value)}
+                                options={[
+                                    { value: 'Approved', label: 'Approved' },
+                                    { value: 'Transfered', label: 'Transfered' },
+                                ]} />
+                        </div>
+                    </div>
+                    <hr className="border-t border-[#D7D8E4] w-full" />
+                    <div className="w-full flex gap-4 justify-end">
+                        <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
+                    </div>
+                    
+                    <div className="w-full flex justify-end">
+                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
+                            <span className="text-white font-semibold">Add Transfer</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

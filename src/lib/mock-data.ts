@@ -7,7 +7,7 @@ import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData, ReceptionItem } from '@/types/receptions';
 import { ProductionData } from '@/types/production';
 import { ReOrderData } from '@/types/reOrder';
-import { TransfersData } from '@/types/transfers';
+import { TransfersData, TransfersItems } from '@/types/transfers';
 
 export const shippingData: ShippingData[] = [
   {
@@ -906,3 +906,36 @@ export const transfersData:TransfersData[] = [
   },
   
 ]
+
+export const transfersItemsData: TransfersItems[] = [
+  {
+    name: 'Computer',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+    status: 'Approved',
+  },
+  {
+    name: 'Mobile',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+    status: 'Transfered',
+  },
+  {
+    name: 'Keyboard',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+    status: 'Approved',
+  },
+];

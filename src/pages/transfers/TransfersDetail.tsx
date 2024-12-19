@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Download } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -6,75 +8,28 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { formatDate } from '@/lib/date';
-import { TransfersData, TransfersItems } from '@/types/transfers';
+import { TransfersData } from '@/types/transfers';
+import { useTransferItemsData } from '@/hooks/useTransfersData';
+import { Pagination } from '../../components/pagination/Pagination';
+import { TransfersStatus } from "@/types/transfers";
+import { messageData } from "@/lib/message-data";
+import { Notes } from "@/components/organisms/notes";
 import { Badge } from '@/components/ui/badge';
-import { TransfersStatus } from '@/types/transfers';
 
 export function TransfersDetail(props: TransfersData) {
-    const data: TransfersItems[] = [
-        {
-            name: 'Computer',
-            itemCode: '35412AB',
-            description: 'Monthly Subscription',
-            manufacturerName: 'Apple Inc.',
-            manufacturerCode: '35412AB',
-            quantity: 5,
-            bin: 5,
-            status: 'Approved',
-        },
-        {
-            name: 'Mobile',
-            itemCode: '35412AB',
-            description: 'Monthly Subscription',
-            manufacturerName: 'Apple Inc.',
-            manufacturerCode: '35412AB',
-            quantity: 5,
-            bin: 5,
-            status: 'Transfered',
-        },
-        {
-            name: 'Keyboard',
-            itemCode: '35412AB',
-            description: 'Monthly Subscription',
-            manufacturerName: 'Apple Inc.',
-            manufacturerCode: '35412AB',
-            quantity: 5,
-            bin: 5,
-            status: 'Approved',
-        },
-        {
-            name: 'Mouse',
-            itemCode: '35412AB',
-            description: 'Monthly Subscription',
-            manufacturerName: 'Apple Inc.',
-            manufacturerCode: '35412AB',
-            quantity: 5,
-            bin: 5,
-            status: 'Transfered',
-        },
-        {
-            name: 'Headphone',
-            itemCode: '35412AB',
-            description: 'Monthly Subscription',
-            manufacturerName: 'Apple Inc.',
-            manufacturerCode: '35412AB',
-            quantity: 5,
-            bin: 5,
-            status: 'Approved',
-        },
-    ];
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
+        currentPage,
+    );
 
     const getStatusBadge = (status: TransfersStatus) => {
         const styles = {
-          Transfered: 'bg-[#F5F5F5] text-[#414651]',
-          Approved: 'bg-[#ECFDF3] text-[#027A48]',
-          Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
-          Ended: 'bg-[#F4F3FF] text-[#5925DC]',
-          Cancelled: 'bg-[#FEF2F2] text-[#991B1B]',
-          Partially_Approved: 'bg-[#FFFBEB] text-[#B45309]',
-          Partially_Received: 'bg-[#FFFBEB] text-[#B45335]',
-          Completed: 'bg-[#FFF35B] text-[#B45335]',
+          Transfered: 'bg-red-100 text-red-800',
+          Approved: 'bg-green-100 text-green-800',
+          Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
+          Paid: 'bg-green-100 text-green-800',
+          Close0Complete: 'bg-blue-100 text-[#363F72]',
         };
     
         return (
@@ -84,25 +39,25 @@ export function TransfersDetail(props: TransfersData) {
         );
       };
 
+
     return (
-        <div>
+        <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-200px)]">
             <h2 className="text-xl font-semibold">Transfers Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
-            <h2>Transfer Info</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-6 shadow-sm">
-                    <div className="space-y-4">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Transfer No.:&nbsp;</span><span>{props.id}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{formatDate(props.date)}</span></div>
+                <h2 className='text-[#636692] font-semibold'>Transfer Info</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
+                    <div className="space-y-3">
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">Transfer No.:&nbsp;</span><span>{props.id}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{props.date}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reason:&nbsp;</span><span>{props.reason}</span></div>
                     </div>
-
-                    <div className="space-y-4">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created By:&nbsp;</span><span>{props.createdBy.name}</span></div>
+                    <div className="space-y-3">
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">Created By:&nbsp;</span><span>{props.createdBy.name}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                     </div>
                 </div>
                 <div className='flex flex-col gap-6'>
-                    <h2>Items</h2>
+                    <h2 className='text-[#636692] font-semibold'>Items</h2>
                     <div className='rounded-lg border bg-white'>
                         <Table>
                             <TableHeader>
@@ -119,21 +74,52 @@ export function TransfersDetail(props: TransfersData) {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item, id) => (
-                                        <TableRow key={id}>
-                                            <TableCell className='pl-6'>{item.name}</TableCell>
-                                            <TableCell>{item.itemCode}</TableCell>
-                                            <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturerName}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>{item.bin}</TableCell>
-                                            <TableCell>{getStatusBadge(item.status)}</TableCell>
+                                    data.map((item) => (
+                                        <TableRow>
+                                            <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.bin}</TableCell>
+                                            <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                                         </TableRow>
                                     ))
                                 }
                             </TableBody>
                         </Table>
+                    </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={totalItems}
+                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                        {/* Notes Section */}
+                        <Notes messages={messageData} />
+
+                        {/* Documents Section */}
+                        <div className="bg-transparent">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-6">Documents</h2>
+                            <div className="bg-[#FAFAFA] rounded-lg border border-gray-200">
+                                <div className="flex justify-between text-sm text-[#535862] px-4 py-2 border-b border-gray-200">
+                                    <span>Document Name</span>
+                                    <span>Action</span>
+                                </div>
+                                {[1, 2, 3].map((index, i, arr) => (
+                                    <div
+                                        key={index}
+                                        className={`flex items-center justify-between gap-3 px-4 py-6 border-b border-gray-200 bg-white ${i === arr.length - 1 ? 'rounded-b-lg' : ''}`}
+                                    >
+                                        <span className="text-sm">Document Name.pdf</span>
+                                        <Download className="w-5 h-5 text-gray-500 hover:text-gray-700 cursor-pointer" />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { TransfersHeader } from "./TransfersHeader";
 import { TransfersTable } from "./TransfersTable";
 import { TransfersData, TransfersFilters } from "@/types/transfers";
 import { SortOption } from "@/types/utils";
-import { CreateTransfer } from "./CreateTransfers";
+import { CreateTransfers } from "./CreateTransfers";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
 import { TransfersDetail } from "./TransfersDetail";
 
@@ -69,7 +69,7 @@ function Transfers() {
           <>
             <InsideNavbar text="transfers" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center p-6 bg-white bg-opacity-50">
-              <CreateTransfer onClick={() => handleCreate()} />
+              <CreateTransfers onClick={() => handleCreate()} />
             </main>
           </>
         ) : scene === 3 ? (
