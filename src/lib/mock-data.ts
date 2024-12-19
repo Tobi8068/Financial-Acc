@@ -6,6 +6,8 @@ import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData, ReceptionItem } from '@/types/receptions';
 import { ProductionData } from '@/types/production';
+import { ReOrderData } from '@/types/reOrder';
+import { TransfersData, TransfersItems } from '@/types/transfers';
 
 export const shippingData: ShippingData[] = [
   {
@@ -755,3 +757,185 @@ export const productionData: ProductionData[] = [
     approvedBy: 'Approver Name',
   },
 ]
+
+export const reOrderData:ReOrderData[] = [
+  {
+    id: '321',
+    name: 'Name',
+    date: '2024-01-04',
+    numberOfItem: 2,
+    numberOfRequisition: 2,
+    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    orderUnit: 'Order Unit',
+    preferredSupplier: 'Supplier',
+    price: 250,
+    itemCode: 'XB12345',
+    manufacturerName: 'Manufacturer',
+    manufacturerCode: 'XB12345',
+  },
+  {
+    id: '321',
+    name: 'Name',
+    date: '2024-01-04',
+    numberOfItem: 2,
+    numberOfRequisition: 2,
+    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    orderUnit: 'Order Unit',
+    preferredSupplier: 'Supplier',
+    price: 250,
+    itemCode: 'XB12345',
+    manufacturerName: 'Manufacturer',
+    manufacturerCode: 'XB12345',
+  },
+  {
+    id: '321',
+    name: 'Name',
+    date: '2024-01-04',
+    numberOfItem: 2,
+    numberOfRequisition: 2,
+    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    orderUnit: 'Order Unit',
+    preferredSupplier: 'Supplier',
+    price: 250,
+    itemCode: 'XB12345',
+    manufacturerName: 'Manufacturer',
+    manufacturerCode: 'XB12345',
+  },
+  {
+    id: '321',
+    name: 'Name',
+    date: '2024-01-04',
+    numberOfItem: 2,
+    numberOfRequisition: 2,
+    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    orderUnit: 'Order Unit',
+    preferredSupplier: 'Supplier',
+    price: 250,
+    itemCode: 'XB12345',
+    manufacturerName: 'Manufacturer',
+    manufacturerCode: 'XB12345',
+  },
+  
+]
+
+export const transfersData:TransfersData[] = [
+  {
+    id: '#3066',
+    date: '2024-01-06',
+    items: 'Item',
+    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    createdBy: {
+      name: 'John',
+      avatar: '',
+    },
+    status: 'Transfered',
+    bin: 1,
+    reservationDate: '2024-01-06',
+    reservedBy: {
+      name: 'John',
+      avatar: '',
+    },
+  },
+  {
+    id: '#3065',
+    date: '2024-01-05',
+    items: 'Item',
+    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    createdBy: {
+      name: 'John',
+      avatar: '',
+    },
+    status: 'Transfered',
+    bin: 1,
+    reservationDate: '2024-01-04',
+    reservedBy: {
+      name: 'John',
+      avatar: '',
+    },
+  },
+  {
+    id: '#3064',
+    date: '2024-01-03',
+    items: 'Item',
+    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    createdBy: {
+      name: 'John',
+      avatar: '',
+    },
+    status: 'Approved',
+    bin: 1,
+    reservationDate: '2024-01-02',
+    reservedBy: {
+      name: 'John',
+      avatar: '',
+    },
+  },
+  {
+    id: '#3063',
+    date: '2024-01-01',
+    items: 'Item',
+    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    createdBy: {
+      name: 'John',
+      avatar: '',
+    },
+    status: 'Transfered',
+    bin: 1,
+    reservationDate: '2024-01-06',
+    reservedBy: {
+      name: 'John',
+      avatar: '',
+    },
+  },
+  {
+    id: '#3062',
+    date: '2024-01-06',
+    items: 'Item',
+    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    createdBy: {
+      name: 'John',
+      avatar: '',
+    },
+    status: 'Approved',
+    bin: 1,
+    reservationDate: '2024-01-06',
+    reservedBy: {
+      name: 'John',
+      avatar: '',
+    },
+  },
+  
+]
+
+export const transfersItemsData: TransfersItems[] = [
+  {
+    name: 'Computer',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+    status: 'Approved',
+  },
+  {
+    name: 'Mobile',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+    status: 'Transfered',
+  },
+  {
+    name: 'Keyboard',
+    itemCode: '352644B',
+    description: 'Monthly subscription',
+    manufacturerName: 'Apple Inc',
+    manufacturerCode: '35412AB',
+    quantity: 5,
+    bin: 5,
+    status: 'Approved',
+  },
+];
