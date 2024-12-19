@@ -15,9 +15,6 @@ export interface ProductionData {
   createdBy: string;
   approved : boolean;
   approvedBy: string;
-  // totalAmountBeforeTax: number;
-  // totalTaxAmount: number;
-  // totalAmount: number;
 }
 
 export interface ProductionItem {

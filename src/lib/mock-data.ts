@@ -5,6 +5,7 @@ import { CarrierData, ShippingData } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData, ReceptionItem } from '@/types/receptions';
+import { ReservationData, ReservationItem } from '@/types/reservation';
 import { ProductionData } from '@/types/production';
 import { ReOrderData } from '@/types/reOrder';
 import { TransfersData, TransfersItems } from '@/types/transfers';
@@ -938,4 +939,36 @@ export const transfersItemsData: TransfersItems[] = [
     bin: 5,
     status: 'Approved',
   },
-];
+]
+
+export const reservationData:ReservationData[] = [
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    items: 'Item',
+    reservationDate: '2024-01-06',
+    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    project: 'Project',
+    storeKeeper: {
+      name: 'John',
+      avatar: '',
+    },
+    reservedBy: {
+      name: 'John',
+      avatar: '',
+    },
+    status: 'Approved',
+  },
+]
+
+export const reservationItemsData:ReservationItem[] = [
+  {
+    name: '#3066',
+    itemCode: "35412AB",
+    description: "Monthly subscription",
+    manufacturerName: "Apple Inc.",
+    manufacturerCode: "35412AB",
+    quantity: 5,
+    bin: 5,
+  },
+]
