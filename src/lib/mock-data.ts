@@ -6,7 +6,7 @@ import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData, ReceptionItem } from '@/types/receptions';
 import { ReservationData, ReservationItem } from '@/types/reservation';
-import { ProductionData } from '@/types/production';
+import { ProductionData, ProductionItem } from '@/types/production';
 import { ReOrderData } from '@/types/reOrder';
 import { TransfersData, TransfersItems } from '@/types/transfers';
 
@@ -756,6 +756,29 @@ export const productionData: ProductionData[] = [
     createdBy: 'Creator Name',
     approved: true,
     approvedBy: 'Approver Name',
+  },
+]
+
+export const productionItemData: ProductionItem[] = [
+  {
+    name: 'Computer',
+    description: 'Lenovo',
+    manufacturerCode: '35663BD',
+    manufacturerName: 'Lena',
+    quantity: 5,
+    approvedQuantity: 5,
+    unitOfMeasure: 'Pieces',
+    status: 'Approved',
+  },
+  {
+    name: 'Mobile',
+    description: 'HUAWEI',
+    manufacturerCode: '36732SD',
+    manufacturerName: 'Oleg',
+    quantity: 5,
+    approvedQuantity: 5,
+    unitOfMeasure: 'Pieces',
+    status: 'Partially_Approved',
   },
 ]
 

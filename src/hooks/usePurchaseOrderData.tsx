@@ -5,7 +5,6 @@ import { purchaseOrderData } from '@/lib/mock-data';
 export function usePurchaseOrderData(
   page: number,
   filters: PurchaseOrderFilters,
-  // sortOption: SortOption,
   searchQuery: string
 ) {
   const [data, setData] = useState<PurchaseOrderData[]>([]);

@@ -24,7 +24,7 @@ interface ProductionTableProps {
   onClickView: (item: any) => void;
 }
 
-export function ProductionTable({ filters, sortOption, searchQuery, onClickView }: ProductionTableProps) {
+export function ProductionTable({ filters, searchQuery, onClickView }: ProductionTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -32,8 +32,7 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
   const { data, totalPages, totalItems, itemsPerPage } = useProductionData(
     currentPage,
     filters,
-    sortOption,
-    searchQuery
+    searchQuery,
   );
 
   useEffect(() => {

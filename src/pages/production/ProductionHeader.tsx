@@ -21,7 +21,6 @@ interface ProductionProps {
 
 export function ProductionHeader({
   onFiltersChange,
-  // onSortChange, 
   onSearchChange,
   onCreate,
 }: ProductionProps) {
@@ -63,9 +62,10 @@ export function ProductionHeader({
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="created">Created</SelectItem>
-            <SelectItem value="waiting approval">Waiting Approval</SelectItem>
+            <SelectItem value="waiting_approval">Waiting Approval</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="ended">Ended</SelectItem>
+            <SelectItem value="cancelled">Cancelled</SelectItem>
           </SelectContent>
         </Select>
       </div>

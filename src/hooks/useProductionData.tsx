@@ -1,21 +1,18 @@
-import { useState, useEffect, useMemo } from 'react';
-import { ProductionData, ProductionFilters } from '@/types/production';
-import { SortOption } from '@/types/utils';
-import { productionData } from '@/lib/mock-data';
 
-export function useProductionData(
+import { useState, useEffect, useMemo } from 'react';
+import { productionData, productionItemData } from '@/lib/mock-data';
+import { ProductionFilters } from '@/types/production';
+function useData(
+  sourceData: any,
   page: number,
-  filters: ProductionFilters,
-  sortOption: SortOption,
-  searchQuery: string
+  filters?: ProductionFilters,
+  searchQuery?: string
 ) {
-  const [data, setData] = useState<ProductionData[]>([]);
+  const [data, setData] = useState<any[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 5;
-
   const filteredAndSortedData = useMemo(() => {
-
-    let result = [...productionData];
+    let result = [...sourceData];
 
     // Apply search
     if (searchQuery) {
@@ -33,28 +30,31 @@ export function useProductionData(
         item.approvedBy.toLowerCase().includes(query)
       );
     }
-
-    // Apply filters
-    if (filters.status && filters.status !== 'all') {
-      result = result.filter(item => item.status.toLowerCase() === filters.status);
+    if (filters) {
+      if (filters.status && filters.status !== 'all') {
+        result = result.filter(item => item.status.toLowerCase() === filters.status.toLowerCase());
+      }
     }
 
     return result;
-  }, [filters, sortOption, searchQuery]);
-
+  }, [sourceData, filters, searchQuery]);
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setData(filteredAndSortedData.slice(startIndex, endIndex));
     setTotalItems(filteredAndSortedData.length);
   }, [page, filteredAndSortedData]);
-
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
   return {
     data,
     totalPages,
     totalItems,
     itemsPerPage
   };
+}
+export function useProductionData(page: number, filters: ProductionFilters, searchQuery?: string) {
+  return useData(productionData, page, filters, searchQuery);
+}
+export function useProductionItemsData(page: number, filters?: ProductionFilters, searchQuery?: string) {
+  return useData(productionItemData, page, filters, searchQuery);
 }
