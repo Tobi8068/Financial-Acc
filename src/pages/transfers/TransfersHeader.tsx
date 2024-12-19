@@ -61,7 +61,7 @@ export function TransfersHeader({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Need_Approval">Transfered</SelectItem>
+            <SelectItem value="Transfered">Transfered</SelectItem>
             <SelectItem value="Approved">Approved</SelectItem>
           </SelectContent>
         </Select>

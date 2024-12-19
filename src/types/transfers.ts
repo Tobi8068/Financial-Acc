@@ -31,4 +31,4 @@ export interface TransfersItems {
   quantity: number;
   bin: number;
   status: TransfersStatus;
-  };
+};

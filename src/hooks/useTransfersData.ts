@@ -40,7 +40,7 @@ function useData(
 
 
     return result;
-  }, [sourceData, searchQuery]);
+  }, [sourceData, filters, searchQuery]);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
