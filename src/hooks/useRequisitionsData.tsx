@@ -1,7 +1,23 @@
 import { useState, useEffect, useMemo } from 'react';
-import { RequisitionsData, RequisitionsFilters } from '@/types/requisitions';
+import { RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
 import { SortOption } from '@/types/utils';
-import { requisitionsData } from '@/lib/mock-data';
+import { capitalizeFirstLetter } from '@/lib/utils';
+
+const transformBackendData = (backendData: any): RequisitionsData => {
+  return {
+    id: backendData.requisition_number.toString(),
+    dateCreated: backendData.date,
+    shipTo: backendData.ship_to,
+    billTo: backendData.bill_to,
+    department: backendData.department.name,
+    status: capitalizeFirstLetter(backendData.status) as RequisitionsStatus,
+    approvedBy: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
+    createdBy: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
+    totalAmountBeforeTax: backendData.total_net_amount || 0,
+    totalTaxAmount: backendData.total_tax_amount || 0,
+    totalAmount: backendData.total_amount || 0
+  };
+};
 
 export function useRequisitionsData(
   page: number,
@@ -10,12 +26,13 @@ export function useRequisitionsData(
   searchQuery: string
 ) {
   const [data, setData] = useState<RequisitionsData[]>([]);
+  const [serverData, setServerData] = useState<RequisitionsData[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 5;
 
   const filteredAndSortedData = useMemo(() => {
 
-    let result = [...requisitionsData];
+    let result = [...serverData];
 
     // Apply search
     if (searchQuery) {
@@ -55,7 +72,7 @@ export function useRequisitionsData(
     }
 
     return result;
-  }, [requisitionsData, filters, sortOption, searchQuery]);
+  }, [serverData, filters, sortOption, searchQuery]);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -71,14 +88,11 @@ export function useRequisitionsData(
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
           method: 'GET',
         });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
         
         const text = await response.text(); // First get the raw response text
         const data = text ? JSON.parse(text) : null; // Then parse if there's content
-        console.log("Data", data);
+        let transformedData = data.map((item: any) => transformBackendData(item));
+        setServerData(transformedData);
       } catch (error) {
         console.error("Error fetching requisitions:", error);
       }

@@ -63,7 +63,7 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
           </TableHeader>
 
           <TableBody>
-            {data.map((item) => (
+            { data.length !== 0 ? data.map((item) => (
               <TableRow
                 key={item.id}
               >
@@ -89,7 +89,7 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
                   </Popover>
                 </TableCell>
               </TableRow>
-            ))}
+            )) : ''}
           </TableBody>
         </Table>
       </div>

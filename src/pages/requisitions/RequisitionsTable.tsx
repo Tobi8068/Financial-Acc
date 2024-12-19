@@ -100,7 +100,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
           </TableHeader>
 
           <TableBody>
-            {data.map((item) => (
+            { data.length !== 0 ? data.map((item) => (
               <TableRow
                 key={item.id}
               >
@@ -132,7 +132,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
                   </Popover>
                 </TableCell>
               </TableRow>
-            ))}
+            )) : ''}
           </TableBody>
         </Table>
       </div>

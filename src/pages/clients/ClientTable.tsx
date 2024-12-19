@@ -42,7 +42,7 @@ export function ClientTable({ searchQuery }: ClientTableProps) {
                     </TableHeader>
 
                     <TableBody>
-                        {data.map((item) => (
+                        { data.length !== 0 ? data.map((item) => (
                             <TableRow
                                 key={item.id}
                             >
@@ -74,7 +74,7 @@ export function ClientTable({ searchQuery }: ClientTableProps) {
                                     </Popover>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )) : ''}
                     </TableBody>
                 </Table>
             </div>
