@@ -70,12 +70,6 @@ export function useRequisitionsData(
       try {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
           method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-          },
-          credentials: 'include'
         });
 
         if (!response.ok) {
