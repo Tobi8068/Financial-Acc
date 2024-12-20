@@ -99,7 +99,7 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                     <div className="grid w-full grid-cols-4 gap-12">
                         <SelectInput
                             label="Bin"
-                            value={formData.status}
+                            value={formData.bin.toString()}
                             onChange={(value) => handleChange('bin', value)}
                             options={[
                                 { value: '1', label: '1' },

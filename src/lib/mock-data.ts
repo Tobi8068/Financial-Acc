@@ -10,6 +10,7 @@ import { ProductionData, ProductionItem } from '@/types/production';
 import { ReOrderData } from '@/types/reOrder';
 import { TransfersData, TransfersItems } from '@/types/transfers';
 import { BillsData } from '@/types/bills';
+import { SuppliersData, SuppliersItems } from '@/types/suppliers';
 
 export const shippingData: ShippingData[] = [
   {
@@ -1155,5 +1156,34 @@ export const billsData: BillsData[] = [
     totalNetAmount: 250,
     totalAmount: 150,
     contact: 123456789,
+  },
+]
+
+export const suppliersData: SuppliersData[] = [
+  {
+    id: '#3066',
+    supplierName: 'Jackson',
+    address: 'Lerme doi 111',
+    billingAddress: 'Lerme doi 111',
+    shippingAddress: 'Lerme doi 111',
+    postalAddress: 'Lerme doi 111',
+    supplierCode: '35412AB',
+    bankName: 'Bank',
+    accountNumber: 123456789,
+    transitNumber: 123456789,
+    currency: 'USD',
+    purchaseOrder: '123456789',
+    status: "Approved",
+  },
+]
+
+export const suppliersItems: SuppliersItems[] = [
+  {
+    firstName: 'Lucky',
+    lastName: 'Marine',
+    email: 'luckymarine@ree.ki',
+    phoneNumber: 151216,
+    address: 'Lerme doi 111',
+    role: 'Role',
   },
 ]
