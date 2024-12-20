@@ -26,10 +26,9 @@ interface ProductionTableProps {
 
 export function ProductionTable({ filters, searchQuery, onClickView }: ProductionTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
-  const { data, totalPages, totalItems, itemsPerPage } = useProductionData(
+  const { data, totalPages, totalItems, itemsPerPage, refreshData } = useProductionData(
     currentPage,
     filters,
     searchQuery,
@@ -46,9 +45,18 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
     setDeleteItemId(id);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
+    console.log('Delete Ready', deleteItemId);
     if (deleteItemId) {
       console.log('Deleting item with id:', deleteItemId);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/productions/${deleteItemId}`, {
+        method: 'DELETE',
+      })
+      console.log(response.status);
+      if (response.status === 204) {
+        alert('Item deleted successfully');
+        refreshData();
+      }
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }
@@ -94,8 +102,8 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
             {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
-                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
+                
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.name}</TableCell>

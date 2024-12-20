@@ -1,6 +1,30 @@
 import { useState, useEffect, useMemo } from 'react';
-import { transfersData, transfersItemsData } from '@/lib/mock-data';
-import { TransfersFilters } from '@/types/transfers';
+import { TransfersData, TransfersFilters, TransfersItems, TransfersStatus } from '@/types/transfers';
+import { capitalizeLetter } from '@/lib/utils';
+
+const transformBackendData = (backendData: any): TransfersData => {
+  return {
+    id: backendData.id.toString(),
+    date: backendData.date,
+    items: backendData.trans_items_id,
+    reason: backendData.reason,
+    createdBy: backendData.department.name,
+    status: capitalizeLetter(backendData.status) as TransfersStatus,
+    bin: backendData.bin_id
+  };
+};
+
+const transformItemBackendData = (backendData: any): TransfersItems => {
+  return {
+    name: backendData.item_name,
+    description: backendData.item_description,
+    manufacturerName: backendData.item_manufacturer,
+    manufacturerCode: backendData.item_manufacturer_code,
+    quantity: backendData.department.item_quantity,
+    bin: backendData.item_bin_id,
+    status: capitalizeLetter(backendData.status) as TransfersStatus,
+  };
+};
 
 function useData(
   sourceData: any,
@@ -60,9 +84,45 @@ function useData(
 }
 
 export function useTransfersData(page: number, filters: TransfersFilters, searchQuery?: string) {
-  return useData(transfersData, page, filters, searchQuery);
+  const [serverData, setServerData] = useState<TransfersData[]>([]);
+  useEffect(() => {
+    const fetchFunc = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transferts`, {
+          method: 'GET',
+        });
+
+        const text = await response.text(); // First get the raw response text
+        const data = text ? JSON.parse(text) : null; // Then parse if there's content
+        let transformedData = data.map((item: any) => transformBackendData(item));
+        setServerData(transformedData);
+      } catch (error) {
+        console.error("Error fetching requisitions:", error);
+      }
+    };
+    fetchFunc();
+  }, [])
+  return useData(serverData, page, filters, searchQuery);
 }
 
 export function useTransferItemsData(page: number, filters?: TransfersFilters, searchQuery?: string) {
-  return useData(transfersItemsData, page, filters, searchQuery);
+  const [serverData, setServerData] = useState<TransfersData[]>([]);
+  useEffect(() => {
+    const fetchFunc = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transfert-items`, {
+          method: 'GET',
+        });
+
+        const text = await response.text(); // First get the raw response text
+        const data = text ? JSON.parse(text) : null; // Then parse if there's content
+        let transformedData = data.map((item: any) => transformItemBackendData(item));
+        setServerData(transformedData);
+      } catch (error) {
+        console.error("Error fetching requisitions:", error);
+      }
+    };
+    fetchFunc();
+  }, [])
+  return useData(serverData, page, filters, searchQuery);
 }

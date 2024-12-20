@@ -79,7 +79,7 @@ export function ShippingTable({ filters, searchQuery, onClickView }: ShippingTab
                 <TableCell>{item.notes}</TableCell>
                 <TableCell>{formatDate(item.dateCreated)}</TableCell>
                 <TableCell>{item.other}</TableCell>
-                <TableCell>${item.sales.toFixed(2)}</TableCell>
+                <TableCell>${item.sales}</TableCell>
                 <TableCell>{item.carrier}</TableCell>
                 <TableCell>
                   <Popover>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     Table,
     TableBody,
@@ -7,43 +8,17 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { formatDate } from '@/lib/date';
-import { ProductionData, ProductionItem } from '@/types/production';
+import { Pagination } from '../../components/pagination/Pagination';
+import { ProductionData } from '@/types/production';
 import { Badge } from '@/components/ui/badge';
 import { ProductionStatus } from '@/types/production';
+import { useProductionItemsData } from '@/hooks/useProductionData';
 
 export function ProductionDetail(props: ProductionData) {
-    const data: ProductionItem[] = [
-        {
-            name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
-            manufacturerName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
-            quantity: 5,
-            approvedQuantity: 50,
-            status: 'Approved',
-        },
-        {
-            name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
-            manufacturerName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
-            quantity: 5,
-            approvedQuantity: 50,
-            status: 'Partially_Approved',
-        },
-        {
-            name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
-            manufacturerName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
-            quantity: 5,
-            approvedQuantity: 50,
-            status: 'Approved',
-        },
-    ];
+    const [currentPage, setCurrentPage] = useState(1);
+    const { data, totalPages, totalItems, itemsPerPage } = useProductionItemsData(
+        currentPage,
+    );
 
     const getStatusBadge = (status: ProductionStatus) => {
         const styles = {
@@ -64,9 +39,9 @@ export function ProductionDetail(props: ProductionData) {
 
     return (
         <div>
-            <h2 className="text-xl font-semibold">Requisitions Details</h2>
-            <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
-                <h2>Requisition Info</h2>
+            <h2 className="text-xl font-semibold">Production Details</h2>
+            <div className="flex flex-col gap-4 rounded-lg p-4 shadow-sm">
+                <h2>Production Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white rounded-lg p-6 shadow-sm">
                     <div className="space-y-4">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Number:&nbsp;</span><span>{props.id}</span></div>
@@ -83,7 +58,7 @@ export function ProductionDetail(props: ProductionData) {
                     </div>
                 </div>
                 <div className='flex flex-col gap-6'>
-                    <h2>Requisition Items</h2>
+                    <h2>Production Items</h2>
                     <div className='rounded-lg border bg-white'>
                         <Table>
                             <TableHeader>
@@ -116,6 +91,13 @@ export function ProductionDetail(props: ProductionData) {
                             </TableBody>
                         </Table>
                     </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={totalItems}
+                    />
                 </div>
             </div>
         </div>
