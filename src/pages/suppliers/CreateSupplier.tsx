@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Badge } from '@/components/ui/badge';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { SuppliersData, SuppliersItems, SuppliersStatus } from "@/types/suppliers";
+import { SuppliersData } from "@/types/suppliers";
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -13,7 +12,6 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import NumberInput from "@/components/organisms/numberInput";
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useSuppliersItemsData } from '@/hooks/useSuppliersData';
@@ -58,10 +56,6 @@ export function CreateSuppliers({ onClick }: CreateSuppliersProps) {
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
-
-    const handleSaveItem = () => {
-
-    }
 
     const handleDelete = (id: string) => {
         setDeleteDialogOpen(true);
