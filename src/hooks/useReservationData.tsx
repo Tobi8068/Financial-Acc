@@ -1,11 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import { transfersData, transfersItemsData } from '@/lib/mock-data';
-import { TransfersFilters } from '@/types/transfers';
+import { reservationData, reservationItemsData } from '@/lib/mock-data';
 
 function useData(
   sourceData: any,
   page: number,
-  filters?: TransfersFilters,
   searchQuery?: string
 ) {
   const [data, setData] = useState<any[]>([]);
@@ -21,26 +19,19 @@ function useData(
       const query = searchQuery.toLowerCase();
       result = result.filter(item =>
         item.id.toLowerCase().includes(query) ||
-        item.date.toLowerCase().includes(query) ||
+        item.dateCreated.toLowerCase().includes(query) ||
         item.items.toLowerCase().includes(query) ||
-        item.reason.toLowerCase().includes(query) ||
-        item.createdBy.name.toLowerCase().includes(query) ||
-        item.status.toLowerCase().includes(query) ||
-        item.bin.toString().toLowerCase().includes(query) ||
         item.reservationDate.toLowerCase().includes(query) ||
-        item.reservedBy.name.toLowerCase().includes(query)
+        item.reason.toLowerCase().includes(query) ||
+        item.project.toLowerCase().includes(query) ||
+        item.storeKeeper.name.toLowerCase().includes(query) ||
+        item.reservedBy.name.toLowerCase().includes(query) ||
+        item.status.toLowerCase().includes(query)
       );
     }
 
-    if (filters) {
-      if (filters.status && filters.status !== 'all') {
-        result = result.filter(item => item.status.toLowerCase() === filters.status.toLowerCase());
-      }
-    }
-
-
     return result;
-  }, [sourceData, filters, searchQuery]);
+  }, [sourceData, searchQuery]);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -59,10 +50,10 @@ function useData(
   };
 }
 
-export function useTransfersData(page: number, filters: TransfersFilters, searchQuery?: string) {
-  return useData(transfersData, page, filters, searchQuery);
+export function useReservationData(page: number, searchQuery?: string) {
+  return useData(reservationData, page, searchQuery);
 }
 
-export function useTransferItemsData(page: number, filters?: TransfersFilters, searchQuery?: string) {
-  return useData(transfersItemsData, page, filters, searchQuery);
+export function useReservationItemsData(page: number, searchQuery?: string) {
+  return useData(reservationItemsData, page, searchQuery);
 }

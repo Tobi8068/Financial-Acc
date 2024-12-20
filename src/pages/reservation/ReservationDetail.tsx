@@ -8,25 +8,26 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { TransfersData } from '@/types/transfers';
-import { useTransferItemsData } from '@/hooks/useTransfersData';
+import { ReservationData, ReservationStatus } from '@/types/reservation';
+import { useReservationItemsData } from '@/hooks/useReservationData';
 import { Pagination } from '../../components/pagination/Pagination';
-import { TransfersStatus } from "@/types/transfers";
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
 import { Badge } from '@/components/ui/badge';
 
-export function TransfersDetail(props: TransfersData) {
+export function ReservationDetail(props: ReservationData) {
     const [currentPage, setCurrentPage] = useState(1);
-    const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
+
+    const { data, totalPages, totalItems, itemsPerPage } = useReservationItemsData(
         currentPage,
     );
 
-    const getStatusBadge = (status: TransfersStatus) => {
+    const getStatusBadge = (status: ReservationStatus) => {
         const styles = {
-            Transfered: 'bg-red-100 text-red-800',
+            Created: 'bg-red-100 text-red-800',
             Approved: 'bg-green-100 text-green-800',
-            Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
+            Completed: 'bg-[#FEF6ED] text-[#C4320A]',
+            Cancelled: 'bg-gray-100 text-green-800',
         };
 
         return (
@@ -36,20 +37,20 @@ export function TransfersDetail(props: TransfersData) {
         );
     };
 
-
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-200px)]">
-            <h2 className="text-xl font-semibold">Transfers Details</h2>
+            <h2 className="text-xl font-semibold">Reservations Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
-                <h2 className='text-[#636692] font-semibold'>Transfer Info</h2>
+                <h2 className='text-[#636692] font-semibold'>Reservation Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Transfer No:&nbsp;</span><span>{props.id}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{props.date}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{props.dateCreated}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">StoreKeeper:&nbsp;</span><span>{props.storeKeeper.name}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reason:&nbsp;</span><span>{props.reason}</span></div>
                     </div>
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created By:&nbsp;</span><span>{props.createdBy.name}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reservation Date:&nbsp;</span><span>{props.reservationDate}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reserved By:&nbsp;</span><span>{props.reservedBy.name}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                     </div>
                 </div>
@@ -66,13 +67,12 @@ export function TransfersDetail(props: TransfersData) {
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Bin</TableHead>
-                                    <TableHead>Status</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item, index) => (
-                                        <TableRow key={index}>
+                                    data.map((item) => (
+                                        <TableRow>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
@@ -80,7 +80,6 @@ export function TransfersDetail(props: TransfersData) {
                                             <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.bin}</TableCell>
-                                            <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                                         </TableRow>
                                     ))
                                 }

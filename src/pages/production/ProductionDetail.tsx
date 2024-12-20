@@ -47,26 +47,26 @@ export function ProductionDetail(props: ProductionData) {
 
     const getStatusBadge = (status: ProductionStatus) => {
         const styles = {
-          Created: 'bg-[#F5F5F5] text-[#414651]',
-          Approved: 'bg-[#ECFDF3] text-[#027A48]',
-          Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
-          Ended: 'bg-[#F4F3FF] text-[#5925DC]',
-          Cancelled: 'bg-[#FEF2F2] text-[#991B1B]',
-          Partially_Approved: 'bg-[#FFFBEB] text-[#B45309]',
+            Created: 'bg-[#F5F5F5] text-[#414651]',
+            Approved: 'bg-[#ECFDF3] text-[#027A48]',
+            Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
+            Ended: 'bg-[#F4F3FF] text-[#5925DC]',
+            Cancelled: 'bg-[#FEF2F2] text-[#991B1B]',
+            Partially_Approved: 'bg-[#FFFBEB] text-[#B45309]',
         };
-    
+
         return (
-          <Badge className={styles[status]} variant="secondary">
-            {status.replace("_", " ").replace("0", "/")}
-          </Badge>
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
         );
-      };
+    };
 
     return (
         <div>
             <h2 className="text-xl font-semibold">Requisitions Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
-            <h2>Requisition Info</h2>
+                <h2>Requisition Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white rounded-lg p-6 shadow-sm">
                     <div className="space-y-4">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Number:&nbsp;</span><span>{props.id}</span></div>
@@ -75,11 +75,10 @@ export function ProductionDetail(props: ProductionData) {
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Production Start Date:&nbsp;</span><span>{formatDate(props.productionStartDate)}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Production End Date:&nbsp;</span><span>{formatDate(props.productionEndDate)}</span></div>
                     </div>
-
                     <div className="space-y-4">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Created By:&nbsp;</span><span>{props.createdBy}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Approved:&nbsp;</span><span>{props.approved ? "Yes" : "No" }</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Approved:&nbsp;</span><span>{props.approved ? "Yes" : "No"}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Approved By:&nbsp;</span><span>{props.approvedBy}</span></div>
                     </div>
                 </div>

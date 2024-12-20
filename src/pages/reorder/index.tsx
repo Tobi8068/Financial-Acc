@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { ReorderHeader } from "./ReorderHeader";
-import { ReOrderTable } from "./ReorderTable";
+import { ReorderHeader } from "./ReOrderHeader";
+import { ReOrderTable } from "./ReOrderTable";
 import { ReOrderFilters, ReOrderData } from "@/types/reOrder";
 import { SortOption } from "@/types/utils";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
-import { ReOrderDetail } from "./ReorderDetail";
+import { ReOrderDetail } from "./ReOrderDetail";
 
 function Reorder() {
   const [filters, setFilters] = useState<ReOrderFilters>({
@@ -32,10 +32,6 @@ function Reorder() {
     setScene(page);
   }
 
-  const handleCreate = () => {
-    setScene(3);
-  }
-
   return (
     <div className="border-none">
       {
@@ -58,14 +54,6 @@ function Reorder() {
                   setDetailData(item);
                 }}
               />
-            </main>
-          </>
-
-        ) : scene === 2 ? (
-          <>
-            <InsideNavbar text="Production" onClick={() => handlePage(1)} />
-            <main className="flex justify-center items-center p-6 bg-white bg-opacity-50">
-              {/* <CreateProduction onClick={() => handleCreate()} /> */}
             </main>
           </>
         ) : scene === 3 ? (

@@ -64,7 +64,6 @@ function Transfers() {
               />
             </main>
           </>
-
         ) : scene === 2 ? (
           <>
             <InsideNavbar text="transfers" onClick={() => handlePage(1)} />
