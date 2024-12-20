@@ -97,7 +97,7 @@ export function useProductionData(page: number, filters: ProductionFilters, sear
       let transformedData = data.map((item: any) => productionBackendData(item));
       setServerData(transformedData);
     } catch (error) {
-      console.error("Error fetching requisitions:", error);
+      console.error("Error fetching productions:", error);
     }
   };
   useEffect(() => {
