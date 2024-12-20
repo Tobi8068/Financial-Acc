@@ -123,7 +123,7 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
                 <TableCell className="font-medium">{item.id}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.description}</TableCell>
-                <TableCell>${item.contractID.toFixed(2)}</TableCell>
+                <TableCell>${item.contractID}</TableCell>
                 <TableCell>{formatDate(item.startDate)}</TableCell>
                 <TableCell>{formatDate(item.endDate)}</TableCell>
                 <TableCell>{getStatusBadge(item.status)}</TableCell>

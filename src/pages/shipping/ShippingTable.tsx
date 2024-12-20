@@ -130,7 +130,7 @@ export function ShippingTable({ filters, sortOption, searchQuery, onClickView }:
                 <TableCell>{item.notes}</TableCell>
                 <TableCell>{formatDate(item.dateCreated)}</TableCell>
                 <TableCell>{getStatusBadge(item.status)}</TableCell>
-                <TableCell>${item.sales.toFixed(2)}</TableCell>
+                <TableCell>${item.sales}</TableCell>
                 <TableCell>{item.carrier}</TableCell>
                 <TableCell>
                   <Popover>

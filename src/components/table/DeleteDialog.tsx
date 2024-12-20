@@ -22,13 +22,13 @@ export default function DeleteDialog({ open, onClose, onConfirm }: DeleteDialogP
             <div className="rounded-full bg-red-50 p-3">
               <Trash2 className="h-6 w-6 text-red-600" />
             </div>
-            <Dialog.Description className="text-center">
-              <div className="text-xl font-semibold text-gray-900">
+            <Dialog.Description className="text-center flex flex-col">
+              <span className="text-xl font-semibold text-gray-900">
                 Are you Sure?
-              </div>
-              <div className="mt-2 text-sm text-gray-500">
+              </span>
+              <span className="mt-2 text-sm text-gray-500">
                 You want to delete this?
-              </div>
+              </span>
             </Dialog.Description>
             <div className="flex w-full gap-4">
               <Dialog.Close asChild>

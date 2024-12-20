@@ -5,6 +5,7 @@ import { capitalizeFirstLetter } from '@/lib/utils';
 
 const transformBackendData = (backendData: any): RequisitionsData => {
   return {
+    pid: backendData.id,
     id: backendData.requisition_number.toString(),
     dateCreated: backendData.date,
     shipTo: backendData.ship_to,
@@ -94,6 +95,7 @@ export function useRequisitionsData(
         const data = text ? JSON.parse(text) : null; // Then parse if there's content
         let transformedData = data.map((item: any) => transformBackendData(item));
         setServerData(transformedData);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching requisitions:", error);
       }

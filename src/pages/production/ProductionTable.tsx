@@ -117,9 +117,6 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
                 <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No" }</TableCell>
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
-                {/* <TableCell className='text-[#535862]'>${item.totalAmountBeforeTax.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalTaxAmount.toFixed(2)}</TableCell> */}
-                {/* <TableCell className='text-[#535862]'>${item.totalAmount.toFixed(2)}</TableCell> */}
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

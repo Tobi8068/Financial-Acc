@@ -148,9 +148,9 @@ export function InvoiceTable({ filters, sortOption, searchQuery, onClickView }: 
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.shipTo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.billTo}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalTaxAmount.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalNetAmount.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalAmount.toFixed(2)}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalTaxAmount}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalNetAmount}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalAmount}</TableCell>
                 <TableCell className='text-[#535862]'>{item.contact}</TableCell>
                 {/* <TableCell>{item.turnTOpdf}</TableCell>
                 <TableCell>{item.clientApproval}</TableCell>
