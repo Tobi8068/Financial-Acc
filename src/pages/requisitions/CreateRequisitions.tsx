@@ -86,7 +86,7 @@ export function CreateRequisitions({ onClick }: CreateRequisitionsProps) {
 
     return (
         <div className="w-full flex flex-col justify-center overflow-y-auto">
-            <h2 className="text-xl font-semibold mb-6">Create Requisitions</h2>
+            <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
