@@ -18,13 +18,14 @@ export interface ProductionData {
 }
 
 export interface ProductionItem {
+  pid: string,
   name: string,
   description: string,
   manufacturerCode: string,
   manufacturerName: string,
   quantity: number,
   approvedQuantity: number,
-  unitOfMeasure: string,
+  unitOfMeasure: number,
   status: ProductionStatus,
 }
 

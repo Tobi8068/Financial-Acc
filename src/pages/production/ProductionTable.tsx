@@ -29,7 +29,7 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
   const [selectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
-  const { data, totalPages, totalItems, itemsPerPage } = useProductionData(
+  const { data, totalPages, totalItems, itemsPerPage, refreshData } = useProductionData(
     currentPage,
     filters,
     searchQuery,
@@ -46,9 +46,18 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
     setDeleteItemId(id);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
+    console.log('Delete Ready', deleteItemId);
     if (deleteItemId) {
       console.log('Deleting item with id:', deleteItemId);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/productions/${deleteItemId}`, {
+        method: 'DELETE',
+      })
+      console.log(response.status);
+      if (response.status === 204) {
+        alert('Item deleted successfully');
+        refreshData();
+      }
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }

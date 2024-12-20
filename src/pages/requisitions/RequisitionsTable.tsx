@@ -60,7 +60,6 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
   };
 
   const handleDelete = (id: string) => {
-    console.log(id)
     setDeleteDialogOpen(true);
     setDeleteItemId(id);
   };
