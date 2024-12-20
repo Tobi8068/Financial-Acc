@@ -8,14 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useSuppliersData } from '@/hooks/useSuppliersData';
-import { SuppliersStatus, SuppliersFilters } from '@/types/suppliers';
+import { SuppliersFilters } from '@/types/suppliers';
 import { SortOption } from '@/types/utils';
-import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
-import AvatarImg from '../../assets/img/Avatar.png';
 import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface SuppliersTableProps {
@@ -53,20 +50,6 @@ export function SuppliersTable({ filters, searchQuery, onClickView }: SuppliersT
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }
-  };
-
-  const getStatusBadge = (status: SuppliersStatus) => {
-    const styles = {
-      Transfered: 'bg-red-100 text-red-800',
-      Approved: 'bg-green-100 text-green-800',
-      Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
-    };
-
-    return (
-      <Badge className={styles[status]} variant="secondary">
-        {status.replace("_", " ").replace("0", "/")}
-      </Badge>
-    );
   };
 
   return (
