@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ShippingData, ShippingFilters } from '@/types/shipping';
-import { SortOption } from '@/types/utils';
+import { ShippingFilters } from '@/types/shipping';
 import { shippingData, shippingItemsData } from '@/lib/mock-data';
 
 function useData(
