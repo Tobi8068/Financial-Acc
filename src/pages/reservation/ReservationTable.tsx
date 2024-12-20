@@ -14,7 +14,7 @@ import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { Badge } from '@/components/ui/badge';
 import { ReservationStatus } from '@/types/reservation';
-import AvatarImg from '../../assets/img/Avatar.png';
+import AvatarImg from '../../assets/img/avatar.png';
 
 interface ReservationTableProps {
   searchQuery: string;
