@@ -27,12 +27,12 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
     const [formData, setFormData] = useState<TransfersItems>(
         {
             name: '',
-            itemCode: '',
+            // itemCode: '',
             description: '',
             manufacturerName: '',
             manufacturerCode: '',
             quantity: 0,
-            bin: 0,
+            bin: '',
             status: 'Approved',
         }
     );
@@ -118,7 +118,7 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
-                                    <TableHead>Item Code</TableHead>
+                                    {/* <TableHead>Item Code</TableHead> */}
                                     <TableHead>Description</TableHead>
                                     <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
@@ -133,7 +133,7 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                                     data.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
+                                            {/* <TableCell className='text-[#535862]'>{item.itemCode}</TableCell> */}
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>

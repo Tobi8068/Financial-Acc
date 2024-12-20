@@ -3,12 +3,9 @@ import { InvoiceData } from '@/types/invoice';
 import { SalesData } from '@/types/sales';
 import { CarrierData, ShippingData, ShippingItem } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
-import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData, ReceptionItem } from '@/types/receptions';
 import { ReservationData, ReservationItem } from '@/types/reservation';
-import { ProductionData, ProductionItem } from '@/types/production';
 import { ReOrderData } from '@/types/reOrder';
-import { TransfersData, TransfersItems } from '@/types/transfers';
 import { BillsData } from '@/types/bills';
 
 export const shippingData: ShippingData[] = [
