@@ -20,13 +20,13 @@ const productionBackendData = (backendData: any): ProductionData => {
 
 const productionItemBackendData = (backendData: any): ProductionItem => {
   return {
-    pid: backendData.id,
+    id: backendData.id,
     name: backendData.item_name,
     description: backendData.description,
     quantity: backendData.quantity,
     manufacturerName: backendData.manufacturer,
     manufacturerCode: backendData.manufacturer_code,
-    unitOfMeasure: backendData.measure_unit.name,
+    unitOfMeasure: backendData.measure_unit.orderUnitName,
     status: capitalizeFirstLetter(backendData.status) as ProductionStatus,
     approvedQuantity: backendData.approved_quantity
   };

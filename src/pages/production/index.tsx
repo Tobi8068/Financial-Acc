@@ -31,10 +31,6 @@ function Production() {
     setScene(page);
   }
 
-  const handleCreate = () => {
-    setScene(3);
-  }
-
   return (
     <div className="border-none">
       {
@@ -62,8 +58,8 @@ function Production() {
         ) : scene === 2 ? (
           <>
             <InsideNavbar text="Production" onClick={() => handlePage(1)} />
-            <main className="flex justify-center items-center p-6 bg-white bg-opacity-50">
-              <CreateProduction onClick={() => handleCreate()} />
+            <main className="flex justify-center items-center bg-white bg-opacity-50">
+              <CreateProduction/>
             </main>
           </>
         ) : scene === 3 ? (

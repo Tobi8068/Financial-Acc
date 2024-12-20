@@ -18,7 +18,7 @@ export interface ProductionData {
 }
 
 export interface ProductionItem {
-  pid: string,
+  id: string,
   name: string,
   description: string,
   manufacturerCode: string,

@@ -26,7 +26,6 @@ interface ProductionTableProps {
 
 export function ProductionTable({ filters, searchQuery, onClickView }: ProductionTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
   const { data, totalPages, totalItems, itemsPerPage, refreshData } = useProductionData(
@@ -103,8 +102,8 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
             {data.length !== 0 && data.map((item) => (
               <TableRow
                 key={item.id}
-                className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}
               >
+                
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.name}</TableCell>
