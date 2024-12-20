@@ -153,7 +153,7 @@ export default function EditCarrier({ initialData, onSave, open, onClose }: Edit
                             <Select.Item
                               key={index}
                               value={item}
-                              className="relative flex cursor-pointer select-none items-center rounded-sm px-8 py-2 text-sm text-gray-900 data-[highlighted]:bg-gray-100 data-[highlighted]:outline-none"
+                              className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-2 text-sm text-gray-900 data-[highlighted]:bg-gray-100 data-[highlighted]:outline-none"
                             >
                               <Select.ItemText>{item}</Select.ItemText>
                             </Select.Item>
