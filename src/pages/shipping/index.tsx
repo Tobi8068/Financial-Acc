@@ -2,14 +2,12 @@ import { useState } from "react";
 import { ShippingHeader } from "./ShippingHeader";
 import { ShippingTable } from "./ShippingTable";
 import { CarriesHeader } from "./CarriesHeader";
-
 import { CarriesTable } from "./CarriesTable";
-
 import ShippingDetail from "./ShippingDetail";
 import { ShippingFilters, CarriesFilters, ShippingData } from "@/types/shipping";
 import { SortOption } from "@/types/utils";
-
 import { InsideNavbar } from "@/components/ui/inside-navbar";
+import { CreateShipping } from "./CreateShipping";
 
 export default function Shipping() {
   const [shippingfilters, setShippingFilters] = useState<ShippingFilters>({
@@ -30,6 +28,9 @@ export default function Shipping() {
     status: 'pending',
     sales: 0,
     carrier: '',
+    other: '',
+    tracking: '',
+    packingList: false,
   });
 
   const handlePage = (page: number) => {
@@ -45,6 +46,10 @@ export default function Shipping() {
     setScene(3);
   }
 
+  const handleCreate = () => {
+    setScene(2);
+  }
+
   return (
     <div className="border-none">
       {
@@ -56,6 +61,7 @@ export default function Shipping() {
                 onFiltersChange={setShippingFilters}
                 onSortChange={setSortOption}
                 onSearchChange={setSearchQuery}
+                onCreate={() => handlePage(4)}
               />
               <ShippingTable
                 filters={shippingfilters}
@@ -65,7 +71,6 @@ export default function Shipping() {
               />
             </main>
           </>
-
         ) : scene === 2 ? (
           <>
             <InsideNavbar text="Shipping" onClick={() => handlePage(1)} />
@@ -93,10 +98,15 @@ export default function Shipping() {
               />
             </main>
           </>
+        ) : scene === 4 ? (
+          <>
+            <InsideNavbar text="Shipping" onClick={() => handlePage(1)} />
+            <main className="flex justify-center items-end bg-white bg-opacity-50">
+              <CreateShipping onClick={() => handleCreate()} />
+            </main>
+          </>
         ) : ''
       }
     </div>
   );
 }
-
-

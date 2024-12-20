@@ -1,7 +1,7 @@
 import { ClientData } from '@/types/client';
 import { InvoiceData } from '@/types/invoice';
 import { SalesData } from '@/types/sales';
-import { CarrierData, ShippingData } from '@/types/shipping';
+import { CarrierData, ShippingData, ShippingItem } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData, ReceptionItem } from '@/types/receptions';
@@ -20,6 +20,9 @@ export const shippingData: ShippingData[] = [
     status: 'pending',
     sales: 299.99,
     carrier: 'DHL Express',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '67',
@@ -29,6 +32,9 @@ export const shippingData: ShippingData[] = [
     status: 'shipped',
     sales: 149.50,
     carrier: 'FedEx',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '66',
@@ -38,6 +44,9 @@ export const shippingData: ShippingData[] = [
     status: 'pending',
     sales: 299.99,
     carrier: 'DHL Express',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '65',
@@ -47,6 +56,9 @@ export const shippingData: ShippingData[] = [
     status: 'shipped',
     sales: 149.50,
     carrier: 'FedEx',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '64',
@@ -56,6 +68,9 @@ export const shippingData: ShippingData[] = [
     status: 'delivered',
     sales: 567.80,
     carrier: 'UPS',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '71',
@@ -65,6 +80,9 @@ export const shippingData: ShippingData[] = [
     status: 'pending',
     sales: 892.25,
     carrier: 'DHL Express',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '70',
@@ -74,6 +92,9 @@ export const shippingData: ShippingData[] = [
     status: 'pending',
     sales: 892.25,
     carrier: 'DHL Express',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '69',
@@ -83,6 +104,9 @@ export const shippingData: ShippingData[] = [
     status: 'pending',
     sales: 892.25,
     carrier: 'DHL Express',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '63',
@@ -92,6 +116,9 @@ export const shippingData: ShippingData[] = [
     status: 'pending',
     sales: 892.25,
     carrier: 'DHL Express',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '62',
@@ -101,6 +128,9 @@ export const shippingData: ShippingData[] = [
     status: 'shipped',
     sales: 234.99,
     carrier: 'USPS',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '61',
@@ -110,6 +140,9 @@ export const shippingData: ShippingData[] = [
     status: 'delivered',
     sales: 445.75,
     carrier: 'FedEx',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '60',
@@ -119,6 +152,9 @@ export const shippingData: ShippingData[] = [
     status: 'cancelled',
     sales: 129.99,
     carrier: 'UPS',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '59',
@@ -128,6 +164,9 @@ export const shippingData: ShippingData[] = [
     status: 'delivered',
     sales: 678.50,
     carrier: 'DHL Express',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '58',
@@ -137,6 +176,9 @@ export const shippingData: ShippingData[] = [
     status: 'shipped',
     sales: 345.00,
     carrier: 'USPS',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   },
   {
     id: '57',
@@ -146,7 +188,40 @@ export const shippingData: ShippingData[] = [
     status: 'delivered',
     sales: 789.99,
     carrier: 'FedEx',
+    other: 'Monthly subscription',
+    tracking: '',
+    packingList: false,
   }
+];
+
+export const shippingItemsData: ShippingItem[] = [
+  {
+    name: 'John Doe',
+    description: 'Express delivery requested',
+    manufacturerCode: '22352WF',
+    manufacturerName: 'Lucky',
+    itemCode: '22352WF',
+    quantity: 51,
+    approved_quantity: 3,
+  },
+  {
+    name: 'Chris George',
+    description: 'Express delivery requested',
+    manufacturerCode: '22352WF',
+    manufacturerName: 'Lucky',
+    itemCode: '22352WF',
+    quantity: 51,
+    approved_quantity: 3,
+  },
+  {
+    name: 'Mihn Tom',
+    description: 'Express delivery requested',
+    manufacturerCode: '22352WF',
+    manufacturerName: 'Lucky',
+    itemCode: '22352WF',
+    quantity: 51,
+    approved_quantity: 3,
+  },
 ];
 
 export const invoiceData: InvoiceData[] = [
@@ -376,19 +451,23 @@ export const carriesData: CarrierData[] = [
     id: '#3066',
     name: 'computer',
     description: 'dddddddddddddddddddddddddd',
-    contractID: 4,
+    contractID: 423526232,
     startDate: '2022-01-06',
     endDate: '2024-01-06',
     status: 'Expired',
+    itemCode: '123456789',
+    quantity: 10,
   },
   {
-    id: '#3066',
+    id: '#3065',
     name: 'mobile',
     description: 'mobile is very important of our live',
-    contractID: 12,
+    contractID: 122342234,
     startDate: '2022-01-06',
     endDate: '2024-01-06',
     status: 'Active',
+    itemCode: '123456789',
+    quantity: 10,
   }
 ]
 
@@ -783,7 +862,7 @@ export const productionItemData: ProductionItem[] = [
   },
 ]
 
-export const reOrderData:ReOrderData[] = [
+export const reOrderData: ReOrderData[] = [
   {
     id: '321',
     name: 'Name',
@@ -840,10 +919,10 @@ export const reOrderData:ReOrderData[] = [
     manufacturerName: 'fg',
     manufacturerCode: 'hj',
   },
-  
+
 ]
 
-export const transfersData:TransfersData[] = [
+export const transfersData: TransfersData[] = [
   {
     id: '#3066',
     date: '2024-01-06',
@@ -964,7 +1043,7 @@ export const transfersItemsData: TransfersItems[] = [
   },
 ]
 
-export const reservationData:ReservationData[] = [
+export const reservationData: ReservationData[] = [
   {
     id: '#3063',
     dateCreated: '2024-01-06',
@@ -1018,7 +1097,7 @@ export const reservationData:ReservationData[] = [
   },
 ]
 
-export const reservationItemsData:ReservationItem[] = [
+export const reservationItemsData: ReservationItem[] = [
   {
     name: '#3066',
     itemCode: "35412AB",
@@ -1048,7 +1127,7 @@ export const reservationItemsData:ReservationItem[] = [
   },
 ]
 
-export const billsData:BillsData[] = [
+export const billsData: BillsData[] = [
   {
     id: '#3066',
     dateCreated: '2024-01-06',

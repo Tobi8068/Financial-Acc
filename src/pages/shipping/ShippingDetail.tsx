@@ -4,6 +4,7 @@ import {
     TableCell,
     TableHead,
     TableRow,
+    TableHeader
 } from '@/components/ui/table';
 import { formatDate } from '@/lib/date';
 import { ShippingData } from '@/types/shipping';
@@ -11,7 +12,7 @@ import { ShippingData } from '@/types/shipping';
 interface ShippingDetailProps {
     props: ShippingData;
     onClickCarrier: () => void;
-  }
+}
 export default function ShippingDetail({ props, onClickCarrier }: ShippingDetailProps) {
     const data = [
         {
@@ -45,14 +46,7 @@ export default function ShippingDetail({ props, onClickCarrier }: ShippingDetail
             account: 'Account'
         },
     ];
-    // const [viewCarrierID, setviewCarrierID] = useState<string | null>(null);
-    // const [carrierDialogOpen, setCarrierDialogOpen] = useState(false);
-
-    // const viewCarrier = () => {
-    //     setCarrierDialogOpen(true);
-    //     setviewCarrierID();
-    //   };
-
+    
     return (
         <div>
             <h2 className="text-xl font-semibold">Shipping Details</h2>
@@ -62,25 +56,24 @@ export default function ShippingDetail({ props, onClickCarrier }: ShippingDetail
                     <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Name:&nbsp;</span><span>{props.name}</span></div>
                     <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Notes:&nbsp;</span><span>{props.notes}</span></div>
                     <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[128px]">Date Created:&nbsp;</span><span>{formatDate(props.dateCreated)}</span></div>
-                    <div className="text-md text-[#2B2D40] flex  cursor-pointer" onClick={ onClickCarrier }><span className="font-bold w-[128px]" >Carrier:&nbsp;</span><span>{props.carrier}</span>
-                         
-                    </div>
+                    <div className="text-md text-[#2B2D40] flex  cursor-pointer" onClick={onClickCarrier}><span className="font-bold w-[128px]" >Carrier:&nbsp;</span><span>{props.carrier}</span></div>
                 </div>
-
                 <div className='flex flex-col gap-6 mt-4'>
                     <h2 className="text-lg font-semibold">Shipping Items</h2>
                     <div className='rounded-lg border bg-white'>
                         <Table>
-                            <TableRow>
-                                <TableHead className='pl-6'>Name</TableHead>
-                                <TableHead>Description</TableHead>
-                                <TableHead>Unit</TableHead>
-                                <TableHead>Price</TableHead>
-                                <TableHead>Total Per Line</TableHead>
-                                <TableHead>Tax Group</TableHead>
-                                <TableHead>Tax Amount</TableHead>
-                                <TableHead>Account</TableHead>
-                            </TableRow>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className='pl-6'>Name</TableHead>
+                                    <TableHead>Description</TableHead>
+                                    <TableHead>Unit</TableHead>
+                                    <TableHead>Price</TableHead>
+                                    <TableHead>Total Per Line</TableHead>
+                                    <TableHead>Tax Group</TableHead>
+                                    <TableHead>Tax Amount</TableHead>
+                                    <TableHead>Account</TableHead>
+                                </TableRow>
+                            </TableHeader>
                             <TableBody>
                                 {
                                     data.map((item, index) => (
