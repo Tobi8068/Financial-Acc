@@ -18,6 +18,19 @@ export interface ShippingData {
   status: ShippingStatus;
   sales: number;
   carrier: string;
+  other: string;
+  tracking: string;
+  packingList: boolean;
+}
+
+export interface ShippingItem {
+  name: string;
+  description: string;
+  manufacturerCode: string;
+  manufacturerName: string;
+  itemCode: string;
+  quantity: number;
+  approved_quantity: number;
 }
 
 export interface CarrierData {
@@ -28,4 +41,6 @@ export interface CarrierData {
   startDate: string;
   endDate: string;
   status: CarriesStatus;
+  itemCode: string;
+  quantity: number;
 }

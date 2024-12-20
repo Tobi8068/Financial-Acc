@@ -23,6 +23,7 @@ export function CarriesHeader({
   onSortChange,
   onSearchChange
 }: CarriesHeaderProps) {
+
   const [filters, setFilters] = useState<CarriesFilters>({
     status: 'all',
   });
@@ -32,12 +33,6 @@ export function CarriesHeader({
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
-
-  // const handleCarrierChange = (carrier: string) => {
-  //   const newFilters = { ...filters, carrier };
-  //   setFilters(newFilters);
-  //   onFiltersChange(newFilters);
-  // };
 
   return (
     <div className="space-y-4 mb-6">
@@ -50,12 +45,11 @@ export function CarriesHeader({
           Add Carrier
         </Button>
       </div>
-
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input
             type="search"
-            placeholder="Search shipments..."
+            placeholder="Search"
             className="h-9 w-96"
             // prefix={<Search className="h-4 w-4 text-gray-500" />}
             onChange={(e) => onSearchChange(e.target.value as string)}
@@ -71,13 +65,10 @@ export function CarriesHeader({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="shipped">Shipped</SelectItem>
-            <SelectItem value="delivered">Delivered</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
+            <SelectItem value="Active">Active</SelectItem>
+            <SelectItem value="Expired">Expired</SelectItem>
           </SelectContent>
         </Select>
-
         <Select
           defaultValue="newest"
           onValueChange={(value) => onSortChange(value as SortOption)}

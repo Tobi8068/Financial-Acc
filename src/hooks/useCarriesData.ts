@@ -22,7 +22,12 @@ export function useCarriesData(
       result = result.filter(item => 
         item.name.toLowerCase().includes(query) ||
         item.description.toLowerCase().includes(query) ||
-        item.id.toLowerCase().includes(query)
+        item.contractID.toString().toLowerCase().includes(query) ||
+        item.startDate.toLowerCase().includes(query) ||
+        item.endDate.toLowerCase().includes(query) ||
+        item.status.toLowerCase().includes(query) ||
+        item.itemCode.toLowerCase().includes(query) ||
+        item.quantity.toString().toLowerCase().includes(query)
       );
     }
 

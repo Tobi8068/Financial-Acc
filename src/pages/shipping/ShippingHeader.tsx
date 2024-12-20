@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -10,15 +10,19 @@ import {
 import { Filter } from 'lucide-react';
 import { ShippingFilters } from '@/types/shipping';
 import { SortOption } from '@/types/utils';
+import { Button } from '@/components/ui/button';
+
 interface ShippingHeaderProps {
   onFiltersChange: (filters: ShippingFilters) => void;
   onSortChange: (sort: SortOption) => void;
   onSearchChange: (search: string) => void;
+  onCreate: () => void;
 }
 
-export function ShippingHeader({ 
-  onFiltersChange, 
-  onSearchChange 
+export function ShippingHeader({
+  onFiltersChange,
+  onSearchChange,
+  onCreate,
 }: ShippingHeaderProps) {
   const [filters, setFilters] = useState<ShippingFilters>({
     status: 'all',
@@ -31,33 +35,24 @@ export function ShippingHeader({
     onFiltersChange(newFilters);
   };
 
-  // const handleCarrierChange = (carrier: string) => {
-  //   const newFilters = { ...filters, carrier };
-  //   setFilters(newFilters);
-  //   onFiltersChange(newFilters);
-  // };
-
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">Shipping</h2>
-        {/* <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          New Shipment
-        </Button> */}
+        <Button className="gap-2" onClick={() => { onCreate() }}>
+          Create Shipping
+        </Button>
       </div>
-      
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input
             type="search"
             placeholder="Search shipments..."
             className="h-9 w-96 bg-white"
-            // prefix={<Search className="h-4 w-4 text-gray-500" />}
             onChange={(e) => onSearchChange(e.target.value as string)}
           />
         </div>
-        <Select 
+        <Select
           defaultValue="all"
           onValueChange={handleStatusChange}
         >

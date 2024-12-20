@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { MoreVertical } from 'lucide-react';
 import {
   Table,
@@ -11,14 +11,13 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Badge } from '@/components/ui/badge';
 import { useCarriesData } from '@/hooks/useCarriesData';
-import { CarriesStatus, CarriesFilters } from '@/types/shipping';
+import { CarriesStatus, CarriesFilters, CarrierData } from '@/types/shipping';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '@/components/pagination/Pagination';
-
 import DeleteDialog from '@/components/table/DeleteDialog';
 import CarrierDetails from './ViewCarries';
-// import EditCarries from './EditCarries';
+import EditCarries from './EditCarries';
 
 interface CarriesTableProps {
   filters: CarriesFilters;
@@ -30,7 +29,37 @@ interface CarriesTableProps {
 export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
-  // const [editableDialogOpen, setEditableDialogOpen] = useState(false);
+  const [editableDialogOpen, setEditableDialogOpen] = useState(false);
+  const [viewItem, setViewItem] = useState<CarrierData>({
+    id: '',
+    name: '',
+    description: '',
+    contractID: 0,
+    startDate: '',
+    endDate: '',
+    status: "Active",
+    itemCode: '',
+    quantity: 0,
+  }); 
+  const transformCarrierData = (data: CarrierData) => {
+    return {
+      name: data.name,
+      contractId: data.contractID.toString(), // Convert number to string 
+      startDate: data.startDate,
+      endDate: data.endDate,
+      status: data.status
+    }
+  }
+  const transformCarrierDataEdit = (data: CarrierData) => {
+    return {
+      name: data.name,
+      contractId: data.contractID.toString(), // Convert number to string 
+      startDate: data.startDate,
+      endDate: data.endDate,
+      status: data.status,
+      quantity: data.quantity.toString(),  // Convert number to string
+    }
+  }
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
@@ -54,13 +83,15 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
     );
   };
 
-  // const handleView = (id: string) => {
-  //   setViewDialogOpen(true);
-  // };
+  const handleView = (item: CarrierData) => {
+    setViewItem(item);
+    setViewDialogOpen(true);
+  };
 
-  // const handleEditable = (id: string) => {
-  //   setEditableDialogOpen(true);
-  // };
+  const handleEditable = (item: CarrierData) => {
+    setViewItem(item);
+    setEditableDialogOpen(true);
+  };
 
   const handleDelete = (id: string) => {
     setDeleteDialogOpen(true);
@@ -75,59 +106,36 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
     }
   };
 
-  useEffect(() => {
-    // const fetchFunc = async () => {
-    //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
-    //     method: 'GET'
-    //   });
-
-    //   console.log("Data", response.json());
-    // }
-    // fetchFunc();
-  }, []);
-
   return (
     <div className="space-y-4">
       <div className="rounded-lg border bg-white">
         <Table>
           <TableHeader>
             <TableRow>
-              {/* <TableHead className="w-12">
-                <Checkbox 
-                  checked={selectedItems.length === data.length}
-                  onCheckedChange={handleSelectAll}
-                />
-              </TableHead> */}
-              <TableHead>No.</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Description</TableHead>
-              <TableHead>Contact ID</TableHead>
+              <TableHead>Contract ID</TableHead>
               <TableHead>Start Date</TableHead>
               <TableHead>End Date</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Item Code</TableHead>
+              <TableHead>Quantity</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
-
           <TableBody>
             {data.map((item) => (
               <TableRow
                 key={item.id}
               >
-                {/* <TableCell>
-                  <Checkbox 
-                    checked={selectedItems.includes(item.id)}
-                    onCheckedChange={(checked) => handleSelectItem(item.id, checked as boolean)}
-                  /> 
-                </TableCell> */}
-                <TableCell className="font-medium">{item.id}</TableCell>
-                <TableCell>{item.name}</TableCell>
+                <TableCell className="font-medium">{item.name}</TableCell>
                 <TableCell>{item.description}</TableCell>
-                <TableCell>${item.contractID}</TableCell>
+                <TableCell>#{item.contractID}</TableCell>
                 <TableCell>{formatDate(item.startDate)}</TableCell>
                 <TableCell>{formatDate(item.endDate)}</TableCell>
                 <TableCell>{getStatusBadge(item.status)}</TableCell>
-
+                <TableCell>{item.itemCode}</TableCell>
+                <TableCell>{item.quantity}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -137,8 +145,8 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
                     </PopoverTrigger>
                     <PopoverContent align="end" className='w-24' sideOffset={2}>
                       <ul className="space-y-2">
-                        {/* <li className='cursor-pointer' onClick={() => handleView(item.id)}>View</li> */}
-                        {/* <li className='cursor-pointer' onClick={() => handleEditable(item.id)}>Edit</li> */}
+                        <li className='cursor-pointer' onClick={() => handleView(item)}>View</li>
+                        <li className='cursor-pointer' onClick={() => handleEditable(item)}>Edit</li>
                         <li className='cursor-pointer' onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>
                     </PopoverContent>
@@ -149,7 +157,6 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
           </TableBody>
         </Table>
       </div>
-
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
@@ -157,17 +164,17 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
       />
-
       <CarrierDetails
+        carrier={transformCarrierData(viewItem)}
         open={viewDialogOpen}
         onClose={() => setViewDialogOpen(false)}
       />
-
-      {/* <EditCarries
+      <EditCarries
+        initialData={transformCarrierDataEdit(viewItem)}
+        onSave={() => {}}
         open={editableDialogOpen}
         onClose={() => setEditableDialogOpen(false)}
-      /> */}
-
+      />
       <DeleteDialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
