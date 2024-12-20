@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { MoreVertical } from 'lucide-react';
 import {
   Table,
