@@ -5,9 +5,11 @@ import { CarrierData, ShippingData } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { RequisitionsData } from '@/types/requisitions';
 import { ReceptionsData, ReceptionItem } from '@/types/receptions';
-import { ProductionData } from '@/types/production';
+import { ReservationData, ReservationItem } from '@/types/reservation';
+import { ProductionData, ProductionItem } from '@/types/production';
 import { ReOrderData } from '@/types/reOrder';
 import { TransfersData, TransfersItems } from '@/types/transfers';
+import { BillsData } from '@/types/bills';
 
 export const shippingData: ShippingData[] = [
   {
@@ -690,6 +692,29 @@ export const productionData: ProductionData[] = [
   },
 ]
 
+export const productionItemData: ProductionItem[] = [
+  {
+    name: 'Computer',
+    description: 'Lenovo',
+    manufacturerCode: '35663BD',
+    manufacturerName: 'Lena',
+    quantity: 5,
+    approvedQuantity: 5,
+    unitOfMeasure: 'Pieces',
+    status: 'Approved',
+  },
+  {
+    name: 'Mobile',
+    description: 'HUAWEI',
+    manufacturerCode: '36732SD',
+    manufacturerName: 'Oleg',
+    quantity: 5,
+    approvedQuantity: 5,
+    unitOfMeasure: 'Pieces',
+    status: 'Partially_Approved',
+  },
+]
+
 export const reOrderData:ReOrderData[] = [
   {
     id: '321',
@@ -721,31 +746,31 @@ export const reOrderData:ReOrderData[] = [
   },
   {
     id: '323',
-    name: 'Name',
+    name: 'qw',
     date: '2024-01-04',
     numberOfItem: 2,
     numberOfRequisition: 2,
-    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-    orderUnit: 'Order Unit',
-    preferredSupplier: 'Preferred Supplier',
+    description: 'er',
+    orderUnit: 'ty',
+    preferredSupplier: 'ui',
     price: 250,
-    itemCode: 'XB12345',
-    manufacturerName: 'Manufacturer',
-    manufacturerCode: 'XB12345',
+    itemCode: 'op',
+    manufacturerName: 'as',
+    manufacturerCode: 'df',
   },
   {
     id: '324',
-    name: 'Name',
+    name: 'we',
     date: '2024-01-04',
     numberOfItem: 2,
     numberOfRequisition: 2,
-    description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-    orderUnit: 'Order Unit',
-    preferredSupplier: 'Supplier',
+    description: 'rt',
+    orderUnit: 'yu',
+    preferredSupplier: 'io',
     price: 250,
-    itemCode: 'XB12345',
-    manufacturerName: 'Manufacturer',
-    manufacturerCode: 'XB12345',
+    itemCode: 'sd',
+    manufacturerName: 'fg',
+    manufacturerCode: 'hj',
   },
   
 ]
@@ -769,7 +794,7 @@ export const transfersData:TransfersData[] = [
     },
   },
   {
-    id: '#3065',
+    id: '#3067',
     date: '2024-01-05',
     items: 'Item',
     reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
@@ -786,7 +811,7 @@ export const transfersData:TransfersData[] = [
     },
   },
   {
-    id: '#3064',
+    id: '#3068',
     date: '2024-01-03',
     items: 'Item',
     reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
@@ -803,40 +828,39 @@ export const transfersData:TransfersData[] = [
     },
   },
   {
-    id: '#3063',
+    id: '#3069',
     date: '2024-01-01',
-    items: 'Item',
-    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    items: 'aa',
+    reason: 'bb',
     createdBy: {
-      name: 'John',
+      name: 'cc',
       avatar: '',
     },
     status: 'Transfered',
     bin: 1,
     reservationDate: '2024-01-06',
     reservedBy: {
-      name: 'John',
+      name: 'dd',
       avatar: '',
     },
   },
   {
-    id: '#3062',
+    id: '#3070',
     date: '2024-01-06',
-    items: 'Item',
-    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    items: 'ee',
+    reason: 'ff',
     createdBy: {
-      name: 'John',
+      name: 'gg',
       avatar: '',
     },
     status: 'Approved',
     bin: 1,
     reservationDate: '2024-01-06',
     reservedBy: {
-      name: 'John',
+      name: 'hh',
       avatar: '',
     },
   },
-  
 ]
 
 export const transfersItemsData: TransfersItems[] = [
@@ -870,4 +894,119 @@ export const transfersItemsData: TransfersItems[] = [
     bin: 5,
     status: 'Approved',
   },
-];
+]
+
+export const reservationData:ReservationData[] = [
+  {
+    id: '#3063',
+    dateCreated: '2024-01-06',
+    items: 'Item',
+    reservationDate: '2024-01-06',
+    reason: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
+    project: 'Project',
+    storeKeeper: {
+      name: 'John',
+      avatar: '',
+    },
+    reservedBy: {
+      name: 'John',
+      avatar: '',
+    },
+    status: 'Approved',
+  },
+  {
+    id: '#3064',
+    dateCreated: '2024-01-06',
+    items: 'aa',
+    reservationDate: '2024-01-06',
+    reason: 'bb',
+    project: 'cc',
+    storeKeeper: {
+      name: 'dd',
+      avatar: '',
+    },
+    reservedBy: {
+      name: 'ee',
+      avatar: '',
+    },
+    status: 'Approved',
+  },
+  {
+    id: '#3065',
+    dateCreated: '2024-01-06',
+    items: 'ff',
+    reservationDate: '2024-01-06',
+    reason: 'gg',
+    project: 'hh',
+    storeKeeper: {
+      name: 'ii',
+      avatar: '',
+    },
+    reservedBy: {
+      name: 'jj',
+      avatar: '',
+    },
+    status: 'Cancelled',
+  },
+]
+
+export const reservationItemsData:ReservationItem[] = [
+  {
+    name: '#3066',
+    itemCode: "35412AB",
+    description: "Monthly subscription",
+    manufacturerName: "Apple Inc.",
+    manufacturerCode: "35412AB",
+    quantity: 5,
+    bin: 5,
+  },
+  {
+    name: '#3067',
+    itemCode: "35412AB",
+    description: "Monthly subscription",
+    manufacturerName: "Apple Inc.",
+    manufacturerCode: "35412AB",
+    quantity: 5,
+    bin: 5,
+  },
+  {
+    name: '#3068',
+    itemCode: "35412AB",
+    description: "Monthly subscription",
+    manufacturerName: "Apple Inc.",
+    manufacturerCode: "35412AB",
+    quantity: 5,
+    bin: 5,
+  },
+]
+
+export const billsData:BillsData[] = [
+  {
+    id: '#3066',
+    dateCreated: '2024-01-06',
+    supplier: 'Jackson',
+    requiredDate: '2024-01-06',
+    status: 'Approved',
+    terms: 'View Terms',
+    shipTo: 'Name',
+    billTo: 'Name',
+    totalTaxAmount: 250,
+    totalNetAmount: 250,
+    totalAmount: 150,
+    contact: 123456789,
+  },
+  {
+    id: '#3067',
+    dateCreated: '2024-01-06',
+    supplier: 'Lena',
+    requiredDate: '2024-01-06',
+    status: 'Need_Approval',
+    terms: 'View Terms',
+    shipTo: 'Name',
+    billTo: 'Name',
+    totalTaxAmount: 250,
+    totalNetAmount: 250,
+    totalAmount: 150,
+    contact: 123456789,
+  },
+]

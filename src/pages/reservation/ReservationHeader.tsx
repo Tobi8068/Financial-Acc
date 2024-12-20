@@ -1,23 +1,25 @@
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ReOrderFilters } from '@/types/reOrder';
-import { SortOption } from '@/types/utils';
 
-interface ReOrderProps {
-  onFiltersChange: (filters: ReOrderFilters) => void;
-  onSortChange: (sort: SortOption) => void;
+interface ReservationProps {
   onSearchChange: (search: string) => void;
   onCreate: () => void;
 }
 
-export function ReorderHeader({
+export function ReservationHeader({ 
   onSearchChange,
-}: ReOrderProps) {
-
+  onCreate,
+}: ReservationProps) {
+ 
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">Reorder</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Reservations</h2>
+        <Button className="gap-2" onClick={() => { onCreate() }}>
+          Add Reservation
+        </Button>
       </div>
+      
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input

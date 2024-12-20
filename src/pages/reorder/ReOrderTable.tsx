@@ -15,7 +15,6 @@ import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 
-
 interface ReOrderTableProps {
   filters: ReOrderFilters;
   sortOption: SortOption;
@@ -59,7 +58,6 @@ export function ReOrderTable({ filters, sortOption, searchQuery, onClickView }: 
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
-
           <TableBody>
             {data.length !== 0 && data.map((item) => (
               <TableRow
@@ -96,7 +94,6 @@ export function ReOrderTable({ filters, sortOption, searchQuery, onClickView }: 
           </TableBody>
         </Table>
       </div>
-
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

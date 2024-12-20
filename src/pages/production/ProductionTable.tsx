@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-// import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useProductionData } from '@/hooks/useProductionData';
@@ -16,7 +15,6 @@ import { ProductionStatus, ProductionFilters } from '@/types/production';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
-
 import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface ProductionTableProps {
@@ -26,7 +24,7 @@ interface ProductionTableProps {
   onClickView: (item: any) => void;
 }
 
-export function ProductionTable({ filters, sortOption, searchQuery, onClickView }: ProductionTableProps) {
+export function ProductionTable({ filters, searchQuery, onClickView }: ProductionTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems] = useState<string[]>([]);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -34,8 +32,7 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
   const { data, totalPages, totalItems, itemsPerPage } = useProductionData(
     currentPage,
     filters,
-    sortOption,
-    searchQuery
+    searchQuery,
   );
 
   useEffect(() => {
@@ -80,12 +77,6 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
         <Table>
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
-              {/* <TableHead className="w-12">
-                <Checkbox
-                  checked={selectedItems.length === data.length}
-                  onCheckedChange={handleSelectAll}
-                />
-              </TableHead> */}
               <TableHead className='pl-6'>No.</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Name</TableHead>
@@ -96,11 +87,9 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
               <TableHead>Created By</TableHead>
               <TableHead>Approved</TableHead>
               <TableHead>Approved By</TableHead>
-              {/* <TableHead>Total Amount</TableHead> */}
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
-
           <TableBody>
             {data.length !== 0 && data.map((item) => (
               <TableRow
@@ -115,7 +104,7 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
                 <TableCell className='text-[#535862]'>{formatDate(item.productionEndDate)}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
-                <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No" }</TableCell>
+                <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
                 <TableCell>
                   <Popover>
@@ -138,7 +127,6 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
           </TableBody>
         </Table>
       </div>
-
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
@@ -146,7 +134,6 @@ export function ProductionTable({ filters, sortOption, searchQuery, onClickView 
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
       />
-
       <DeleteDialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}

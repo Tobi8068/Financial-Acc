@@ -1,17 +1,8 @@
 import { useState } from "react";
-import { Upload } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { 
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from '@/components/ui/select';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { TransfersItems, TransfersStatus } from "@/types/transfers";
-import { transfersItemsData } from "@/lib/mock-data";
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -22,12 +13,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Notes } from "@/components/organisms/notes";
 import NumberInput from "@/components/organisms/numberInput";
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
-import { useTransfersData, useTransferItemsData } from '@/hooks/useTransfersData';
-import { messageData } from "@/lib/message-data";
+import { useTransferItemsData } from '@/hooks/useTransfersData';
 
 interface CreateTransfersProps {
     onClick: () => void;
@@ -48,13 +37,12 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
         }
     );
     const [currentPage, setCurrentPage] = useState(1);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
     const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
         currentPage,
     );
-
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
@@ -79,23 +67,21 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
 
     const getStatusBadge = (status: TransfersStatus) => {
         const styles = {
-          Transfered: 'bg-red-100 text-red-800',
-          Approved: 'bg-green-100 text-green-800',
-          Waiting_Payment: 'bg-[#FEF6ED] text-[#C4320A]',
-          Paid: 'bg-green-100 text-green-800',
-          Close0Complete: 'bg-blue-100 text-[#363F72]',
+            Transfered: 'bg-red-100 text-red-800',
+            Approved: 'bg-green-100 text-green-800',
+            Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
         };
-    
+
         return (
-          <Badge className={styles[status]} variant="secondary">
-            {status.replace("_", " ").replace("0", "/")}
-          </Badge>
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
         );
-      };
+    };
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <h2 className="text-xl font-semibold mb-6">Add Reception</h2>
+            <h2 className="text-xl font-semibold mb-6">Add Transfers</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
@@ -111,7 +97,7 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                             ]} />
                     </div>
                     <div className="grid w-full grid-cols-4 gap-12">
-                    <SelectInput
+                        <SelectInput
                             label="Bin"
                             value={formData.status}
                             onChange={(value) => handleChange('bin', value)}
@@ -124,7 +110,7 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                             ]} />
                     </div>
                     <div className="grid w-full grid-cols-2 gap-12">
-                    <TextInput text='Reason' onChange={(value) => handleChange('reason', value)}  />
+                        <TextInput text='Reason' onChange={(value) => handleChange('reason', value)} />
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -212,7 +198,6 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                     <div className="w-full flex gap-4 justify-end">
                         <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
                     </div>
-                    
                     <div className="w-full flex justify-end">
                         <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
                             <span className="text-white font-semibold">Add Transfer</span>

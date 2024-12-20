@@ -1,5 +1,9 @@
 export type BillsStatus = 'Need_Approval' | 'Approved' | 'Sent' | 'Paid' | 'Complete' | 'On_Hold';
 
+export interface BillsFilters {
+  status: BillsStatus | 'all';
+}
+
 export interface BillsData {
   id: string;
   dateCreated: string;
@@ -12,6 +16,7 @@ export interface BillsData {
   totalTaxAmount: number;
   totalNetAmount: number;
   totalAmount: number;
+  contact: number;
 }
 
 export interface BillItem {

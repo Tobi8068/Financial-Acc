@@ -1,4 +1,4 @@
-export type TransfersStatus = 'Transfered' | 'Approved';
+export type TransfersStatus = 'Transfered' | 'Approved' | 'Cancelled';
 
 export interface TransfersFilters {
   status: TransfersStatus | 'all';

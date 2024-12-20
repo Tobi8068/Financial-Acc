@@ -8,31 +8,26 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useTransfersData } from '@/hooks/useTransfersData';
-import { TransfersStatus, TransfersFilters } from '@/types/transfers';
-import { SortOption } from '@/types/utils';
-import { formatDate } from '@/lib/date';
+import { useReservationData } from '@/hooks/useReservationData';
 import { Pagination } from '../../components/pagination/Pagination';
-import AvatarImg from '../../assets/img/Avatar.png';
 import DeleteDialog from '@/components/table/DeleteDialog';
+import { Badge } from '@/components/ui/badge';
+import { ReservationStatus } from '@/types/reservation';
+import AvatarImg from '../../assets/img/Avatar.png';
 
-interface TransfersTableProps {
-  filters: TransfersFilters;
-  sortOption: SortOption;
+interface ReservationTableProps {
   searchQuery: string;
   onClickView: (item: any) => void;
 }
 
-export function TransfersTable({ filters, searchQuery, onClickView }: TransfersTableProps) {
+export function ReservationTable({ searchQuery, onClickView }: ReservationTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
-  const { data, totalPages, totalItems, itemsPerPage } = useTransfersData(
+  const { data, totalPages, totalItems, itemsPerPage } = useReservationData(
     currentPage,
-    filters,
     searchQuery
   );
 
@@ -55,11 +50,12 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
     }
   };
 
-  const getStatusBadge = (status: TransfersStatus) => {
+  const getStatusBadge = (status: ReservationStatus) => {
     const styles = {
-      Transfered: 'bg-red-100 text-red-800',
+      Created: 'bg-red-100 text-red-800',
       Approved: 'bg-green-100 text-green-800',
-      Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
+      Completed: 'bg-[#FEF6ED] text-[#C4320A]',
+      Cancelled: 'bg-gray-100 text-green-800',
     };
 
     return (
@@ -75,46 +71,51 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
         <Table>
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
-              <TableHead className='pl-6'>Transfer No.</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead className='pl-6'>Issue No.</TableHead>
+              <TableHead>Date Created</TableHead>
               <TableHead>Items</TableHead>
-              <TableHead>Reason</TableHead>
-              <TableHead>Created By</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Bin</TableHead>
               <TableHead>Reservation Date</TableHead>
+              <TableHead>Reason</TableHead>
+              <TableHead>Project</TableHead>
+              <TableHead>Store keeper</TableHead>
               <TableHead>Reserved By</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody>
-            {data.length !== 0 && data.map((item) => (
+            {data.map((item) => (
               <TableRow
                 key={item.id}
               >
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
-                <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
-                <TableCell className="font-medium ">{item.items}</TableCell>
-                <TableCell className="font-medium">{item.reason}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-1'>
-                  <div>
-                    <img src={AvatarImg} className='rounded-[100%]'></img>
+                <TableCell className='text-[#535862]'>{item.dateCreated}</TableCell>
+                <TableCell className='text-[#535862]'>{item.items}</TableCell>
+                <TableCell className='text-[#535862]'>{item.reservationDate}</TableCell>
+                <TableCell className='text-[#535862]'>{item.reason}</TableCell>
+                <TableCell className='text-[#535862]'>{item.project}</TableCell>
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-1'>
+                    <div>
+                      <img src={AvatarImg} className='rounded-[100%]'></img>
+                    </div>
+                    <div className='flex flex-col'>
+                      <span>{item.storeKeeper.name}</span>
+                    </div>
                   </div>
-                  <div className='flex flex-col'>
-                    <span>{item.createdBy.name}</span>
+                </TableCell>
+                <TableCell className='text-[#535862] flex items-center gap-1'>
+                  <div className='flex items-center gap-1'>
+                    <div>
+                      <img src={AvatarImg} className='rounded-[100%]'></img>
+                    </div>
+                    <div className='flex flex-col'>
+                      <span>{item.reservedBy.name}</span>
+                    </div>
                   </div>
                 </TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
-                <TableCell className="font-medium">{item.bin}</TableCell>
-                <TableCell className='text-[#535862]'>{formatDate(item.reservationDate)}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-1'>
-                  <div>
-                    <img src={AvatarImg} className='rounded-[100%]'></img>
-                  </div>
-                  <div className='flex flex-col'>
-                    <span>{item.reservedBy.name}</span>
-                  </div>
-                </TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -136,6 +137,7 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
           </TableBody>
         </Table>
       </div>
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
