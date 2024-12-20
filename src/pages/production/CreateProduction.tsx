@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { ProductionItem, ProductionStatus } from "@/types/production";
+import { ProductionStatus } from "@/types/production";
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -19,6 +19,7 @@ import { useProductionItemsData } from '@/hooks/useProductionData';
 import { DateInput } from "@/components/ui/date-input";
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { capitalizeLetter } from "@/lib/utils";
 
 export function CreateProduction() {
 
@@ -75,7 +76,6 @@ export function CreateProduction() {
     );
 
     const handleSaveItem = async () => {
-        console.log(formDataItem)
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/production-items`, {
                 method: 'POST',
@@ -171,6 +171,10 @@ export function CreateProduction() {
         );
     };
 
+    useEffect(() => {
+        console.log(capitalizeLetter(formDataItem.status))
+    }, [formDataItem.status])
+
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-180px)]">
             <h2 className="text-xl font-semibold mb-6">New Production</h2>
@@ -180,7 +184,7 @@ export function CreateProduction() {
                         <TextInput text='Name' onChange={(value) => handleFormChange('p_name', value)} />
                         <SelectInput
                             label="Project"
-                            value={formData.project}
+                            value={projectList.length > 0 ? projectList.filter(item => item.id === formData.project).at(0).project_name : 1}
                             onChange={(value) => handleFormChange('project', projectList.filter(item => item.project_name === value).at(0).id)}
                             options={projectList.map(item => item.project_name).map(item => ({
                                 value: item,
@@ -192,13 +196,12 @@ export function CreateProduction() {
                     <div className="grid w-full grid-cols-5 gap-12">
                         <SelectInput
                             label="Status"
-                            value={formData.status}
+                            value={capitalizeLetter(formData.p_status)}
                             onChange={(value) => handleFormChange('p_status', value.toLowerCase())}
                             options={[
                                 { value: 'Created', label: 'Created' },
                                 { value: 'Waiting_Approval', label: 'Waiting Approval' },
                                 { value: 'Approved', label: 'Approved' },
-                                { value: 'Cancelled', label: 'Cancelled' },
                                 { value: 'Ended', label: 'Ended' },
                                 { value: 'Partially_Approved', label: 'Partially Approved' },
                             ]} />
@@ -287,22 +290,18 @@ export function CreateProduction() {
                         </div>
                         <SelectInput
                             label="Unit of Measure"
-                            value={formDataItem.measure_unit.toString()}
-                            onChange={(value) => handleFormItemChange('measure_unit', unitList.filter(item => item.orderUnitName === value))}
+                            value={unitList.length > 0 ? unitList.filter(item => item.id === formData.measure_unit).at(0) : 1}
+                            onChange={(value) => handleFormItemChange('measure_unit', unitList.filter(item => item.orderUnitName === value).at(0).id)}
                             options={unitList.map(item => item.orderUnitName).map(item => ({
                                 value: item,
                                 label: item,
                             }))} />
                         <SelectInput
                             label="Status"
-                            value={formDataItem.status}
+                            value={capitalizeLetter(formDataItem.status)}
                             onChange={(value) => handleFormItemChange('status', value.toLowerCase())}
                             options={[
-                                { value: 'Created', label: 'Created' },
-                                { value: 'Waiting_Approval', label: 'Waiting Approval' },
                                 { value: 'Approved', label: 'Approved' },
-                                { value: 'Cancelled', label: 'Cancelled' },
-                                { value: 'Ended', label: 'Ended' },
                                 { value: 'Partially_Approved', label: 'Partially Approved' },
                             ]} />
                     </div>

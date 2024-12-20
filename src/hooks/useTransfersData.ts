@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { TransfersData, TransfersFilters, TransfersItems, TransfersStatus } from '@/types/transfers';
-import { capitalizeFirstLetter } from '@/lib/utils';
+import { capitalizeLetter } from '@/lib/utils';
 
 const transformBackendData = (backendData: any): TransfersData => {
   return {
@@ -9,7 +9,7 @@ const transformBackendData = (backendData: any): TransfersData => {
     items: backendData.trans_items_id,
     reason: backendData.reason,
     createdBy: backendData.department.name,
-    status: capitalizeFirstLetter(backendData.status) as TransfersStatus,
+    status: capitalizeLetter(backendData.status) as TransfersStatus,
     bin: backendData.bin_id
   };
 };
@@ -22,7 +22,7 @@ const transformItemBackendData = (backendData: any): TransfersItems => {
     manufacturerCode: backendData.item_manufacturer_code,
     quantity: backendData.department.item_quantity,
     bin: backendData.item_bin_id,
-    status: capitalizeFirstLetter(backendData.status) as TransfersStatus,
+    status: capitalizeLetter(backendData.status) as TransfersStatus,
   };
 };
 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
 import { SortOption } from '@/types/utils';
-import { capitalizeFirstLetter } from '@/lib/utils';
+import { capitalizeLetter } from '@/lib/utils';
 
 const transformBackendData = (backendData: any): RequisitionsData => {
   return {
@@ -11,7 +11,7 @@ const transformBackendData = (backendData: any): RequisitionsData => {
     shipTo: backendData.ship_to,
     billTo: backendData.bill_to,
     department: backendData.department.name,
-    status: capitalizeFirstLetter(backendData.status) as RequisitionsStatus,
+    status: capitalizeLetter(backendData.status) as RequisitionsStatus,
     approvedBy: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
     createdBy: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
     totalAmountBeforeTax: backendData.total_net_amount || 0,

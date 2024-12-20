@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { ProductionData, ProductionFilters, ProductionItem, ProductionStatus } from '@/types/production';
-import { capitalizeFirstLetter } from '@/lib/utils';
+import { capitalizeLetter } from '@/lib/utils';
 
 const productionBackendData = (backendData: any): ProductionData => {
   return {
@@ -11,7 +11,7 @@ const productionBackendData = (backendData: any): ProductionData => {
     project: backendData.project.project_name,
     productionStartDate: backendData.p_start_date,
     productionEndDate: backendData.p_end_date,
-    status: capitalizeFirstLetter(backendData.p_status) as ProductionStatus,
+    status: capitalizeLetter(backendData.p_status) as ProductionStatus,
     createdBy: "Creator",
     approved: backendData.approved,
     approvedBy: backendData.approved_by
@@ -27,7 +27,7 @@ const productionItemBackendData = (backendData: any): ProductionItem => {
     manufacturerName: backendData.manufacturer,
     manufacturerCode: backendData.manufacturer_code,
     unitOfMeasure: backendData.measure_unit.orderUnitName,
-    status: capitalizeFirstLetter(backendData.status) as ProductionStatus,
+    status: capitalizeLetter(backendData.status) as ProductionStatus,
     approvedQuantity: backendData.approved_quantity
   };
 };
