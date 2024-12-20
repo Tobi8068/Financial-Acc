@@ -1,12 +1,43 @@
 
 import { useState, useEffect, useMemo } from 'react';
-import { productionData, productionItemData } from '@/lib/mock-data';
-import { ProductionFilters } from '@/types/production';
+import { ProductionData, ProductionFilters, ProductionItem, ProductionStatus } from '@/types/production';
+import { capitalizeLetter } from '@/lib/utils';
+
+const productionBackendData = (backendData: any): ProductionData => {
+  return {
+    id: backendData.id.toString(),
+    date: backendData.date,
+    name: backendData.p_name,
+    project: backendData.project.project_name,
+    productionStartDate: backendData.p_start_date,
+    productionEndDate: backendData.p_end_date,
+    status: capitalizeLetter(backendData.p_status) as ProductionStatus,
+    createdBy: "Creator",
+    approved: backendData.approved,
+    approvedBy: backendData.approved_by
+  };
+};
+
+const productionItemBackendData = (backendData: any): ProductionItem => {
+  return {
+    id: backendData.id,
+    name: backendData.item_name,
+    description: backendData.description,
+    quantity: backendData.quantity,
+    manufacturerName: backendData.manufacturer,
+    manufacturerCode: backendData.manufacturer_code,
+    unitOfMeasure: backendData.measure_unit.orderUnitName,
+    status: capitalizeLetter(backendData.status) as ProductionStatus,
+    approvedQuantity: backendData.approved_quantity
+  };
+};
+
 function useData(
   sourceData: any,
   page: number,
+  refreshData: () => void,
   filters?: ProductionFilters,
-  searchQuery?: string
+  searchQuery?: string,
 ) {
   const [data, setData] = useState<any[]>([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -49,12 +80,55 @@ function useData(
     data,
     totalPages,
     totalItems,
-    itemsPerPage
+    itemsPerPage,
+    refreshData
   };
 }
 export function useProductionData(page: number, filters: ProductionFilters, searchQuery?: string) {
-  return useData(productionData, page, filters, searchQuery);
+  const [serverData, setServerData] = useState<ProductionData[]>([]);
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/productions`, {
+        method: 'GET',
+      });
+
+      const text = await response.text(); // First get the raw response text
+      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      let transformedData = data.map((item: any) => productionBackendData(item));
+      setServerData(transformedData);
+    } catch (error) {
+      console.error("Error fetching productions:", error);
+    }
+  };
+  useEffect(() => {
+    fetchFunc();
+  }, [])
+  const refreshData = () => {
+    fetchFunc(); // Your existing fetch function
+  };
+  return useData(serverData, page, refreshData, filters, searchQuery);
 }
 export function useProductionItemsData(page: number, filters?: ProductionFilters, searchQuery?: string) {
-  return useData(productionItemData, page, filters, searchQuery);
+  const [serverData, setServerData] = useState<ProductionItem[]>([]);
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/production-items`, {
+        method: 'GET',
+      });
+
+      const text = await response.text(); // First get the raw response text
+      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      let transformedData = data.map((item: any) => productionItemBackendData(item));
+      setServerData(transformedData);
+    } catch (error) {
+      console.error("Error fetching requisitions:", error);
+    }
+  };
+  useEffect(() => {
+    fetchFunc();
+  }, [])
+  const refreshData = () => {
+    fetchFunc(); // Your existing fetch function
+  };
+  return useData(serverData, page, refreshData, filters, searchQuery);
 }

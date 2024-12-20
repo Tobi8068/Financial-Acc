@@ -15,7 +15,7 @@ import { TransfersStatus, TransfersFilters } from '@/types/transfers';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
-import AvatarImg from '../../assets/img/Avatar.png';
+import AvatarImg from '../../assets/img/avatar.png';
 import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface TransfersTableProps {

@@ -1,16 +1,17 @@
 import { useState, useEffect, useMemo } from 'react';
 import { RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
 import { SortOption } from '@/types/utils';
-import { capitalizeFirstLetter } from '@/lib/utils';
+import { capitalizeLetter } from '@/lib/utils';
 
 const transformBackendData = (backendData: any): RequisitionsData => {
   return {
+    pid: backendData.id,
     id: backendData.requisition_number.toString(),
     dateCreated: backendData.date,
     shipTo: backendData.ship_to,
     billTo: backendData.bill_to,
     department: backendData.department.name,
-    status: capitalizeFirstLetter(backendData.status) as RequisitionsStatus,
+    status: capitalizeLetter(backendData.status) as RequisitionsStatus,
     approvedBy: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
     createdBy: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
     totalAmountBeforeTax: backendData.total_net_amount || 0,
@@ -94,6 +95,7 @@ export function useRequisitionsData(
         const data = text ? JSON.parse(text) : null; // Then parse if there's content
         let transformedData = data.map((item: any) => transformBackendData(item));
         setServerData(transformedData);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching requisitions:", error);
       }

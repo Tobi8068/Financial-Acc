@@ -107,9 +107,9 @@ export function SalesTable({ filters, sortOption, searchQuery, onClickView }: Sa
                   </div>
                 </TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.clientApproval)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalTaxAmount.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalNetAmount.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalAmount.toFixed(2)}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalTaxAmount}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalNetAmount}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalAmount}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

@@ -14,21 +14,16 @@ export interface TransfersData {
     avatar: string,
   };
   status: TransfersStatus;
-  bin: number;
-  reservationDate: string;
-  reservedBy: {
-    name: string,
-    avatar: string,
-  };
+  bin: string;
 }
 
 export interface TransfersItems {
   name: string;
-  itemCode: string;
+  // itemCode: string;
   description: string;
   manufacturerName: string;
   manufacturerCode: string;
   quantity: number;
-  bin: number;
+  bin: string;
   status: TransfersStatus;
 };

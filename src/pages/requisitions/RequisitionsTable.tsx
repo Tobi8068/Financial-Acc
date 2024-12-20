@@ -64,9 +64,14 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
     setDeleteItemId(id);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
+    console.log('Delete Ready', deleteItemId);
     if (deleteItemId) {
       console.log('Deleting item with id:', deleteItemId);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions/${deleteItemId}`, {
+        method: 'DELETE',
+      })
+      console.log(response.status);
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }
@@ -106,9 +111,9 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
                 <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalAmountBeforeTax.toFixed(2)}</TableCell>
-                <TableCell className='text-[#3e4450]'>${item.totalTaxAmount.toFixed(2)}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalAmount.toFixed(2)}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalAmountBeforeTax}</TableCell>
+                <TableCell className='text-[#3e4450]'>${item.totalTaxAmount}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalAmount}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -120,7 +125,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
                       <ul className="space-y-2">
                         <li onClick={() => onClickView(item)}>View</li>
                         <li>Edit</li>
-                        <li onClick={() => handleDelete(item.id)}>Delete</li>
+                        <li onClick={() => handleDelete(item.pid)}>Delete</li>
                       </ul>
                     </PopoverContent>
                   </Popover>

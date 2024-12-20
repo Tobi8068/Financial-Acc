@@ -5,6 +5,7 @@ export interface RequisitionsFilters {
 }
 
 export interface RequisitionsData {
+  pid: string;
   id: string;
   dateCreated: string;
   shipTo: string;

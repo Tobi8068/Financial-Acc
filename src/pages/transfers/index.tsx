@@ -24,12 +24,7 @@ function Transfers() {
       avatar: '',
     },
     status: 'Approved',
-    bin: 1,
-    reservationDate: '',
-    reservedBy: {
-      name: '',
-      avatar: '',
-    },
+    bin: '',
   });
 
   const handlePage = (page: number) => {

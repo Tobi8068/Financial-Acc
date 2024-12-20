@@ -15,6 +15,7 @@ function Requisitions() {
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
   const [detailData, setDetailData] = useState<RequisitionsData>({
+    pid: '',
     id: '',
     dateCreated: '',
     shipTo: '',
