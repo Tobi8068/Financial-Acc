@@ -10,11 +10,9 @@ import {
 } from '@/components/ui/select';
 import { Plus, Filter } from 'lucide-react';
 import { RequisitionsFilters } from '@/types/requisitions';
-import { SortOption } from '@/types/utils';
 
 interface RequisitionsProps {
   onFiltersChange: (filters: RequisitionsFilters) => void;
-  onSortChange: (sort: SortOption) => void;
   onSearchChange: (search: string) => void;
   onCreate: () => void;
 }

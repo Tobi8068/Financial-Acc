@@ -12,19 +12,17 @@ import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRequisitionsData } from '@/hooks/useRequisitionsData';
 import { RequisitionsStatus, RequisitionsFilters } from '@/types/requisitions';
-import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface RequisitionsTableProps {
   filters: RequisitionsFilters;
-  sortOption: SortOption;
   searchQuery: string;
   onClickView: (item: any) => void;
 }
 
-export function RequisitionsTable({ filters, sortOption, searchQuery, onClickView }: RequisitionsTableProps) {
+export function RequisitionsTable({ filters, searchQuery, onClickView }: RequisitionsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
@@ -32,7 +30,6 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
   const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionsData(
     currentPage,
     filters,
-    sortOption,
     searchQuery
   );
 

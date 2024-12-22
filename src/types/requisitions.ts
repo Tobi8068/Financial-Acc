@@ -20,6 +20,7 @@ export interface RequisitionsData {
 }
 
 export interface RequisitionItem {
+  pid: string;
   name: string,
   description: string,
   manufacturerCode: string,

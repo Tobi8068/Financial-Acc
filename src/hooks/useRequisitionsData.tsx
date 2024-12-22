@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
-import { SortOption } from '@/types/utils';
+import { RequisitionItem, RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
 import { capitalizeLetter } from '@/lib/utils';
 
 const transformBackendData = (backendData: any): RequisitionsData => {
@@ -20,20 +19,36 @@ const transformBackendData = (backendData: any): RequisitionsData => {
   };
 };
 
-export function useRequisitionsData(
+const transformItemBackendData = (backendData: any): RequisitionItem => {
+  return {
+    pid: backendData.id,
+    name: backendData.item_name,
+    description: backendData.description,
+    manufacturerCode: backendData.manufacturer_code,
+    manufacturerName: backendData.manufacturer,
+    supplierName: backendData.supplier,
+    unitOfMeasure: backendData.measure_unit,
+    quantity: backendData.quantity,
+    price: backendData.price,
+    taxAmount: backendData.tax_amount,
+    taxGroup: backendData.tax_group,
+  };
+};
+
+function useData(
+  sourceData: any,
   page: number,
-  filters: RequisitionsFilters,
-  sortOption: SortOption,
-  searchQuery: string
+  refreshData: () => void,
+  filters?: RequisitionsFilters,
+  searchQuery?: string
 ) {
-  const [data, setData] = useState<RequisitionsData[]>([]);
-  const [serverData, setServerData] = useState<RequisitionsData[]>([]);
+  const [data, setData] = useState<any[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 5;
 
   const filteredAndSortedData = useMemo(() => {
 
-    let result = [...serverData];
+    let result = [...sourceData];
 
     // Apply search
     if (searchQuery) {
@@ -54,27 +69,14 @@ export function useRequisitionsData(
     }
 
     // Apply filters
-    if (filters.status && filters.status !== 'all') {
-      result = result.filter(item => item.status.toLowerCase() === filters.status);
-    }
-    // Apply sorting
-    switch (sortOption) {
-      case 'newest':
-        result.sort((a, b) => new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime());
-        break;
-      case 'oldest':
-        result.sort((a, b) => new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime());
-        break;
-      case 'amount-high':
-        result.sort((a, b) => b.totalAmount - a.totalAmount);
-        break;
-      case 'amount-low':
-        result.sort((a, b) => a.totalAmount - b.totalAmount);
-        break;
+    if (filters) {
+      if (filters.status && filters.status !== 'all') {
+        result = result.filter(item => item.status.toLowerCase() === filters.status);
+      }
     }
 
     return result;
-  }, [serverData, filters, sortOption, searchQuery]);
+  }, [sourceData, filters, searchQuery]);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -83,12 +85,27 @@ export function useRequisitionsData(
     setTotalItems(filteredAndSortedData.length);
   }, [page, filteredAndSortedData]);
 
+
+
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  return {
+    data,
+    totalPages,
+    totalItems,
+    itemsPerPage,
+    refreshData
+  };
+}
+
+export function useRequisitionsData(page: number, filters?: RequisitionsFilters, searchQuery?: string) {
+  const [serverData, setServerData] = useState<RequisitionsData[]>([]);
   const fetchFunc = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
         method: 'GET',
       });
-      
+
       const text = await response.text(); // First get the raw response text
       const data = text ? JSON.parse(text) : null; // Then parse if there's content
       let transformedData = data.map((item: any) => transformBackendData(item));
@@ -106,13 +123,33 @@ export function useRequisitionsData(
     fetchFunc(); // Your existing fetch function
   };
 
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  return useData(serverData, page, refreshData, filters, searchQuery);
+}
 
-  return {
-    data,
-    totalPages,
-    totalItems,
-    itemsPerPage,
-    refreshData
+export function useRequisitionItemsData(page: number, filters?: RequisitionsFilters, searchQuery?: string) {
+  const [serverData, setServerData] = useState<RequisitionItem[]>([]);
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisition-items`, {
+        method: 'GET',
+      });
+
+      const text = await response.text(); // First get the raw response text
+      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      let transformedData = data.map((item: any) => transformItemBackendData(item));
+      setServerData(transformedData);
+    } catch (error) {
+      console.error("Error fetching requisitions:", error);
+    }
   };
+
+  useEffect(() => {
+    fetchFunc();
+  }, [])
+
+  const refreshData = () => {
+    fetchFunc(); // Your existing fetch function
+  };
+
+  return useData(serverData, page, refreshData, filters, searchQuery);
 }
