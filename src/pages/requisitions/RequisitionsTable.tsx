@@ -29,7 +29,7 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
-  const { data, totalPages, totalItems, itemsPerPage } = useRequisitionsData(
+  const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionsData(
     currentPage,
     filters,
     sortOption,
@@ -72,6 +72,9 @@ export function RequisitionsTable({ filters, sortOption, searchQuery, onClickVie
         method: 'DELETE',
       })
       console.log(response.status);
+      if (response.status === 204) {
+        refreshData();
+      }
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }

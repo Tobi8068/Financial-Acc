@@ -83,25 +83,28 @@ export function useRequisitionsData(
     setTotalItems(filteredAndSortedData.length);
   }, [page, filteredAndSortedData]);
 
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
+        method: 'GET',
+      });
+      
+      const text = await response.text(); // First get the raw response text
+      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      let transformedData = data.map((item: any) => transformBackendData(item));
+      setServerData(transformedData);
+    } catch (error) {
+      console.error("Error fetching requisitions:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchFunc = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
-          method: 'GET',
-        });
-        
-        const text = await response.text(); // First get the raw response text
-        const data = text ? JSON.parse(text) : null; // Then parse if there's content
-        let transformedData = data.map((item: any) => transformBackendData(item));
-        setServerData(transformedData);
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching requisitions:", error);
-      }
-    };
     fetchFunc();
   }, [])
+
+  const refreshData = () => {
+    fetchFunc(); // Your existing fetch function
+  };
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -109,6 +112,7 @@ export function useRequisitionsData(
     data,
     totalPages,
     totalItems,
-    itemsPerPage
+    itemsPerPage,
+    refreshData
   };
 }
