@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { suppliersData, suppliersItems } from '@/lib/mock-data';
 import { SuppliersFilters } from '@/types/suppliers';
+import { capitalizeLetter } from '@/lib/utils';
 
 function useData(
   sourceData: any,

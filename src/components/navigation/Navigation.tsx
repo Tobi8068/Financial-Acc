@@ -17,7 +17,7 @@ import { NavItem } from './NavItem';
 import { UserType } from '@/types/user';
 
 export function Navigation() {
-  const [typeOfUser] = useState<UserType>('Production_Planner');
+  const [typeOfUser] = useState<UserType>('Store_Keeper');
 
   let navItems;
 

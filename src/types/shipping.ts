@@ -24,6 +24,7 @@ export interface ShippingData {
 }
 
 export interface ShippingItem {
+  id: string,
   name: string;
   description: string;
   manufacturerCode: string;

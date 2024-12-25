@@ -29,6 +29,7 @@ const transformItemBackendData = (backendData: any): TransfersItems => {
 function useData(
   sourceData: any,
   page: number,
+  refreshData: () => void,
   filters?: TransfersFilters,
   searchQuery?: string
 ) {
@@ -79,50 +80,61 @@ function useData(
     data,
     totalPages,
     totalItems,
-    itemsPerPage
+    itemsPerPage,
+    refreshData
   };
 }
 
 export function useTransfersData(page: number, filters: TransfersFilters, searchQuery?: string) {
   const [serverData, setServerData] = useState<TransfersData[]>([]);
-  useEffect(() => {
-    const fetchFunc = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transferts`, {
-          method: 'GET',
-        });
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transferts`, {
+        method: 'GET',
+      });
 
-        const text = await response.text(); // First get the raw response text
-        const data = text ? JSON.parse(text) : null; // Then parse if there's content
-        let transformedData = data.map((item: any) => transformBackendData(item));
-        setServerData(transformedData);
-      } catch (error) {
-        console.error("Error fetching requisitions:", error);
-      }
-    };
+      const text = await response.text(); // First get the raw response text
+      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      let transformedData = data.map((item: any) => transformBackendData(item));
+      setServerData(transformedData);
+    } catch (error) {
+      console.error("Error fetching requisitions:", error);
+    }
+  };
+  useEffect(() => {
     fetchFunc();
   }, [])
-  return useData(serverData, page, filters, searchQuery);
+
+  const refreshData = () => {
+    fetchFunc(); // Your existing fetch function
+  };
+
+  return useData(serverData, page, refreshData, filters, searchQuery);
 }
 
 export function useTransferItemsData(page: number, filters?: TransfersFilters, searchQuery?: string) {
   const [serverData, setServerData] = useState<TransfersData[]>([]);
-  useEffect(() => {
-    const fetchFunc = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transfert-items`, {
-          method: 'GET',
-        });
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transfert-items`, {
+        method: 'GET',
+      });
 
-        const text = await response.text(); // First get the raw response text
-        const data = text ? JSON.parse(text) : null; // Then parse if there's content
-        let transformedData = data.map((item: any) => transformItemBackendData(item));
-        setServerData(transformedData);
-      } catch (error) {
-        console.error("Error fetching requisitions:", error);
-      }
-    };
+      const text = await response.text(); // First get the raw response text
+      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      let transformedData = data.map((item: any) => transformItemBackendData(item));
+      setServerData(transformedData);
+    } catch (error) {
+      console.error("Error fetching requisitions:", error);
+    }
+  };
+  useEffect(() => {
     fetchFunc();
   }, [])
-  return useData(serverData, page, filters, searchQuery);
+
+  const refreshData = () => {
+    fetchFunc(); // Your existing fetch function
+  };
+
+  return useData(serverData, page, refreshData, filters, searchQuery);
 }

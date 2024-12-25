@@ -23,6 +23,22 @@ export interface SalesData {
   totalNetAmount: number;
   totalAmount: number;
 }
+
+export interface SalesItemData {
+  name: string,
+  description: string,
+  manufacturer: string,
+  manufacturerCode: string,
+  itemCode: string,
+  quantity: number,
+  price: number,
+  unit: string,
+  totalPerLine: number,
+  taxGroup: string,
+  taxAmount: number,
+  status: SalesStatus,
+  account: string
+}
 export interface SalesDetailData {
   id?: string;
   name: string;

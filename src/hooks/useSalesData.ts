@@ -1,9 +1,42 @@
 import { useState, useEffect, useMemo } from 'react';
 import { SalesData, SalesFilters } from '@/types/sales';
 import { SortOption } from '@/types/utils';
-import { salesData } from '@/lib/mock-data';
+import { capitalizeLetter } from '@/lib/utils';
 
-export function useSalesData(
+const transformBackendData = (backendData: any): SalesData => {
+  return {
+    pid: backendData.id,
+    id: backendData.requisition_number.toString(),
+    dateCreated: backendData.date,
+    shipTo: backendData.ship_to,
+    billTo: backendData.bill_to,
+    department: backendData.department.name,
+    status: capitalizeLetter(backendData.status) as SalesFilters,
+    approvedBy: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
+    createdBy: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
+    totalAmountBeforeTax: backendData.total_net_amount || 0,
+    totalTaxAmount: backendData.total_tax_amount || 0,
+    totalAmount: backendData.total_amount || 0
+  };
+};
+
+const transformItemBackendData = (backendData: any):  => {
+  return {
+    pid: backendData.id,
+    name: backendData.item_name,
+    description: backendData.description,
+    manufacturerCode: backendData.manufacturer_code,
+    manufacturerName: backendData.manufacturer,
+    supplierName: backendData.supplier,
+    unitOfMeasure: backendData.measure_unit,
+    quantity: backendData.quantity,
+    price: backendData.price,
+    taxAmount: backendData.tax_amount,
+    taxGroup: backendData.tax_group,
+  };
+};
+
+function useData(
   page: number,
   filters: SalesFilters,
   sortOption: SortOption,
