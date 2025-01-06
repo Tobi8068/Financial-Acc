@@ -5,6 +5,7 @@ export interface SalesFilters {
 }
 
 export interface SalesData {
+  pid: string;
   id: string;
   dateCreated: string;
   shipTo: string;
