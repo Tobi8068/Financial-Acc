@@ -17,7 +17,7 @@ import { NavItem } from './NavItem';
 import { UserType } from '@/types/user';
 
 export function Navigation() {
-  const [typeOfUser] = useState<UserType>('Production_Planner');
+  const [typeOfUser] = useState<UserType>('ProductionPlanner');
 
   let navItems;
 
@@ -63,7 +63,7 @@ export function Navigation() {
         </>
       )
       break;
-    case 'Inventory_Manager':
+    case 'InventoryManager':
       navItems = (
         <>
           <NavItem icon={BarChart3} label="Dashboard" />
@@ -80,7 +80,7 @@ export function Navigation() {
         </>
       )
       break;
-    case 'Store_Keeper':
+    case 'StoreKeeper':
       navItems = (
         <>
           <NavItem icon={BarChart3} label="Dashboard" />
@@ -94,7 +94,7 @@ export function Navigation() {
         </>
       )
       break;
-    case 'Production_Planner':
+    case 'ProductionPlanner':
       navItems = (
         <>
           <NavItem icon={BarChart3} label="Dashboard" />

@@ -1,4 +1,5 @@
-export type SalesStatus = 'Created' | 'Approved' | 'Sent' | 'Partially_Received' | 'Completed' | 'Cancelled' | 'Pending' | 'Rejected';
+export type SalesStatus = 'Created' | 'Approved' | 'Sent' | 'Partially_Received' | 'Completed' | 'Cancelled';
+export type SalesItemStatus = 'Created' |'Approved'|'Partially_Received'|'Completed' ;
 
 export interface SalesFilters {
   status: SalesStatus | 'all';
@@ -10,6 +11,7 @@ export interface SalesData {
   dateCreated: string;
   shipTo: string;
   billTo: string;
+  department: string;
   status: SalesStatus;
   approvedBy: {
     name: string,
@@ -19,40 +21,44 @@ export interface SalesData {
     name: string,
     avatar: string,
   };
-  clientApproval: SalesStatus;
+  
   totalTaxAmount: number;
   totalNetAmount: number;
   totalAmount: number;
+  sent: boolean;
 }
 
 export interface SalesItemData {
+  pid: string;
   name: string,
   description: string,
   manufacturer: string,
   manufacturerCode: string,
-  itemCode: string,
+
   quantity: number,
   price: number,
-  unit: string,
-  totalPerLine: number,
+  unitOfMeasure: string,
   taxGroup: string,
+
+  netAmount: number,
   taxAmount: number,
   status: SalesStatus,
   account: string
 }
+
 export interface SalesDetailData {
   id?: string;
   name: string;
   description: string;
   manufacturer: string;
   manufacturerCode: string;
-  itemCode: string;
+
   quantity: number;
   unit: string;
   price: number;
   totalPerLine: number;
   taxGroup: string;
   taxAmount: number;
-  status: SalesStatus;
+  status: SalesItemStatus;
   account: string;
 }

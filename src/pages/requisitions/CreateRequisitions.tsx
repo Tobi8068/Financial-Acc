@@ -37,11 +37,13 @@ export function CreateRequisitions() {
             supplier: '',
             quantity: 0,
             price: 0,
-            tax_group: 1,
+            tax_group: '',
             reception_quantity: 1
         }
     );
     const [unitList, setUnitList] = useState<any[]>([]);
+    const [taxList, setTaxList] = useState<any[]>([]);
+
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -56,6 +58,19 @@ export function CreateRequisitions() {
             }
         };
         fetchProjects();
+    }, [])
+   
+    useEffect(() => {
+        const fetchTax = async () => {
+            try {
+                const responseTax = await fetch(`${import.meta.env.VITE_BASE_URL}/tax-info`);
+                const taxValue = await responseTax.json();
+                setTaxList(taxValue);
+            } catch (error) {
+                console.error('Error fetching Tax values:', error);
+            }
+        };
+        fetchTax();
     }, [])
 
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionItemsData(currentPage);
@@ -86,12 +101,10 @@ export function CreateRequisitions() {
 
     const handleSaveItem = () => {
 
-    }
-
-    const handleSaveAndAddItem = () => {
+        alert("dddddddddddddd")
 
     }
-
+ 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
             <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
@@ -133,12 +146,13 @@ export function CreateRequisitions() {
                                     </TableHead>
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Description</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
-                                    <TableHead>Supplier Name</TableHead>
+                                    <TableHead>Supplier</TableHead>
                                     <TableHead>Unit of Measure</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Price</TableHead>
+                                    <TableHead>Net Amount</TableHead>
                                     <TableHead>Tax Amount</TableHead>
                                     <TableHead>Tax Group</TableHead>
                                 </TableRow>
@@ -152,12 +166,13 @@ export function CreateRequisitions() {
                                             </TableCell>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
+                                            <TableCell>{item.manufacturer}</TableCell>
                                             <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.manufacturerName}</TableCell>
                                             <TableCell>{item.supplierName}</TableCell>
                                             <TableCell>{item.unitOfMeasure}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>
                                             <TableCell>{item.price}</TableCell>
+                                            <TableCell>{item.netAmount}</TableCell>
                                             <TableCell>{item.taxAmount}</TableCell>
                                             <TableCell>{item.taxGroup}</TableCell>
                                         </TableRow>
@@ -175,7 +190,7 @@ export function CreateRequisitions() {
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">Requistion Items</h2>
                     <div className="flex flex-col gap-2 w-full">
-                        <div className="grid grid-cols-5 gap-8">
+                        <div className="grid grid-cols-5 gap-4">
                             <div className="col-span-1 grid grid-row-2 gap-4">
                                 <TextInput text='Name' onChange={(value) => handleFormItemDataChange('item_name', value)} />
                                 <TextInput text='Description' onChange={(value) => handleFormItemDataChange('description', value)} />
@@ -183,27 +198,22 @@ export function CreateRequisitions() {
                             <div className="col-span-2 grid grid-row-2 gap-4">
                                 <div className="grid grid-cols-3 gap-4">
                                     <TextInput text='Quantity' onChange={(value) => handleFormItemDataChange('quantity', value)} />
-                                    <TextInput text='Price' onChange={(value) => handleFormItemDataChange('price', Number(value))} />
-                                    <TextInput text='Total' onChange={(value) => handleFormItemDataChange('client', value)} />
+                                    {/* <CurrencyInput
+                                        label="Net Amount"
+                                        value={formData.taxAmount}
+                                        onChange={(value) => handleFormItemDataChange('netAmount', value)}
+                                        currency="USD"
+                                        onCurrencyChange={(currency) => handleFormItemDataChange('totalTaxCurrency', currency)} /> */}
+ 
                                 </div>
                                 <div className="grid grid-cols-3 gap-4">
-                                    <SelectInput
-                                        label="Status"
-                                        value={formData.taxGroup}
-                                        onChange={(value) => handleFormItemDataChange('status', value)}
-                                        options={[
-                                            { value: 'need-approval', label: 'Need Approval' },
-                                            { value: 'approved', label: 'Approved' },
-                                            { value: 'paid', label: 'Paid' },
-                                            { value: 'waiting-payment', label: 'Waiting Payment' },
-                                            { value: 'close-complete', label: 'Close/Complete' },
-                                        ]} />
-                                    <CurrencyInput
+                                    <TextInput text='Price' onChange={(value) => handleFormItemDataChange('price', Number(value))} />
+                                    {/* <CurrencyInput
                                         label="Tax Amount"
-                                        value={formData.taxAmount.toString()}
-                                        onChange={(value) => handleFormItemDataChange('totalTaxAmount', value)}
+                                        value={formData.taxAmount}
+                                        onChange={(value) => handleFormItemDataChange('taxAmount', value)}
                                         currency="USD"
-                                        onCurrencyChange={(currency) => handleFormItemDataChange('totalTaxCurrency', currency)} />
+                                        onCurrencyChange={(currency) => handleFormItemDataChange('totalTaxCurrency', currency)} /> */}
                                     <SelectInput
                                         label="Unit of Measure"
                                         value={unitList.length > 0 ? unitList.filter(item => item.id === formData.measure_unit).at(0) : 1}
@@ -216,18 +226,24 @@ export function CreateRequisitions() {
                             </div>
                             <div className="col-span-2 grid grid-row-2 gap-4">
                                 <div className="grid grid-cols-2 gap-4">
-                                    <TextInput text="Supplier" onChange={(value) => handleFormItemDataChange('shipTo', value)} />
-                                    <TextInput text="Supplier Code" onChange={(value) => handleFormItemDataChange('shipTo', value)} />
+                                    <SelectInput
+                                        label="Tax Group"
+                                        value={taxList.length > 0 ? taxList.filter(item => item.id === formData.tax_group).at(0) : 1}
+                                        onChange={(value) => handleFormItemDataChange('tax_group', taxList.filter(item => item.tax_name === value).at(0).id)}
+                                        options={taxList.map(item => item.tax_name).map(item => ({
+                                            value: item,
+                                            label: item,
+                                        }))} />
+                                    <TextInput text="Manufacturer" onChange={(value) => handleFormItemDataChange('manufacturer', value)} />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <TextInput text="Manufacturer Name" onChange={(value) => handleFormItemDataChange('shipTo', value)} />
-                                    <TextInput text="Manufacturer Code" onChange={(value) => handleFormItemDataChange('shipTo', value)} />
+                                    <TextInput text="Supplier" onChange={(value) => handleFormItemDataChange('supplierName', value)} />
+                                    <TextInput text="Manufacturer Code" onChange={(value) => handleFormItemDataChange('manufacturerCode', value)} />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="w-full flex gap-4 justify-end">
-                        <span className="cursor-pointer bg-white px-3 py-1 rounded-md text-[#414651] w-fit" onClick={handleSaveAndAddItem}>Save & Add Another</span>
                         <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
                     </div>
                     <div className="w-full flex justify-end">

@@ -108,6 +108,7 @@ export function useProductionData(page: number, filters: ProductionFilters, sear
   };
   return useData(serverData, page, refreshData, filters, searchQuery);
 }
+
 export function useProductionItemsData(page: number, filters?: ProductionFilters, searchQuery?: string) {
   const [serverData, setServerData] = useState<ProductionItem[]>([]);
   const fetchFunc = async () => {

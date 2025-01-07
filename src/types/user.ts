@@ -1,1 +1,1 @@
-export type UserType = 'Payables' | 'Seller' | 'Buyer' | 'Inventory_Manager' | 'Store_Keeper' | 'Production_Planner';
+export type UserType = 'Payables' | 'Seller' | 'Buyer' | 'InventoryManager' | 'StoreKeeper' | 'ProductionPlanner';

@@ -24,12 +24,13 @@ const transformItemBackendData = (backendData: any): RequisitionItem => {
     pid: backendData.id,
     name: backendData.item_name,
     description: backendData.description,
+    manufacturer: backendData.manufacturer,
     manufacturerCode: backendData.manufacturer_code,
-    manufacturerName: backendData.manufacturer,
     supplierName: backendData.supplier,
     unitOfMeasure: backendData.measure_unit,
     quantity: backendData.quantity,
     price: backendData.price,
+    netAmount: backendData.net_amount,
     taxAmount: backendData.tax_amount,
     taxGroup: backendData.tax_group,
   };
@@ -106,6 +107,10 @@ export function useRequisitionsData(page: number, filters?: RequisitionsFilters,
         method: 'GET',
       });
 
+          // Check if the response is OK (status in the range 200-299)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const text = await response.text(); // First get the raw response text
       const data = text ? JSON.parse(text) : null; // Then parse if there's content
       let transformedData = data.map((item: any) => transformBackendData(item));

@@ -542,7 +542,7 @@ export const purchaseOrderData: PurchaseOrderData[] = [
   {
     id: '#3066',
     dateCreated: '2024-01-06',
-    shipTo: 'ShipTo Name',
+    shipTo: 'qqName',
     billTo: 'BillTo Name',
     department: 'Dept.Name',
     status: 'Created',

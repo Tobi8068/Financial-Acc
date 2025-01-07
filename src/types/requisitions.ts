@@ -23,12 +23,13 @@ export interface RequisitionItem {
   pid: string;
   name: string,
   description: string,
+  manufacturer: string,
   manufacturerCode: string,
-  manufacturerName: string,
   supplierName: string,
   unitOfMeasure: string,
   quantity: number,
   price: number,
+  netAmount: number;
   taxAmount: number,
   taxGroup: string,
 }

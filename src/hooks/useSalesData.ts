@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { SalesData, SalesFilters, SalesItemData, SalesStatus } from '@/types/sales';
+import { SalesData, SalesFilters, SalesItemData, SalesStatus, SalesItemStatus } from '@/types/sales';
 import { SortOption } from '@/types/utils';
 import { capitalizeLetter } from '@/lib/utils';
 
@@ -22,7 +22,9 @@ const transformBackendData = (backendData: any): SalesData => {
     },
     totalNetAmount: backendData.total_net_amount || 0,
     totalTaxAmount: backendData.total_tax_amount || 0,
-    totalAmount: backendData.total_amount || 0
+    totalAmount: backendData.total_amount || 0,
+
+    sent: backendData.sent
   };
 };
 
@@ -31,23 +33,30 @@ const transformItemBackendData = (backendData: any): SalesItemData => {
     pid: backendData.id,
     name: backendData.item_name,
     description: backendData.description,
+    manufacturer: backendData.manufacturer,
     manufacturerCode: backendData.manufacturer_code,
-    manufacturerName: backendData.manufacturer,
-    supplierName: backendData.supplier,
-    unitOfMeasure: backendData.measure_unit,
+    status: capitalizeLetter(backendData.status) as SalesItemStatus,
+    
+    // itemCode: backendData.measure_unit.orderUnitName,
+    unitOfMeasure: backendData.measure_unit.orderUnitName,
     quantity: backendData.quantity,
     price: backendData.price,
-    taxAmount: backendData.tax_amount,
+    
     taxGroup: backendData.tax_group,
+    netAmount: backendData.net_Amount,
+    taxAmount: backendData.tax_amount,
+    
+    account: backendData.account,
   };
 };
 
 function useData(
   sourceData: any,
   page: number,
+  refreshData: () => void,
   filters: SalesFilters,
   sortOption: SortOption,
-  searchQuery: string
+  searchQuery: string,
 ) {
   const [data, setData] = useState<SalesData[]>([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -97,18 +106,7 @@ function useData(
 
     return result;
   }, [sourceData, filters, sortOption, searchQuery]);
-
-  useEffect(() => {
-    // const fetchFunc = async () => {
-    //   const response = await fetch(`${import.meta.env.VITE_BASE_URL}/inventory-items`, {
-    //     method: 'GET'
-    //   });
   
-    //   console.log("Data", response.json());
-    // }
-    // fetchFunc();
-  }, []);
-
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -122,6 +120,59 @@ function useData(
     data, 
     totalPages, 
     totalItems,
-    itemsPerPage
+    itemsPerPage,
+    refreshData
   };
 }
+
+export function useSalesData(page: number, filters: SalesFilters, sortOption: SortOption, searchQuery?: string) {
+  const [serverData, setServerData] = useState<SalesData[]>([]);
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/sales`, {
+          method: 'GET',
+        });
+  
+        const text = await response.text(); // First get the raw response text
+        const data = text ? JSON.parse(text) : null; // Then parse if there's content
+        let transformedData = data.map((item: any) => transformBackendData(item));
+        setServerData(transformedData);
+      } catch (error) {
+        console.error("Error fetching requisitions:", error);
+      }
+    };
+    useEffect(() => {
+      fetchFunc();
+    }, [])
+    const refreshData = () => {
+      fetchFunc(); // Your existing fetch function
+    };
+ 
+    return useData(serverData, page, refreshData, filters, sortOption, searchQuery || '');
+  }
+  
+export function useSalesItemData(page: number, filters: SalesFilters, sortOption: SortOption, searchQuery?: string) {
+  const [serverData, setServerData] = useState<SalesItemData[]>([]);
+    const fetchFunc = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/sales-items`, {
+          method: 'GET',
+        });
+        
+        const text = await response.text(); // First get the raw response text
+        const data = text ? JSON.parse(text) : null; // Then parse if there's content
+        let transformedData = data.map((item: any) => transformItemBackendData(item));
+        setServerData(transformedData);
+      } catch (error) {
+        console.error("Error fetching requisitions:", error);
+      }
+    };
+    useEffect(() => {
+      fetchFunc();
+    }, [])
+    const refreshData = () => {
+      fetchFunc(); // Your existing fetch function
+    };
+    return useData(serverData, page, refreshData, filters, sortOption, searchQuery || '');
+}
+
