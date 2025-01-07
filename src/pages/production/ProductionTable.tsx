@@ -89,8 +89,8 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
               <TableHead>Date</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Project</TableHead>
-              <TableHead>Production Start Date</TableHead>
-              <TableHead>Production End Date</TableHead>
+              <TableHead>Start Date</TableHead>
+              <TableHead>End Date</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Created By</TableHead>
               <TableHead>Approved</TableHead>
@@ -103,7 +103,6 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
               <TableRow
                 key={item.id}
               >
-                
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.name}</TableCell>
@@ -124,7 +123,7 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                       <ul className="space-y-2">
                         <li onClick={() => onClickView(item)}>View</li>
-                        <li>Edit</li>
+                        <li onClick={() => alert("hi")}>Edit</li>
                         <li onClick={() => handleDelete(item.id)}>Delete</li>
                       </ul>
                     </PopoverContent>
