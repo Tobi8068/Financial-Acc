@@ -1,10 +1,12 @@
-export type ProductionStatus = 'Created' | 'Waiting_Approval' | 'Approved' | 'Ended' | 'Cancelled' | 'Partially_Approved';
+export type ProductionStatus = 'Created' | 'Waiting_Approval' | 'Approve' | 'Started' | 'Ended';
+export type ProductionItemStatus = 'Approved' | 'Partially_Approved';
 
 export interface ProductionFilters {
   status: ProductionStatus | 'all';
 }
 
 export interface ProductionData {
+  items: any;
   id: string;
   date: string;
   name: string;
@@ -12,21 +14,21 @@ export interface ProductionData {
   productionStartDate: string;
   productionEndDate: string;
   status: ProductionStatus;
-  createdBy: string;
   approved : boolean;
   approvedBy: string;
+  createdBy: string;
 }
 
 export interface ProductionItem {
   id: string,
   name: string,
   description: string,
-  manufacturerCode: string,
   manufacturerName: string,
+  manufacturerCode: string,
   quantity: number,
   approvedQuantity: number,
   unitOfMeasure: number,
-  status: ProductionStatus,
+  status: ProductionItemStatus,
 }
 
 export interface ProductionItemsData {
@@ -42,4 +44,6 @@ export interface ProductionItemsData {
   supplierCode: string;
   manufacturerName: string;
   manufacturerCode: string;
+
+  status: ProductionItemStatus,
 }

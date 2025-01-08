@@ -64,13 +64,12 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
 
   const getStatusBadge = (status: ProductionStatus) => {
     const styles = {
-      Created: 'bg-[#F5F5F5] text-[#414651]',
-      Approved: 'bg-[#ECFDF3] text-[#027A48]',
+      Created: 'bg-[#FEF2F2] text-[#991B1B]',
+      Approve: 'bg-[#ECFDF3] text-[#027A48]',
       Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
+      Started: 'bg-[#EFEE21] text-[#661BF1]',
       Ended: 'bg-[#F4F3FF] text-[#5925DC]',
-      Cancelled: 'bg-[#FEF3F2] text-[#9A3412]',
-      Partially_Approved: 'bg-[#FFFBEB] text-[#B45309]',
-    };
+  };
 
     return (
       <Badge className={styles[status]} variant="secondary">

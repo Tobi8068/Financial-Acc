@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { ProductionStatus } from "@/types/production";
+import { ProductionStatus, ProductionItemStatus } from "@/types/production";
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -33,12 +33,12 @@ export function CreateProduction() {
         {
             item_name: '',
             description: '',
-            manufacturer_code: '',
             manufacturer: '',
-            quantity: 0,
-            approved_quantity: 0,
-            measure_unit: 0,
-            status: 'approved',
+            manufacturer_code: '',
+            quantity: '',
+            approved_quantity: '',
+            measure_unit: '',
+            status: '',
         }
     );
     const [formData, setFormData] = useState<any>(
@@ -46,12 +46,12 @@ export function CreateProduction() {
             p_name: '',
             p_start_date: '',
             p_end_date: '',
-            p_status: 'created',
-            project: 1,
-            items: [1, 2, 3],
+            p_status: '',
+            project: '',
+            items: [],
             approved: true,
-            approved_by: 1,
-            created_by: 1
+            approved_by: '',
+            created_by: ''
         }
     );
 
@@ -156,11 +156,23 @@ export function CreateProduction() {
 
     const getStatusBadge = (status: ProductionStatus) => {
         const styles = {
-            Created: 'bg-[#F5F5F5] text-[#414651]',
-            Approved: 'bg-[#ECFDF3] text-[#027A48]',
+            Created: 'bg-[#FEF2F2] text-[#991B1B]',
+            Approve: 'bg-[#ECFDF3] text-[#027A48]',
             Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
+            Started: 'bg-[#FEF2F2] text-[#991B1B]',
             Ended: 'bg-[#F4F3FF] text-[#5925DC]',
-            Cancelled: 'bg-[#FEF3F2] text-[#9A3412]',
+        };
+
+        return (
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
+        );
+    };
+
+    const getItemStatusBadge = (status: ProductionItemStatus) => {
+        const styles = {
+            Approved: 'bg-[#ECFDF3] text-[#027A48]',
             Partially_Approved: 'bg-[#FFFBEB] text-[#B45309]',
         };
 
@@ -199,6 +211,7 @@ export function CreateProduction() {
                             value={capitalizeLetter(formData.p_status)}
                             onChange={(value) => handleFormChange('p_status', value.toLowerCase())}
                             options={[
+                                { value: ' ', label: ' ' },
                                 { value: 'Created', label: 'Created' },
                                 { value: 'Waiting_Approval', label: 'Waiting Approval' },
                                 { value: 'Approved', label: 'Approved' },
@@ -219,8 +232,8 @@ export function CreateProduction() {
                                     </TableHead>
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Description</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Approved Quantity</TableHead>
                                     <TableHead>Unit of Measure</TableHead>
@@ -237,12 +250,12 @@ export function CreateProduction() {
                                             </TableCell>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.approvedQuantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.unitOfMeasure}</TableCell>
-                                            <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
+                                            <TableCell className='text-[#535862]'>{getItemStatusBadge(item.status)}</TableCell>
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
@@ -301,6 +314,7 @@ export function CreateProduction() {
                             value={capitalizeLetter(formDataItem.status)}
                             onChange={(value) => handleFormItemChange('status', value.toLowerCase())}
                             options={[
+                                { value: '', label: '' },
                                 { value: 'Approved', label: 'Approved' },
                                 { value: 'Partially_Approved', label: 'Partially Approved' },
                             ]} />

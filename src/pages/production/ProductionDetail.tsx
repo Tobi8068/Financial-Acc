@@ -11,7 +11,7 @@ import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import { ProductionData } from '@/types/production';
 import { Badge } from '@/components/ui/badge';
-import { ProductionStatus } from '@/types/production';
+import { ProductionStatus, ProductionItemStatus } from '@/types/production';
 import { useProductionItemsData } from '@/hooks/useProductionData';
 
 export function ProductionDetail(props: ProductionData) {
@@ -22,11 +22,23 @@ export function ProductionDetail(props: ProductionData) {
 
     const getStatusBadge = (status: ProductionStatus) => {
         const styles = {
-            Created: 'bg-[#F5F5F5] text-[#414651]',
-            Approved: 'bg-[#ECFDF3] text-[#027A48]',
+            Created: 'bg-[#FEF2F2] text-[#991B1B]',
+            Approve: 'bg-[#ECFDF3] text-[#027A48]',
             Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
+            Started: 'bg-[#FEF2F2] text-[#991B1B]',
             Ended: 'bg-[#F4F3FF] text-[#5925DC]',
-            Cancelled: 'bg-[#FEF2F2] text-[#991B1B]',
+        };
+
+        return (
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
+        );
+    };
+
+    const getItemStatusBadge = (status: ProductionItemStatus) => {
+        const styles = {
+            Approved: 'bg-[#ECFDF3] text-[#027A48]',
             Partially_Approved: 'bg-[#FFFBEB] text-[#B45309]',
         };
 
@@ -45,10 +57,10 @@ export function ProductionDetail(props: ProductionData) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white rounded-lg p-6 shadow-sm">
                     <div className="space-y-4">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Number:&nbsp;</span><span>{props.id}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Date Created:&nbsp;</span><span>{formatDate(props.date)}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Created Date:&nbsp;</span><span>{formatDate(props.date)}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Project:&nbsp;</span><span>{props.project}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Production Start Date:&nbsp;</span><span>{formatDate(props.productionStartDate)}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Production End Date:&nbsp;</span><span>{formatDate(props.productionEndDate)}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Start Date:&nbsp;</span><span>{formatDate(props.productionStartDate)}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">End Date:&nbsp;</span><span>{formatDate(props.productionEndDate)}</span></div>
                     </div>
                     <div className="space-y-4">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
@@ -65,8 +77,8 @@ export function ProductionDetail(props: ProductionData) {
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Description</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Approved Quantity</TableHead>
                                     <TableHead>Unit of Measure</TableHead>
@@ -79,12 +91,12 @@ export function ProductionDetail(props: ProductionData) {
                                         <TableRow key={index}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
                                             <TableCell>{item.manufacturerName}</TableCell>
+                                            <TableCell>{item.manufacturerCode}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>
                                             <TableCell>{item.approvedQuantity}</TableCell>
                                             <TableCell>{item.unitOfMeasure}</TableCell>
-                                            <TableCell>{getStatusBadge(item.status)}</TableCell>
+                                            <TableCell>{getItemStatusBadge(item.status)}</TableCell>
                                         </TableRow>
                                     ))
                                 }

@@ -63,9 +63,9 @@ export function ProductionHeader({
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="created">Created</SelectItem>
             <SelectItem value="waiting_approval">Waiting Approval</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
+            <SelectItem value="approve">Approve</SelectItem>
+            <SelectItem value="started">Started</SelectItem>
             <SelectItem value="ended">Ended</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
           </SelectContent>
         </Select>
       </div>

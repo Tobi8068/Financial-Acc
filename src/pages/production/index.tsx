@@ -25,6 +25,7 @@ function Production() {
     createdBy: '',
     approved: true,
     approvedBy: '',
+    items: []
   });
 
   const handlePage = (page: number) => {
