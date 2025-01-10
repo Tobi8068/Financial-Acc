@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
     Table,
     TableBody,
@@ -7,47 +8,35 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { formatDate } from '@/lib/date';
-import { RequisitionsData, RequisitionItem } from '@/types/requisitions';
+import { Pagination } from '@/components/pagination/Pagination';
+import { Badge } from '@/components/ui/badge';
+
+import { RequisitionsData, RequisitionsStatus } from '@/types/requisitions';
+// import { useRequisitionsData } from '@/hooks/useRequisitionsData';
 
 export function RequisitionsDetail(props: RequisitionsData) {
-    const data: RequisitionItem[] = [
-        {
-            name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
-            manufacturerName: 'Apple Inc',
-            supplierName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
-            quantity: 5,
-            price: 50,
-            taxAmount: 10,
-            taxGroup: 'Account',
-        },
-        {
-            name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
-            manufacturerName: 'Apple Inc',
-            supplierName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
-            quantity: 5,
-            price: 50,
-            taxAmount: 10,
-            taxGroup: 'Account',
-        },
-        {
-            name: 'Computer',
-            description: 'lorem ipsum doler sitt amit merol muspi relow tima lorem ipsum doler sitt amit merol',
-            manufacturerCode: '354125B',
-            manufacturerName: 'Apple Inc',
-            supplierName: 'Apple Inc',
-            unitOfMeasure: 'Pieces',
-            quantity: 5,
-            price: 50,
-            taxAmount: 10,
-            taxGroup: 'Account',
-        },
-    ];
+    const [currentPage, setCurrentPage] = useState(1);
+    // const { data, totalPages, totalItems, itemsPerPage } = useRequisitionsData(
+    //     currentPage,
+    // );
+
+    const getStatusBadge = (status: RequisitionsStatus) => {
+        const styles = {
+            Completed: 'bg-[#ECFDF3] text-[#027A48]',
+            Created: 'bg-[#EFF8FF] text-[#175CD3]',
+            Approved: 'bg-[#ECFDF3] text-[#027A48]',
+            Rejected: 'bg-[#F4F3FF] text-[#FF9900]',
+            In_Progress: 'bg-[#F4F3FF] text-[#5925DC]',
+            Cancel: 'bg-[#FEF3F2] text-[#B42318]',
+        };
+
+        return (
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
+        );
+    };
+
     return (
         <div>
             <h2 className="text-xl font-semibold">Requisitions Details</h2>
@@ -63,10 +52,10 @@ export function RequisitionsDetail(props: RequisitionsData) {
                     </div>
 
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span className="text-green-700 bg-[#ECFDF3] rounded-lg px-2 font-semibold">{props.status}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Approved By:&nbsp;</span><span>{props.approvedBy}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created By:&nbsp;</span><span>{props.createdBy}</span></div>
-                        <div className="text-md text-[#2B2D40] flex "><span className="font-bold w-[200px]">Total Amount Before Tax:&nbsp;</span><span>${props.totalAmountBeforeTax}</span></div>
+                        <div className="text-md text-[#2B2D40] flex "><span className="font-bold w-[148px]">Total Net Amount:&nbsp;</span><span>${props.totalNetAmount}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Total Tax Amount:&nbsp;</span><span>${props.totalTaxAmount}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Total Amount:&nbsp;</span><span>${props.totalAmount}</span></div>
                     </div>
@@ -79,28 +68,30 @@ export function RequisitionsDetail(props: RequisitionsData) {
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Description</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Supplier Name</TableHead>
                                     <TableHead>Unit of Measure</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Price</TableHead>
+                                    <TableHead>Net Amount</TableHead>
                                     <TableHead>Tax Amount</TableHead>
                                     <TableHead>Tax Group</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item, index) => (
+                                    props.items.length >= 0 && props.items.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
+                                            <TableCell>{item.manufacturer}</TableCell>
                                             <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.manufacturerName}</TableCell>
                                             <TableCell>{item.supplierName}</TableCell>
                                             <TableCell>{item.unitOfMeasure}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>
                                             <TableCell>{item.price}</TableCell>
+                                            <TableCell>{item.netAmount}</TableCell>
                                             <TableCell>{item.taxAmount}</TableCell>
                                             <TableCell>{item.taxGroup}</TableCell>
                                         </TableRow>
@@ -109,6 +100,13 @@ export function RequisitionsDetail(props: RequisitionsData) {
                             </TableBody>
                         </Table>
                     </div>
+                    {/* <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={totalItems}
+                    /> */}
                 </div>
             </div>
         </div>

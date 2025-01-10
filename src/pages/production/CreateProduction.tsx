@@ -29,6 +29,7 @@ export function CreateProduction() {
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [projectList, setProjectList] = useState<any[]>([]);
     const [unitList, setUnitList] = useState<any[]>([]);
+
     const [formDataItem, setFormDataItem] = useState<any>(
         {
             item_name: '',
@@ -37,7 +38,7 @@ export function CreateProduction() {
             manufacturer_code: '',
             quantity: '',
             approved_quantity: '',
-            measure_unit: '',
+            measure_unit: 1,
             status: '',
         }
     );
@@ -47,11 +48,12 @@ export function CreateProduction() {
             p_start_date: '',
             p_end_date: '',
             p_status: '',
-            project: '',
+            project: 1,
             items: [],
+            production_doc: 1,
             approved: true,
-            approved_by: '',
-            created_by: ''
+            approved_by: 'you',
+            created_by: 'me'
         }
     );
 
@@ -60,9 +62,10 @@ export function CreateProduction() {
             try {
                 const responseProject = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
                 const dataPro = await responseProject.json();
+                setProjectList(dataPro);
+
                 const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
                 const dataUnit = await responseUnit.json();
-                setProjectList(dataPro);
                 setUnitList(dataUnit);
             } catch (error) {
                 console.error('Error fetching projects and units:', error);
@@ -71,11 +74,17 @@ export function CreateProduction() {
         fetchProjects();
     }, [])
 
+    useEffect(() => {
+        console.log('projectList', projectList.filter(item => item.id === formData.measure_unit).at(0));
+        console.log('unitList', unitList);
+    }, [projectList, unitList])
+
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useProductionItemsData(
         currentPage,
     );
 
     const handleSaveItem = async () => {
+        console.log(formDataItem)
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/production-items`, {
                 method: 'POST',
@@ -95,6 +104,8 @@ export function CreateProduction() {
     }
 
     const handleCreate = async () => {
+        console.log(formData)
+
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/productions`, {
                 method: 'POST',
@@ -105,7 +116,7 @@ export function CreateProduction() {
             });
 
             if (response.status === 201) {
-                console.log('Item created successfully');
+                console.log('New Production created successfully');
                 refreshData();
             }
         } catch (error) {
@@ -196,16 +207,15 @@ export function CreateProduction() {
                         <TextInput text='Name' onChange={(value) => handleFormChange('p_name', value)} />
                         <SelectInput
                             label="Project"
-                            value={projectList.length > 0 ? projectList.filter(item => item.id === formData.project).at(0).project_name : 1}
+                            value={projectList.length > 0 ? projectList.filter(item => item.id === formData.measure_unit).at(0) : 1}
                             onChange={(value) => handleFormChange('project', projectList.filter(item => item.project_name === value).at(0).id)}
                             options={projectList.map(item => item.project_name).map(item => ({
                                 value: item,
-                                label: item.replace("_", " ").replace("0", "/"),
+                                label: item
                             }))} />
-                        <DateInput text='Production Start Date' onChange={(value) => handleFormChange('p_start_date', value)} />
-                        <DateInput text='Production End Date' onChange={(value) => handleFormChange('p_end_date', value)} />
-                    </div>
-                    <div className="grid w-full grid-cols-5 gap-12">
+ 
+                        <DateInput text='Start Date' onChange={(value) => handleFormChange('p_start_date', value)} />
+                        <DateInput text='End Date' onChange={(value) => handleFormChange('p_end_date', value)} />
                         <SelectInput
                             label="Status"
                             value={capitalizeLetter(formData.p_status)}
@@ -219,6 +229,7 @@ export function CreateProduction() {
                                 { value: 'Partially_Approved', label: 'Partially Approved' },
                             ]} />
                     </div>
+
                     <h2 className="font-semibold text-[18px] text-[#636692]">Production Items</h2>
                     <div className='rounded-lg border bg-white'>
                         <Table>
@@ -324,7 +335,7 @@ export function CreateProduction() {
                         <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
                     </div>
                     <div className="w-full flex justify-end">
-                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={handleCreate}>
+                        <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={handleCreate}>
                             <span className="text-white font-semibold">Create Production</span>
                         </div>
                     </div>

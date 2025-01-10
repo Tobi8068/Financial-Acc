@@ -2,23 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { RequisitionItem, RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
 import { capitalizeLetter } from '@/lib/utils';
 
-const transformBackendData = (backendData: any): RequisitionsData => {
-  return {
-    pid: backendData.id,
-    id: backendData.requisition_number.toString(),
-    dateCreated: backendData.date,
-    shipTo: backendData.ship_to,
-    billTo: backendData.bill_to,
-    department: backendData.department.name,
-    status: capitalizeLetter(backendData.status) as RequisitionsStatus,
-    approvedBy: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
-    createdBy: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
-    totalAmountBeforeTax: backendData.total_net_amount || 0,
-    totalTaxAmount: backendData.total_tax_amount || 0,
-    totalAmount: backendData.total_amount || 0
-  };
-};
-
 const transformItemBackendData = (backendData: any): RequisitionItem => {
   return {
     pid: backendData.id,
@@ -35,6 +18,27 @@ const transformItemBackendData = (backendData: any): RequisitionItem => {
     taxGroup: backendData.tax_group,
   };
 };
+
+const transformBackendData = (backendData: any): RequisitionsData => {
+  const itemsData = backendData.items.map((item: any) => transformItemBackendData(item));
+  return {
+    pid: backendData.id,
+    id: backendData.requisition_number.toString(),
+    dateCreated: backendData.date,
+    shipTo: backendData.ship_to,
+    billTo: backendData.bill_to,
+    department: backendData.department.name,
+    items: itemsData,
+    status: capitalizeLetter(backendData.status) as RequisitionsStatus,
+    approvedBy: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
+    createdBy: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
+    totalNetAmount: backendData.total_net_amount || 0,
+    totalTaxAmount: backendData.total_tax_amount || 0,
+    totalAmount: backendData.total_amount || 0
+  };
+};
+
+
 
 function useData(
   sourceData: any,
@@ -63,7 +67,7 @@ function useData(
         item.status.toLowerCase().includes(query) ||
         item.approvedBy.toLowerCase().includes(query) ||
         item.createdBy.toLowerCase().includes(query) ||
-        item.totalAmountBeforeTax.toString().toLowerCase().includes(query) ||
+        item.totalNetAmount.toString().toLowerCase().includes(query) ||
         item.totalTaxAmount.toString().toLowerCase().includes(query) ||
         item.totalAmount.toString().toLowerCase().includes(query)
       );
@@ -86,8 +90,6 @@ function useData(
     setTotalItems(filteredAndSortedData.length);
   }, [page, filteredAndSortedData]);
 
-
-
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return {
@@ -107,7 +109,6 @@ export function useRequisitionsData(page: number, filters?: RequisitionsFilters,
         method: 'GET',
       });
 
-          // Check if the response is OK (status in the range 200-299)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

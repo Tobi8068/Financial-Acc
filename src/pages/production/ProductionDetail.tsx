@@ -8,10 +8,10 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
-import { ProductionData } from '@/types/production';
+import { Pagination } from '@/components/pagination/Pagination';
 import { Badge } from '@/components/ui/badge';
-import { ProductionStatus, ProductionItemStatus } from '@/types/production';
+
+import { ProductionData, ProductionStatus, ProductionItemStatus } from '@/types/production';
 import { useProductionItemsData } from '@/hooks/useProductionData';
 
 export function ProductionDetail(props: ProductionData) {

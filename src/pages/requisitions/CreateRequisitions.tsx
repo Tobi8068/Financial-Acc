@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { CurrencyInput } from "@/components/ui/currency-input";
 import { Checkbox } from '@/components/ui/checkbox';
+import { capitalizeLetter } from "@/lib/utils";
 import {
     Table,
     TableBody,
@@ -20,7 +20,7 @@ export function CreateRequisitions() {
             requisition_number: 0,
             ship_to: '',
             bill_to: '',
-            department: 0,
+            department: '',
             approved_by: 1,
             created_by: 1,
             status: 'created',
@@ -43,6 +43,7 @@ export function CreateRequisitions() {
     );
     const [unitList, setUnitList] = useState<any[]>([]);
     const [taxList, setTaxList] = useState<any[]>([]);
+    const [departmentList, setDepartmentList] = useState<any[]>([]);
 
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -53,26 +54,23 @@ export function CreateRequisitions() {
                 const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
                 const dataUnit = await responseUnit.json();
                 setUnitList(dataUnit);
+
+                const responseTax = await fetch(`${import.meta.env.VITE_BASE_URL}/tax-info`);
+                const taxValue = await responseTax.json();
+                setTaxList(taxValue);
+               
+                const responseDepartment = await fetch(`${import.meta.env.VITE_BASE_URL}/department`);
+                const departmentValue = await responseDepartment.json();
+                setDepartmentList(departmentValue);
+
             } catch (error) {
-                console.error('Error fetching projects and units:', error);
+                console.error('Error fetching projects and Tax:', error);
             }
         };
         fetchProjects();
     }, [])
    
-    useEffect(() => {
-        const fetchTax = async () => {
-            try {
-                const responseTax = await fetch(`${import.meta.env.VITE_BASE_URL}/tax-info`);
-                const taxValue = await responseTax.json();
-                setTaxList(taxValue);
-            } catch (error) {
-                console.error('Error fetching Tax values:', error);
-            }
-        };
-        fetchTax();
-    }, [])
-
+     
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionItemsData(currentPage);
 
     const handleFormDataChange = (field: string, value: any) => {
@@ -100,9 +98,7 @@ export function CreateRequisitions() {
     };
 
     const handleSaveItem = () => {
-
-        alert("dddddddddddddd")
-
+        alert("Okay")
     }
  
     return (
@@ -115,12 +111,13 @@ export function CreateRequisitions() {
                         <TextInput text='Bill To' onChange={(value) => handleFormDataChange('bill_to', value)} />
                         <SelectInput
                             label="Department"
-                            value=''
-                            onChange={(value) => handleFormDataChange('status', value)}
-                            options={[
-                                { value: 'Department_1', label: 'Department 1' },
-                                { value: 'Department_2', label: 'Department 2' },
-                            ]} />
+                            value={departmentList.length > 0 ? departmentList.filter(item => item.id === formData.department).at(0) : 1}
+                            onChange={(value) => handleFormItemDataChange('department', departmentList.filter(item => item.name === value).at(0).id)}
+                            options={departmentList.map(item => item.name).map(item => ({
+                                value: item,
+                                label: item,
+                        }))} />
+        
                         <SelectInput
                             label="Status"
                             value=''
@@ -198,13 +195,19 @@ export function CreateRequisitions() {
                             <div className="col-span-2 grid grid-row-2 gap-4">
                                 <div className="grid grid-cols-3 gap-4">
                                     <TextInput text='Quantity' onChange={(value) => handleFormItemDataChange('quantity', value)} />
-                                    {/* <CurrencyInput
-                                        label="Net Amount"
-                                        value={formData.taxAmount}
-                                        onChange={(value) => handleFormItemDataChange('netAmount', value)}
-                                        currency="USD"
-                                        onCurrencyChange={(currency) => handleFormItemDataChange('totalTaxCurrency', currency)} /> */}
- 
+                                    {/* <SelectInput
+                                        label="Status"
+                                        value={capitalizeLetter(formData.p_status)}
+                                        onChange={(value) => handleFormItemDataChange('p_status', value.toLowerCase())}
+                                        options={[
+                                            { value: ' ', label: ' ' },
+                                            { value: 'Created', label: 'Created' },
+                                            { value: 'Waiting_Approval', label: 'Waiting Approval' },
+                                            { value: 'Approved', label: 'Approved' },
+                                            { value: 'Ended', label: 'Ended' },
+                                            { value: 'Partially_Approved', label: 'Partially Approved' },
+                                    ]} />
+  */}
                                 </div>
                                 <div className="grid grid-cols-3 gap-4">
                                     <TextInput text='Price' onChange={(value) => handleFormItemDataChange('price', Number(value))} />

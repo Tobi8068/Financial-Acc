@@ -1,22 +1,7 @@
-export type RequisitionsStatus = 'Created' | 'Approved' | 'Sent' | 'Partially_Received' | 'Completed' | 'Cancelled';
+export type RequisitionsStatus = 'Completed' | 'Approved' | 'Cancel' | 'Rejected' | 'In_Progress';
 
 export interface RequisitionsFilters {
   status: RequisitionsStatus | 'all';
-}
-
-export interface RequisitionsData {
-  pid: string;
-  id: string;
-  dateCreated: string;
-  shipTo: string;
-  billTo: string;
-  department: string;
-  status: RequisitionsStatus;
-  approvedBy: string;
-  createdBy: string;
-  totalAmountBeforeTax: number;
-  totalTaxAmount: number;
-  totalAmount: number;
 }
 
 export interface RequisitionItem {
@@ -31,7 +16,23 @@ export interface RequisitionItem {
   price: number,
   netAmount: number;
   taxAmount: number,
-  taxGroup: string,
+  taxGroup: number,
+}
+
+export interface RequisitionsData {
+  pid: string;
+  id: string;
+  dateCreated: string;
+  shipTo: string;
+  billTo: string;
+  department: string;
+  items: any[];
+  status: RequisitionsStatus;
+  approvedBy: string;
+  createdBy: string;
+  totalNetAmount: number;
+  totalTaxAmount: number;
+  totalAmount: number;
 }
 
 export interface RequisitionsItemsData {

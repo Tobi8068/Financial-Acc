@@ -41,13 +41,13 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
 
   const getStatusBadge = (status: RequisitionsStatus) => {
     const styles = {
-      Created: 'bg-[#F5F5F5] text-[#414651]',
-      Approved: 'bg-[#ECFDF3] text-[#027A48]',
-      Sent: 'bg-[#EFF8FF] text-[#175CD3]',
-      Partially_Received: 'bg-[#F4F3FF] text-[#5925DC]',
       Completed: 'bg-[#ECFDF3] text-[#027A48]',
-      Cancelled: 'bg-[#FEF3F2] text-[#B42318]',
-    };
+      Created: 'bg-[#EFF8FF] text-[#175CD3]',
+      Approved: 'bg-[#ECFDF3] text-[#027A48]',
+      Rejected: 'bg-[#F4F3FF] text-[#FF9900]',
+      In_Progress: 'bg-[#F4F3FF] text-[#5925DC]',
+      Cancel: 'bg-[#FEF3F2] text-[#B42318]',
+  };
 
     return (
       <Badge className={styles[status]} variant="secondary">
@@ -91,8 +91,8 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
               <TableHead>Status</TableHead>
               <TableHead>Approved By</TableHead>
               <TableHead>Created By</TableHead>
-              <TableHead>Total Amount Before Tax</TableHead>
-              <TableHead>Total Tax Amount</TableHead>
+              <TableHead>Total NetAmount</TableHead>
+              <TableHead>Total TaxAmount</TableHead>
               <TableHead>Total Amount</TableHead>
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
@@ -111,7 +111,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
                 <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalAmountBeforeTax}</TableCell>
+                <TableCell className='text-[#535862]'>${item.totalNetAmount}</TableCell>
                 <TableCell className='text-[#3e4450]'>${item.totalTaxAmount}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalAmount}</TableCell>
                 <TableCell>

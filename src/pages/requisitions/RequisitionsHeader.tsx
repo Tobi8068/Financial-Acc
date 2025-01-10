@@ -64,9 +64,11 @@ export function RequisitionsHeader({
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="created">Created</SelectItem>
+            <SelectItem value="completed">Completed</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="sent">Sent</SelectItem>
-            <SelectItem value="partially_received">Partially Received</SelectItem>
+            <SelectItem value="rejected">Rejected</SelectItem>
+            <SelectItem value="cancel">Cancel</SelectItem>
+            <SelectItem value="in_progress">In Progress</SelectItem>
           </SelectContent>
         </Select>
         
