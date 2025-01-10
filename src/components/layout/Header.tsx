@@ -1,5 +1,5 @@
 import { Bell, User } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+// import { Input } from '@/components/ui/input';
 
 export function Header() {
   return (
@@ -7,7 +7,7 @@ export function Header() {
       <div className="flex items-center gap-2">
         <h1 className="text-xl font-bold text-white">Finances App</h1>
       </div>
-      <div className="flex items-center rounded-md bg-white gap-6">
+      {/* <div className="flex items-center rounded-md bg-white gap-6">
         <div className="w-96">
           <Input
             type="search"
@@ -16,7 +16,7 @@ export function Header() {
             // prefix={<Search className="h-4 w-4 text-gray-500" />}
           />
         </div>
-      </div>
+      </div> */}
       <div className='flex item-center gap-4'>
         <button className="relative p-2 hover:bg-gray-100 rounded-full">
           <Bell className="h-5 w-5 text-gray-600" />
