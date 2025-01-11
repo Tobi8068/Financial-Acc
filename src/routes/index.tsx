@@ -7,14 +7,16 @@ import AuthRoutes from "./routes/AuthRoute";
 
 
 export default function Routes() {
-    return useRoutes([{
-        path: "/",
-        element: <Auth />,
-        children: [AuthRoutes]
-    },
-    {
-        path: '/',
-        element: <ProtectedRoute/>,
-        children: [MainRoutes],
-    }])
+    return useRoutes([
+        {
+            path: '/',
+            element: <ProtectedRoute />,
+            children: [MainRoutes],
+        },
+        {
+            path: "/",
+            element: <Auth />,
+            children: [AuthRoutes]
+        },
+    ])
 }
