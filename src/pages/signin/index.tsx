@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
 
 export default function SignIn() {
+    
     return (
         <div className="bg-transparent max-w-7xl w-full">
             <div className="flex ">

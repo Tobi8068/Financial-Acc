@@ -1,26 +1,65 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Lock, User, Phone } from 'lucide-react';
+import FbIcon from '@/assets/img/fb.png';
 
 export default function SignUp() {
+
+  const validateLength = (password: string) => password.length >= 8;
+  const validateCase = (password: string) => /(?=.*[a-z])(?=.*[A-Z])/.test(password);
+  const validateNumber = (password: string) => /\d/.test(password);
+  const validateSpecial = (password: string) => /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [validations, setValidations] = useState({
+    length: false,
+    case: false,
+    number: false,
+    special: false
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'password') {
+      setValidations({
+        length: validateLength(value),
+        case: validateCase(value),
+        number: validateNumber(value),
+        special: validateSpecial(value)
+      });
+    }
+    setFormData({ ...formData, [name]: value });
+  }
+
   return (
-    <div className="bg-gray-50">
+    <div className="bg-transparent max-w-7xl w-full">
       <div className="flex ">
         <div className="flex-1 flex flex-col justify-center px-16">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Sign Up</h1>
-          <p className="text-gray-600 mb-8 max-w-md">
-            Some Description Text, Some Description Text, Some Description Text, Some Description Text,
-            Some Description Text, Some Description Text, Some Description Text, Some Description Text.
+          <h1 className="text-6xl font-bold text-gray-800 mb-4">Sign Up</h1>
+          <p className="text-gray-600">
+            Some Description Text, Some Description Text, Some Description Text,
+            Some Description Text, Some Description Text, Some Description Text,
+            Some Description Text, Some Description Text, Some Description Text,
+            Some Description Text, Some Description Text, Some Description Text,
           </p>
-          <div className="text-sm text-gray-600 mb-8">
-            Already have an account?{' '}
-            <Link to="/signin" className="text-indigo-600 hover:text-indigo-500 font-medium">
+          <div className="text-sm mt-24 text-gray-600 flex flex-col justify-center items-center w-full gap-4">
+            <span>Already have an account?</span>
+            <Link to="/signin" className="py-3 px-4 max-w-sm w-full text-center border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#414651] bg-white">
               Sign In
             </Link>
           </div>
         </div>
-        
+
         <div className="flex-1 flex items-center justify-center">
-          <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+          <div className="w-full max-w-xl bg-white p-8 rounded-2xl shadow-lg">
             <form className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -30,7 +69,9 @@ export default function SignUp() {
                   <div className="mt-1 relative">
                     <input
                       type="text"
-                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="First Name"
                     />
@@ -44,7 +85,9 @@ export default function SignUp() {
                   <div className="mt-1 relative">
                     <input
                       type="text"
-                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Last Name"
                     />
@@ -61,7 +104,9 @@ export default function SignUp() {
                   <div className="mt-1 relative">
                     <input
                       type="email"
-                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Email"
                     />
@@ -75,7 +120,9 @@ export default function SignUp() {
                   <div className="mt-1 relative">
                     <input
                       type="tel"
-                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Phone Number"
                     />
@@ -84,52 +131,66 @@ export default function SignUp() {
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <div className="mt-1 relative">
-                  <input
-                    type="password"
-                    id="password"
-                    className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Password"
-                  />
-                  <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    Password
+                  </label>
+                  <div className="mt-1 relative">
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="Password"
+                    />
+                    <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
+                    <ul className={`mt-2 text-xs text-gray-600 space-y-1 ${formData.password.length == 0 ? "hidden" : "block"}`}>
+                      <li className={validations.length ? "text-green-600" : "text-red-600"}>
+                        • Atleast 8 Characters
+                      </li>
+                      <li className={validations.case ? "text-green-600" : "text-red-600"}>
+                        • Atleast 1 Lower case(a-z) and 1 Upper case letter(A-B)
+                      </li>
+                      <li className={validations.number ? "text-green-600" : "text-red-600"}>
+                        • 1 Number
+                      </li>
+                      <li className={validations.special ? "text-green-600" : "text-red-600"}>
+                        • 1 Special Character
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <ul className="mt-2 text-xs text-gray-600 space-y-1">
-                  <li className="text-green-600">• Atleast 8 Characters</li>
-                  <li className="text-green-600">• Atleast 1 Lower case(a-z) and 1 Upper case letter(A-B)</li>
-                  <li className="text-green-600">• 1 Number</li>
-                  <li className="text-red-600">• 1 Special Character</li>
-                </ul>
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                    Confirm Password
+                  </label>
+                  <div className="mt-1 relative">
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="Confirm Password"
+                    />
+                    <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
+                  </div>
+                </div>
+
               </div>
 
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                  Confirm Password
-                </label>
-                <div className="mt-1 relative">
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    placeholder="Confirm Password"
-                  />
-                  <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
-                </div>
-              </div>
-
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <input
                   type="checkbox"
                   id="terms"
-                  className="h-4 w-4 mt-1 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 border-gray-300 rounded"
                 />
-                <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
+                <label htmlFor="terms" className="ml-2 block text-sm text-[#414651]">
                   By Selecting this, I agree to the{' '}
-                  <Link to="/terms" className="text-indigo-600 hover:text-indigo-500">
-                    Terms & Conditions
+                  <Link to="/terms" className="text-[#414651]">
+                    <u>Terms & Conditions</u>
                   </Link>
                 </label>
               </div>
@@ -155,15 +216,15 @@ export default function SignUp() {
                   type="button"
                   className="w-full py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center space-x-2"
                 >
-                  <img src="https://www.google.com/favicon.ico" alt="Google" className="h-5 w-5" />
                   <span>Continue with Google</span>
+                  <img src="https://www.google.com/favicon.ico" alt="Google" className="h-5 w-5" />
                 </button>
                 <button
                   type="button"
                   className="w-full py-3 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center space-x-2"
                 >
-                  <img src="" alt="Facebook" className="h-5 w-5" />
                   <span>Continue with Facebook</span>
+                  <img src={FbIcon} alt="Facebook" className="h-5 w-5" />
                 </button>
               </div>
             </form>
