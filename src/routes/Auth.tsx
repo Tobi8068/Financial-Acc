@@ -6,7 +6,7 @@ const Auth = () => {
     return (
         <div className='flex flex-col justify-between h-[100vh]'>
             <Navbar />
-            <div className='mx-8'>
+            <div className='mx-8 flex flex-col justify-center items-center'>
                 <Outlet />
             </div>
             <Footer />
