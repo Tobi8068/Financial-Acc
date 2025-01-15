@@ -171,7 +171,7 @@ export function useSalesItemData(page: number, filters: SalesFilters, sortOption
       fetchFunc();
     }, [])
     const refreshData = () => {
-      fetchFunc(); // Your existing fetch function
+      fetchFunc();
     };
     return useData(serverData, page, refreshData, filters, sortOption, searchQuery || '');
 }
