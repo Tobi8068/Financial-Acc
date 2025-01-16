@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
   const isLoggedIn = localStorage.getItem('loggedInUser') !== null;
   const location = useLocation();
 
-  return isLoggedIn ? (
+  return !isLoggedIn ? (
     <div>
       <Header />
       <Navigation />

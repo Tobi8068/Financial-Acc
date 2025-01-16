@@ -5,11 +5,11 @@ import { Footer } from "@/components/auth/Footer";
 const Auth = () => {
     return (
         <div className='flex flex-col justify-between h-[100vh]'>
-            {/* <Navbar /> */}
+            <Navbar />
             <div className='mx-8 flex flex-col justify-center items-center'>
                 <Outlet />
             </div>
-            {/* <Footer /> */}
+            <Footer />
         </div>
     )
 };
