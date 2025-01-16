@@ -41,16 +41,18 @@ export default function SignUp() {
 
   return (
     <div className="bg-transparent max-w-7xl w-full">
-      <div className="flex ">
-        <div className="flex-1 flex flex-col justify-center px-16">
-          <h1 className="text-6xl font-bold text-gray-800 mb-4">Sign Up</h1>
-          <p className="text-gray-600">
-            Some Description Text, Some Description Text, Some Description Text,
-            Some Description Text, Some Description Text, Some Description Text,
-            Some Description Text, Some Description Text, Some Description Text,
-            Some Description Text, Some Description Text, Some Description Text,
-          </p>
-          <div className="text-sm mt-24 text-gray-600 flex flex-col justify-center items-center w-full gap-4">
+      <div className="flex md:flex-row flex-col md:gap-0 gap-6">
+        <div className="flex-1 flex flex-row items-end md:flex-col justify-center px-4 lg:px-8 xl:px-16 max-w-fit md:max-w-[280px] lg:max-w-fit">
+          <div className='max-w-[60%] md:max-w-fit'>
+            <h1 className="text-6xl font-bold text-gray-800 mb-4">Sign Up</h1>
+            <p className="text-gray-600">
+              Some Description Text, Some Description Text, Some Description Text,
+              Some Description Text, Some Description Text, Some Description Text,
+              Some Description Text, Some Description Text, Some Description Text,
+              Some Description Text, Some Description Text, Some Description Text,
+            </p>
+          </div>
+          <div className="text-sm mt-0 md:mt-24 text-gray-600 flex flex-col justify-center items-center w-full gap-4">
             <span>Already have an account?</span>
             <Link to="/signin" className="py-3 px-4 max-w-sm w-full text-center border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#414651] bg-white">
               Sign In
@@ -58,7 +60,7 @@ export default function SignUp() {
           </div>
         </div>
 
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center md:w-fit w-full">
           <div className="w-full max-w-xl bg-white p-8 rounded-2xl shadow-lg">
             <form className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
