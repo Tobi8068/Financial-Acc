@@ -11,19 +11,23 @@ export default function SignUp() {
   const validateSpecial = (password: string) => /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    phone: '',
+    phone_number: '',
     password: '',
-    confirmPassword: '',
+    role:"supplier",
+    organization : 1
   });
+
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [validations, setValidations] = useState({
     length: false,
     case: false,
     number: false,
-    special: false
+    special: false,
+    match: false
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,10 +37,35 @@ export default function SignUp() {
         length: validateLength(value),
         case: validateCase(value),
         number: validateNumber(value),
-        special: validateSpecial(value)
+        special: validateSpecial(value),
+        match: value === confirmPassword
       });
     }
+    if (name === 'confirmPassword') {
+      setValidations({ ...validations, match: confirmPassword === formData.password });
+    }
     setFormData({ ...formData, [name]: value });
+  }
+
+  const handleSignUp = async () => {
+    if (Object.values(validations).every(Boolean)) {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+        if (response.ok) {
+          console.log('Sign-up successful');
+        } else {
+          console.log('Error:', response.status);
+        }
+      } catch(err) {
+        console.log(err);
+      }
+    }
   }
 
   return (
@@ -65,14 +94,14 @@ export default function SignUp() {
             <form className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">
                     First Name
                   </label>
                   <div className="mt-1 relative">
                     <input
                       type="text"
-                      name="firstName"
-                      value={formData.firstName}
+                      name="first_name"
+                      value={formData.first_name}
                       onChange={handleChange}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="First Name"
@@ -81,14 +110,14 @@ export default function SignUp() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="last_name" className="block text-sm font-medium text-gray-700">
                     Last Name
                   </label>
                   <div className="mt-1 relative">
                     <input
                       type="text"
-                      name="lastName"
-                      value={formData.lastName}
+                      name="last_name"
+                      value={formData.last_name}
                       onChange={handleChange}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Last Name"
@@ -116,14 +145,14 @@ export default function SignUp() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">
                     Phone Number
                   </label>
                   <div className="mt-1 relative">
                     <input
                       type="tel"
-                      name="phone"
-                      value={formData.phone}
+                      name="phone_number"
+                      value={formData.phone_number}
                       onChange={handleChange}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Phone Number"
@@ -172,12 +201,17 @@ export default function SignUp() {
                     <input
                       type="password"
                       name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
+                      value={confirmPassword}
+                      onChange={(e) => {setConfirmPassword(e.target.value)}}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Confirm Password"
                     />
                     <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
+                    <ul className={`mt-2 text-xs text-gray-600 space-y-1 ${validations.match ? "hidden" : "block"}`}>
+                      <li className="text-red-600">
+                        • Password does not match
+                      </li>
+                    </ul>
                   </div>
                 </div>
 
@@ -198,7 +232,8 @@ export default function SignUp() {
               </div>
 
               <button
-                type="submit"
+                type="button"
+                onClick={handleSignUp}
                 className="w-full py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
               >
                 Sign Up
