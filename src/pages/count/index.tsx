@@ -4,7 +4,7 @@ function Count() {
     return (
       <div>
         <main className="flex-1 p-6">
-          Count Page
+          This is a Count Page.
         </main>
       </div>
     );
