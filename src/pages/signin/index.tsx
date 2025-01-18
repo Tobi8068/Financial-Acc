@@ -1,7 +1,35 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
 
 export default function SignIn() {
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    }
+
+    const handleSignIn = async () => {
+        console.log(formData);
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     
     return (
         <div className="bg-transparent max-w-7xl w-full">
@@ -32,9 +60,10 @@ export default function SignIn() {
                                 <div className="mt-1 relative">
                                     <input
                                         type="email"
-                                        id="email"
+                                        name="email"
                                         className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                         placeholder="Email"
+                                        onChange={handleChange}
                                     />
                                     <Mail className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
                                 </div>
@@ -47,9 +76,15 @@ export default function SignIn() {
                                 <div className="mt-1 relative">
                                     <input
                                         type="password"
-                                        id="password"
+                                        name="password"
                                         className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                                         placeholder="Password"
+                                        onChange={handleChange}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleSignIn();
+                                            }
+                                        }}
                                     />
                                     <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
                                 </div>
@@ -67,7 +102,8 @@ export default function SignIn() {
                             </div>
 
                             <button
-                                type="submit"
+                                type="button"
+                                onClick={handleSignIn}
                                 className="w-full py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#3A3B55] hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                             >
                                 Sign In

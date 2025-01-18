@@ -69,7 +69,7 @@ export default function SignUp() {
   }
 
   return (
-    <div className="bg-transparent max-w-7xl w-full">
+    <div className="bg-transparent max-w-7xl w-full h-full">
       <div className="flex md:flex-row flex-col md:gap-0 gap-6">
         <div className="flex-1 flex flex-row items-end md:flex-col justify-center px-4 lg:px-8 xl:px-16 max-w-fit md:max-w-[280px] lg:max-w-fit">
           <div className='max-w-[60%] md:max-w-fit'>
