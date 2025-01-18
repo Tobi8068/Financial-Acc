@@ -16,8 +16,8 @@ export default function SignUp() {
     email: '',
     phone_number: '',
     password: '',
-    role:"supplier",
-    organization : 1
+    role: "supplier",
+    organization: 1
   });
 
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -62,7 +62,7 @@ export default function SignUp() {
         } else {
           console.log('Error:', response.status);
         }
-      } catch(err) {
+      } catch (err) {
         console.log(err);
       }
     }
@@ -202,12 +202,19 @@ export default function SignUp() {
                       type="password"
                       name="confirmPassword"
                       value={confirmPassword}
-                      onChange={(e) => {setConfirmPassword(e.target.value)}}
+                      onChange={(e) => {
+                        if (formData.password === e.target.value) {
+                          setValidations({ ...validations, match: true })
+                        } else {
+                          setValidations({ ...validations, match: false })
+                        }
+                        setConfirmPassword(e.target.value)
+                      }}
                       className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Confirm Password"
                     />
                     <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
-                    <ul className={`mt-2 text-xs text-gray-600 space-y-1 ${validations.match ? "hidden" : "block"}`}>
+                    <ul className={`mt-2 text-xs text-gray-600 space-y-1 ${(formData.password.length == 0) || validations.match ? "hidden" : "block"}`}>
                       <li className="text-red-600">
                         • Password does not match
                       </li>
