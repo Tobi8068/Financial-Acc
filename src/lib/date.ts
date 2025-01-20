@@ -10,3 +10,8 @@ export function formatDate(dateString: string): string {
     return '';
   }
 }
+
+
+export const convertDate = (date: Date) => {
+  return date.toISOString().split('T')[0];
+}
