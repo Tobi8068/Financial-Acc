@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
+import useNotification from '@/hooks/useNotifications';
 
 export default function SignIn() {
+
+    const { showNotification } = useNotification();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -16,6 +19,10 @@ export default function SignIn() {
 
     const handleSignIn = async () => {
         console.log(formData);
+        if (!formData.email || !formData.password) {
+            showNotification('Please fill in all fields', 'error');
+            return;
+        }
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/login`, {
                 method: 'POST',
@@ -25,7 +32,7 @@ export default function SignIn() {
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
-            console.log(data);
+            showNotification(data.detail, 'error');
         } catch (error) {
             console.error(error);
         }
