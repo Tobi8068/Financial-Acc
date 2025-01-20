@@ -10,7 +10,7 @@ type SelectInputProps = {
 
 export function SelectInput({ label, value, onChange, options }: SelectInputProps) {
     return (
-        <div className="gap-3 flex flex-col w-full">
+        <div className="gap-3 flex flex-col w-full h-full justify-between">
             <Label>{label}</Label>
             <div className="relative">
                 <select

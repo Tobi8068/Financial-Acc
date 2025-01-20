@@ -25,7 +25,7 @@ export default function NumberInput({
   }
 
   return (
-    <div className="w-full gap-3 flex flex-col">
+    <div className="w-full gap-3 flex flex-col h-full justify-between">
       <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
         {label}
       </label>

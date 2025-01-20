@@ -6,7 +6,7 @@ interface TextInputProps {
 
 export function TextInput(props: TextInputProps) {
     return (
-        <div className="gap-3 flex flex-col w-full">
+        <div className="gap-3 flex flex-col justify-between w-full h-full">
             <Label>{props.text}</Label>
             <input
                 type="text"
