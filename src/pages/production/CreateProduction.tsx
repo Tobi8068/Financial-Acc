@@ -259,7 +259,8 @@ export function CreateProduction() {
                                 { value: ' ', label: ' ' },
                                 { value: 'Created', label: 'Created' },
                                 { value: 'Waiting_Approval', label: 'Waiting Approval' },
-                                { value: 'Approved', label: 'Approved' },
+                                { value: 'Approve', label: 'Approve' },
+                                { value: 'Started', label: 'Started' },
                                 { value: 'Ended', label: 'Ended' },
                                 { value: 'Partially_Approved', label: 'Partially Approved' },
                             ]} /> */}
