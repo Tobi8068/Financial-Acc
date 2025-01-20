@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { ProductionStatus, ProductionItemStatus } from "@/types/production";
+import { ProductionItemStatus } from "@/types/production";
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -20,6 +20,7 @@ import { DateInput } from "@/components/ui/date-input";
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { capitalizeLetter } from "@/lib/utils";
+import { convertDate } from "@/lib/date";
 
 export function CreateProduction() {
 
@@ -52,8 +53,8 @@ export function CreateProduction() {
             items: [],
             production_doc: 1,
             approved: true,
-            approved_by: 'you',
-            created_by: 'me'
+            approved_by: 1,
+            created_by: 1,
         }
     );
 
@@ -165,21 +166,21 @@ export function CreateProduction() {
         }
     };
 
-    const getStatusBadge = (status: ProductionStatus) => {
-        const styles = {
-            Created: 'bg-[#FEF2F2] text-[#991B1B]',
-            Approve: 'bg-[#ECFDF3] text-[#027A48]',
-            Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
-            Started: 'bg-[#FEF2F2] text-[#991B1B]',
-            Ended: 'bg-[#F4F3FF] text-[#5925DC]',
-        };
+    // const getStatusBadge = (status: ProductionStatus) => {
+    //     const styles = {
+    //         Created: 'bg-[#FEF2F2] text-[#991B1B]',
+    //         Approve: 'bg-[#ECFDF3] text-[#027A48]',
+    //         Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
+    //         Started: 'bg-[#FEF2F2] text-[#991B1B]',
+    //         Ended: 'bg-[#F4F3FF] text-[#5925DC]',
+    //     };
 
-        return (
-            <Badge className={styles[status]} variant="secondary">
-                {status.replace("_", " ").replace("0", "/")}
-            </Badge>
-        );
-    };
+    //     return (
+    //         <Badge className={styles[status]} variant="secondary">
+    //             {status.replace("_", " ").replace("0", "/")}
+    //         </Badge>
+    //     );
+    // };
 
     const getItemStatusBadge = (status: ProductionItemStatus) => {
         const styles = {
@@ -214,8 +215,8 @@ export function CreateProduction() {
                                 label: item
                             }))} />
  
-                        <DateInput text='Start Date' onChange={(value) => handleFormChange('p_start_date', value)} />
-                        <DateInput text='End Date' onChange={(value) => handleFormChange('p_end_date', value)} />
+                        <DateInput text='Start Date' onChange={(value) => handleFormChange('p_start_date', convertDate(value))} />
+                        <DateInput text='End Date' onChange={(value) => handleFormChange('p_end_date', convertDate(value))} />
                         <SelectInput
                             label="Status"
                             value={capitalizeLetter(formData.p_status)}
