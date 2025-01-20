@@ -16,6 +16,7 @@ import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
+import useNotification from '@/hooks/useNotifications';
 
 interface ProductionTableProps {
   filters: ProductionFilters;
@@ -33,6 +34,7 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
     filters,
     searchQuery,
   );
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     if (totalPages < currentPage) {
@@ -54,7 +56,7 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
       })
       console.log(response.status);
       if (response.status === 204) {
-        alert('Item deleted successfully');
+        showNotification('Item deleted successfully', 'success');
         refreshData();
       }
       setDeleteDialogOpen(false);
@@ -98,11 +100,11 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.length !== 0 && data.map((item) => (
+            {data.length !== 0 && data.map((item, index) => (
               <TableRow
                 key={item.id}
               >
-                <TableCell className="font-medium pl-6">{item.id}</TableCell>
+                <TableCell className="font-medium pl-6">{index + 1}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.name}</TableCell>
                 <TableCell className='text-[#535862]'>{item.project}</TableCell>

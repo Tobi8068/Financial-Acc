@@ -34,7 +34,7 @@ export default function NumberInput({
           className="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
           aria-label="Decrease number" />
         <span className="text-gray-900 font-medium">
-          {value}
+          {initialValue === 0 ? '' : value}
         </span>
         <Plus onClick={() => handleChange(value + 1)}
           className="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-700 transition-colors cursor-pointer"
