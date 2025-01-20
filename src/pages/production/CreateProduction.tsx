@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { capitalizeLetter } from "@/lib/utils";
 import { convertDate } from "@/lib/date";
+import useNotification from "@/hooks/useNotifications";
 
 export function CreateProduction() {
 
@@ -39,7 +40,7 @@ export function CreateProduction() {
             manufacturer_code: '',
             quantity: '',
             approved_quantity: '',
-            measure_unit: 1,
+            measure_unit: '',
             status: '',
         }
     );
@@ -48,7 +49,7 @@ export function CreateProduction() {
             p_name: '',
             p_start_date: '',
             p_end_date: '',
-            p_status: '',
+            p_status: 'waiting_approval',
             project: 1,
             items: [],
             production_doc: 1,
@@ -58,27 +59,33 @@ export function CreateProduction() {
         }
     );
 
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const responseProject = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
-                const dataPro = await responseProject.json();
-                setProjectList(dataPro);
+    const { showNotification } = useNotification();
 
-                const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
-                const dataUnit = await responseUnit.json();
-                setUnitList(dataUnit);
-            } catch (error) {
-                console.error('Error fetching projects and units:', error);
-            }
-        };
+    const fetchProjects = async () => {
+        try {
+            const responseProject = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
+            const dataPro = await responseProject.json();
+            setProjectList(dataPro);
+
+            const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
+            const dataUnit = await responseUnit.json();
+            setUnitList(dataUnit);
+        } catch (error) {
+            console.error('Error fetching projects and units:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchProjects();
     }, [])
 
     useEffect(() => {
-        console.log('projectList', projectList.filter(item => item.id === formData.measure_unit).at(0));
         console.log('unitList', unitList);
-    }, [projectList, unitList])
+    }, [unitList])
+
+    useEffect(() => {
+        console.log('unitList found', formDataItem.measure_unit, unitList.find(item => item.id == formDataItem.measure_unit));
+    }, [formDataItem.measure_unit])
 
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useProductionItemsData(
         currentPage,
@@ -96,12 +103,23 @@ export function CreateProduction() {
             });
 
             if (response.status === 201) {
-                console.log('Item created successfully');
+                showNotification('Item created successfully', 'success');
+                setFormDataItem({
+                    item_name: '',
+                    description: '',
+                    manufacturer: '',
+                    manufacturer_code: '',
+                    quantity: 0,
+                    approved_quantity: 0,
+                    measure_unit: '',
+                    status: '',
+                });
                 refreshData();
             }
         } catch (error) {
             console.error('Error creating item:', error);
         }
+        console.log("after:::::::::::::", formDataItem)
     }
 
     const handleCreate = async () => {
@@ -117,7 +135,19 @@ export function CreateProduction() {
             });
 
             if (response.status === 201) {
-                console.log('New Production created successfully');
+                showNotification('New Production created successfully', 'success');
+                setFormData({
+                    p_name: '',
+                    p_start_date: '',
+                    p_end_date: '',
+                    p_status: 'waiting_approval',
+                    project: '',
+                    items: [],
+                    production_doc: 1,
+                    approved: true,
+                    approved_by: 1,
+                    created_by: 1,
+                });
                 refreshData();
             }
         } catch (error) {
@@ -146,11 +176,23 @@ export function CreateProduction() {
     }, [selectedItems])
 
     const handleFormChange = (field: string, value: any) => {
-        setFormData({ ...formData, [field]: value });
+        const updatedData = { ...formData, [field]: value };
+        setFormData(updatedData);
     };
 
     const handleFormItemChange = (field: string, value: any) => {
-        setFormDataItem({ ...formDataItem, [field]: value });
+        const updatedData = { ...formDataItem, [field]: value };
+
+        if (field === 'quantity' || field === 'approved_quantity') {
+            const quantity = Number(updatedData.quantity);
+            const approvedQuantity = Number(updatedData.approved_quantity);
+            
+            if (quantity && approvedQuantity) {
+                updatedData.status = quantity < approvedQuantity ? 'partially_approved' : 'approved';
+            }
+        }
+
+        setFormDataItem(updatedData);
     };
 
     const handleDelete = (id: string) => {
@@ -158,29 +200,21 @@ export function CreateProduction() {
         setDeleteItemId(id);
     };
 
-    const handleConfirmDelete = () => {
+    const handleConfirmDelete = async () => {
         if (deleteItemId) {
             console.log('Deleting item with id:', deleteItemId);
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/production-items/${deleteItemId}`, {
+                method: 'DELETE',
+            })
+            console.log(response.status);
+            if (response.status === 204) {
+                showNotification('Item deleted successfully', 'success');
+                refreshData();
+            }
             setDeleteDialogOpen(false);
             setDeleteItemId(null);
         }
     };
-
-    // const getStatusBadge = (status: ProductionStatus) => {
-    //     const styles = {
-    //         Created: 'bg-[#FEF2F2] text-[#991B1B]',
-    //         Approve: 'bg-[#ECFDF3] text-[#027A48]',
-    //         Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
-    //         Started: 'bg-[#FEF2F2] text-[#991B1B]',
-    //         Ended: 'bg-[#F4F3FF] text-[#5925DC]',
-    //     };
-
-    //     return (
-    //         <Badge className={styles[status]} variant="secondary">
-    //             {status.replace("_", " ").replace("0", "/")}
-    //         </Badge>
-    //     );
-    // };
 
     const getItemStatusBadge = (status: ProductionItemStatus) => {
         const styles = {
@@ -204,8 +238,8 @@ export function CreateProduction() {
             <h2 className="text-xl font-semibold mb-6">New Production</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
-                    <div className="grid w-full grid-cols-5 gap-12">
-                        <TextInput text='Name' onChange={(value) => handleFormChange('p_name', value)} />
+                    <div className="grid w-full grid-cols-4 gap-12">
+                        <TextInput text='Name' value={formData.p_name} onChange={(value) => handleFormChange('p_name', value)} />
                         <SelectInput
                             label="Project"
                             value={projectList.length > 0 ? projectList.filter(item => item.id === formData.measure_unit).at(0) : 1}
@@ -214,10 +248,10 @@ export function CreateProduction() {
                                 value: item,
                                 label: item
                             }))} />
- 
+
                         <DateInput text='Start Date' onChange={(value) => handleFormChange('p_start_date', convertDate(value))} />
                         <DateInput text='End Date' onChange={(value) => handleFormChange('p_end_date', convertDate(value))} />
-                        <SelectInput
+                        {/* <SelectInput
                             label="Status"
                             value={capitalizeLetter(formData.p_status)}
                             onChange={(value) => handleFormChange('p_status', value.toLowerCase())}
@@ -228,7 +262,7 @@ export function CreateProduction() {
                                 { value: 'Approved', label: 'Approved' },
                                 { value: 'Ended', label: 'Ended' },
                                 { value: 'Partially_Approved', label: 'Partially Approved' },
-                            ]} />
+                            ]} /> */}
                     </div>
 
                     <h2 className="font-semibold text-[18px] text-[#636692]">Production Items</h2>
@@ -278,7 +312,7 @@ export function CreateProduction() {
                                                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                                                         <ul className="space-y-2">
                                                             <li>Edit</li>
-                                                            <li onClick={() => handleDelete(item.name)}>Delete</li>
+                                                            <li onClick={() => handleDelete(item.id)}>Delete</li>
                                                         </ul>
                                                     </PopoverContent>
                                                 </Popover>
@@ -302,11 +336,11 @@ export function CreateProduction() {
                         onConfirm={handleConfirmDelete}
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
-                    <div className="w-full grid grid-cols-10 gap-3">
-                        <div className="col-span-2"><TextInput text='Name' onChange={(value) => handleFormItemChange('item_name', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Description' onChange={(value) => handleFormItemChange('description', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Name' onChange={(value) => handleFormItemChange('manufacturer', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Code' onChange={(value) => handleFormItemChange('manufacturer_code', value)} /></div>
+                    <div className="w-full grid grid-cols-9 gap-3">
+                        <div className="col-span-2"><TextInput text='Name' value={formDataItem.item_name} onChange={(value) => handleFormItemChange('item_name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Description' value={formDataItem.description} onChange={(value) => handleFormItemChange('description', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Name' value={formDataItem.manufacturer} onChange={(value) => handleFormItemChange('manufacturer', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Code' value={formDataItem.manufacturer_code} onChange={(value) => handleFormItemChange('manufacturer_code', value)} /></div>
                         <div className="col-span-1">
                             <NumberInput label="Quantity" value={formDataItem.quantity} onChange={(value) => handleFormItemChange('quantity', value)} />
                         </div>
@@ -315,13 +349,16 @@ export function CreateProduction() {
                         </div>
                         <SelectInput
                             label="Unit of Measure"
-                            value={unitList.length > 0 ? unitList.filter(item => item.id === formData.measure_unit).at(0) : 1}
-                            onChange={(value) => handleFormItemChange('measure_unit', unitList.filter(item => item.orderUnitName === value).at(0).id)}
-                            options={unitList.map(item => item.orderUnitName).map(item => ({
-                                value: item,
-                                label: item,
-                            }))} />
-                        <SelectInput
+                            value={formDataItem.measure_unit}
+                            onChange={(value) => handleFormItemChange('measure_unit', value)}
+                            options={unitList.map(item => (
+                                {
+                                    value: item.id,
+                                    label: item.orderUnitName,
+                                }
+                            ))}
+                            />
+                        {/* <SelectInput
                             label="Status"
                             value={capitalizeLetter(formDataItem.status)}
                             onChange={(value) => handleFormItemChange('status', value.toLowerCase())}
@@ -329,7 +366,7 @@ export function CreateProduction() {
                                 { value: '', label: '' },
                                 { value: 'Approved', label: 'Approved' },
                                 { value: 'Partially_Approved', label: 'Partially Approved' },
-                            ]} />
+                            ]} /> */}
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />
                     <div className="w-full flex gap-4 justify-end">

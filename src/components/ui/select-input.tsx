@@ -1,5 +1,6 @@
 import { ChevronDown } from 'lucide-react'
 import { Label } from "./label";
+import { useEffect } from 'react';
 
 type SelectInputProps = {
     label: string
@@ -9,17 +10,25 @@ type SelectInputProps = {
   }
 
 export function SelectInput({ label, value, onChange, options }: SelectInputProps) {
+
+    useEffect(() => {
+
+    }, [value])
+
     return (
         <div className="gap-3 flex flex-col w-full h-full justify-between">
             <Label>{label}</Label>
             <div className="relative">
                 <select
                     value={value}
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={(e) => {
+                        onChange(e.target.value)
+                    }}
                     className="w-full px-4 py-2 rounded-lg border border-gray-200 appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500"
                 >
-                    {options.map((option: any) => (
-                        <option key={option.value} value={option.value}>
+                    <option value="" hidden></option>
+                    {options.map((option: any, index) => (
+                        <option key={index} value={option.value}>
                             {option.label}
                         </option>
                     ))}
