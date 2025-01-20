@@ -148,6 +148,7 @@ export function CreateProduction() {
                     approved_by: 1,
                     created_by: 1,
                 });
+                setSelectedItems([]);
                 refreshData();
             }
         } catch (error) {
@@ -249,8 +250,8 @@ export function CreateProduction() {
                                 label: item
                             }))} />
 
-                        <DateInput text='Start Date' onChange={(value) => handleFormChange('p_start_date', convertDate(value))} />
-                        <DateInput text='End Date' onChange={(value) => handleFormChange('p_end_date', convertDate(value))} />
+                        <DateInput value={formData.p_start_date} text='Start Date' onChange={(value) => handleFormChange('p_start_date', convertDate(value))} />
+                        <DateInput value={formData.p_end_date} text='End Date' onChange={(value) => handleFormChange('p_end_date', convertDate(value))} />
                         {/* <SelectInput
                             label="Status"
                             value={capitalizeLetter(formData.p_status)}
