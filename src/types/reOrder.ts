@@ -32,19 +32,4 @@ export interface ReOrderItem {
   total: number,
   taxGroup: string,
   status: ReOrderStatus,
-}
-
-export interface ReOrderItemsData {
-  name: string;
-  description: string;
-  quantity: number;
-  price: number;
-  total: number;
-  taxGroup: string;
-  taxAmount: number;
-  unitOfMeasure: string;
-  supplier: string;
-  supplierCode: string;
-  manufacturerName: string;
-  manufacturerCode: string;
-}
+} 

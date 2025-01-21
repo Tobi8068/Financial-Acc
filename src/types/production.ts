@@ -4,7 +4,17 @@ export type ProductionItemStatus = 'Approved' | 'Partially_Approved';
 export interface ProductionFilters {
   status: ProductionStatus | 'all';
 }
-
+export interface ProductionItem {
+  id: string,
+  name: string,
+  description: string,
+  manufacturerName: string,
+  manufacturerCode: string,
+  quantity: number,
+  approvedQuantity: number,
+  unitOfMeasure: number,
+  status: ProductionItemStatus,
+}
 export interface ProductionData {
   items: any;
   id: string;
@@ -19,31 +29,3 @@ export interface ProductionData {
   createdBy: string;
 }
 
-export interface ProductionItem {
-  id: string,
-  name: string,
-  description: string,
-  manufacturerName: string,
-  manufacturerCode: string,
-  quantity: number,
-  approvedQuantity: number,
-  unitOfMeasure: number,
-  status: ProductionItemStatus,
-}
-
-export interface ProductionItemsData {
-  name: string;
-  description: string;
-  quantity: number;
-  price: number;
-  total: number;
-  taxGroup: string;
-  taxAmount: number;
-  unitOfMeasure: string;
-  supplier: string;
-  supplierCode: string;
-  manufacturerName: string;
-  manufacturerCode: string;
-
-  status: ProductionItemStatus,
-}
