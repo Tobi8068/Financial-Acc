@@ -38,7 +38,7 @@ export function RequisitionsHeader({
         <h2 className="text-2xl font-semibold text-gray-900">Requisitions</h2>
         <Button className="gap-2" onClick={() => { onCreate() }}>
           <Plus className="h-4 w-4" />
-          Create Requisition
+            Create Requisition
         </Button>
       </div>
       
@@ -48,7 +48,6 @@ export function RequisitionsHeader({
             type="search"
             placeholder="Search requisitions..."
             className="h-9"
-            // prefix={<Search className="h-4 w-4 text-gray-500" />}/
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
@@ -64,11 +63,11 @@ export function RequisitionsHeader({
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="created">Created</SelectItem>
+            <SelectItem value="in_progress">In Progress</SelectItem>
             <SelectItem value="completed">Completed</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
             <SelectItem value="cancel">Cancel</SelectItem>
-            <SelectItem value="in_progress">In Progress</SelectItem>
           </SelectContent>
         </Select>
         

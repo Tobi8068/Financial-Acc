@@ -32,7 +32,7 @@ export function CreateProduction() {
     const [projectList, setProjectList] = useState<any[]>([]);
     const [unitList, setUnitList] = useState<any[]>([]);
 
-    const [formDataItem, setFormDataItem] = useState<any>(
+    const [formItemData, setFormItemData] = useState<any>(
         {
             item_name: '',
             description: '',
@@ -84,27 +84,27 @@ export function CreateProduction() {
     }, [unitList])
 
     useEffect(() => {
-        console.log('unitList found', formDataItem.measure_unit, unitList.find(item => item.id == formDataItem.measure_unit));
-    }, [formDataItem.measure_unit])
+        console.log('unitList found', formItemData.measure_unit, unitList.find(item => item.id == formItemData.measure_unit));
+    }, [formItemData.measure_unit])
 
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useProductionItemsData(
         currentPage,
     );
 
     const handleSaveItem = async () => {
-        console.log(formDataItem)
+        console.log(formItemData)
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/production-items`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formDataItem),
+                body: JSON.stringify(formItemData),
             });
 
             if (response.status === 201) {
                 showNotification('Item created successfully', 'success');
-                setFormDataItem({
+                setFormItemData({
                     item_name: '',
                     description: '',
                     manufacturer: '',
@@ -119,7 +119,7 @@ export function CreateProduction() {
         } catch (error) {
             console.error('Error creating item:', error);
         }
-        console.log("after:::::::::::::", formDataItem)
+        console.log("after:::::::::::::", formItemData)
     }
 
     const handleCreate = async () => {
@@ -182,7 +182,7 @@ export function CreateProduction() {
     };
 
     const handleFormItemChange = (field: string, value: any) => {
-        const updatedData = { ...formDataItem, [field]: value };
+        const updatedData = { ...formItemData, [field]: value };
 
         if (field === 'quantity' || field === 'approved_quantity') {
             const quantity = Number(updatedData.quantity);
@@ -193,7 +193,7 @@ export function CreateProduction() {
             }
         }
 
-        setFormDataItem(updatedData);
+        setFormItemData(updatedData);
     };
 
     const handleDelete = (id: string) => {
@@ -231,8 +231,8 @@ export function CreateProduction() {
     };
 
     useEffect(() => {
-        console.log(capitalizeLetter(formDataItem.status))
-    }, [formDataItem.status])
+        console.log(capitalizeLetter(formItemData.status))
+    }, [formItemData.status])
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-180px)]">
@@ -337,21 +337,21 @@ export function CreateProduction() {
                         onClose={() => setDeleteDialogOpen(false)}
                         onConfirm={handleConfirmDelete}
                     />
-                    <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
+                    <h2 className="font-semibold text-[18px] text-[#636692]">Production Item</h2>
                     <div className="w-full grid grid-cols-9 gap-3">
-                        <div className="col-span-2"><TextInput text='Name' value={formDataItem.item_name} onChange={(value) => handleFormItemChange('item_name', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Description' value={formDataItem.description} onChange={(value) => handleFormItemChange('description', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Name' value={formDataItem.manufacturer} onChange={(value) => handleFormItemChange('manufacturer', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Code' value={formDataItem.manufacturer_code} onChange={(value) => handleFormItemChange('manufacturer_code', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Name' value={formItemData.item_name} onChange={(value) => handleFormItemChange('item_name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Description' value={formItemData.description} onChange={(value) => handleFormItemChange('description', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Name' value={formItemData.manufacturer} onChange={(value) => handleFormItemChange('manufacturer', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Code' value={formItemData.manufacturer_code} onChange={(value) => handleFormItemChange('manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formDataItem.quantity} onChange={(value) => handleFormItemChange('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemChange('quantity', value)} />
                         </div>
                         <div className="col-span-1">
-                            <NumberInput label="Approved Quantity" value={formDataItem.approved_quantity} onChange={(value) => handleFormItemChange('approved_quantity', value)} />
+                            <NumberInput label="Approved Quantity" value={formItemData.approved_quantity} onChange={(value) => handleFormItemChange('approved_quantity', value)} />
                         </div>
                         <SelectInput
                             label="Unit of Measure"
-                            value={formDataItem.measure_unit}
+                            value={formItemData.measure_unit}
                             onChange={(value) => handleFormItemChange('measure_unit', value)}
                             options={unitList.map(item => (
                                 {
@@ -359,10 +359,10 @@ export function CreateProduction() {
                                     label: item.orderUnitName,
                                 }
                             ))}
-                            />
+                        />
                         {/* <SelectInput
                             label="Status"
-                            value={capitalizeLetter(formDataItem.status)}
+                            value={capitalizeLetter(formItemData.status)}
                             onChange={(value) => handleFormItemChange('status', value.toLowerCase())}
                             options={[
                                 { value: '', label: '' },
