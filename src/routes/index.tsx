@@ -1,22 +1,28 @@
 import { useRoutes } from "react-router";
-import MainRoutes from "./routes/MainRoutes";
-import ProtectedRoute from "./Protect";
+import MainRoute from "./Main";
 import Auth from "./Auth";
+import MainRoutes from "./routes/MainRoutes";
 import AuthRoutes from "./routes/AuthRoute";
-// import AdminRoute from "./AdminRoute";
-
+import ProtectedRoute from "./Protected";
+// import { useAuth } from "@/context/authProvider";
 
 export default function Routes() {
+    // const { isAuthenticated } = useAuth();
     return useRoutes([
         {
-            path: '/',
-            element: <ProtectedRoute />,
-            children: [MainRoutes],
+            path: "auth",
+            element: <Auth />,
+            children: [AuthRoutes]
         },
         {
             path: "/",
-            element: <Auth />,
-            children: [AuthRoutes]
+            element: <ProtectedRoute />,
+            children: [
+                {
+                    element: <MainRoute />,
+                    children: MainRoutes.children,
+                }
+            ]
         },
     ])
 }
