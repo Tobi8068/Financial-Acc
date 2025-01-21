@@ -32,6 +32,15 @@ export default function SignIn() {
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
+            if (response.ok) {
+                showNotification('Login successful', 'success');
+                console.log(data);
+                localStorage.setItem('token', data.access_token);
+                localStorage.setItem('refresh_token', data.refresh_token);
+                window.location.href = '/';
+            } else {
+                showNotification(data.detail, 'error');
+            }
             showNotification(data.detail, 'error');
         } catch (error) {
             console.error(error);
