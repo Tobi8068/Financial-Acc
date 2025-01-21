@@ -35,19 +35,4 @@ export interface RequisitionsData {
   totalNetAmount: number;
   totalTaxAmount: number;
   totalAmount: number;
-}
-
-export interface RequisitionsItemsData {
-  name: string;
-  description: string;
-  quantity: number;
-  price: number;
-  total: number;
-  taxGroup: string;
-  taxAmount: number;
-  unitOfMeasure: string;
-  supplier: string;
-  supplierCode: string;
-  manufacturerName: string;
-  manufacturerCode: string;
-}
+} 

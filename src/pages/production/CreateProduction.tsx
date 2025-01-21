@@ -61,21 +61,20 @@ export function CreateProduction() {
 
     const { showNotification } = useNotification();
 
-    const fetchProjects = async () => {
-        try {
-            const responseProject = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
-            const dataPro = await responseProject.json();
-            setProjectList(dataPro);
-
-            const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
-            const dataUnit = await responseUnit.json();
-            setUnitList(dataUnit);
-        } catch (error) {
-            console.error('Error fetching projects and units:', error);
-        }
-    };
-
     useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const responseProject = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
+                const dataPro = await responseProject.json();
+                setProjectList(dataPro);
+
+                const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
+                const dataUnit = await responseUnit.json();
+                setUnitList(dataUnit);
+            } catch (error) {
+                console.error('Error fetching projects and units:', error);
+            }
+        };
         fetchProjects();
     }, [])
 
@@ -187,7 +186,7 @@ export function CreateProduction() {
         if (field === 'quantity' || field === 'approved_quantity') {
             const quantity = Number(updatedData.quantity);
             const approvedQuantity = Number(updatedData.approved_quantity);
-            
+
             if (quantity && approvedQuantity) {
                 updatedData.status = quantity < approvedQuantity ? 'partially_approved' : 'approved';
             }
