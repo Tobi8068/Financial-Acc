@@ -38,9 +38,7 @@ const transformBackendData = (backendData: any): RequisitionsData => {
     totalAmount: backendData.total_amount || 0
   };
 };
-
-
-
+ 
 function useData(
   sourceData: any,
   page: number,

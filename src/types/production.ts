@@ -16,11 +16,11 @@ export interface ProductionItem {
   status: ProductionItemStatus,
 }
 export interface ProductionData {
-  items: any;
   id: string;
   date: string;
   name: string;
   project: string;
+  items: any;
   productionStartDate: string;
   productionEndDate: string;
   status: ProductionStatus;

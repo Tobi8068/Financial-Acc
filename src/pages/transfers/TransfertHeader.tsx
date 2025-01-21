@@ -9,27 +9,27 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Filter } from 'lucide-react';
-import { TransfersFilters } from '@/types/transfers';
+import { TransfertFilters } from '@/types/transferts';
 import { SortOption } from '@/types/utils';
 
-interface TransfersProps {
-  onFiltersChange: (filters: TransfersFilters) => void;
+interface TransfertProps {
+  onFiltersChange: (filters: TransfertFilters) => void;
   onSortChange: (sort: SortOption) => void;
   onSearchChange: (search: string) => void;
   onCreate: () => void;
 }
 
-export function TransfersHeader({ 
+export function TransfertHeader({ 
   onFiltersChange,
   onSearchChange,
   onCreate,
-}: TransfersProps) {
-  const [filters, setFilters] = useState<TransfersFilters>({
+}: TransfertProps) {
+  const [filters, setFilters] = useState<TransfertFilters>({
     status: 'all'
   });
 
   const handleStatusChange = (status: string) => {
-    const newFilters = { ...filters, status: status as TransfersFilters['status'] };
+    const newFilters = { ...filters, status: status as TransfertFilters['status'] };
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
@@ -37,7 +37,7 @@ export function TransfersHeader({
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-gray-900">Transfers</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Transfert</h2>
         <Button className="gap-2" onClick={() => { onCreate() }}>
           Add Transfer
         </Button>
@@ -61,8 +61,8 @@ export function TransfersHeader({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Transfered">Transfered</SelectItem>
             <SelectItem value="Approved">Approved</SelectItem>
+            <SelectItem value="Transfered">Transfered</SelectItem>
           </SelectContent>
         </Select>
       </div>

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from '@/components/ui/badge';
-import { TextInput } from "@/components/ui/text-input";
+import { TextInput, TextAreaInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { TransfersItems, TransfersStatus } from "@/types/transfers";
+import { TransfertStatus, TransfertItemStatus } from "@/types/transferts";
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -16,40 +16,91 @@ import {
 import NumberInput from "@/components/organisms/numberInput";
 import { Pagination } from '../../components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
-import { useTransferItemsData } from '@/hooks/useTransfersData';
+import { useTransferItemsData } from '@/hooks/useTransfertData';
+import useNotification from "@/hooks/useNotifications";
 
-interface CreateTransfersProps {
-    onClick: () => void;
-}
-
-export function CreateTransfers({ onClick }: CreateTransfersProps) {
-
-    const [formData, setFormData] = useState<TransfersItems>(
-        {
-            name: '',
-            // itemCode: '',
-            description: '',
-            manufacturerName: '',
-            manufacturerCode: '',
-            quantity: 0,
-            bin: '',
-            status: 'Approved',
-        }
-    );
+export function CreateTransfert() {
+    const { showNotification } = useNotification();
+    
+    const [binList, setBinList] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
-    const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
+    const [formItemData, setFormItemData] = useState<any>({
+        name: '',
+        description: '',
+        manufacturerName: '',
+        manufacturerCode: '',
+        quantity: 0,
+        bin: '',
+        status: 'Approved',
+    });
+
+    const [formData, setFormData] = useState<any>({
+        date: '',
+        items: [],
+        reason: '',
+        createdBy: {
+            name: '',
+            avatar: '',
+        },
+        status: 'transfered',
+        bin: '',
+    });
+    const { data, totalPages, totalItems, itemsPerPage, refreshData } = useTransferItemsData(
         currentPage,
     );
+    useEffect(() => {
+        const fetchDatas = async () => {
+            try {
+                const responseBin = await fetch(`${import.meta.env.VITE_BASE_URL}/bins`);
+                const dataPro = await responseBin.json();
+                setBinList(dataPro);
+
+            } catch (error) {
+                console.error('Error fetching Data:', error);
+            }
+        };
+        fetchDatas();
+    }, [])
 
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
 
-    const handleSaveItem = () => {
+    const handleItemChange = (field: string, value: any) => {
+        setFormItemData({ ...formItemData, [field]: value });
+    };
+    
+    const handleSaveItem = async () => {
+        console.log(formItemData)
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transfert-items`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formItemData),
+            });
 
+            if (response.status === 201) {
+                showNotification('Item created successfully', 'success');
+                setFormItemData({
+                    name: '',
+                    description: '',
+                    manufacturerName: '',
+                    manufacturerCode: '',
+                    quantity: 0,
+                    bin: '',
+                    status: 'Approved',
+                });
+                refreshData();
+            }
+        } catch (error) {
+            console.error('Error creating item:', error);
+        }
+        console.log("after:::::::::::::", formItemData)
     }
 
     const handleDelete = (id: string) => {
@@ -65,11 +116,23 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
         }
     };
 
-    const getStatusBadge = (status: TransfersStatus) => {
+    const getStatusBadge = (status: TransfertStatus) => {
         const styles = {
+            Approve: 'bg-green-100 text-green-800',
             Transfered: 'bg-red-100 text-red-800',
+        };
+
+        return (
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
+        );
+    };
+    const getItemStatusBadge = (status: TransfertItemStatus) => {
+        const styles = {
             Approved: 'bg-green-100 text-green-800',
-            Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
+            Declined: 'bg-[#FEF6ED] text-[#C4320A]',
+            Partially_Approved: 'bg-red-100 text-red-800',
         };
 
         return (
@@ -85,32 +148,31 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput text='Number' onChange={(value) => handleChange('number', value)} />
-                        <TextInput text='Created By' onChange={(value) => handleChange('createdBy', value)} />
+                        <TextInput text='Number' value={formData.number} onChange={(value) => handleChange('number', value)} />
+                        <TextInput text='Created By' value={formData.createdBy} onChange={(value) => handleChange('createdBy', value)} />
                         <SelectInput
                             label="Status"
                             value={formData.status}
                             onChange={(value) => handleChange('status', value)}
                             options={[
-                                { value: 'transfered', label: 'Tranansfered' },
-                                { value: 'approved', label: 'Approved' },
+                                { value: 'transfered', label: 'Transfered' },
+                                { value: 'approve', label: 'Approved' },
                             ]} />
-                    </div>
-                    <div className="grid w-full grid-cols-4 gap-12">
+
                         <SelectInput
                             label="Bin"
-                            value={formData.bin.toString()}
+                            value={formData.bin}
                             onChange={(value) => handleChange('bin', value)}
-                            options={[
-                                { value: '1', label: '1' },
-                                { value: '2', label: '2' },
-                                { value: '3', label: '3' },
-                                { value: '4', label: '4' },
-                                { value: '5', label: '5' },
-                            ]} />
+                            options={binList.map(item => (
+                                {
+                                    value: item.id,
+                                    label: item.bin_name,
+                                }
+                            ))}
+                        />
                     </div>
-                    <div className="grid w-full grid-cols-2 gap-12">
-                        <TextInput text='Reason' onChange={(value) => handleChange('reason', value)} />
+                    <div className="grid w-full grid-cols-3 gap-12">
+                        <TextAreaInput text='Reason' value={formData.reason} onChange={(value) => handleChange('reason', value)} />
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -118,7 +180,6 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
-                                    {/* <TableHead>Item Code</TableHead> */}
                                     <TableHead>Description</TableHead>
                                     <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
@@ -133,13 +194,12 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                                     data.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
-                                            {/* <TableCell className='text-[#535862]'>{item.itemCode}</TableCell> */}
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.bin}</TableCell>
-                                            <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
+                                            <TableCell className='text-[#535862]'>{getItemStatusBadge(item.status)}</TableCell>
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
@@ -175,32 +235,35 @@ export function CreateTransfers({ onClick }: CreateTransfersProps) {
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-10 gap-3">
-                        <div className="col-span-1"><TextInput text='Name' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Description' onChange={(value) => handleChange('description', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Name' value={formItemData.name} onChange={(value) => handleItemChange('name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Description' value={formItemData.description} onChange={(value) => handleItemChange('description', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Manufacturer Name' value={formItemData.manufacturerName} onChange={(value) => handleItemChange('manufacturerName', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Manufacturer Code' value={formItemData.manufacturerCode} onChange={(value) => handleItemChange('manufacturerCode', value)} /></div>
+
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formData.quantity} onChange={(value) => handleChange('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleItemChange('quantity', value)} />
                         </div>
-                        <div className="col-span-1"><TextInput text='Unit of measurement' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1">
                             <SelectInput
-                                label="Status"
-                                value={formData.bin.toString()}
-                                onChange={(value) => handleChange('status', value)}
-                                options={[
-                                    { value: 'Approved', label: 'Approved' },
-                                    { value: 'Transfered', label: 'Transfered' },
-                                ]} />
+                                label="Bin8"
+                                value={formItemData.bin}
+                                onChange={(value) => handleItemChange('bin', value)}
+                                options={binList.map(item => (
+                                    {
+                                        value: item.id,
+                                        label: item.bin_name,
+                                    }
+                                ))}
+                            />
                         </div>
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />
-                    <div className="w-full flex gap-4 justify-end">
-                        <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
-                    </div>
-                    <div className="w-full flex justify-end">
-                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
-                            <span className="text-white font-semibold">Add Transfer</span>
+                    <div className="w-full flex justify-end mt-4 gap-4 font-semibold">
+                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
+                            <span className="text-white" onClick={handleSaveItem}>Save</span>
+                        </div>
+                        <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={() => alert("Okay")}>
+                            <span className="text-white">Create Transfert</span>
                         </div>
                     </div>
                 </div>

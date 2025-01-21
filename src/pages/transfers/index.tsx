@@ -1,30 +1,30 @@
 import { useState } from "react";
-import { TransfersHeader } from "./TransfersHeader";
-import { TransfersTable } from "./TransfersTable";
-import { TransfersData, TransfersFilters } from "@/types/transfers";
+import { TransfertHeader } from "./TransfertHeader";
+import { TransfertTable } from "./TransfertTable";
+import { TransfertData, TransfertFilters } from "@/types/transferts";
 import { SortOption } from "@/types/utils";
-import { CreateTransfers } from "./CreateTransfers";
+import { CreateTransfert } from "./CreateTransfert";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
-import { TransfersDetail } from "./TransfersDetail";
+import { TransfertDetail } from "./TransfertDetail";
 
-function Transfers() {
-  const [filters, setFilters] = useState<TransfersFilters>({
+function Transfert() {
+  const [filters, setFilters] = useState<TransfertFilters>({
     status: "all"
   });
   const [sortOption, setSortOption] = useState<SortOption>("newest");
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
-  const [detailData, setDetailData] = useState<TransfersData>({
+  const [detailData, setDetailData] = useState<TransfertData>({
     id: '',
     date: '',
-    items: '',
     reason: '',
     createdBy: {
       name: '',
       avatar: '',
     },
-    status: 'Approved',
+    status: 'Approve',
     bin: '',
+    items: []
   });
 
   const handlePage = (page: number) => {
@@ -42,13 +42,13 @@ function Transfers() {
           <>
             <InsideNavbar text="" onClick={() => handlePage(2)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <TransfersHeader
+              <TransfertHeader
                 onFiltersChange={setFilters}
                 onSortChange={setSortOption}
                 onSearchChange={setSearchQuery}
                 onCreate={() => handlePage(2)}
               />
-              <TransfersTable
+              <TransfertTable
                 filters={filters}
                 sortOption={sortOption}
                 searchQuery={searchQuery}
@@ -61,16 +61,16 @@ function Transfers() {
           </>
         ) : scene === 2 ? (
           <>
-            <InsideNavbar text="transfers" onClick={() => handlePage(1)} />
+            <InsideNavbar text="transfert" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center bg-white bg-opacity-50">
-              <CreateTransfers onClick={() => handleCreate()} />
+              <CreateTransfert />
             </main>
           </>
         ) : scene === 3 ? (
           <>
-            <InsideNavbar text="Transfers" onClick={() => handlePage(1)} />
+            <InsideNavbar text="Transfert" onClick={() => handlePage(1)} />
             <main className="flex-1 bg-white bg-opacity-50">
-              <TransfersDetail {...detailData} />
+              <TransfertDetail {...detailData} />
             </main>
           </>
         ) : ''
@@ -79,4 +79,4 @@ function Transfers() {
   );
 }
 
-export default Transfers;
+export default Transfert;
