@@ -10,27 +10,27 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useTransfersData } from '@/hooks/useTransfersData';
-import { TransfersStatus, TransfersFilters } from '@/types/transfers';
+import { useTransfertData } from '@/hooks/useTransfertData';
+import { TransfertStatus, TransfertFilters } from '@/types/transferts';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
-import AvatarImg from '../../assets/img/avatar.png';
+import { Pagination } from '@/components/pagination/Pagination';
+import AvatarImg from '@/assets/img/avatar.png';
 import DeleteDialog from '@/components/table/DeleteDialog';
 
-interface TransfersTableProps {
-  filters: TransfersFilters;
+interface TransfertTableProps {
+  filters: TransfertFilters;
   sortOption: SortOption;
   searchQuery: string;
   onClickView: (item: any) => void;
 }
 
-export function TransfersTable({ filters, searchQuery, onClickView }: TransfersTableProps) {
+export function TransfertTable({ filters, searchQuery, onClickView }: TransfertTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
-  const { data, totalPages, totalItems, itemsPerPage } = useTransfersData(
+  const { data, totalPages, totalItems, itemsPerPage } = useTransfertData(
     currentPage,
     filters,
     searchQuery
@@ -55,11 +55,10 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
     }
   };
 
-  const getStatusBadge = (status: TransfersStatus) => {
+  const getStatusBadge = (status: TransfertStatus) => {
     const styles = {
-      Transfered: 'bg-red-100 text-red-800',
-      Approved: 'bg-green-100 text-green-800',
-      Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
+      Approve: 'bg-{[#ECFDF3]} text-green-800',
+      Transfered: 'bg-[#FEF6ED] text-[#C4320A]',
     };
 
     return (
@@ -107,14 +106,7 @@ export function TransfersTable({ filters, searchQuery, onClickView }: TransfersT
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className="font-medium">{item.bin}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.reservationDate)}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-1'>
-                  <div>
-                    <img src={AvatarImg} className='rounded-[100%]'></img>
-                  </div>
-                  <div className='flex flex-col'>
-                    <span>{item.reservedBy.name}</span>
-                  </div>
-                </TableCell>
+          
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

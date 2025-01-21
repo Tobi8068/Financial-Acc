@@ -8,21 +8,21 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { TransfersData } from '@/types/transfers';
-import { useTransferItemsData } from '@/hooks/useTransfersData';
+import { TransfertData } from '@/types/transferts';
+import { useTransferItemsData } from '@/hooks/useTransfertData';
 import { Pagination } from '../../components/pagination/Pagination';
-import { TransfersStatus } from "@/types/transfers";
+import { TransfertStatus } from "@/types/transferts";
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
 import { Badge } from '@/components/ui/badge';
 
-export function TransfersDetail(props: TransfersData) {
+export function TransfertDetail(props: TransfertData) {
     const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
         currentPage,
     );
 
-    const getStatusBadge = (status: TransfersStatus) => {
+    const getStatusBadge = (status: TransfertStatus) => {
         const styles = {
             Transfered: 'bg-red-100 text-red-800',
             Approved: 'bg-green-100 text-green-800',
@@ -39,7 +39,7 @@ export function TransfersDetail(props: TransfersData) {
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-200px)]">
-            <h2 className="text-xl font-semibold">Transfers Details</h2>
+            <h2 className="text-xl font-semibold">Transfert Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <h2 className='text-[#636692] font-semibold'>Transfer Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">

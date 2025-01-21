@@ -13,7 +13,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import NumberInput from "@/components/organisms/numberInput";
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useProductionItemsData } from '@/hooks/useProductionData';
 import { DateInput } from "@/components/ui/date-input";
@@ -77,14 +77,6 @@ export function CreateProduction() {
         };
         fetchProjects();
     }, [])
-
-    useEffect(() => {
-        console.log('unitList', unitList);
-    }, [unitList])
-
-    useEffect(() => {
-        console.log('unitList found', formItemData.measure_unit, unitList.find(item => item.id == formItemData.measure_unit));
-    }, [formItemData.measure_unit])
 
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useProductionItemsData(
         currentPage,
@@ -176,8 +168,7 @@ export function CreateProduction() {
     }, [selectedItems])
 
     const handleFormChange = (field: string, value: any) => {
-        const updatedData = { ...formData, [field]: value };
-        setFormData(updatedData);
+        setFormData({ ...formData, [field]: value });
     };
 
     const handleFormItemChange = (field: string, value: any) => {
@@ -191,7 +182,6 @@ export function CreateProduction() {
                 updatedData.status = quantity < approvedQuantity ? 'partially_approved' : 'approved';
             }
         }
-
         setFormItemData(updatedData);
     };
 
@@ -240,14 +230,18 @@ export function CreateProduction() {
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
                         <TextInput text='Name' value={formData.p_name} onChange={(value) => handleFormChange('p_name', value)} />
+
                         <SelectInput
                             label="Project"
-                            value={projectList.length > 0 ? projectList.filter(item => item.id === formData.measure_unit).at(0) : 1}
-                            onChange={(value) => handleFormChange('project', projectList.filter(item => item.project_name === value).at(0).id)}
-                            options={projectList.map(item => item.project_name).map(item => ({
-                                value: item,
-                                label: item
-                            }))} />
+                            value={formItemData.project}
+                            onChange={(value) => handleFormChange('project', value)}
+                            options={projectList.map(item => (
+                                {
+                                    value: item.id,
+                                    label: item.project_name,
+                                }
+                            ))}
+                        />
 
                         <DateInput value={formData.p_start_date} text='Start Date' onChange={(value) => handleFormChange('p_start_date', convertDate(value))} />
                         <DateInput value={formData.p_end_date} text='End Date' onChange={(value) => handleFormChange('p_end_date', convertDate(value))} />
@@ -283,7 +277,7 @@ export function CreateProduction() {
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Approved Quantity</TableHead>
-                                    <TableHead>Unit of Measure</TableHead>
+                                    <TableHead>Measure Unit</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Action</TableHead>
                                 </TableRow>
@@ -293,7 +287,7 @@ export function CreateProduction() {
                                     data.map((item, index) => (
                                         <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
                                             <TableCell className="w-12 flex items-center justify-center">
-                                                <Checkbox checked={selectedItems.includes(item.id)} onCheckedChange={(checked) => handleSelectItem(item.id, checked)}></Checkbox>
+                                                <Checkbox checked={selectedItems.includes(item.id)} onCheckedChange={(checked) => handleSelectItem(item.id, checked)} />
                                             </TableCell>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
@@ -312,7 +306,7 @@ export function CreateProduction() {
                                                     </PopoverTrigger>
                                                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                                                         <ul className="space-y-2">
-                                                            <li>Edit</li>
+                                                            <li onClick={() => alert("Hi, I am Edit")}>Edit</li>
                                                             <li onClick={() => handleDelete(item.id)}>Delete</li>
                                                         </ul>
                                                     </PopoverContent>
@@ -349,7 +343,7 @@ export function CreateProduction() {
                             <NumberInput label="Approved Quantity" value={formItemData.approved_quantity} onChange={(value) => handleFormItemChange('approved_quantity', value)} />
                         </div>
                         <SelectInput
-                            label="Unit of Measure"
+                            label="Measure Unit"
                             value={formItemData.measure_unit}
                             onChange={(value) => handleFormItemChange('measure_unit', value)}
                             options={unitList.map(item => (
@@ -370,12 +364,12 @@ export function CreateProduction() {
                             ]} /> */}
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />
-                    <div className="w-full flex gap-4 justify-end">
-                        <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
-                    </div>
-                    <div className="w-full flex justify-end">
+                    <div className="w-full flex justify-end mt-4 gap-4 font-semibold">
+                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
+                            <span className="text-white" onClick={handleSaveItem}>Save</span>
+                        </div>
                         <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={handleCreate}>
-                            <span className="text-white font-semibold">Create Production</span>
+                            <span className="text-white">Create Production</span>
                         </div>
                     </div>
                 </div>

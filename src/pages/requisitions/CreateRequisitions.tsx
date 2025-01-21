@@ -4,7 +4,7 @@ import { SelectInput } from "@/components/ui/select-input";
 import { Checkbox } from '@/components/ui/checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { MoreVertical } from 'lucide-react';
-import { capitalizeLetter } from "@/lib/utils";
+// import { capitalizeLetter } from "@/lib/utils";
 import {
     Table,
     TableBody,
@@ -28,6 +28,7 @@ export function CreateRequisitions() {
             approved_by: 1,
             created_by: 1,
             status: 'created',
+            requisition_doc: 1,
             items: []
         }
     );
@@ -92,10 +93,14 @@ export function CreateRequisitions() {
     useEffect(() => {
         console.log('supplier List found', formItemData.supplier, supplierList.find(item => item.id == formItemData.supplier));
     }, [formItemData.supplier])
-    
+
     useEffect(() => {
         console.log('Tax List found', formItemData.tax_group, supplierList.find(item => item.id == formItemData.tax_group));
     }, [formItemData.tax_group])
+
+    useEffect(() => {
+        console.log('Department', formData.department, departmentList.find(item => item.id == formData.department));
+    }, [formItemData.department])
 
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionItemsData(currentPage);
 
@@ -177,7 +182,7 @@ export function CreateRequisitions() {
         console.log(formData)
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisition`, {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -238,12 +243,15 @@ export function CreateRequisitions() {
                         <TextInput text='Bill To' value={formData.bill_to} onChange={(value) => handleFormData('bill_to', value)} />
                         <SelectInput
                             label="Department"
-                            value={departmentList.length > 0 ? departmentList.filter(item => item.id === formData.department).at(0) : 1}
-                            onChange={(value) => handleFormItemData('department', departmentList.filter(item => item.name === value).at(0).id)}
-                            options={departmentList.map(item => item.name).map(item => ({
-                                value: item,
-                                label: item,
-                            }))} />
+                            value={formData.department}
+                            onChange={(value) => handleFormData('department', value)}
+                            options={departmentList.map(item => (
+                                {
+                                    value: item.id,
+                                    label: item.name,
+                                }
+                            ))}
+                        />
 
                         {/* <SelectInput
                             label="Status"
@@ -273,20 +281,21 @@ export function CreateRequisitions() {
                                     <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Supplier</TableHead>
-                                    <TableHead>Unit of Measure</TableHead>
+                                    <TableHead>Measure Unit</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Price</TableHead>
                                     <TableHead>Net Amount</TableHead>
                                     <TableHead>Tax Amount</TableHead>
                                     <TableHead>Tax</TableHead>
+                                    <TableHead>Action</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {
                                     data.map((item, index) => (
-                                        <TableRow key={index}>
+                                        <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
                                             <TableCell className="w-12 flex items-center justify-center">
-                                                <Checkbox checked={selectedItems.includes(item.id)} onCheckedChange={(checked) => handleSelectItem(item.id, checked)}></Checkbox>
+                                                <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)}/>
                                             </TableCell>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
@@ -308,7 +317,7 @@ export function CreateRequisitions() {
                                                     </PopoverTrigger>
                                                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                                                         <ul className="space-y-2">
-                                                            <li>Edit</li>
+                                                            <li onClick={() => alert("Hi")}>Edit</li>
                                                             <li onClick={() => handleDelete(item.id)}>Delete</li>
                                                         </ul>
                                                     </PopoverContent>
@@ -382,7 +391,7 @@ export function CreateRequisitions() {
                         </div>
                         <div className="col-span-2">
                             <SelectInput
-                                label="Unit of Measure"
+                                label="Measure Unit"
                                 value={formItemData.measure_unit}
                                 onChange={(value) => handleFormItemData('measure_unit', value)}
                                 options={unitList.map(item => (
@@ -439,6 +448,7 @@ export function CreateRequisitions() {
                     </div>
                 </div>
             </div>
+            <hr className="border-t border-[#D7D8E4] w-full" />
             <div className="w-full flex justify-end mt-4 gap-4 font-semibold">
                 <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
                     <span className="text-white" onClick={handleSaveItem}>Save</span>
