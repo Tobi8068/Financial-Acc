@@ -21,90 +21,89 @@ import Production from "@/pages/production"
 import Suppliers from "@/pages/suppliers"
  
 const MainRoutes = {
-    path: "/",
     children: [
         {
-            path: "/",
+            index: true,
             element: <Dashboard />
         },
         {
-            path: "/invoice",
+            path: "invoice",
             element: <Invoice />
         },
         {
-            path: "/shipping",
+            path: "shipping",
             element: <Shipping />
         },
         {
-            path: "/sales",
+            path: "sales",
             element: <Sales />
         },
         {
-            path: "/clients",
+            path: "clients",
             element: <Clients />
         },
         {
-            path: "/bills",
+            path: "bills",
             element: <Bills />
         },
         {
-            path: "/journal",
+            path: "journal",
             element: <Journal />
         },
         {
-            path: "/t-account",
+            path: "t-account",
             element: <T_Account />
         },
         {
-            path: "/trial-balance",
+            path: "trial-balance",
             element: <Trial_Balance />
         },
         {
-            path: "/financial-statement",
+            path: "financial-statement",
             element: <Financial_Statement />
         },
         {
-            path: "/inventory",
+            path: "inventory",
             element: <Inventory />
         },
         {
-            path: "/requisitions",
+            path: "requisitions",
             element: <Requisitions />
         },
         {
-            path: "/purchase-order",
+            path: "purchase-order",
             element: <PurchaseOrder />
         },
         {
-            path: "/count",
+            path: "count",
             element: <Count />
         },
         {
-            path: "/issues",
+            path: "issues",
             element: <Issues />
         },
         {
-            path: "/receptions",
+            path: "receptions",
             element: <Receptions />
         },
         {
-            path: "/reorder",
+            path: "reorder",
             element: <Reorder />
         },
         {
-            path: "/reservation",
+            path: "reservation",
             element: <Reservation />
         },
         {
-            path: "/transfers",
+            path: "transfers",
             element: <Transfers />
         },
         {
-            path: "/production",
+            path: "production",
             element: <Production />
         },
         {
-            path: "/suppliers",
+            path: "suppliers",
             element: <Suppliers />
         }
     ],

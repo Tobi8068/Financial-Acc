@@ -2,15 +2,22 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
 import useNotification from '@/hooks/useNotifications';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/context/authProvider';
 
 export default function SignIn() {
 
     const { showNotification } = useNotification();
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+
+    const { login } = useAuth();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -34,14 +41,12 @@ export default function SignIn() {
             const data = await response.json();
             if (response.ok) {
                 showNotification('Login successful', 'success');
-                console.log(data);
-                localStorage.setItem('token', data.access_token);
-                localStorage.setItem('refresh_token', data.refresh_token);
-                window.location.href = '/';
+                login(data.access_token);
+                const redirectTo = location.state?.from || '/';
+                navigate(redirectTo, { replace: true });
             } else {
                 showNotification(data.detail, 'error');
             }
-            showNotification(data.detail, 'error');
         } catch (error) {
             console.error(error);
         }
@@ -60,7 +65,7 @@ export default function SignIn() {
                     </p>
                     <div className="text-sm mt-24 text-gray-600 flex flex-col justify-center items-center w-full gap-4">
                         <span>Don't have an account yet?</span>
-                        <Link to="/signup" className="py-3 px-4 max-w-sm w-full text-center border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#414651] bg-white">
+                        <Link to="/auth/signup" className="py-3 px-4 max-w-sm w-full text-center border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#414651] bg-white">
                             Sign Up
                         </Link>
                     </div>

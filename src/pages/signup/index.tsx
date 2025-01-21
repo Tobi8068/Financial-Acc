@@ -83,7 +83,7 @@ export default function SignUp() {
           </div>
           <div className="text-sm mt-0 md:mt-24 text-gray-600 flex flex-col justify-center items-center w-full gap-4">
             <span>Already have an account?</span>
-            <Link to="/signin" className="py-3 px-4 max-w-sm w-full text-center border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#414651] bg-white">
+            <Link to="/auth/signin" className="py-3 px-4 max-w-sm w-full text-center border border-transparent rounded-lg shadow-sm text-sm font-medium text-[#414651] bg-white">
               Sign In
             </Link>
           </div>
