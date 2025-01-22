@@ -15,14 +15,16 @@ import {
 } from 'lucide-react';
 import { NavItem } from './NavItem';
 import { UserType } from '@/types/user';
+import { useAuth } from '@/context/authProvider';
 
 export function Navigation() {
-  const [typeOfUser] = useState<UserType>('ProductionPlanner');
+  const { isAuthenticated, user } = useAuth();
+  const [typeOfUser] = useState<UserType>(user?.role || '');
 
   let navItems;
 
   switch (typeOfUser) {
-    case 'Payables':
+    case 'payable':
       navItems = (
         <>
           <NavItem icon={BarChart3} label="Dashboard" />
@@ -41,20 +43,29 @@ export function Navigation() {
         </>
       )
       break;
-    case 'Seller':
+    case 'seller':
       navItems = (
         <>
-          <NavItem icon={BarChart3} label="Dashboard" />
+          {/* <NavItem icon={BarChart3} label="Dashboard" /> */}
           <NavItem icon={FileText} label="Invoice" />
           <NavItem icon={Package} label="Shipping" />
           <NavItem icon={ShoppingCart} label="Sales" />
+          <NavItem icon={BarChart3} label="Quotation" />
         </>
       )
       break;
-    case 'Buyer':
+    case 'supplier':
       navItems = (
         <>
-          <NavItem icon={BarChart3} label="Dashboard" />
+          <NavItem icon={Package} label="Shipping" />
+          <NavItem icon={Receipt} label="Bills" />
+          <NavItem icon={LayoutGrid} label="Purchase Order" />
+        </>
+      )
+      break;
+    case 'buyer':
+      navItems = (
+        <>
           <NavItem icon={Receipt} label="Bills" />
           <NavItem icon={Package} label="Shipping" />
           <NavItem icon={LayoutGrid} label="Purchase Order" />
@@ -63,10 +74,9 @@ export function Navigation() {
         </>
       )
       break;
-    case 'InventoryManager':
+    case 'inventorymanager':
       navItems = (
         <>
-          <NavItem icon={BarChart3} label="Dashboard" />
           <NavItem icon={Package2} label="Inventory" />
           <NavItem icon={Package} label="Shipping" />
           <NavItem icon={LayoutGrid} label="Issues" />
@@ -80,10 +90,9 @@ export function Navigation() {
         </>
       )
       break;
-    case 'StoreKeeper':
+    case 'storekeeper':
       navItems = (
         <>
-          <NavItem icon={BarChart3} label="Dashboard" />
           <NavItem icon={Package} label="Shipping" />
           <NavItem icon={LayoutGrid} label="Receptions" />
           <NavItem icon={LayoutGrid} label="Reservation" />
@@ -94,10 +103,10 @@ export function Navigation() {
         </>
       )
       break;
-    case 'ProductionPlanner':
+    case 'productionplanner':
       navItems = (
         <>
-          <NavItem icon={BarChart3} label="Dashboard" />
+          {/* <NavItem icon={BarChart3} label="Dashboard" /> */}
           <NavItem icon={ClipboardList} label="Requisitions" />
           <NavItem icon={LayoutGrid} label="Production" />
         </>
