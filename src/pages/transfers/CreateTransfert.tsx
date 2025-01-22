@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Badge } from '@/components/ui/badge';
 import { TextInput, TextAreaInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { TransfertStatus, TransfertItemStatus } from "@/types/transferts";
+import { TransfertItemStatus } from "@/types/transferts";
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -116,18 +116,6 @@ export function CreateTransfert() {
         }
     };
 
-    const getStatusBadge = (status: TransfertStatus) => {
-        const styles = {
-            Approve: 'bg-green-100 text-green-800',
-            Transfered: 'bg-red-100 text-red-800',
-        };
-
-        return (
-            <Badge className={styles[status]} variant="secondary">
-                {status.replace("_", " ").replace("0", "/")}
-            </Badge>
-        );
-    };
     const getItemStatusBadge = (status: TransfertItemStatus) => {
         const styles = {
             Approved: 'bg-green-100 text-green-800',

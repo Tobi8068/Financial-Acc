@@ -52,7 +52,7 @@ export interface SalesDetailData {
   description: string;
   manufacturer: string;
   manufacturerCode: string;
-
+  itemCode: string;
   quantity: number;
   unit: string;
   price: number;

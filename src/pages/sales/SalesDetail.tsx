@@ -54,7 +54,7 @@ export function SalesDetail(props: SalesData) {
             totalPerLine: 10,
             taxGroup: 'Account',
             taxAmount: 10,
-            status: 'Sent',
+            status: 'Partially_Received',
             account: 'Account'
         },
         {

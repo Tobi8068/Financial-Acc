@@ -13,10 +13,12 @@ function Sales() {
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
   const [detailData, setDetailData] = useState<SalesData>({
+    pid: '',
     id: '',
     dateCreated: '',
     shipTo: '',
     billTo: '',
+    department: '',
     status: 'Approved',
     approvedBy: {
       name: '',
@@ -26,10 +28,10 @@ function Sales() {
       name: '',
       avatar: '',
     },
-    clientApproval: 'Approved',
     totalTaxAmount: 0,
     totalNetAmount: 0,
     totalAmount: 0,
+    sent: true
   });
 
   const handlePage = (page: number) => {

@@ -31,9 +31,9 @@ function Transfert() {
     setScene(page);
   }
 
-  const handleCreate = () => {
+  // const handleCreate = () => {
 
-  }
+  // }
 
   return (
     <div className="border-none">

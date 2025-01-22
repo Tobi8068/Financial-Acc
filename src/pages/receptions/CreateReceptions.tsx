@@ -73,8 +73,8 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput text='Purchase Order Number' onChange={(value) => handleChange('name', value)} />
-                        <TextInput text='Storekeeper' onChange={(value) => handleChange('name', value)} />
+                        <TextInput value={formData.name} text='Purchase Order Number' onChange={(value) => handleChange('name', value)} />
+                        <TextInput value={formData.name} text='Storekeeper' onChange={(value) => handleChange('name', value)} />
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -137,11 +137,11 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-10 gap-3">
-                        <div className="col-span-2"><TextInput text='Name' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Item Code' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-3"><TextInput text='Description' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formData.name} text='Name' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.name} text='Item Code' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-3"><TextInput value={formData.name} text='Description' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1">
                             {/* <TextInput text='Quantity' onChange={(value) => handleChange('name', value)} /> */}
                             <NumberInput label="Quantity" value={formData.quantity} onChange={(value) => handleChange('quantity', value)} />
