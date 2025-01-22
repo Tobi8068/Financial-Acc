@@ -18,7 +18,7 @@ import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from "@/hooks/useNotifications";
 
-export function CreateRequisitions() {
+export function CreatePurchaseOrder() {
     const [formData, setFormData] = useState<any>(
         {
             requisition_number: 0,

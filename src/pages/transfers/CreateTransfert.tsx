@@ -21,7 +21,7 @@ import useNotification from "@/hooks/useNotifications";
 
 export function CreateTransfert() {
     const { showNotification } = useNotification();
-    
+
     const [binList, setBinList] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -64,6 +64,7 @@ export function CreateTransfert() {
         };
         fetchDatas();
     }, [])
+    console.log("===========>>>>", binList.map(bin => bin.bin_name))
 
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
@@ -72,7 +73,7 @@ export function CreateTransfert() {
     const handleItemChange = (field: string, value: any) => {
         setFormItemData({ ...formItemData, [field]: value });
     };
-    
+
     const handleSaveItem = async () => {
         console.log(formItemData)
         try {
@@ -158,17 +159,14 @@ export function CreateTransfert() {
                                 { value: 'transfered', label: 'Transfered' },
                                 { value: 'approve', label: 'Approved' },
                             ]} />
-
                         <SelectInput
                             label="Bin"
                             value={formData.bin}
                             onChange={(value) => handleChange('bin', value)}
-                            options={binList.map(item => (
-                                {
-                                    value: item.id,
-                                    label: item.bin_name,
-                                }
-                            ))}
+                            options={binList?.map(item => ({
+                                value: item.id,
+                                label: item.bin_name
+                            }))}
                         />
                     </div>
                     <div className="grid w-full grid-cols-3 gap-12">
