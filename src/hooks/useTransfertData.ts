@@ -1,28 +1,32 @@
 import { useState, useEffect, useMemo } from 'react';
-import { TransfersData, TransfersFilters, TransfersItems, TransfersStatus } from '@/types/transfers';
+import { TransfertData, TransfertItem, TransfertFilters, TransfertStatus, TransfertItemStatus } from '@/types/transferts';
 import { capitalizeLetter } from '@/lib/utils';
 
-const transformBackendData = (backendData: any): TransfersData => {
+const transformBackendData = (backendData: any): TransfertData => {
   return {
-    id: backendData.id.toString(),
+    id: backendData.id,
     date: backendData.date,
     items: backendData.trans_items_id,
     reason: backendData.reason,
-    createdBy: backendData.department.name,
-    status: capitalizeLetter(backendData.status) as TransfersStatus,
-    bin: backendData.bin_id
+    createdBy: {
+      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
+      avatar: backendData.created_by.avatar || ''
+    },
+    status: capitalizeLetter(backendData.status) as TransfertStatus,
+    bin: backendData.item_bin
   };
 };
 
-const transformItemBackendData = (backendData: any): TransfersItems => {
+const transformItemBackendData = (backendData: any): TransfertItem => {
   return {
+    id: backendData.id,
     name: backendData.item_name,
     description: backendData.item_description,
     manufacturerName: backendData.item_manufacturer,
     manufacturerCode: backendData.item_manufacturer_code,
-    quantity: backendData.department.item_quantity,
-    bin: backendData.item_bin_id,
-    status: capitalizeLetter(backendData.status) as TransfersStatus,
+    quantity: backendData.item_quantity,
+    bin: backendData.item_bin,
+    status: capitalizeLetter(backendData.status) as TransfertItemStatus,
   };
 };
 
@@ -30,7 +34,7 @@ function useData(
   sourceData: any,
   page: number,
   refreshData: () => void,
-  filters?: TransfersFilters,
+  filters?: TransfertFilters,
   searchQuery?: string
 ) {
   const [data, setData] = useState<any[]>([]);
@@ -85,8 +89,8 @@ function useData(
   };
 }
 
-export function useTransfersData(page: number, filters: TransfersFilters, searchQuery?: string) {
-  const [serverData, setServerData] = useState<TransfersData[]>([]);
+export function useTransfertData(page: number, filters: TransfertFilters, searchQuery?: string) {
+  const [serverData, setServerData] = useState<TransfertData[]>([]);
   const fetchFunc = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transferts`, {
@@ -112,8 +116,8 @@ export function useTransfersData(page: number, filters: TransfersFilters, search
   return useData(serverData, page, refreshData, filters, searchQuery);
 }
 
-export function useTransferItemsData(page: number, filters?: TransfersFilters, searchQuery?: string) {
-  const [serverData, setServerData] = useState<TransfersData[]>([]);
+export function useTransferItemsData(page: number, filters?: TransfertFilters, searchQuery?: string) {
+  const [serverData, setServerData] = useState<TransfertData[]>([]);
   const fetchFunc = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transfert-items`, {

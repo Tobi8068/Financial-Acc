@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Filter } from 'lucide-react';
+import { Filter, Plus } from 'lucide-react';
 import { ProductionFilters } from '@/types/production';
 import { SortOption } from '@/types/utils';
 
@@ -39,14 +39,15 @@ export function ProductionHeader({
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">Production</h2>
         <Button className="gap-2" onClick={() => { onCreate() }}>
-          New Production
+        <Plus className="h-4 w-4" />
+          Create Production
         </Button>
       </div>
       <div className="flex items-center gap-4">
         <div className="flex-1">
           <Input
             type="search"
-            placeholder="Search"
+            placeholder="Search production..."
             className="h-9"
             onChange={(e) => onSearchChange(e.target.value)}
           />

@@ -1,4 +1,5 @@
-export type RequisitionsStatus = 'Completed' | 'Approved' | 'Cancel' | 'Rejected' | 'In_Progress';
+export type RequisitionsStatus = 'Created' | 'Completed' | 'Approved' | 'Cancel' | 'Rejected' | 'In_Progress';
+export type RequisitionItemStatus = 'Approved' | 'Partially_Approved'
 
 export interface RequisitionsFilters {
   status: RequisitionsStatus | 'all';
@@ -17,6 +18,7 @@ export interface RequisitionItem {
   netAmount: number;
   taxAmount: number,
   taxGroup: number,
+  status: RequisitionItemStatus
 }
 
 export interface RequisitionsData {
@@ -33,19 +35,4 @@ export interface RequisitionsData {
   totalNetAmount: number;
   totalTaxAmount: number;
   totalAmount: number;
-}
-
-export interface RequisitionsItemsData {
-  name: string;
-  description: string;
-  quantity: number;
-  price: number;
-  total: number;
-  taxGroup: string;
-  taxAmount: number;
-  unitOfMeasure: string;
-  supplier: string;
-  supplierCode: string;
-  manufacturerName: string;
-  manufacturerCode: string;
-}
+} 

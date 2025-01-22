@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { RequisitionItem, RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
+import { RequisitionItem, RequisitionItemStatus, RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
 import { capitalizeLetter } from '@/lib/utils';
 
 const transformItemBackendData = (backendData: any): RequisitionItem => {
@@ -16,6 +16,7 @@ const transformItemBackendData = (backendData: any): RequisitionItem => {
     netAmount: backendData.net_amount,
     taxAmount: backendData.tax_amount,
     taxGroup: backendData.tax_group,
+    status: capitalizeLetter(backendData.status) as RequisitionItemStatus
   };
 };
 
@@ -37,9 +38,7 @@ const transformBackendData = (backendData: any): RequisitionsData => {
     totalAmount: backendData.total_amount || 0
   };
 };
-
-
-
+ 
 function useData(
   sourceData: any,
   page: number,

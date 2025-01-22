@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
     Table,
     TableBody,
@@ -8,17 +7,11 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '@/components/pagination/Pagination';
 import { Badge } from '@/components/ui/badge';
 
 import { RequisitionsData, RequisitionsStatus } from '@/types/requisitions';
-// import { useRequisitionsData } from '@/hooks/useRequisitionsData';
 
 export function RequisitionsDetail(props: RequisitionsData) {
-    const [currentPage, setCurrentPage] = useState(1);
-    // const { data, totalPages, totalItems, itemsPerPage } = useRequisitionsData(
-    //     currentPage,
-    // );
 
     const getStatusBadge = (status: RequisitionsStatus) => {
         const styles = {
@@ -49,10 +42,10 @@ export function RequisitionsDetail(props: RequisitionsData) {
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Ship To:&nbsp;</span><span>{props.shipTo}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Bill To:&nbsp;</span><span>{props.billTo}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Department:&nbsp;</span><span>{props.department}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                     </div>
 
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Approved By:&nbsp;</span><span>{props.approvedBy}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created By:&nbsp;</span><span>{props.createdBy}</span></div>
                         <div className="text-md text-[#2B2D40] flex "><span className="font-bold w-[148px]">Total Net Amount:&nbsp;</span><span>${props.totalNetAmount}</span></div>
@@ -71,7 +64,7 @@ export function RequisitionsDetail(props: RequisitionsData) {
                                     <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Supplier Name</TableHead>
-                                    <TableHead>Unit of Measure</TableHead>
+                                    <TableHead>Measure Unit</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Price</TableHead>
                                     <TableHead>Net Amount</TableHead>
@@ -100,13 +93,6 @@ export function RequisitionsDetail(props: RequisitionsData) {
                             </TableBody>
                         </Table>
                     </div>
-                    {/* <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={setCurrentPage}
-                        itemsPerPage={itemsPerPage}
-                        totalItems={totalItems}
-                    /> */}
                 </div>
             </div>
         </div>

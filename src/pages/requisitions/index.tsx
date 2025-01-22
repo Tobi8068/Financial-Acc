@@ -17,14 +17,15 @@ function Requisitions() {
     id: '',
     dateCreated: '',
     shipTo: '',
-    billTo: '',
+    billTo: '', 
     department: '',
     status: 'Created',
     approvedBy: '',
     createdBy: '',
-    totalAmountBeforeTax: 0,
+    totalNetAmount: 0,
     totalTaxAmount: 0,
     totalAmount: 0,
+    items: [] 
   });
 
   const handlePage = (page: number) => {
@@ -58,7 +59,7 @@ function Requisitions() {
           <>
             <InsideNavbar text="Requisitions" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center bg-white bg-opacity-50">
-              <CreateRequisitions/>
+              <CreateRequisitions />
             </main>
           </>
         ) : scene === 3 ? (

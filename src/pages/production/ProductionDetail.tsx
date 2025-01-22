@@ -81,7 +81,7 @@ export function ProductionDetail(props: ProductionData) {
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Approved Quantity</TableHead>
-                                    <TableHead>Unit of Measure</TableHead>
+                                    <TableHead>Measure Unit</TableHead>
                                     <TableHead>Status</TableHead>
                                 </TableRow>
                             </TableHeader>

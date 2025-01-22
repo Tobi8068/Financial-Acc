@@ -139,7 +139,7 @@ export function ReOrderDetail(props: ReOrderData) {
                                     <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Supplier Code</TableHead>
                                     <TableHead>Supplier Name</TableHead>
-                                    <TableHead>Unit of Measure</TableHead>
+                                    <TableHead>Measure Unit</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Price</TableHead>
                                     <TableHead>Total</TableHead>

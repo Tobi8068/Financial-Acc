@@ -13,7 +13,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import NumberInput from "@/components/organisms/numberInput";
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useProductionItemsData } from '@/hooks/useProductionData';
 import { DateInput } from "@/components/ui/date-input";
@@ -32,7 +32,7 @@ export function CreateProduction() {
     const [projectList, setProjectList] = useState<any[]>([]);
     const [unitList, setUnitList] = useState<any[]>([]);
 
-    const [formDataItem, setFormDataItem] = useState<any>(
+    const [formItemData, setFormItemData] = useState<any>(
         {
             item_name: '',
             description: '',
@@ -61,50 +61,41 @@ export function CreateProduction() {
 
     const { showNotification } = useNotification();
 
-    const fetchProjects = async () => {
-        try {
-            const responseProject = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
-            const dataPro = await responseProject.json();
-            setProjectList(dataPro);
-
-            const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
-            const dataUnit = await responseUnit.json();
-            setUnitList(dataUnit);
-        } catch (error) {
-            console.error('Error fetching projects and units:', error);
-        }
-    };
-
     useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const responseProject = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
+                const dataPro = await responseProject.json();
+                setProjectList(dataPro);
+
+                const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
+                const dataUnit = await responseUnit.json();
+                setUnitList(dataUnit);
+            } catch (error) {
+                console.error('Error fetching projects and units:', error);
+            }
+        };
         fetchProjects();
     }, [])
-
-    useEffect(() => {
-        console.log('unitList', unitList);
-    }, [unitList])
-
-    useEffect(() => {
-        console.log('unitList found', formDataItem.measure_unit, unitList.find(item => item.id == formDataItem.measure_unit));
-    }, [formDataItem.measure_unit])
 
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useProductionItemsData(
         currentPage,
     );
 
     const handleSaveItem = async () => {
-        console.log(formDataItem)
+        console.log(formItemData)
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/production-items`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formDataItem),
+                body: JSON.stringify(formItemData),
             });
 
             if (response.status === 201) {
                 showNotification('Item created successfully', 'success');
-                setFormDataItem({
+                setFormItemData({
                     item_name: '',
                     description: '',
                     manufacturer: '',
@@ -119,7 +110,7 @@ export function CreateProduction() {
         } catch (error) {
             console.error('Error creating item:', error);
         }
-        console.log("after:::::::::::::", formDataItem)
+        console.log("after:::::::::::::", formItemData)
     }
 
     const handleCreate = async () => {
@@ -177,23 +168,21 @@ export function CreateProduction() {
     }, [selectedItems])
 
     const handleFormChange = (field: string, value: any) => {
-        const updatedData = { ...formData, [field]: value };
-        setFormData(updatedData);
+        setFormData({ ...formData, [field]: value });
     };
 
     const handleFormItemChange = (field: string, value: any) => {
-        const updatedData = { ...formDataItem, [field]: value };
+        const updatedData = { ...formItemData, [field]: value };
 
         if (field === 'quantity' || field === 'approved_quantity') {
             const quantity = Number(updatedData.quantity);
             const approvedQuantity = Number(updatedData.approved_quantity);
-            
+
             if (quantity && approvedQuantity) {
                 updatedData.status = quantity < approvedQuantity ? 'partially_approved' : 'approved';
             }
         }
-
-        setFormDataItem(updatedData);
+        setFormItemData(updatedData);
     };
 
     const handleDelete = (id: string) => {
@@ -231,8 +220,8 @@ export function CreateProduction() {
     };
 
     useEffect(() => {
-        console.log(capitalizeLetter(formDataItem.status))
-    }, [formDataItem.status])
+        console.log(capitalizeLetter(formItemData.status))
+    }, [formItemData.status])
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-180px)]">
@@ -241,14 +230,18 @@ export function CreateProduction() {
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
                         <TextInput text='Name' value={formData.p_name} onChange={(value) => handleFormChange('p_name', value)} />
+
                         <SelectInput
                             label="Project"
-                            value={projectList.length > 0 ? projectList.filter(item => item.id === formData.measure_unit).at(0) : 1}
-                            onChange={(value) => handleFormChange('project', projectList.filter(item => item.project_name === value).at(0).id)}
-                            options={projectList.map(item => item.project_name).map(item => ({
-                                value: item,
-                                label: item
-                            }))} />
+                            value={formItemData.project}
+                            onChange={(value) => handleFormChange('project', value)}
+                            options={projectList.map(item => (
+                                {
+                                    value: item.id,
+                                    label: item.project_name,
+                                }
+                            ))}
+                        />
 
                         <DateInput value={formData.p_start_date} text='Start Date' onChange={(value) => handleFormChange('p_start_date', convertDate(value))} />
                         <DateInput value={formData.p_end_date} text='End Date' onChange={(value) => handleFormChange('p_end_date', convertDate(value))} />
@@ -284,7 +277,7 @@ export function CreateProduction() {
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Approved Quantity</TableHead>
-                                    <TableHead>Unit of Measure</TableHead>
+                                    <TableHead>Measure Unit</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>Action</TableHead>
                                 </TableRow>
@@ -294,7 +287,7 @@ export function CreateProduction() {
                                     data.map((item, index) => (
                                         <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
                                             <TableCell className="w-12 flex items-center justify-center">
-                                                <Checkbox checked={selectedItems.includes(item.id)} onCheckedChange={(checked) => handleSelectItem(item.id, checked)}></Checkbox>
+                                                <Checkbox checked={selectedItems.includes(item.id)} onCheckedChange={(checked) => handleSelectItem(item.id, checked)} />
                                             </TableCell>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
@@ -313,7 +306,7 @@ export function CreateProduction() {
                                                     </PopoverTrigger>
                                                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                                                         <ul className="space-y-2">
-                                                            <li>Edit</li>
+                                                            <li onClick={() => alert("Hi, I am Edit")}>Edit</li>
                                                             <li onClick={() => handleDelete(item.id)}>Delete</li>
                                                         </ul>
                                                     </PopoverContent>
@@ -337,21 +330,21 @@ export function CreateProduction() {
                         onClose={() => setDeleteDialogOpen(false)}
                         onConfirm={handleConfirmDelete}
                     />
-                    <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
+                    <h2 className="font-semibold text-[18px] text-[#636692]">Production Item</h2>
                     <div className="w-full grid grid-cols-9 gap-3">
-                        <div className="col-span-2"><TextInput text='Name' value={formDataItem.item_name} onChange={(value) => handleFormItemChange('item_name', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Description' value={formDataItem.description} onChange={(value) => handleFormItemChange('description', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Name' value={formDataItem.manufacturer} onChange={(value) => handleFormItemChange('manufacturer', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Code' value={formDataItem.manufacturer_code} onChange={(value) => handleFormItemChange('manufacturer_code', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Name' value={formItemData.item_name} onChange={(value) => handleFormItemChange('item_name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Description' value={formItemData.description} onChange={(value) => handleFormItemChange('description', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Name' value={formItemData.manufacturer} onChange={(value) => handleFormItemChange('manufacturer', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Code' value={formItemData.manufacturer_code} onChange={(value) => handleFormItemChange('manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formDataItem.quantity} onChange={(value) => handleFormItemChange('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemChange('quantity', value)} />
                         </div>
                         <div className="col-span-1">
-                            <NumberInput label="Approved Quantity" value={formDataItem.approved_quantity} onChange={(value) => handleFormItemChange('approved_quantity', value)} />
+                            <NumberInput label="Approved Quantity" value={formItemData.approved_quantity} onChange={(value) => handleFormItemChange('approved_quantity', value)} />
                         </div>
                         <SelectInput
-                            label="Unit of Measure"
-                            value={formDataItem.measure_unit}
+                            label="Measure Unit"
+                            value={formItemData.measure_unit}
                             onChange={(value) => handleFormItemChange('measure_unit', value)}
                             options={unitList.map(item => (
                                 {
@@ -359,10 +352,10 @@ export function CreateProduction() {
                                     label: item.orderUnitName,
                                 }
                             ))}
-                            />
+                        />
                         {/* <SelectInput
                             label="Status"
-                            value={capitalizeLetter(formDataItem.status)}
+                            value={capitalizeLetter(formItemData.status)}
                             onChange={(value) => handleFormItemChange('status', value.toLowerCase())}
                             options={[
                                 { value: '', label: '' },
@@ -371,12 +364,12 @@ export function CreateProduction() {
                             ]} /> */}
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />
-                    <div className="w-full flex gap-4 justify-end">
-                        <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
-                    </div>
-                    <div className="w-full flex justify-end">
+                    <div className="w-full flex justify-end mt-4 gap-4 font-semibold">
+                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
+                            <span className="text-white" onClick={handleSaveItem}>Save</span>
+                        </div>
                         <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={handleCreate}>
-                            <span className="text-white font-semibold">Create Production</span>
+                            <span className="text-white">Create Production</span>
                         </div>
                     </div>
                 </div>

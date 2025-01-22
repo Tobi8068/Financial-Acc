@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { Checkbox } from '@/components/ui/checkbox';
-import { capitalizeLetter } from "@/lib/utils";
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { MoreVertical } from 'lucide-react';
+// import { capitalizeLetter } from "@/lib/utils";
 import {
     Table,
     TableBody,
@@ -12,7 +14,9 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useRequisitionItemsData } from "@/hooks/useRequisitionsData";
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
+import DeleteDialog from '@/components/table/DeleteDialog';
+import useNotification from "@/hooks/useNotifications";
 
 export function CreateRequisitions() {
     const [formData, setFormData] = useState<any>(
@@ -24,6 +28,7 @@ export function CreateRequisitions() {
             approved_by: 1,
             created_by: 1,
             status: 'created',
+            requisition_doc: 1,
             items: []
         }
     );
@@ -41,15 +46,21 @@ export function CreateRequisitions() {
             reception_quantity: 1
         }
     );
+    const { showNotification } = useNotification();
+
     const [unitList, setUnitList] = useState<any[]>([]);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [taxList, setTaxList] = useState<any[]>([]);
+    const [supplierList, setSupplierList] = useState<any[]>([]);
     const [departmentList, setDepartmentList] = useState<any[]>([]);
+
+    const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        const fetchProjects = async () => {
+        const fetchRequisition = async () => {
             try {
                 const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
                 const dataUnit = await responseUnit.json();
@@ -58,27 +69,58 @@ export function CreateRequisitions() {
                 const responseTax = await fetch(`${import.meta.env.VITE_BASE_URL}/tax-info`);
                 const taxValue = await responseTax.json();
                 setTaxList(taxValue);
-               
+
                 const responseDepartment = await fetch(`${import.meta.env.VITE_BASE_URL}/department`);
                 const departmentValue = await responseDepartment.json();
                 setDepartmentList(departmentValue);
+
+                const responseSupplier = await fetch(`${import.meta.env.VITE_BASE_URL}/suppliers`);
+                const supplierValue = await responseSupplier.json();
+                setSupplierList(supplierValue);
 
             } catch (error) {
                 console.error('Error fetching projects and Tax:', error);
             }
         };
-        fetchProjects();
+        fetchRequisition();
     }, [])
-   
-     
+
+
+    useEffect(() => {
+        console.log('unitList found', formItemData.measure_unit, unitList.find(item => item.id == formItemData.measure_unit));
+    }, [formItemData.measure_unit])
+
+    useEffect(() => {
+        console.log('supplier List found', formItemData.supplier, supplierList.find(item => item.id == formItemData.supplier));
+    }, [formItemData.supplier])
+
+    useEffect(() => {
+        console.log('Tax List found', formItemData.tax_group, supplierList.find(item => item.id == formItemData.tax_group));
+    }, [formItemData.tax_group])
+
+    useEffect(() => {
+        console.log('Department', formData.department, departmentList.find(item => item.id == formData.department));
+    }, [formItemData.department])
+
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionItemsData(currentPage);
 
-    const handleFormDataChange = (field: string, value: any) => {
+    const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
 
-    const handleFormItemDataChange = (field: string, value: any) => {
-        setFormItemData({ ...formItemData, [field]: value });
+    const handleFormItemData = (field: string, value: any) => {
+        const updatedData = { ...formItemData, [field]: value };
+
+        if (field === 'quantity' || field === 'approved_quantity') {
+            const quantity = Number(updatedData.quantity);
+            const approvedQuantity = Number(updatedData.approved_quantity);
+
+            if (quantity && approvedQuantity) {
+                updatedData.status = quantity < approvedQuantity ? 'partially_approved' : 'approved';
+            }
+        }
+
+        setFormItemData(updatedData);
     };
 
     const handleSelectAll = (checked: boolean) => {
@@ -97,38 +139,131 @@ export function CreateRequisitions() {
         }
     };
 
-    const handleSaveItem = () => {
-        alert("Okay")
+    useEffect(() => {
+        handleFormData('items', selectedItems);
+    }, [selectedItems])
+
+    const handleSaveItem = async () => {
+        console.log(formItemData)
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisition-items`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formItemData),
+            });
+
+            if (response.status === 201) {
+                showNotification('Item created successfully', 'success');
+                setFormItemData({
+                    item_name: '',
+                    description: '',
+                    manufacturer: '',
+                    manufacturer_code: '',
+                    quantity: 0,
+                    approved_quantity: 0,
+                    measure_unit: '',
+                    status: '',
+                    supplier: '',
+                    tax_group: '',
+                    reception_quantity: '',
+                    price: ''
+                });
+                refreshData();
+            }
+        } catch (error) {
+            console.error('Error creating item:', error);
+        }
+        console.log("after====>", formItemData)
     }
- 
+
+    const handleCreate = async () => {
+        console.log(formData)
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.status === 201) {
+                showNotification('New Production created successfully', 'success');
+                setFormData({
+                    requisition_number: '',
+                    ship_to: '',
+                    bill_to: '',
+                    department: '',
+                    status: 'waiting_approval',
+                    items: [],
+                    requisition_doc: 1,
+                    approved: true,
+                    approved_by: 1,
+                    created_by: 1,
+                });
+                setSelectedItems([]);
+                refreshData();
+            }
+        } catch (error) {
+            console.error('Error creating item:', error);
+        }
+    }
+
+    const handleDelete = (id: string) => {
+        setDeleteDialogOpen(true);
+        setDeleteItemId(id);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (deleteItemId) {
+            console.log('Deleting item with id:', deleteItemId);
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisition-items/${deleteItemId}`, {
+                method: 'DELETE',
+            })
+            console.log(response.status);
+            if (response.status === 204) {
+                showNotification('Item deleted successfully', 'success');
+                refreshData();
+            }
+            setDeleteDialogOpen(false);
+            setDeleteItemId(null);
+        }
+    };
+
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
             <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-x-12 gap-y-4">
-                        <TextInput text='Ship To' onChange={(value) => handleFormDataChange('ship_to', value)} />
-                        <TextInput text='Bill To' onChange={(value) => handleFormDataChange('bill_to', value)} />
+                        <TextInput text='Ship To' value={formData.ship_to} onChange={(value) => handleFormData('ship_to', value)} />
+                        <TextInput text='Bill To' value={formData.bill_to} onChange={(value) => handleFormData('bill_to', value)} />
                         <SelectInput
                             label="Department"
-                            value={departmentList.length > 0 ? departmentList.filter(item => item.id === formData.department).at(0) : 1}
-                            onChange={(value) => handleFormItemDataChange('department', departmentList.filter(item => item.name === value).at(0).id)}
-                            options={departmentList.map(item => item.name).map(item => ({
-                                value: item,
-                                label: item,
-                        }))} />
-        
-                        <SelectInput
+                            value={formData.department}
+                            onChange={(value) => handleFormData('department', value)}
+                            options={departmentList.map(item => (
+                                {
+                                    value: item.id,
+                                    label: item.name,
+                                }
+                            ))}
+                        />
+
+                        {/* <SelectInput
                             label="Status"
                             value=''
-                            onChange={(value) => handleFormDataChange('status', value)}
+                            onChange={(value) => handleFormData('status', value)}
                             options={[
                                 { value: 'need-approval', label: 'Need Approval' },
                                 { value: 'approved', label: 'Approved' },
                                 { value: 'paid', label: 'Paid' },
                                 { value: 'waiting-payment', label: 'Waiting Payment' },
                                 { value: 'close-complete', label: 'Close/Complete' },
-                            ]} />
+                            ]} /> */}
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Requistion Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -146,20 +281,21 @@ export function CreateRequisitions() {
                                     <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Supplier</TableHead>
-                                    <TableHead>Unit of Measure</TableHead>
+                                    <TableHead>Measure Unit</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Price</TableHead>
                                     <TableHead>Net Amount</TableHead>
                                     <TableHead>Tax Amount</TableHead>
-                                    <TableHead>Tax Group</TableHead>
+                                    <TableHead>Tax</TableHead>
+                                    <TableHead>Action</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {
                                     data.map((item, index) => (
-                                        <TableRow key={index}>
+                                        <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
                                             <TableCell className="w-12 flex items-center justify-center">
-                                                <Checkbox checked={selectedItems.includes(item.id)} onCheckedChange={(checked) => handleSelectItem(item.id, checked)}></Checkbox>
+                                                <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)}/>
                                             </TableCell>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
@@ -172,6 +308,22 @@ export function CreateRequisitions() {
                                             <TableCell>{item.netAmount}</TableCell>
                                             <TableCell>{item.taxAmount}</TableCell>
                                             <TableCell>{item.taxGroup}</TableCell>
+                                            <TableCell>
+                                                <Popover>
+                                                    <PopoverTrigger asChild>
+                                                        <button className="p-2 hover:bg-gray-100 rounded-full">
+                                                            <MoreVertical className="h-4 w-4" />
+                                                        </button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
+                                                        <ul className="space-y-2">
+                                                            <li onClick={() => alert("Hi")}>Edit</li>
+                                                            <li onClick={() => handleDelete(item.id)}>Delete</li>
+                                                        </ul>
+                                                    </PopoverContent>
+                                                </Popover>
+                                            </TableCell>
+
                                         </TableRow>
                                     ))
                                 }
@@ -185,20 +337,42 @@ export function CreateRequisitions() {
                         itemsPerPage={itemsPerPage}
                         totalItems={totalItems}
                     />
+                    <DeleteDialog
+                        open={deleteDialogOpen}
+                        onClose={() => setDeleteDialogOpen(false)}
+                        onConfirm={handleConfirmDelete}
+                    />
+
                     <h2 className="font-semibold text-[18px] text-[#636692]">Requistion Items</h2>
-                    <div className="flex flex-col gap-2 w-full">
-                        <div className="grid grid-cols-5 gap-4">
-                            <div className="col-span-1 grid grid-row-2 gap-4">
-                                <TextInput text='Name' onChange={(value) => handleFormItemDataChange('item_name', value)} />
-                                <TextInput text='Description' onChange={(value) => handleFormItemDataChange('description', value)} />
-                            </div>
-                            <div className="col-span-2 grid grid-row-2 gap-4">
-                                <div className="grid grid-cols-3 gap-4">
-                                    <TextInput text='Quantity' onChange={(value) => handleFormItemDataChange('quantity', value)} />
-                                    {/* <SelectInput
+
+                    <div className="w-full grid grid-cols-10 gap-3 p-3 rounded-lg border bg-gray-200">
+                        <div className="col-span-2">
+                            <TextInput
+                                text='Name'
+                                value={formItemData.item_name}
+                                onChange={(value) => handleFormItemData('item_name', value)}
+                            />
+                        </div>
+
+                        <div className="col-span-2">
+                            <TextInput
+                                text='Description'
+                                value={formItemData.description}
+                                onChange={(value) => handleFormItemData('description', value)}
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <TextInput
+                                text='Quantity'
+                                value={formItemData.quantity}
+                                onChange={(value) => handleFormItemData('quantity', value)}
+                            />
+                        </div>
+
+                        {/* <SelectInput
                                         label="Status"
                                         value={capitalizeLetter(formData.p_status)}
-                                        onChange={(value) => handleFormItemDataChange('p_status', value.toLowerCase())}
+                                        onChange={(value) => handleFormItemData('p_status', value.toLowerCase())}
                                         options={[
                                             { value: ' ', label: ' ' },
                                             { value: 'Created', label: 'Created' },
@@ -207,55 +381,82 @@ export function CreateRequisitions() {
                                             { value: 'Ended', label: 'Ended' },
                                             { value: 'Partially_Approved', label: 'Partially Approved' },
                                     ]} />
-  */}
-                                </div>
-                                <div className="grid grid-cols-3 gap-4">
-                                    <TextInput text='Price' onChange={(value) => handleFormItemDataChange('price', Number(value))} />
-                                    {/* <CurrencyInput
-                                        label="Tax Amount"
-                                        value={formData.taxAmount}
-                                        onChange={(value) => handleFormItemDataChange('taxAmount', value)}
-                                        currency="USD"
-                                        onCurrencyChange={(currency) => handleFormItemDataChange('totalTaxCurrency', currency)} /> */}
-                                    <SelectInput
-                                        label="Unit of Measure"
-                                        value={unitList.length > 0 ? unitList.filter(item => item.id === formData.measure_unit).at(0) : 1}
-                                        onChange={(value) => handleFormItemDataChange('measure_unit', unitList.filter(item => item.orderUnitName === value).at(0).id)}
-                                        options={unitList.map(item => item.orderUnitName).map(item => ({
-                                            value: item,
-                                            label: item,
-                                        }))} />
-                                </div>
-                            </div>
-                            <div className="col-span-2 grid grid-row-2 gap-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <SelectInput
-                                        label="Tax Group"
-                                        value={taxList.length > 0 ? taxList.filter(item => item.id === formData.tax_group).at(0) : 1}
-                                        onChange={(value) => handleFormItemDataChange('tax_group', taxList.filter(item => item.tax_name === value).at(0).id)}
-                                        options={taxList.map(item => item.tax_name).map(item => ({
-                                            value: item,
-                                            label: item,
-                                        }))} />
-                                    <TextInput text="Manufacturer" onChange={(value) => handleFormItemDataChange('manufacturer', value)} />
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <TextInput text="Supplier" onChange={(value) => handleFormItemDataChange('supplierName', value)} />
-                                    <TextInput text="Manufacturer Code" onChange={(value) => handleFormItemDataChange('manufacturerCode', value)} />
-                                </div>
-                            </div>
+                                    */}
+                        <div className="col-span-2">
+                            <TextInput
+                                text='Price'
+                                value={formItemData.price}
+                                onChange={(value) => handleFormItemData('price', Number(value))}
+                            />
                         </div>
-                    </div>
-                    <div className="w-full flex gap-4 justify-end">
-                        <span className="cursor-pointer bg-[#3A3B55] px-3 py-1 rounded-md text-white w-fit" onClick={handleSaveItem}>Save</span>
-                    </div>
-                    <div className="w-full flex justify-end">
-                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
-                            <span className="text-white font-semibold">Create Requisition</span>
+                        <div className="col-span-2">
+                            <SelectInput
+                                label="Measure Unit"
+                                value={formItemData.measure_unit}
+                                onChange={(value) => handleFormItemData('measure_unit', value)}
+                                options={unitList.map(item => (
+                                    {
+                                        value: item.id,
+                                        label: item.orderUnitName,
+                                    }
+                                ))}
+                            />
+                        </div>
+
+                        <div className="col-span-2">
+                            <SelectInput
+                                label="Tax Group"
+                                value={formItemData.tax_group}
+                                onChange={(value) => handleFormItemData('tax_group', value)}
+                                options={taxList.map(item => (
+                                    {
+                                        value: item.id,
+                                        label: item.tax_name,
+                                    }
+                                ))}
+                            />
+                        </div>
+
+                        <div className="col-span-2">
+                            <SelectInput
+                                label="Supplier"
+                                value={formItemData.supplier}
+                                onChange={(value) => handleFormItemData('supplier', value)}
+                                options={supplierList.map(item => (
+                                    {
+                                        value: item.id,
+                                        label: item.supplier_name,
+                                    }
+                                ))}
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <TextInput
+                                text="Manufacturer"
+                                value={formItemData.manufacturer}
+                                onChange={(value) => handleFormItemData('manufacturer', value)}
+                            />
+                        </div>
+                        <div className="col-span-2">
+                            <TextInput
+                                text="Manufacturer Code"
+                                value={formItemData.manufacturer_code}
+                                onChange={(value) => handleFormItemData('manufacturer_code', value)}
+                            />
+
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <hr className="border-t border-[#D7D8E4] w-full" />
+            <div className="w-full flex justify-end mt-4 gap-4 font-semibold">
+                <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
+                    <span className="text-white" onClick={handleSaveItem}>Save</span>
+                </div>
+                <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={handleCreate}>
+                    <span className="text-white">Create Requisition</span>
+                </div>
+            </div>
+        </div >
     )
 }
