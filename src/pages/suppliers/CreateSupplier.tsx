@@ -80,18 +80,18 @@ export function CreateSuppliers({ onClick }: CreateSuppliersProps) {
                             <div className="gap-3 flex flex-col border-b-2 border-gray-300 pb-5">
                                 <h2 className="font-semibold text-[18px] text-[#636692]">Basic Info</h2>
                                 <div className="grid w-full grid-cols-3 gap-16">
-                                    <TextInput text='Supplier Name' onChange={(value) => handleChange('number', value)} />
-                                    <TextInput text='Supplier Code' onChange={(value) => handleChange('createdBy', value)} />
+                                    <TextInput value={formData.supplierName} text='Supplier Name' onChange={(value) => handleChange('supplierName', value)} />
+                                    <TextInput value={formData.supplierCode} text='Supplier Code' onChange={(value) => handleChange('supplierCode', value)} />
                                 </div>
                             </div>
                             <div className="gap-3 flex flex-col border-b-2 border-gray-300 pb-5">
                                 <h2 className="font-semibold text-[18px] text-[#636692]">Address</h2>
                                 <div className="grid w-full grid-cols-6 gap-4">
-                                    <TextInput text='Appartment' onChange={(value) => handleChange('appartment', value)} />
-                                    <TextInput text='Street' onChange={(value) => handleChange('street', value)} />
-                                    <TextInput text='City' onChange={(value) => handleChange('city', value)} />
-                                    <TextInput text='State' onChange={(value) => handleChange('state', value)} />
-                                    <TextInput text='Postal Address' onChange={(value) => handleChange('postalAddress', value)} />
+                                    <TextInput value={formData.appartment || ''} text='Appartment' onChange={(value) => handleChange('appartment', value)} />
+                                    <TextInput value={formData.street || ''} text='Street' onChange={(value) => handleChange('street', value)} />
+                                    <TextInput value={formData.city || ''} text='City' onChange={(value) => handleChange('city', value)} />
+                                    <TextInput value={formData.state || ''} text='State' onChange={(value) => handleChange('state', value)} />
+                                    <TextInput value={formData.postalAddress} text='Postal Address' onChange={(value) => handleChange('postalAddress', value)} />
                                     <SelectInput
                                         label="Country"
                                         value={formData.status}
@@ -102,10 +102,10 @@ export function CreateSuppliers({ onClick }: CreateSuppliersProps) {
                                         ]} />
                                 </div>
                                 <div className="grid w-full grid-cols-1">
-                                    <TextInput text='Billing Address' onChange={(value) => handleChange('billingAddress', value)} />
+                                    <TextInput value={formData.billingAddress} text='Billing Address' onChange={(value) => handleChange('billingAddress', value)} />
                                 </div>
                                 <div className="grid w-full grid-cols-1">
-                                    <TextInput text='Shipping Address' onChange={(value) => handleChange('shippingAddress', value)} />
+                                    <TextInput value={formData.shippingAddress} text='Shipping Address' onChange={(value) => handleChange('shippingAddress', value)} />
                                 </div>
                             </div>
                         </div>
@@ -113,11 +113,11 @@ export function CreateSuppliers({ onClick }: CreateSuppliersProps) {
                             <div className="gap-3 flex flex-col border-b-2 border-gray-300 pb-5">
                                 <h2 className="font-semibold text-[18px] text-[#636692]">Bank Details</h2>
                                 <div className="grid w-full grid-cols-2 gap-4">
-                                    <TextInput text='Bank Name' onChange={(value) => handleChange('bankName', value)} />
-                                    <TextInput text='Account Number' onChange={(value) => handleChange('accountNumber', value)} />
+                                    <TextInput value={formData.bankName} text='Bank Name' onChange={(value) => handleChange('bankName', value)} />
+                                    <TextInput value={formData.accountNumber.toString()} text='Account Number' onChange={(value) => handleChange('accountNumber', value)} />
                                 </div>
                                 <div className="grid w-full grid-cols-2 gap-4">
-                                    <TextInput text='Transit Number' onChange={(value) => handleChange('transitNumber', value)} />
+                                    <TextInput value={formData.transitNumber.toString()} text='Transit Number' onChange={(value) => handleChange('transitNumber', value)} />
                                     <SelectInput
                                         label="Currency"
                                         value={formData.status}

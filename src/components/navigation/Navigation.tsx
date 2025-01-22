@@ -18,7 +18,7 @@ import { UserType } from '@/types/user';
 import { useAuth } from '@/context/authProvider';
 
 export function Navigation() {
-  const { isAuthenticated, user } = useAuth();
+  const { user } = useAuth();
   const [typeOfUser] = useState<UserType>(user?.role || '');
 
   let navItems;

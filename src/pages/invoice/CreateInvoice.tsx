@@ -11,9 +11,9 @@ interface CreateInvoiceProps {
 export function CreateInvoice({ onClick }: CreateInvoiceProps) {
     const [formData, setFormData] = useState({
         invoiceNumber: '',
-        dateCreated: null as Date | null,
+        dateCreated: '',
         client: '',
-        requiredDate: null as Date | null,
+        requiredDate: '',
         status: 'need-approval',
         shipTo: '',
         billTo: '',
@@ -35,12 +35,12 @@ export function CreateInvoice({ onClick }: CreateInvoiceProps) {
             <div className="w-full flex items-center justify-center">
                 <div className="w-[40%] flex flex-col gap-3">
                     <div className="grid w-full grid-cols-2 gap-12">
-                        <TextInput text='Invoice Number#' onChange={(value) => handleChange('invoiceNumber', value)} />
-                        <DateInput text='Date Created' onChange={(value) => handleChange('dateCreated', value)} />
+                        <TextInput value={formData.invoiceNumber} text='Invoice Number#' onChange={(value) => handleChange('invoiceNumber', value)} />
+                        <DateInput value={formData.dateCreated} text='Date Created' onChange={(value) => handleChange('dateCreated', value)} />
                     </div>
-                    <TextInput text='Client' onChange={(value) => handleChange('client', value)} />
+                    <TextInput value={formData.client} text='Client' onChange={(value) => handleChange('client', value)} />
                     <div className="grid w-full grid-cols-2 gap-12">
-                        <DateInput text="Required Date" onChange={(value) => handleChange('requiredDate', value)} />
+                        <DateInput value={formData.requiredDate} text="Required Date" onChange={(value) => handleChange('requiredDate', value)} />
                         <SelectInput
                             label="Status"
                             value={formData.status}
@@ -54,8 +54,8 @@ export function CreateInvoice({ onClick }: CreateInvoiceProps) {
                             ]} />
                     </div>
                     <div className="grid w-full grid-cols-2 gap-12">
-                        <TextInput text="Ship To" onChange={(value) => handleChange('shipTo', value)} />
-                        <TextInput text="Bill To" onChange={(value) => handleChange('billTo', value)} />
+                        <TextInput value={formData.shipTo} text="Ship To" onChange={(value) => handleChange('shipTo', value)} />
+                        <TextInput value={formData.billTo} text="Bill To" onChange={(value) => handleChange('billTo', value)} />
                     </div>
                     <div className="grid w-full grid-cols-2 gap-12">
                         <CurrencyInput

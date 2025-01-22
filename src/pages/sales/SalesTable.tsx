@@ -106,7 +106,7 @@ export function SalesTable({ filters, sortOption, searchQuery, onClickView }: Sa
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className='text-[#535862]'>{getStatusBadge(item.clientApproval)}</TableCell>
+                {/* <TableCell className='text-[#535862]'>{getStatusBadge(item.clientApproval)}</TableCell> */}
                 <TableCell className='text-[#535862]'>${item.totalTaxAmount}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalNetAmount}</TableCell>
                 <TableCell className='text-[#535862]'>${item.totalAmount}</TableCell>

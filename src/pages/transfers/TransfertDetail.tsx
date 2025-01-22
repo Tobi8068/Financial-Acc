@@ -25,8 +25,7 @@ export function TransfertDetail(props: TransfertData) {
     const getStatusBadge = (status: TransfertStatus) => {
         const styles = {
             Transfered: 'bg-red-100 text-red-800',
-            Approved: 'bg-green-100 text-green-800',
-            Cancelled: 'bg-[#FEF6ED] text-[#C4320A]',
+            Approve: 'bg-green-100 text-green-800',
         };
 
         return (

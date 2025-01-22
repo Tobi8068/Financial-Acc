@@ -1,7 +1,6 @@
 import { ClientData } from '@/types/client';
 import { InvoiceData } from '@/types/invoice';
-import { SalesData } from '@/types/sales';
-import { CarrierData, ShippingData, ShippingItem } from '@/types/shipping';
+import { CarrierData, ShippingData } from '@/types/shipping';
 import { PurchaseOrderData } from '@/types/purchaseOrder';
 import { ReceptionsData, ReceptionItem } from '@/types/receptions';
 import { ReservationData, ReservationItem } from '@/types/reservation';
@@ -192,36 +191,6 @@ export const shippingData: ShippingData[] = [
   }
 ];
 
-export const shippingItemsData: ShippingItem[] = [
-  {
-    name: 'John Doe',
-    description: 'Express delivery requested',
-    manufacturerCode: '22352WF',
-    manufacturerName: 'Lucky',
-    itemCode: '22352WF',
-    quantity: 51,
-    approved_quantity: 3,
-  },
-  {
-    name: 'Chris George',
-    description: 'Express delivery requested',
-    manufacturerCode: '22352WF',
-    manufacturerName: 'Lucky',
-    itemCode: '22352WF',
-    quantity: 51,
-    approved_quantity: 3,
-  },
-  {
-    name: 'Mihn Tom',
-    description: 'Express delivery requested',
-    manufacturerCode: '22352WF',
-    manufacturerName: 'Lucky',
-    itemCode: '22352WF',
-    quantity: 51,
-    approved_quantity: 3,
-  },
-];
-
 export const invoiceData: InvoiceData[] = [
   {
     id: '#3066',
@@ -324,123 +293,6 @@ export const invoiceData: InvoiceData[] = [
     totalAmount: 12,
     status: 'Approved',
     contact: 'Monthly',
-  },
-]
-
-export const salesData: SalesData[] = [
-  {
-    id: '#3066',
-    dateCreated: '2024-01-06',
-    shipTo: 'Monthly Subscription',
-    billTo: 'Monthly Subscription',
-    status: 'Created',
-    approvedBy: {
-      name: 'Olivia Rhye',
-      avatar: '../assets/img/Avatar.png',
-    },
-    createdBy: {
-      name: 'Olivia Rhye',
-      avatar: '../assets/img/Avatar.png',
-    },
-    clientApproval: 'Pending',
-    totalTaxAmount: 200,
-    totalNetAmount: 12,
-    totalAmount: 12,
-  },
-  {
-    id: '#3065',
-    dateCreated: '2024-01-06',
-    shipTo: 'Monthly Subscription',
-    billTo: 'Monthly Subscription',
-    status: 'Approved',
-    approvedBy: {
-      name: 'Phoenix Baker',
-      avatar: '../assets/img/Avatar.png',
-    },
-    createdBy: {
-      name: 'Olivia Rhye',
-      avatar: '../assets/img/Avatar.png',
-    },
-    clientApproval: 'Approved',
-    totalTaxAmount: 200,
-    totalNetAmount: 12,
-    totalAmount: 12,
-  },
-  {
-    id: '#3064',
-    dateCreated: '2024-01-06',
-    shipTo: 'Monthly Subscription',
-    billTo: 'Monthly Subscription',
-    status: 'Sent',
-    approvedBy: {
-      name: 'Lana Steiner',
-      avatar: '../assets/img/Avatar.png',
-    },
-    createdBy: {
-      name: 'Olivia Rhye',
-      avatar: '../assets/img/Avatar.png',
-    },
-    clientApproval: 'Rejected',
-    totalTaxAmount: 200,
-    totalNetAmount: 12,
-    totalAmount: 12,
-  },
-  {
-    id: '#3063',
-    dateCreated: '2024-01-06',
-    shipTo: 'Monthly Subscription',
-    billTo: 'Monthly Subscription',
-    status: 'Partially_Received',
-    approvedBy: {
-      name: 'Demi Wilkinson',
-      avatar: '../assets/img/Avatar.png',
-    },
-    createdBy: {
-      name: 'Olivia Rhye',
-      avatar: '../assets/img/Avatar.png',
-    },
-    clientApproval: 'Approved',
-    totalTaxAmount: 200,
-    totalNetAmount: 12,
-    totalAmount: 12,
-  },
-  {
-    id: '#3062',
-    dateCreated: '2024-01-06',
-    shipTo: 'Monthly Subscription',
-    billTo: 'Monthly Subscription',
-    status: 'Completed',
-    approvedBy: {
-      name: 'Candice Wu',
-      avatar: '../assets/img/Avatar.png',
-    },
-    createdBy: {
-      name: 'Olivia Rhye',
-      avatar: '../assets/img/Avatar.png',
-    },
-    clientApproval: 'Pending',
-    totalTaxAmount: 200,
-    totalNetAmount: 12,
-    totalAmount: 12,
-  },
-  {
-    id: '#3061',
-    dateCreated: '2024-01-06',
-    shipTo: 'Monthly Subscription',
-    billTo: 'Monthly Subscription',
-    status: 'Cancelled',
-    approvedBy: {
-      name: 'Natali Craig',
-      avatar: '../assets/img/Avatar.png',
-    },
-    createdBy: {
-      name: 'Olivia Rhye',
-      avatar: '../assets/img/Avatar.png',
-    },
-    clientApproval: 'Rejected',
-    totalTaxAmount: 200,
-    totalNetAmount: 12,
-    totalAmount: 12,
   },
 ]
 
