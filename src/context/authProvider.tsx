@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 interface AuthContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
+    user: any;
     login: (token: string) => void;
     logout: () => void;
 }
@@ -11,6 +12,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState<any>();
     const [isLoading, setIsLoading] = useState(true);
 
     const initAuth = async () => {
@@ -33,6 +35,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     'Authorization': `Bearer ${token}`
                 }
             });
+            const data = await response.json();
+            setUser(data);
             if (response.ok) {
                 setIsAuthenticated(true);
             } else {
@@ -57,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
