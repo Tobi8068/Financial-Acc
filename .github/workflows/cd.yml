@@ -1,29 +1,36 @@
-name: Deploy to Ubuntu Server
+name: Deploy to VPS  
 
-on: 
-  push:
-    branches:
+on:  
+  push:  
+    branches:  
       - master
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          
-      - name: Deploy to Ubuntu Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PASSWORD }}
-          script: |
-            cd /home/Financial-Acc
-            npm install --legacy-peer-deps
-            npm run build
-            pm2 restart "npx vite preview --port 3000"
+jobs:  
+  deploy:  
+    runs-on: ubuntu-latest  
+
+    steps:  
+      - name: Checkout code  
+        uses: actions/checkout@v2  
+
+      - name: Set up Node.js  
+        uses: actions/setup-node@v2  
+        with:  
+          node-version: '23'
+
+      - name: Install dependencies  
+        run: npm install  
+
+      - name: Run Build  
+        run: npm run build  
+
+      - name: Deploy to VPS  
+        env:  
+          VPS_USERNAME: ${{ secrets.VPS_USERNAME }}  
+          VPS_HOST: ${{ secrets.VPS_HOST }}  
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}  
+        run: |  
+          echo "$VPS_SSH_KEY" > private_key  
+          chmod 600 private_key  
+          scp -o StrictHostKeyChecking=no -i private_key -r ./* "$VPS_USERNAME@$VPS_HOST:/home/finance/frontend"  
+          ssh -o StrictHostKeyChecking=no -i private_key "$VPS_USERNAME@$VPS_HOST" "bash /home/finance/frontend/deploy.sh"
