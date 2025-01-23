@@ -102,7 +102,7 @@ export function useTransfertData(page: number, filters: TransfertFilters, search
       let transformedData = data.map((item: any) => transformBackendData(item));
       setServerData(transformedData);
     } catch (error) {
-      console.error("Error fetching requisitions:", error);
+      console.error("Error fetching Transfert:", error);
     }
   };
   useEffect(() => {
@@ -129,7 +129,7 @@ export function useTransferItemsData(page: number, filters?: TransfertFilters, s
       let transformedData = data.map((item: any) => transformItemBackendData(item));
       setServerData(transformedData);
     } catch (error) {
-      console.error("Error fetching requisitions:", error);
+      console.error("Error fetching Transfert:", error);
     }
   };
   useEffect(() => {

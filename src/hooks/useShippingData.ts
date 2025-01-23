@@ -100,7 +100,7 @@ export function useShippingData(page: number, filters: ShippingFilters, searchQu
         let transformedData = data.map((item: any) => transformBackendData(item));
         setServerData(transformedData);
       } catch (error) {
-        console.error("Error fetching requisitions:", error);
+        console.error("Error fetching Shipping Data:", error);
       }
     };
     useEffect(() => {
@@ -125,7 +125,7 @@ export function useShippingItemsData(page: number, filters?: ShippingFilters, se
         let transformedData = data.map((item: any) => transformItemBackendData(item));
         setServerData(transformedData);
       } catch (error) {
-        console.error("Error fetching requisitions:", error);
+        console.error("Error fetching Shipping item:", error);
       }
     };
     useEffect(() => {

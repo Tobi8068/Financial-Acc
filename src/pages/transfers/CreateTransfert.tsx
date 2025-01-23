@@ -64,7 +64,6 @@ export function CreateTransfert() {
         };
         fetchDatas();
     }, [])
-    console.log("===========>>>>", binList.map(bin => bin.bin_name))
 
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
@@ -189,7 +188,7 @@ export function CreateTransfert() {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item, index) => (
+                                    data.length !== 0 && data.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
@@ -246,7 +245,7 @@ export function CreateTransfert() {
                                 label="Bin8"
                                 value={formItemData.bin}
                                 onChange={(value) => handleItemChange('bin', value)}
-                                options={binList.map(item => (
+                                options={binList?.map(item => (
                                     {
                                         value: item.id,
                                         label: item.bin_name,

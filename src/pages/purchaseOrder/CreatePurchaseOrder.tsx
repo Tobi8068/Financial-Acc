@@ -13,7 +13,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { useRequisitionItemsData } from "@/hooks/useRequisitionsData";
+import { usePurchaseOrderItemsData } from "@/hooks/usePurchaseOrderData";
 import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from "@/hooks/useNotifications";
@@ -21,15 +21,21 @@ import useNotification from "@/hooks/useNotifications";
 export function CreatePurchaseOrder() {
     const [formData, setFormData] = useState<any>(
         {
-            requisition_number: 0,
+            po_number: '',
+            created_date: '',
             ship_to: '',
             bill_to: '',
             department: '',
+
             approved_by: 1,
             created_by: 1,
             status: 'created',
-            requisition_doc: 1,
-            items: []
+
+            approved: false,
+            sent: false,
+
+            items: [],
+            po_doc: 1
         }
     );
     const [formItemData, setFormItemData] = useState<any>(
@@ -39,10 +45,11 @@ export function CreatePurchaseOrder() {
             measure_unit: '',
             manufacturer: '',
             manufacturer_code: '',
-            supplier: '',
+            supplier_code: '',
             quantity: 0,
             price: 0,
             tax_group: '',
+            status: 'approved',
             reception_quantity: 1
         }
     );
@@ -51,7 +58,6 @@ export function CreatePurchaseOrder() {
     const [unitList, setUnitList] = useState<any[]>([]);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [taxList, setTaxList] = useState<any[]>([]);
-    const [supplierList, setSupplierList] = useState<any[]>([]);
     const [departmentList, setDepartmentList] = useState<any[]>([]);
 
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
@@ -60,7 +66,7 @@ export function CreatePurchaseOrder() {
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        const fetchRequisition = async () => {
+        const fetchPO = async () => {
             try {
                 const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
                 const dataUnit = await responseUnit.json();
@@ -73,40 +79,28 @@ export function CreatePurchaseOrder() {
                 const responseDepartment = await fetch(`${import.meta.env.VITE_BASE_URL}/department`);
                 const departmentValue = await responseDepartment.json();
                 setDepartmentList(departmentValue);
-
-                const responseSupplier = await fetch(`${import.meta.env.VITE_BASE_URL}/suppliers`);
-                const supplierValue = await responseSupplier.json();
-                setSupplierList(supplierValue);
-
             } catch (error) {
                 console.error('Error fetching projects and Tax:', error);
             }
         };
-        fetchRequisition();
+        fetchPO();
     }, [])
 
-    console.log("===========>>>>", departmentList)
+    const { data, totalPages, totalItems, itemsPerPage, refreshData } = usePurchaseOrderItemsData(
+        currentPage,
+    );
 
-    useEffect(() => {
-        console.log('unitList found', formItemData.measure_unit, unitList.find(item => item.id == formItemData.measure_unit));
-    }, [formItemData.measure_unit])
+    console.log("+++++++++++++++",data)
 
-    useEffect(() => {
-        console.log('supplier List found', formItemData.supplier, supplierList.find(item => item.id == formItemData.supplier));
-    }, [formItemData.supplier])
-
-    useEffect(() => {
-        console.log('Tax List found', formItemData.tax_group, supplierList.find(item => item.id == formItemData.tax_group));
-    }, [formItemData.tax_group])
-
-    useEffect(() => {
-        console.log('Department', formData.department, departmentList.find(item => item.id == formData.department));
-    }, [formItemData.department])
-
-    const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionItemsData(currentPage);
-
+    const handleChange = (field: string, value: any) => {
+        setFormData({ ...formData, [field]: value });
+    };
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
+    };
+    const handleDeleteItem = (itemId: string) => {
+        setDeleteItemId(itemId);
+        setDeleteDialogOpen(true);
     };
 
     const handleFormItemData = (field: string, value: any) => {
@@ -120,7 +114,6 @@ export function CreatePurchaseOrder() {
                 updatedData.status = quantity < approvedQuantity ? 'partially_approved' : 'approved';
             }
         }
-
         setFormItemData(updatedData);
     };
 
@@ -145,9 +138,9 @@ export function CreatePurchaseOrder() {
     }, [selectedItems])
 
     const handleSaveItem = async () => {
-        console.log(formItemData)
+        console.log("++++++++++++++++++++++", formItemData)
         try {
-            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisition-items`, {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/purchaseOrders-items`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -183,7 +176,7 @@ export function CreatePurchaseOrder() {
         console.log(formData)
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/purchase-orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -192,7 +185,7 @@ export function CreatePurchaseOrder() {
             });
 
             if (response.status === 201) {
-                showNotification('New Production created successfully', 'success');
+                showNotification('New PO created successfully', 'success');
                 setFormData({
                     requisition_number: '',
                     ship_to: '',
@@ -221,7 +214,7 @@ export function CreatePurchaseOrder() {
     const handleConfirmDelete = async () => {
         if (deleteItemId) {
             console.log('Deleting item with id:', deleteItemId);
-            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisition-items/${deleteItemId}`, {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/purchaseOrders-items/${deleteItemId}`, {
                 method: 'DELETE',
             })
             console.log(response.status);
@@ -236,7 +229,7 @@ export function CreatePurchaseOrder() {
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
+            <h2 className="text-xl font-semibold mb-6">Create Purchase Order</h2>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-x-12 gap-y-4">
@@ -266,7 +259,7 @@ export function CreatePurchaseOrder() {
                                 { value: 'close-complete', label: 'Close/Complete' },
                             ]} /> */}
                     </div>
-                    <h2 className="font-semibold text-[18px] text-[#636692]">Requistion Items</h2>
+                    <h2 className="font-semibold text-[18px] text-[#636692]">Purchase Items</h2>
                     <div className='rounded-lg border bg-white'>
                         <Table>
                             <TableHeader>
@@ -293,7 +286,7 @@ export function CreatePurchaseOrder() {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item, index) => (
+                                    data && data.map((item, index) => (
                                         <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
                                             <TableCell className="w-12 flex items-center justify-center">
                                                 <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
@@ -302,7 +295,7 @@ export function CreatePurchaseOrder() {
                                             <TableCell>{item.description}</TableCell>
                                             <TableCell>{item.manufacturer}</TableCell>
                                             <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.supplierName}</TableCell>
+                                            <TableCell>{item.supplierCode}</TableCell>
                                             <TableCell>{item.unitOfMeasure}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>
                                             <TableCell>{item.price}</TableCell>
@@ -318,13 +311,12 @@ export function CreatePurchaseOrder() {
                                                     </PopoverTrigger>
                                                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                                                         <ul className="space-y-2">
-                                                            <li onClick={() => alert("Hi")}>Edit</li>
+                                                            <li onClick={() => alert("Hi, PO")}>Edit</li>
                                                             <li onClick={() => handleDelete(item.id)}>Delete</li>
                                                         </ul>
                                                     </PopoverContent>
                                                 </Popover>
                                             </TableCell>
-
                                         </TableRow>
                                     ))
                                 }
@@ -419,19 +411,6 @@ export function CreatePurchaseOrder() {
                         </div>
 
                         <div className="col-span-2">
-                            <SelectInput
-                                label="Supplier"
-                                value={formItemData.supplier}
-                                onChange={(value) => handleFormItemData('supplier', value)}
-                                options={supplierList.map(item => (
-                                    {
-                                        value: item.id,
-                                        label: item.supplier_name,
-                                    }
-                                ))}
-                            />
-                        </div>
-                        <div className="col-span-2">
                             <TextInput
                                 text="Manufacturer"
                                 value={formItemData.manufacturer}
@@ -455,7 +434,7 @@ export function CreatePurchaseOrder() {
                     <span className="text-white" onClick={handleSaveItem}>Save</span>
                 </div>
                 <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={handleCreate}>
-                    <span className="text-white">Create Requisition</span>
+                    <span className="text-white">Create PO</span>
                 </div>
             </div>
         </div >

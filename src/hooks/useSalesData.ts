@@ -138,7 +138,7 @@ export function useSalesData(page: number, filters: SalesFilters, sortOption: So
         let transformedData = data.map((item: any) => transformBackendData(item));
         setServerData(transformedData);
       } catch (error) {
-        console.error("Error fetching requisitions:", error);
+        console.error("Error fetching Sales data:", error);
       }
     };
     useEffect(() => {
@@ -164,7 +164,7 @@ export function useSalesItemData(page: number, filters: SalesFilters, sortOption
         let transformedData = data.map((item: any) => transformItemBackendData(item));
         setServerData(transformedData);
       } catch (error) {
-        console.error("Error fetching requisitions:", error);
+        console.error("Error fetching Sales item:", error);
       }
     };
     useEffect(() => {

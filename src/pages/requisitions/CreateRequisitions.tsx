@@ -85,25 +85,9 @@ export function CreateRequisitions() {
         fetchRequisition();
     }, [])
 
-    console.log("===========>>>>", departmentList)
-
-    useEffect(() => {
-        console.log('unitList found', formItemData.measure_unit, unitList.find(item => item.id == formItemData.measure_unit));
-    }, [formItemData.measure_unit])
-
-    useEffect(() => {
-        console.log('supplier List found', formItemData.supplier, supplierList.find(item => item.id == formItemData.supplier));
-    }, [formItemData.supplier])
-
-    useEffect(() => {
-        console.log('Tax List found', formItemData.tax_group, supplierList.find(item => item.id == formItemData.tax_group));
-    }, [formItemData.tax_group])
-
-    useEffect(() => {
-        console.log('Department', formData.department, departmentList.find(item => item.id == formData.department));
-    }, [formItemData.department])
-
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionItemsData(currentPage);
+
+    console.log("+++++++++++++++",data)
 
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });

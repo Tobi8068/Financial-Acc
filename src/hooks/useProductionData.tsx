@@ -123,7 +123,7 @@ export function useProductionItemsData(page: number, filters?: ProductionFilters
       let transformedData = data.map((item: any) => productionItemBackendData(item));
       setServerData(transformedData);
     } catch (error) {
-      console.error("Error fetching requisitions:", error);
+      console.error("Error fetching Production:", error);
     }
   };
   useEffect(() => {
