@@ -21,7 +21,7 @@ import useNotification from "@/hooks/useNotifications";
 
 export function CreateTransfert() {
     const { showNotification } = useNotification();
-    
+
     const [binList, setBinList] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -72,7 +72,7 @@ export function CreateTransfert() {
     const handleItemChange = (field: string, value: any) => {
         setFormItemData({ ...formItemData, [field]: value });
     };
-    
+
     const handleSaveItem = async () => {
         console.log(formItemData)
         try {
@@ -146,17 +146,14 @@ export function CreateTransfert() {
                                 { value: 'transfered', label: 'Transfered' },
                                 { value: 'approve', label: 'Approved' },
                             ]} />
-
                         <SelectInput
                             label="Bin"
                             value={formData.bin}
                             onChange={(value) => handleChange('bin', value)}
-                            options={binList.map(item => (
-                                {
-                                    value: item.id,
-                                    label: item.bin_name,
-                                }
-                            ))}
+                            options={binList?.map(item => ({
+                                value: item.id,
+                                label: item.bin_name
+                            }))}
                         />
                     </div>
                     <div className="grid w-full grid-cols-3 gap-12">
@@ -179,7 +176,7 @@ export function CreateTransfert() {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item, index) => (
+                                    data.length !== 0 && data.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
@@ -236,7 +233,7 @@ export function CreateTransfert() {
                                 label="Bin8"
                                 value={formItemData.bin}
                                 onChange={(value) => handleItemChange('bin', value)}
-                                options={binList.map(item => (
+                                options={binList?.map(item => (
                                     {
                                         value: item.id,
                                         label: item.bin_name,

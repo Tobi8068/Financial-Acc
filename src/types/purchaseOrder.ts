@@ -1,10 +1,12 @@
 export type PurchaseOrderStatus = 'Created' | 'Approved' | 'Sent' | 'Partially_Received' | 'Completed' | 'Cancelled';
+export type PurchaseOrderItemStatus = 'Created' | 'Approved' | 'Partially_Received' | 'Completed';
 
 export interface PurchaseOrderFilters {
   status: PurchaseOrderStatus | 'all';
 }
 
 export interface PurchaseOrderData {
+  pid: string;
   id: string;
   dateCreated: string;
   shipTo: string;
@@ -14,19 +16,27 @@ export interface PurchaseOrderData {
   createdBy: string;
   approved: boolean;
   approvedBy: string;
+  totalNetAmount: number;
+  totalTaxAmount: number;
+  totalAmount: number;
+  sent: boolean;
+  items: any[];
 }
 
-export interface PurchaseOrderDetailData {
+export interface PurchaseOrderItem {
+  pid: string;
   name: string;
   description: string;
   manufacturerCode: string;
   manufacturerName: string;
   supplierCode: string;
-  supplierName: string;
   unitOfMeasure: string;
   quantity: number;
   price: number;
-  total: number;
-  taxGroup: string;
-  status: PurchaseOrderStatus;
+  netAmount: number;
+  taxAmount: number,
+  taxGroup: number,
+  account: string;
+  reception_quantity: number;
+  status: PurchaseOrderItemStatus;
 }

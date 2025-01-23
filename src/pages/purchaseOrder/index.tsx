@@ -4,6 +4,7 @@ import { PurchaseOrderTable } from "./PurchaseOrderTable";
 import { PurchaseOrderDetail } from "./PurchaseOrderDetail";
 import { InsideNavbar } from "@/components/ui/inside-navbar";
 import { PurchaseOrderData, PurchaseOrderFilters } from "@/types/purchaseOrder";
+import { CreatePurchaseOrder } from "./CreatePurchaseOrder";
 
 export default function PurchaseOrder() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -12,15 +13,21 @@ export default function PurchaseOrder() {
     });
     const [scene, setScene] = useState(1);
     const [detailData, setDetailData] = useState<PurchaseOrderData>({
+        pid: '',
         id: '',
         dateCreated: '',
         shipTo: '',
         billTo: '',
         department: '',
         status: 'Created',
-        createdBy: '',
-        approved: true,
         approvedBy: '',
+        createdBy: '',
+        totalNetAmount: 0,
+        totalTaxAmount: 0,
+        totalAmount: 0,
+        items: [],
+        approved: false,
+        sent: false
     });
 
     const handlePage = (page: number) => {
@@ -37,6 +44,7 @@ export default function PurchaseOrder() {
                             <PurchaseOrderHeader
                                 onFiltersChange={setFilters}
                                 onSearchChange={setSearchQuery}
+                                onCreate={() => handlePage(2)}
                             />
                             <PurchaseOrderTable
                                 filters={filters}
@@ -50,6 +58,13 @@ export default function PurchaseOrder() {
                     </>
 
                 ) : scene === 2 ? (
+                    <>
+                        <InsideNavbar text="Purchase Order" onClick={() => handlePage(1)} />
+                        <main className="flex-1 p-6 bg-white bg-opacity-50">
+                            <CreatePurchaseOrder />
+                        </main>
+                    </>
+                ) : scene === 3 ? (
                     <>
                         <InsideNavbar text="Purchase Order" onClick={() => handlePage(1)} />
                         <main className="flex-1 p-6 bg-white bg-opacity-50">

@@ -116,7 +116,7 @@ export function useRequisitionsData(page: number, filters?: RequisitionsFilters,
       let transformedData = data.map((item: any) => transformBackendData(item));
       setServerData(transformedData);
     } catch (error) {
-      console.error("Error fetching requisitions:", error);
+      console.error("Error fetching Requisitions:", error);
     }
   };
 
@@ -144,10 +144,10 @@ export function useRequisitionItemsData(page: number, filters?: RequisitionsFilt
       let transformedData = data.map((item: any) => transformItemBackendData(item));
       setServerData(transformedData);
     } catch (error) {
-      console.error("Error fetching requisitions:", error);
+      console.error("Error fetching Requisition Item:", error);
     }
   };
-
+  
   useEffect(() => {
     fetchFunc();
   }, [])

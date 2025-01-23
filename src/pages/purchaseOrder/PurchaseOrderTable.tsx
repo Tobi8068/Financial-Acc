@@ -13,7 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { usePurchaseOrderData } from '@/hooks/usePurchaseOrderData';
 import { PurchaseOrderStatus, PurchaseOrderFilters } from '@/types/purchaseOrder';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 
 interface PurchaseOrderTableProps {
   filters: PurchaseOrderFilters;
@@ -61,14 +61,16 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
               <TableHead className='pl-6'>No.</TableHead>
-              <TableHead>Date Created</TableHead>
+              <TableHead>Created Data</TableHead>
               <TableHead>Ship To</TableHead>
               <TableHead>Bill To</TableHead>
               <TableHead>Department</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Created By</TableHead>
-              <TableHead>Approved</TableHead>
               <TableHead>Approved By</TableHead>
+              <TableHead>Approved</TableHead>
+              <TableHead>Received</TableHead>
+              <TableHead>Received By</TableHead>
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -85,8 +87,8 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                 <TableCell className='text-[#535862]'>{item.department}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
-                <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
+                <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
