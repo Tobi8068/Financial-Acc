@@ -8,7 +8,7 @@ export interface PurchaseOrderFilters {
 export interface PurchaseOrderData {
   pid: string;
   id: string;
-  dateCreated: string;
+  created_date: string;
   shipTo: string;
   billTo: string;
   department: string;
@@ -27,8 +27,8 @@ export interface PurchaseOrderItem {
   pid: string;
   name: string;
   description: string;
+  manufacturer: string;
   manufacturerCode: string;
-  manufacturerName: string;
   supplierCode: string;
   unitOfMeasure: string;
   quantity: number;

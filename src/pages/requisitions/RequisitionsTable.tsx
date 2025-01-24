@@ -88,32 +88,32 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
               <TableHead>Ship To</TableHead>
               <TableHead>Bill To</TableHead>
               <TableHead>Department</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Approved By</TableHead>
-              <TableHead>Created By</TableHead>
               <TableHead>Total NetAmount</TableHead>
               <TableHead>Total TaxAmount</TableHead>
               <TableHead>Total Amount</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Approved By</TableHead>
+              <TableHead>Created By</TableHead>
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {data.length !== 0 && data.map((item) => (
+            {data.length !== 0 && data.map((item, index) => (
               <TableRow
                 key={item.id}
               >
-                <TableCell className="font-medium pl-6">{item.id}</TableCell>
+                <TableCell className="font-medium pl-6">{index + (currentPage - 1) * itemsPerPage + 1}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.dateCreated)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.shipTo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.billTo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.department}</TableCell>
+                <TableCell className='text-[#535862]'>$ {item.totalNetAmount}</TableCell>
+                <TableCell className='text-[#3e4450]'>$ {item.totalTaxAmount}</TableCell>
+                <TableCell className='text-[#535862]'>$ {item.totalAmount}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
                 <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalNetAmount}</TableCell>
-                <TableCell className='text-[#3e4450]'>${item.totalTaxAmount}</TableCell>
-                <TableCell className='text-[#535862]'>${item.totalAmount}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Badge } from '@/components/ui/badge';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { Checkbox } from '@/components/ui/checkbox';
@@ -17,6 +18,7 @@ import { useRequisitionItemsData } from "@/hooks/useRequisitionsData";
 import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from "@/hooks/useNotifications";
+import { RequisitionItemStatus } from "@/types/requisitions";
 
 export function CreateRequisitions() {
     const [formData, setFormData] = useState<any>(
@@ -86,8 +88,6 @@ export function CreateRequisitions() {
     }, [])
 
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionItemsData(currentPage);
-
-    console.log("+++++++++++++++",data)
 
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
@@ -218,6 +218,19 @@ export function CreateRequisitions() {
         }
     };
 
+    const getStatusItemBadge = (status: RequisitionItemStatus) => {
+        const styles = { 
+          Approved: 'bg-[#ECFDF3] text-[#027A48]',
+          Partially_Approved: 'bg-[#F4F3FF] text-[#FF9900]'
+      };
+    
+        return (
+          <Badge className={styles[status]} variant="secondary">
+            {status.replace("_", " ").replace("0", "/")}
+          </Badge>
+        );
+      };
+
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
             <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
@@ -272,6 +285,7 @@ export function CreateRequisitions() {
                                     <TableHead>Net Amount</TableHead>
                                     <TableHead>Tax Amount</TableHead>
                                     <TableHead>Tax</TableHead>
+                                    <TableHead>Staus</TableHead>
                                     <TableHead>Action</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -293,6 +307,7 @@ export function CreateRequisitions() {
                                             <TableCell>{item.netAmount}</TableCell>
                                             <TableCell>{item.taxAmount}</TableCell>
                                             <TableCell>{item.taxGroup}</TableCell>
+                                            <TableCell>{getStatusItemBadge(item.status)}</TableCell>
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
@@ -353,20 +368,7 @@ export function CreateRequisitions() {
                                 onChange={(value) => handleFormItemData('quantity', value)}
                             />
                         </div>
-
-                        {/* <SelectInput
-                                        label="Status"
-                                        value={capitalizeLetter(formData.p_status)}
-                                        onChange={(value) => handleFormItemData('p_status', value.toLowerCase())}
-                                        options={[
-                                            { value: ' ', label: ' ' },
-                                            { value: 'Created', label: 'Created' },
-                                            { value: 'Waiting_Approval', label: 'Waiting Approval' },
-                                            { value: 'Approved', label: 'Approved' },
-                                            { value: 'Ended', label: 'Ended' },
-                                            { value: 'Partially_Approved', label: 'Partially Approved' },
-                                    ]} />
-                                    */}
+ 
                         <div className="col-span-2">
                             <TextInput
                                 text='Price'

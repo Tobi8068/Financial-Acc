@@ -14,7 +14,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import NumberInput from "@/components/organisms/numberInput";
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useTransferItemsData } from '@/hooks/useTransfertData';
 import useNotification from "@/hooks/useNotifications";
@@ -166,7 +166,7 @@ export function CreateTransfert() {
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Description</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Bin</TableHead>

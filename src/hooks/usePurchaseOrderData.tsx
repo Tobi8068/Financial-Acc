@@ -3,51 +3,31 @@ import { PurchaseOrderData, PurchaseOrderFilters, PurchaseOrderItem, PurchaseOrd
 import { capitalizeLetter } from '@/lib/utils';
 
 const transformItemBackendData = (backendData: any): PurchaseOrderItem => {
-  if (backendData) {
-    return {
-      pid: backendData.id,
-      name: backendData.item_name,
-      description: backendData.description,
-      manufacturerName: backendData.manufacturer,
-      manufacturerCode: backendData.manufacturer_code,
-      supplierCode: backendData.supplier,
-      unitOfMeasure: backendData.measure_unit,
-      quantity: backendData.quantity,
-      price: backendData.price,
-      netAmount: backendData.net_amount,
-      taxAmount: backendData.tax_amount,
-      taxGroup: backendData.tax_group,
-      status: capitalizeLetter(backendData.status) as PurchaseOrderItemStatus,
-      account: backendData.account || '',
-      reception_quantity: backendData.reception_quantity || 0
-    };
-  } else {
-    return {
-      pid: '0',
-      name: '',
-      description: '',
-      manufacturerName: '',
-      manufacturerCode: '',
-      supplierCode: '',
-      unitOfMeasure: '',
-      quantity: 0,
-      price: 0,
-      netAmount: 0,
-      taxAmount: 0,
-      taxGroup: 0,
-      status: 'Pending' as PurchaseOrderItemStatus,
-      account: '',
-      reception_quantity: 0
-    };
-  }
+  return {
+    pid: backendData.id,
+    name: backendData.item_name,
+    description: backendData.description,
+    manufacturer: backendData.manufacturer,
+    manufacturerCode: backendData.manufacturer_code,
+    supplierCode: backendData.supplier_code,
+    unitOfMeasure: backendData.measure_unit,
+    quantity: backendData.quantity,
+    price: backendData.price,
+    netAmount: backendData.net_amount,
+    taxAmount: backendData.tax_amount,
+    taxGroup: backendData.tax_group,
+    status: capitalizeLetter(backendData.status) as PurchaseOrderItemStatus,
+    account: backendData.account || '',
+    reception_quantity: backendData.reception_quantity || 0
+  };
 };
 
 const transformBackendData = (backendData: any): PurchaseOrderData => {
   const itemsData = backendData.items.map((item: any) => transformItemBackendData(item));
   return {
     pid: backendData.id,
-    id: backendData.requisition_number.toString(),
-    dateCreated: backendData.date,
+    id: backendData.po_number.toString(),
+    created_date: backendData.created_date,
     shipTo: backendData.ship_to,
     billTo: backendData.bill_to,
     department: backendData.department.name,
@@ -181,32 +161,4 @@ export function usePurchaseOrderItemsData(page: number, filters?: PurchaseOrderF
   };
 
   return useData(serverData, page, refreshData, filters, searchQuery);
-}
-
-
-// export function usePurchaseOrderItemsData(page: number, filters?: PurchaseOrderFilters, searchQuery?: string) {
-//   const [serverData, setServerData] = useState<PurchaseOrderItem[]>([]);
-//   const fetchFunc = async () => {
-//     try {
-//       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/PO-items`, {
-//         method: 'GET',
-//       });
-
-//       const text = await response.text(); // First get the raw response text
-//       const data = text ? JSON.parse(text) : null; // Then parse if there's content
-//       let transformedData = data.map((item: any) => transformItemBackendData(item));
-//       console.log("==========>", data)
-
-//       setServerData(transformedData);
-//     } catch (error) {
-//       console.error("Error fetching PO item:", error);
-//     }
-//   };
-//   useEffect(() => {
-//     fetchFunc();
-//   }, [])
-//   const refreshData = () => {
-//     fetchFunc(); // Your existing fetch function
-//   };
-//   return useData(serverData, page, refreshData, filters, searchQuery);
-// }
+} 

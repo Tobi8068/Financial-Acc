@@ -12,30 +12,58 @@ import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { usePurchaseOrderData } from '@/hooks/usePurchaseOrderData';
 import { PurchaseOrderStatus, PurchaseOrderFilters } from '@/types/purchaseOrder';
+import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '@/components/pagination/Pagination';
+import DeleteDialog from '@/components/table/DeleteDialog';
+import useNotification from '@/hooks/useNotifications';
 
 interface PurchaseOrderTableProps {
   filters: PurchaseOrderFilters;
-  // sortOption: SortOption;
+  sortOption: SortOption;
   searchQuery: string;
   onClickView: (item: any) => void;
 }
 
 export function PurchaseOrderTable({ filters, searchQuery, onClickView }: PurchaseOrderTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
-
-  const { data, totalPages, totalItems, itemsPerPage } = usePurchaseOrderData(
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+  const { data, totalPages, totalItems, itemsPerPage, refreshData } = usePurchaseOrderData(
     currentPage,
     filters,
-    searchQuery
+    searchQuery,
   );
+
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     if (totalPages < currentPage) {
       setCurrentPage(1);
     }
   }, [totalPages])
+
+  const handleDelete = (id: string) => {
+    setDeleteDialogOpen(true);
+    setDeleteItemId(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    console.log('Delete Ready', deleteItemId);
+    if (deleteItemId) {
+      console.log('Deleting item with id:', deleteItemId);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/purchase-orders/${deleteItemId}`, {
+        method: 'DELETE',
+      })
+      console.log(response.status);
+      if (response.status === 204) {
+        showNotification('Item deleted successfully', 'success');
+        refreshData();
+      }
+      setDeleteDialogOpen(false);
+      setDeleteItemId(null);
+    }
+  };
 
   const getStatusBadge = (status: PurchaseOrderStatus) => {
     const styles = {
@@ -61,34 +89,40 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
               <TableHead className='pl-6'>No.</TableHead>
-              <TableHead>Created Data</TableHead>
+              <TableHead>Created Date</TableHead>
               <TableHead>Ship To</TableHead>
               <TableHead>Bill To</TableHead>
               <TableHead>Department</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Total NetAmount</TableHead>
+              <TableHead>Total TaxAmount</TableHead>
+              <TableHead>Total Amount</TableHead>
               <TableHead>Created By</TableHead>
               <TableHead>Approved By</TableHead>
               <TableHead>Approved</TableHead>
-              <TableHead>Received</TableHead>
-              <TableHead>Received By</TableHead>
+              <TableHead>Sent</TableHead>
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {data.length !== 0 && data.map((item) => (
+            {data.length !== 0 && data.map((item, index) => (
               <TableRow
                 key={item.id}
               >
-                <TableCell className="font-medium pl-6">{item.id}</TableCell>
-                <TableCell className='text-[#535862]'>{formatDate(item.dateCreated)}</TableCell>
+                <TableCell className="font-medium pl-6">{index + (currentPage - 1) * itemsPerPage + 1}</TableCell>
+                <TableCell className='text-[#535862]'>{formatDate(item.created_date)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.shipTo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.billTo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.department}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
+                <TableCell className='text-[#535862]'>$ {item.totalNetAmount}</TableCell>
+                <TableCell className='text-[#3e4450]'>$ {item.totalTaxAmount}</TableCell>
+                <TableCell className='text-[#535862]'>$ {item.totalAmount}</TableCell>
                 <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
+                <TableCell className='text-[#535862]'>{item.sent ? "Yes" : "No"}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -96,8 +130,12 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                         <MoreVertical className="h-4 w-4" />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2} onClick={() => onClickView(item)}>
-                      <span>View</span>
+                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
+                      <ul className="space-y-2">
+                        <li onClick={() => onClickView(item)}>View</li>
+                        <li onClick={() => alert("hi")}>Edit</li>
+                        <li onClick={() => handleDelete(item.id)}>Delete</li>
+                      </ul>
                     </PopoverContent>
                   </Popover>
                 </TableCell>
@@ -113,6 +151,11 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}
+      />
+      <DeleteDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );
