@@ -92,7 +92,6 @@ export function CreatePurchaseOrder() {
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = usePurchaseOrderItemsData(
         currentPage,
     );
-
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
@@ -263,18 +262,6 @@ export function CreatePurchaseOrder() {
                                 }
                             ))}
                         />
-
-                        {/* <SelectInput
-                            label="Status"
-                            value=''
-                            onChange={(value) => handleFormData('status', value)}
-                            options={[
-                                { value: 'need-approval', label: 'Need Approval' },
-                                { value: 'approved', label: 'Approved' },
-                                { value: 'paid', label: 'Paid' },
-                                { value: 'waiting-payment', label: 'Waiting Payment' },
-                                { value: 'close-complete', label: 'Close/Complete' },
-                            ]} /> */}
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Purchase Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -303,8 +290,7 @@ export function CreatePurchaseOrder() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {
-                                    data && data.map((item, index) => (
+                                {data && data.map((item, index) => (
                                         <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
                                             <TableCell className="w-12 flex items-center justify-center">
                                                 <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
@@ -337,8 +323,7 @@ export function CreatePurchaseOrder() {
                                                 </Popover>
                                             </TableCell>
                                         </TableRow>
-                                    ))
-                                }
+                                    ))}
                             </TableBody>
                         </Table>
                     </div>
@@ -401,12 +386,13 @@ export function CreatePurchaseOrder() {
                                 label="Measure Unit"
                                 value={formItemData.measure_unit}
                                 onChange={(value) => handleFormItemData('measure_unit', value)}
-                                options={unitList.map(item => (
-                                    {
+                                options={Array.isArray(unitList) && unitList.length > 0
+                                    ? unitList.map(item => ({
                                         value: item.id,
                                         label: item.orderUnitName,
-                                    }
-                                ))}
+                                    }))
+                                    : []
+                                }
                             />
                         </div>
 
