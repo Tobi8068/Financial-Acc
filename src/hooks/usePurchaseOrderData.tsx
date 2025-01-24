@@ -166,7 +166,6 @@ export function usePurchaseOrderItemsData(page: number, filters?: PurchaseOrderF
       const text = await response.text(); // First get the raw response text
       const data = text ? JSON.parse(text) : null; // Then parse if there's content
 
-      console.log("==========>", data)
       let transformedData = data.map((item: any) => transformItemBackendData(item));
       setServerData(transformedData);
     } catch (error) {
