@@ -90,7 +90,9 @@ export function CreatePurchaseOrder() {
         currentPage,
     );
 
-    console.log("+++++++++++++++",data)
+    useEffect(() => {
+        console.log(data);
+    }, [data])
 
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
@@ -246,18 +248,6 @@ export function CreatePurchaseOrder() {
                                 }
                             ))}
                         />
-
-                        {/* <SelectInput
-                            label="Status"
-                            value=''
-                            onChange={(value) => handleFormData('status', value)}
-                            options={[
-                                { value: 'need-approval', label: 'Need Approval' },
-                                { value: 'approved', label: 'Approved' },
-                                { value: 'paid', label: 'Paid' },
-                                { value: 'waiting-payment', label: 'Waiting Payment' },
-                                { value: 'close-complete', label: 'Close/Complete' },
-                            ]} /> */}
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Purchase Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -285,41 +275,39 @@ export function CreatePurchaseOrder() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {
-                                    data && data.map((item, index) => (
-                                        <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
-                                            <TableCell className="w-12 flex items-center justify-center">
-                                                <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
-                                            </TableCell>
-                                            <TableCell className='pl-6'>{item.name}</TableCell>
-                                            <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturer}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.supplierCode}</TableCell>
-                                            <TableCell>{item.unitOfMeasure}</TableCell>
-                                            <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>{item.price}</TableCell>
-                                            <TableCell>{item.netAmount}</TableCell>
-                                            <TableCell>{item.taxAmount}</TableCell>
-                                            <TableCell>{item.taxGroup}</TableCell>
-                                            <TableCell>
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <button className="p-2 hover:bg-gray-100 rounded-full">
-                                                            <MoreVertical className="h-4 w-4" />
-                                                        </button>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
-                                                        <ul className="space-y-2">
-                                                            <li onClick={() => alert("Hi, PO")}>Edit</li>
-                                                            <li onClick={() => handleDelete(item.id)}>Delete</li>
-                                                        </ul>
-                                                    </PopoverContent>
-                                                </Popover>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                }
+                                {data && data.map((item, index) => (
+                                    <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
+                                        <TableCell className="w-12 flex items-center justify-center">
+                                            <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
+                                        </TableCell>
+                                        <TableCell className='pl-6'>{item.name}</TableCell>
+                                        <TableCell>{item.description}</TableCell>
+                                        <TableCell>{item.manufacturer}</TableCell>
+                                        <TableCell>{item.manufacturerCode}</TableCell>
+                                        <TableCell>{item.supplierCode}</TableCell>
+                                        <TableCell>{item.unitOfMeasure}</TableCell>
+                                        <TableCell>{item.quantity}</TableCell>
+                                        <TableCell>{item.price}</TableCell>
+                                        <TableCell>{item.netAmount}</TableCell>
+                                        <TableCell>{item.taxAmount}</TableCell>
+                                        <TableCell>{item.taxGroup}</TableCell>
+                                        <TableCell>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <button className="p-2 hover:bg-gray-100 rounded-full">
+                                                        <MoreVertical className="h-4 w-4" />
+                                                    </button>
+                                                </PopoverTrigger>
+                                                <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
+                                                    <ul className="space-y-2">
+                                                        <li onClick={() => alert("Hi, PO")}>Edit</li>
+                                                        <li onClick={() => handleDelete(item.id)}>Delete</li>
+                                                    </ul>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                     </div>
@@ -361,20 +349,6 @@ export function CreatePurchaseOrder() {
                                 onChange={(value) => handleFormItemData('quantity', value)}
                             />
                         </div>
-
-                        {/* <SelectInput
-                                        label="Status"
-                                        value={capitalizeLetter(formData.p_status)}
-                                        onChange={(value) => handleFormItemData('p_status', value.toLowerCase())}
-                                        options={[
-                                            { value: ' ', label: ' ' },
-                                            { value: 'Created', label: 'Created' },
-                                            { value: 'Waiting_Approval', label: 'Waiting Approval' },
-                                            { value: 'Approved', label: 'Approved' },
-                                            { value: 'Ended', label: 'Ended' },
-                                            { value: 'Partially_Approved', label: 'Partially Approved' },
-                                    ]} />
-                                    */}
                         <div className="col-span-2">
                             <TextInput
                                 text='Price'
@@ -387,12 +361,13 @@ export function CreatePurchaseOrder() {
                                 label="Measure Unit"
                                 value={formItemData.measure_unit}
                                 onChange={(value) => handleFormItemData('measure_unit', value)}
-                                options={unitList.map(item => (
-                                    {
+                                options={Array.isArray(unitList) && unitList.length > 0
+                                    ? unitList.map(item => ({
                                         value: item.id,
                                         label: item.orderUnitName,
-                                    }
-                                ))}
+                                    }))
+                                    : []
+                                }
                             />
                         </div>
 

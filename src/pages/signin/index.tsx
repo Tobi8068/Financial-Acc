@@ -4,6 +4,7 @@ import { Mail, Lock } from 'lucide-react';
 import useNotification from '@/hooks/useNotifications';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/authProvider';
+import { getInitialRouteForRole } from '@/lib/utils';
 
 export default function SignIn() {
 
@@ -42,7 +43,7 @@ export default function SignIn() {
             if (response.ok) {
                 showNotification('Login successful', 'success');
                 login(data.access_token);
-                const redirectTo = location.state?.from || '/';
+                const redirectTo = location.state?.from || getInitialRouteForRole(data.role);
                 navigate(redirectTo, { replace: true });
             } else {
                 showNotification(data.detail, 'error');

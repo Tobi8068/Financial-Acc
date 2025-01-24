@@ -245,19 +245,6 @@ export function CreateProduction() {
 
                         <DateInput value={formData.p_start_date} text='Start Date' onChange={(value) => handleFormChange('p_start_date', convertDate(value))} />
                         <DateInput value={formData.p_end_date} text='End Date' onChange={(value) => handleFormChange('p_end_date', convertDate(value))} />
-                        {/* <SelectInput
-                            label="Status"
-                            value={capitalizeLetter(formData.p_status)}
-                            onChange={(value) => handleFormChange('p_status', value.toLowerCase())}
-                            options={[
-                                { value: ' ', label: ' ' },
-                                { value: 'Created', label: 'Created' },
-                                { value: 'Waiting_Approval', label: 'Waiting Approval' },
-                                { value: 'Approve', label: 'Approve' },
-                                { value: 'Started', label: 'Started' },
-                                { value: 'Ended', label: 'Ended' },
-                                { value: 'Partially_Approved', label: 'Partially Approved' },
-                            ]} /> */}
                     </div>
 
                     <h2 className="font-semibold text-[18px] text-[#636692]">Production Items</h2>
@@ -346,22 +333,14 @@ export function CreateProduction() {
                             label="Measure Unit"
                             value={formItemData.measure_unit}
                             onChange={(value) => handleFormItemChange('measure_unit', value)}
-                            options={unitList.map(item => (
-                                {
+                            options={Array.isArray(unitList) && unitList.length > 0 
+                                ? unitList.map(item => ({
                                     value: item.id,
                                     label: item.orderUnitName,
-                                }
-                            ))}
+                                }))
+                                : []
+                            }
                         />
-                        {/* <SelectInput
-                            label="Status"
-                            value={capitalizeLetter(formItemData.status)}
-                            onChange={(value) => handleFormItemChange('status', value.toLowerCase())}
-                            options={[
-                                { value: '', label: '' },
-                                { value: 'Approved', label: 'Approved' },
-                                { value: 'Partially_Approved', label: 'Partially Approved' },
-                            ]} /> */}
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />
                     <div className="w-full flex justify-end mt-4 gap-4 font-semibold">
