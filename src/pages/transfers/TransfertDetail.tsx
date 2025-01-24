@@ -40,11 +40,11 @@ export function TransfertDetail(props: TransfertData) {
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-200px)]">
             <h2 className="text-xl font-semibold">Transfert Details</h2>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
-                <h2 className='text-[#636692] font-semibold'>Transfer Info</h2>
+                <h2 className='text-[#636692] font-semibold'>Transfert Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Transfer No:&nbsp;</span><span>{props.id}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{props.date}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created Date:&nbsp;</span><span>{props.date}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reason:&nbsp;</span><span>{props.reason}</span></div>
                     </div>
                     <div className="space-y-3">

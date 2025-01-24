@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
+import { Badge } from '@/components/ui/badge';
+import NumberInput from "@/components/organisms/numberInput";
+
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { Checkbox } from '@/components/ui/checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { MoreVertical } from 'lucide-react';
+import { PurchaseOrderItemStatus } from '@/types/purchaseOrder';
+
 // import { capitalizeLetter } from "@/lib/utils";
 import {
     Table,
@@ -13,7 +18,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { usePurchaseOrderItemsData } from "@/hooks/usePurchaseOrderData";
+import { usePurchaseOrderItemsData, } from "@/hooks/usePurchaseOrderData";
 import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from "@/hooks/useNotifications";
@@ -21,8 +26,6 @@ import useNotification from "@/hooks/useNotifications";
 export function CreatePurchaseOrder() {
     const [formData, setFormData] = useState<any>(
         {
-            po_number: '',
-            created_date: '',
             ship_to: '',
             bill_to: '',
             department: '',
@@ -89,8 +92,6 @@ export function CreatePurchaseOrder() {
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = usePurchaseOrderItemsData(
         currentPage,
     );
-
-    console.log("+++++++++++++++",data)
 
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
@@ -227,6 +228,22 @@ export function CreatePurchaseOrder() {
         }
     };
 
+    const getStatusItemBadge = (status: PurchaseOrderItemStatus) => {
+        const styles = {
+            Completed: 'bg-[#ECFDF3] text-[#027A48]',
+            Created: 'bg-[#EFF8FF] text-[#175CD3]',
+            Approved: 'bg-[#ECFDF3] text-[#027A48]',
+            Partially_Received: 'bg-[#F4F3FF] text-[#FF9900]'
+
+        };
+
+        return (
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
+        );
+    };
+
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
             <h2 className="text-xl font-semibold mb-6">Create Purchase Order</h2>
@@ -281,6 +298,7 @@ export function CreatePurchaseOrder() {
                                     <TableHead>Net Amount</TableHead>
                                     <TableHead>Tax Amount</TableHead>
                                     <TableHead>Tax</TableHead>
+                                    <TableHead>Status</TableHead>
                                     <TableHead>Action</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -302,6 +320,7 @@ export function CreatePurchaseOrder() {
                                             <TableCell>{item.netAmount}</TableCell>
                                             <TableCell>{item.taxAmount}</TableCell>
                                             <TableCell>{item.taxGroup}</TableCell>
+                                            <TableCell>{getStatusItemBadge(item.status)}</TableCell>
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
@@ -336,9 +355,9 @@ export function CreatePurchaseOrder() {
                         onConfirm={handleConfirmDelete}
                     />
 
-                    <h2 className="font-semibold text-[18px] text-[#636692]">Requistion Items</h2>
+                    <h2 className="font-semibold text-[18px] text-[#636692]">Purchase Order Items</h2>
 
-                    <div className="w-full grid grid-cols-10 gap-3 p-3 rounded-lg border bg-gray-200">
+                    <div className="w-full grid grid-cols-12 gap-3 p-3 rounded-lg border bg-gray-200">
                         <div className="col-span-2">
                             <TextInput
                                 text='Name'
@@ -352,61 +371,6 @@ export function CreatePurchaseOrder() {
                                 text='Description'
                                 value={formItemData.description}
                                 onChange={(value) => handleFormItemData('description', value)}
-                            />
-                        </div>
-                        <div className="col-span-2">
-                            <TextInput
-                                text='Quantity'
-                                value={formItemData.quantity}
-                                onChange={(value) => handleFormItemData('quantity', value)}
-                            />
-                        </div>
-
-                        {/* <SelectInput
-                                        label="Status"
-                                        value={capitalizeLetter(formData.p_status)}
-                                        onChange={(value) => handleFormItemData('p_status', value.toLowerCase())}
-                                        options={[
-                                            { value: ' ', label: ' ' },
-                                            { value: 'Created', label: 'Created' },
-                                            { value: 'Waiting_Approval', label: 'Waiting Approval' },
-                                            { value: 'Approved', label: 'Approved' },
-                                            { value: 'Ended', label: 'Ended' },
-                                            { value: 'Partially_Approved', label: 'Partially Approved' },
-                                    ]} />
-                                    */}
-                        <div className="col-span-2">
-                            <TextInput
-                                text='Price'
-                                value={formItemData.price}
-                                onChange={(value) => handleFormItemData('price', Number(value))}
-                            />
-                        </div>
-                        <div className="col-span-2">
-                            <SelectInput
-                                label="Measure Unit"
-                                value={formItemData.measure_unit}
-                                onChange={(value) => handleFormItemData('measure_unit', value)}
-                                options={unitList.map(item => (
-                                    {
-                                        value: item.id,
-                                        label: item.orderUnitName,
-                                    }
-                                ))}
-                            />
-                        </div>
-
-                        <div className="col-span-2">
-                            <SelectInput
-                                label="Tax Group"
-                                value={formItemData.tax_group}
-                                onChange={(value) => handleFormItemData('tax_group', value)}
-                                options={taxList.map(item => (
-                                    {
-                                        value: item.id,
-                                        label: item.tax_name,
-                                    }
-                                ))}
                             />
                         </div>
 
@@ -423,7 +387,41 @@ export function CreatePurchaseOrder() {
                                 value={formItemData.manufacturer_code}
                                 onChange={(value) => handleFormItemData('manufacturer_code', value)}
                             />
+                        </div>
+                        <div className="col-span-1">
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('quantity', Number(value))} />
+                        </div>
 
+                        <div className="col-span-1">
+                            <NumberInput label="Price" value={formItemData.price} onChange={(value) => handleFormItemData('price', Number(value))} />
+                        </div>
+
+                        <div className="col-span-1">
+                            <SelectInput
+                                label="Measure Unit"
+                                value={formItemData.measure_unit}
+                                onChange={(value) => handleFormItemData('measure_unit', value)}
+                                options={unitList.map(item => (
+                                    {
+                                        value: item.id,
+                                        label: item.orderUnitName,
+                                    }
+                                ))}
+                            />
+                        </div>
+
+                        <div className="col-span-1">
+                            <SelectInput
+                                label="Tax Group"
+                                value={formItemData.tax_group}
+                                onChange={(value) => handleFormItemData('tax_group', value)}
+                                options={taxList.map(item => (
+                                    {
+                                        value: item.id,
+                                        label: item.tax_name,
+                                    }
+                                ))}
+                            />
                         </div>
                     </div>
                 </div>

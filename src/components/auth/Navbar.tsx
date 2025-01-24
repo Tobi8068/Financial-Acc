@@ -17,7 +17,7 @@ export function Navbar() {
         <Link to="/services" className="text-[#636692] hover:text-gray-800">Our Services</Link>
         <Link to="/contact" className="text-[#636692] hover:text-gray-800">Contact Us</Link>
       </div>
-      <Link to="/signin" className="px-4 py-2 rounded-lg bg-[#3A3B55] text-white hover:bg-gray-700">
+      <Link to="/auth/signin" className="px-4 py-2 rounded-lg bg-[#3A3B55] text-white hover:bg-gray-700">
         Sign In
       </Link>
     </nav>

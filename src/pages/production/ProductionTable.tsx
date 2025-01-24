@@ -14,7 +14,7 @@ import { useProductionData } from '@/hooks/useProductionData';
 import { ProductionStatus, ProductionFilters } from '@/types/production';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from '@/hooks/useNotifications';
 
@@ -71,7 +71,7 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
       Waiting_Approval: 'bg-[#EFF8FF] text-[#175CD3]',
       Started: 'bg-[#EFEE21] text-[#661BF1]',
       Ended: 'bg-[#F4F3FF] text-[#5925DC]',
-  };
+    };
 
     return (
       <Badge className={styles[status]} variant="secondary">
@@ -104,7 +104,7 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
               <TableRow
                 key={item.id}
               >
-                <TableCell className="font-medium pl-6">{index + 1}</TableCell>
+                <TableCell className="font-medium pl-6">{index + (currentPage - 1) * itemsPerPage + 1}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.name}</TableCell>
                 <TableCell className='text-[#535862]'>{item.project}</TableCell>

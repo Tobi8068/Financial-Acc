@@ -15,8 +15,10 @@ import { TransfertStatus, TransfertFilters } from '@/types/transferts';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '@/components/pagination/Pagination';
-import AvatarImg from '@/assets/img/avatar.png';
 import DeleteDialog from '@/components/table/DeleteDialog';
+import useNotification from '@/hooks/useNotifications';
+
+import AvatarImg from '@/assets/img/avatar.png';
 
 interface TransfertTableProps {
   filters: TransfertFilters;
@@ -30,11 +32,12 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
-  const { data, totalPages, totalItems, itemsPerPage } = useTransfertData(
+  const { data, totalPages, totalItems, itemsPerPage, refreshData } = useTransfertData(
     currentPage,
     filters,
     searchQuery
   );
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     if (totalPages < currentPage) {
@@ -74,9 +77,9 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
         <Table>
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
-              <TableHead className='pl-6'>Transfer No.</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Items</TableHead>
+              <TableHead className='pl-6'>No.</TableHead>
+              <TableHead>Created Date</TableHead>
+              <TableHead>Transfert Number</TableHead>
               <TableHead>Reason</TableHead>
               <TableHead>Created By</TableHead>
               <TableHead>Status</TableHead>
@@ -87,13 +90,13 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.length !== 0 && data.map((item) => (
+            {data.length !== 0 && data.map((item, index) => (
               <TableRow
                 key={item.id}
               >
-                <TableCell className="font-medium pl-6">{item.id}</TableCell>
+                <TableCell className="font-medium pl-6">{index + (currentPage - 1) * itemsPerPage + 1}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
-                <TableCell className="font-medium ">{item.items}</TableCell>
+                <TableCell className="font-medium ">{item.trans_num}</TableCell>
                 <TableCell className="font-medium">{item.reason}</TableCell>
                 <TableCell className='text-[#535862] flex items-center gap-1'>
                   <div>
@@ -106,7 +109,7 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
                 <TableCell className="font-medium">{item.bin}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.reservationDate)}</TableCell>
-          
+
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
