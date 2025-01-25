@@ -132,7 +132,19 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                     <span>{item.createdBy.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
+                <TableCell className='text-[#535862] flex items-center gap-2'>
+                  <div>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />
+                      <AvatarFallback>
+                        <span>{item.approvedBy.name}</span>
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className='flex flex-col'>
+                    <span>{item.approvedBy.name}</span>
+                  </div>
+                </TableCell>
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
                 <TableCell className='text-[#535862]'>{item.sent ? "Yes" : "No"}</TableCell>
                 <TableCell>
