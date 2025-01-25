@@ -13,7 +13,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { usePurchaseOrderData } from '@/hooks/usePurchaseOrderData';
 import { PurchaseOrderStatus, PurchaseOrderFilters } from '@/types/purchaseOrder';
-import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
 import { getUserAvatarPath } from '@/lib/utils';
 import { Pagination } from '@/components/pagination/Pagination';
@@ -22,7 +21,6 @@ import useNotification from '@/hooks/useNotifications';
 
 interface PurchaseOrderTableProps {
   filters: PurchaseOrderFilters;
-  sortOption: SortOption;
   searchQuery: string;
   onClickView: (item: any) => void;
 }

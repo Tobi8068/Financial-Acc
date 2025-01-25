@@ -4,8 +4,8 @@ import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { Checkbox } from '@/components/ui/checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { MoreVertical } from 'lucide-react';
-// import { capitalizeLetter } from "@/lib/utils";
+import { MoreVertical, Undo2 } from 'lucide-react';
+
 import {
     Table,
     TableBody,
@@ -19,8 +19,10 @@ import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from "@/hooks/useNotifications";
 import { RequisitionItemStatus } from "@/types/requisitions";
+import { useAuth } from "@/context/authProvider";
 
-export function CreateRequisitions() {
+export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) => void }) {   
+    const { user } = useAuth();
     const [formData, setFormData] = useState<any>(
         {
             requisition_number: 0,
@@ -28,7 +30,7 @@ export function CreateRequisitions() {
             bill_to: '',
             department: '',
             approved_by: 1,
-            created_by: 1,
+            created_by: user.id,
             status: 'created',
             requisition_doc: 1,
             items: []
@@ -219,21 +221,26 @@ export function CreateRequisitions() {
     };
 
     const getStatusItemBadge = (status: RequisitionItemStatus) => {
-        const styles = { 
-          Approved: 'bg-[#ECFDF3] text-[#027A48]',
-          Partially_Approved: 'bg-[#F4F3FF] text-[#FF9900]'
-      };
-    
+        const styles = {
+            Approved: 'bg-[#ECFDF3] text-[#027A48]',
+            Partially_Approved: 'bg-[#F4F3FF] text-[#FF9900]'
+        };
+
         return (
-          <Badge className={styles[status]} variant="secondary">
-            {status.replace("_", " ").replace("0", "/")}
-          </Badge>
+            <Badge className={styles[status]} variant="secondary">
+                {status.replace("_", " ").replace("0", "/")}
+            </Badge>
         );
-      };
+    };
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-x-12 gap-y-4">
@@ -368,7 +375,7 @@ export function CreateRequisitions() {
                                 onChange={(value) => handleFormItemData('quantity', value)}
                             />
                         </div>
- 
+
                         <div className="col-span-2">
                             <TextInput
                                 text='Price'

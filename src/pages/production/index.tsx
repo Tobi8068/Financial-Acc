@@ -22,9 +22,15 @@ function Production() {
     productionStartDate: '',
     productionEndDate: '',
     status: 'Created',
-    createdBy: '',
     approved: true,
-    approvedBy: '',
+    approvedBy: {
+      name: '',
+      avatar: ''
+    },
+    createdBy: {
+      name: '',
+      avatar: ''
+    },
     items: []
   });
 
@@ -60,14 +66,21 @@ function Production() {
           <>
             <InsideNavbar text="Production" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center bg-white bg-opacity-50">
-              <CreateProduction/>
+              <CreateProduction
+                onClickUndo={() => handlePage(1)}
+              />
             </main>
           </>
         ) : scene === 3 ? (
           <>
             <InsideNavbar text="Production" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <ProductionDetail {...detailData} />
+              <ProductionDetail
+                props={detailData}
+                onClickUndo={
+                  () => handlePage(1)
+                }
+              />
             </main>
           </>
         ) : ''

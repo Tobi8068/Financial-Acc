@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { ProductionItemStatus } from "@/types/production";
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Undo2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
     Table,
@@ -23,7 +23,7 @@ import { capitalizeLetter } from "@/lib/utils";
 import { convertDate } from "@/lib/date";
 import useNotification from "@/hooks/useNotifications";
 
-export function CreateProduction() {
+export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) => void }) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -225,7 +225,12 @@ export function CreateProduction() {
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-180px)]">
-            <h2 className="text-xl font-semibold mb-6">New Production</h2>
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold mb-6">New Production</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
@@ -333,7 +338,7 @@ export function CreateProduction() {
                             label="Measure Unit"
                             value={formItemData.measure_unit}
                             onChange={(value) => handleFormItemChange('measure_unit', value)}
-                            options={Array.isArray(unitList) && unitList.length > 0 
+                            options={Array.isArray(unitList) && unitList.length > 0
                                 ? unitList.map(item => ({
                                     value: item.id,
                                     label: item.orderUnitName,
