@@ -18,8 +18,6 @@ import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from '@/hooks/useNotifications';
 
-import AvatarImg from '@/assets/img/avatar.png';
-
 interface TransfertTableProps {
   filters: TransfertFilters;
   sortOption: SortOption;
@@ -78,14 +76,13 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
               <TableHead className='pl-6'>No.</TableHead>
+              <TableHead>Transfert ID</TableHead>
               <TableHead>Created Date</TableHead>
-              <TableHead>Transfert Number</TableHead>
               <TableHead>Reason</TableHead>
-              <TableHead>Created By</TableHead>
-              <TableHead>Status</TableHead>
               <TableHead>Bin</TableHead>
-              <TableHead>Reservation Date</TableHead>
-              <TableHead>Reserved By</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Created By</TableHead>
+
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -95,20 +92,20 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
                 key={item.id}
               >
                 <TableCell className="font-medium pl-6">{index + (currentPage - 1) * itemsPerPage + 1}</TableCell>
-                <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
                 <TableCell className="font-medium ">{item.trans_num}</TableCell>
+                <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
                 <TableCell className="font-medium">{item.reason}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-1'>
+                <TableCell className="font-medium">{item.bin}</TableCell>
+                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)} </TableCell>
+
+                <TableCell className='text-[#535862] flex justify-center'>
                   <div>
-                    <img src={AvatarImg} className='rounded-[100%]'></img>
+                    <img src={item.created_by.avatar} className='rounded-[100%]'></img>
                   </div>
                   <div className='flex flex-col'>
                     <span>{item.createdBy.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
-                <TableCell className="font-medium">{item.bin}</TableCell>
-                <TableCell className='text-[#535862]'>{formatDate(item.reservationDate)}</TableCell>
 
                 <TableCell>
                   <Popover>
