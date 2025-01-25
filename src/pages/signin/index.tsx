@@ -43,7 +43,13 @@ export default function SignIn() {
             if (response.ok) {
                 showNotification('Login successful', 'success');
                 login(data.access_token);
-                const redirectTo = location.state?.from || getInitialRouteForRole(data.role);
+                const locationState = location.state?.from;
+                let redirectTo = '/';
+                if (locationState == '/') {
+                    redirectTo = getInitialRouteForRole(data.role);
+                } else {
+                    redirectTo = locationState;
+                }
                 navigate(redirectTo, { replace: true });
             } else {
                 showNotification(data.detail, 'error');
