@@ -1,5 +1,6 @@
 
 import { Bell, User, LogOut } from 'lucide-react';
+import { getUserAvatarPath } from '@/lib/utils'
 import { useAuth } from '@/context/authProvider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu'
@@ -8,7 +9,6 @@ const capitalizeUserName = (str: string) => {
 }
 
 export function Header() {
-  const getAvatarPath = (id: number) => `media/avatars/${id}.png`
 
   const { user, logout } = useAuth();
   return (
@@ -35,7 +35,7 @@ export function Header() {
                   <Avatar className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
                     {user ? (
                       <>
-                        <AvatarImage src={getAvatarPath(user.id)} alt={user.first_name} />
+                        <AvatarImage src={getUserAvatarPath(user.avatar)} alt={user.first_name} />
                         <AvatarFallback>
                           {user.first_name[0]?.toUpperCase()}
                           {user.last_name[0]?.toUpperCase()}

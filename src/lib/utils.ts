@@ -32,3 +32,7 @@ export const getInitialRouteForRole = (role: string) => {
           return '/';
   }
 }
+
+export const getUserAvatarPath = (avatar: string) => {
+  return `${import.meta.env.VITE_HOST_URL}${avatar}`;
+}

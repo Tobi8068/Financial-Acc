@@ -15,4 +15,13 @@ export default defineConfig({
   build: {
     sourcemap: false,
   },
+
+  server: {
+    proxy: {
+      '/image': {
+        target: process.env.VITE_BASE_URL,
+        changeOrigin: true,
+      }
+    }
+  }
 });
