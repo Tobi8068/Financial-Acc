@@ -32,3 +32,17 @@ export const getInitialRouteForRole = (role: string) => {
           return '/';
   }
 }
+
+export const isRouteAllowedForRole = (route: string, role: string) => {
+    const roleRoutes: any = {
+        payable: ['/dashboard', '/invoice', '/shipping', '/sales', '/clients', '/bills', '/purchase-order', '/requisitions', '/suppliers', '/journal', '/t-account', '/trial-balance', '/financial-statement'],
+        seller: ['/invoice', '/shipping', '/sales', '/quotation'],
+        supplier: ['/shipping', '/bills', '/purchase-order'],
+        buyer: ['/bills', '/shipping', '/purchase-order', '/reorder', '/requisitions'],
+        inventorymanager: ['/inventory', '/shipping', '/issues', '/receptions', '/reservation', '/transfers', '/purchase-order', '/reorder', '/requisitions', '/count'],
+        storekeeper: ['/shipping', '/receptions', '/reservation', '/transfers', '/purchase-order', '/reorder', '/requisitions'],
+        productionplanner: ['/requisitions', '/production']
+    };
+    
+    return roleRoutes[role]?.includes(route) || false;
+}
