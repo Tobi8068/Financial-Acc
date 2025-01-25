@@ -31,8 +31,14 @@ const transformBackendData = (backendData: any): RequisitionsData => {
     department: backendData.department.name,
     items: itemsData,
     status: capitalizeLetter(backendData.status) as RequisitionsStatus,
-    approvedBy: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
-    createdBy: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
+    createdBy: {
+      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name} `,
+      avatar: backendData.created_by.avatar || ''
+    },
+    approvedBy: {
+      name: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name} `,
+      avatar: backendData.approved_by.avatar || ''
+    },    
     totalNetAmount: backendData.total_net_amount || 0,
     totalTaxAmount: backendData.total_tax_amount || 0,
     totalAmount: backendData.total_amount || 0

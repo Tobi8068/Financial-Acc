@@ -9,11 +9,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { usePurchaseOrderData } from '@/hooks/usePurchaseOrderData';
 import { PurchaseOrderStatus, PurchaseOrderFilters } from '@/types/purchaseOrder';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
+import { getUserAvatarPath } from '@/lib/utils';
 import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from '@/hooks/useNotifications';
@@ -119,7 +121,19 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                 <TableCell className='text-[#535862]'>$ {item.totalNetAmount}</TableCell>
                 <TableCell className='text-[#3e4450]'>$ {item.totalTaxAmount}</TableCell>
                 <TableCell className='text-[#535862]'>$ {item.totalAmount}</TableCell>
-                <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
+                <TableCell className='text-[#535862] flex items-center gap-2'>
+                  <div>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} />
+                      <AvatarFallback>
+                        <span>{item.createdBy.name}</span>
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className='flex flex-col'>
+                    <span>{item.createdBy.name}</span>
+                  </div>
+                </TableCell>
                 <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
                 <TableCell className='text-[#535862]'>{item.sent ? "Yes" : "No"}</TableCell>

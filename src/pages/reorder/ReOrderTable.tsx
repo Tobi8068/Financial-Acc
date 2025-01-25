@@ -13,7 +13,7 @@ import { useReOrderData } from '@/hooks/useReOrderData';
 import { ReOrderFilters } from '@/types/reOrder';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 
 interface ReOrderTableProps {
   filters: ReOrderFilters;

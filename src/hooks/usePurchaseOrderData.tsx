@@ -33,13 +33,19 @@ const transformBackendData = (backendData: any): PurchaseOrderData => {
     department: backendData.department.name,
     items: itemsData,
     status: capitalizeLetter(backendData.status) as PurchaseOrderStatus,
-    approvedBy: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
-    createdBy: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
     totalNetAmount: backendData.total_net_amount || 0,
     totalTaxAmount: backendData.total_tax_amount || 0,
     totalAmount: backendData.total_amount || 0,
     approved: backendData.approved || false,
-    sent: backendData.sent || false
+    sent: backendData.sent || false,
+    createdBy: {
+      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
+      avatar: backendData.created_by.avatar || ''
+    },
+    approvedBy: {
+      name: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
+      avatar: backendData.approved_by.avatar || ''
+    },
   };
 };
 

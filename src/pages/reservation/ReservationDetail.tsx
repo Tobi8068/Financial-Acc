@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table';
 import { ReservationData, ReservationStatus } from '@/types/reservation';
 import { useReservationItemsData } from '@/hooks/useReservationData';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
 import { Badge } from '@/components/ui/badge';
