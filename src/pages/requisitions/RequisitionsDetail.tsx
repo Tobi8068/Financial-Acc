@@ -8,6 +8,8 @@ import {
 } from '@/components/ui/table';
 import { formatDate } from '@/lib/date';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getUserAvatarPath } from '@/lib/utils';
 
 import { RequisitionsData, RequisitionsStatus } from '@/types/requisitions';
 
@@ -46,8 +48,31 @@ export function RequisitionsDetail(props: RequisitionsData) {
                     </div>
 
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Approved By:&nbsp;</span><span>{props.approvedBy}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created By:&nbsp;</span><span>{props.createdBy}</span></div>
+                        <div className="text-md text-[#2B2D40] flex">
+                            <span className="font-bold w-[148px]">Created By:&nbsp;</span>
+                            <div className='flex items-center gap-2'>
+                                <Avatar className="h-8 w-8">
+                                    <AvatarImage src={getUserAvatarPath(props.createdBy.avatar)} alt={props.createdBy.name} />
+                                    <AvatarFallback>
+                                        <span>{props.createdBy.name}</span>
+                                    </AvatarFallback>
+                                </Avatar>
+                                <span className=" ">{props.createdBy.name}</span>
+                            </div>
+                        </div>
+                        <div className="text-md text-[#2B2D40] flex">
+                            <span className="font-bold w-[148px]">Approved By:&nbsp;</span>
+                            <div className='flex items-center gap-2'>
+                                <Avatar className="h-8 w-8">
+                                    <AvatarImage src={getUserAvatarPath(props.approvedBy.avatar)} alt={props.approvedBy.name} />
+                                    <AvatarFallback>
+                                        <span>{props.approvedBy.name}</span>
+                                    </AvatarFallback>
+                                </Avatar>
+                                <span className=" ">{props.approvedBy.name}</span>
+                            </div>
+
+                        </div>
                         <div className="text-md text-[#2B2D40] flex "><span className="font-bold w-[148px]">Total Net Amount:&nbsp;</span><span>${props.totalNetAmount}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Total Tax Amount:&nbsp;</span><span>${props.totalTaxAmount}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Total Amount:&nbsp;</span><span>${props.totalAmount}</span></div>
@@ -63,7 +88,7 @@ export function RequisitionsDetail(props: RequisitionsData) {
                                     <TableHead>Description</TableHead>
                                     <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
-                                    <TableHead>Supplier Name</TableHead>
+                                    <TableHead>Supplier</TableHead>
                                     <TableHead>Measure Unit</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Price</TableHead>

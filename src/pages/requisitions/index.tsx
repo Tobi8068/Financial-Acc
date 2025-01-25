@@ -20,8 +20,14 @@ function Requisitions() {
     billTo: '', 
     department: '',
     status: 'Created',
-    approvedBy: '',
-    createdBy: '',
+    approvedBy: { 
+      name: '', 
+      avatar: '' 
+    },
+    createdBy: { 
+      name: '', 
+      avatar: '' 
+    },
     totalNetAmount: 0,
     totalTaxAmount: 0,
     totalAmount: 0,
@@ -73,6 +79,6 @@ function Requisitions() {
       }
     </div>
   );
-}
 
+}
 export default Requisitions;

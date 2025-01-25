@@ -127,6 +127,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                     <span>{item.createdBy.name}</span>
                   </div>
                 </TableCell>
+       
                 <TableCell className='text-[#535862] flex items-center gap-2'>
                   <div>
                     <Avatar className="h-8 w-8">
@@ -140,7 +141,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                     <span>{item.approvedBy.name}</span>
                   </div>
                 </TableCell>
-
+                
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
