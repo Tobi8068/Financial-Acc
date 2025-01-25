@@ -22,9 +22,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { capitalizeLetter } from "@/lib/utils";
 import { convertDate } from "@/lib/date";
 import useNotification from "@/hooks/useNotifications";
+import { useAuth } from "@/context/authProvider";
 
 export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) => void }) {
-
+    const { user } = useAuth();
     const [currentPage, setCurrentPage] = useState(1);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
@@ -51,11 +52,12 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
             p_end_date: '',
             p_status: 'waiting_approval',
             project: 1,
+            approved: true,
+            created_by: user.id,
+            
+            approved_by: 1,
             items: [],
             production_doc: 1,
-            approved: true,
-            approved_by: 1,
-            created_by: 1,
         }
     );
 
