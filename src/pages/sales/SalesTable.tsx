@@ -13,7 +13,7 @@ import { useSalesData } from '@/hooks/useSalesData';
 import { SalesFilters } from '@/types/sales';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import { getStatusBadge } from './SalesBadge';
 import AvatarImg from '../../assets/img/avatar.png';
 

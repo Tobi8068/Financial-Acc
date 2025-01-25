@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useSuppliersData } from '@/hooks/useSuppliersData';
 import { SuppliersFilters } from '@/types/suppliers';
 import { SortOption } from '@/types/utils';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 
 interface SuppliersTableProps {

@@ -11,7 +11,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useClientData } from '@/hooks/useClientData';
 import { formatDate } from '@/lib/date';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 
 interface ClientTableProps {
     searchQuery: string;

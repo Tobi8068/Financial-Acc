@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table';
 import { SuppliersData } from '@/types/suppliers';
 import { useSuppliersItemsData } from '@/hooks/useSuppliersData';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import { SuppliersStatus } from "@/types/suppliers";
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";

@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/table';
 import { Notes } from "@/components/organisms/notes";
 import NumberInput from "@/components/organisms/numberInput";
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useReservationItemsData } from '@/hooks/useReservationData';
 import { messageData } from "@/lib/message-data";

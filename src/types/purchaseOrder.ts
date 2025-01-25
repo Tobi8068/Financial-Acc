@@ -13,9 +13,15 @@ export interface PurchaseOrderData {
   billTo: string;
   department: string;
   status: PurchaseOrderStatus;
-  createdBy: string;
+  createdBy: {
+    name: string;
+    avatar: string;
+  };
+  approvedBy: {
+    name: string;
+    avatar: string;
+  };
   approved: boolean;
-  approvedBy: string;
   totalNetAmount: number;
   totalTaxAmount: number;
   totalAmount: number;

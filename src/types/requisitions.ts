@@ -30,8 +30,14 @@ export interface RequisitionsData {
   department: string;
   items: any[];
   status: RequisitionsStatus;
-  approvedBy: string;
-  createdBy: string;
+  approvedBy: {
+    name: string;
+    avatar: string;
+  };
+  createdBy: {
+    name: string;
+    avatar: string;
+  };
   totalNetAmount: number;
   totalTaxAmount: number;
   totalAmount: number;

@@ -9,11 +9,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useTransfertData } from '@/hooks/useTransfertData';
 import { TransfertStatus, TransfertFilters } from '@/types/transferts';
 import { SortOption } from '@/types/utils';
 import { formatDate } from '@/lib/date';
+import { getUserAvatarPath } from '@/lib/utils';
 import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from '@/hooks/useNotifications';
@@ -97,10 +99,14 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
                 <TableCell className="font-medium">{item.reason}</TableCell>
                 <TableCell className="font-medium">{item.bin}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)} </TableCell>
-
-                <TableCell className='text-[#535862] flex justify-center'>
+                <TableCell className='text-[#535862] flex items-center gap-2'>
                   <div>
-                    <img src={item.created_by.avatar} className='rounded-[100%]'></img>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} />
+                      <AvatarFallback>
+                        <span>{item.createdBy.name}</span>
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
                   <div className='flex flex-col'>
                     <span>{item.createdBy.name}</span>

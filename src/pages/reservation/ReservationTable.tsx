@@ -10,8 +10,7 @@ import {
 } from '@/components/ui/table';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useReservationData } from '@/hooks/useReservationData';
-import { Pagination } from '../../components/pagination/Pagination';
-import DeleteDialog from '@/components/table/DeleteDialog';
+import { Pagination } from '@/components/pagination/Pagination';
 import { Badge } from '@/components/ui/badge';
 import { ReservationStatus } from '@/types/reservation';
 import AvatarImg from '../../assets/img/avatar.png';

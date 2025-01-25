@@ -24,8 +24,14 @@ export interface ProductionData {
   productionStartDate: string;
   productionEndDate: string;
   status: ProductionStatus;
-  approved : boolean;
-  approvedBy: string;
-  createdBy: string;
+  approved: boolean;
+  approvedBy: {
+    name: string;
+    avatar: string;
+  };
+  createdBy: {
+    name: string;
+    avatar: string;
+  };
 }
 

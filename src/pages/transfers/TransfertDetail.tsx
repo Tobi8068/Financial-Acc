@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table';
 import { TransfertData } from '@/types/transferts';
 import { useTransferItemsData } from '@/hooks/useTransfertData';
-import { Pagination } from '../../components/pagination/Pagination';
+import { Pagination } from '@/components/pagination/Pagination';
 import { TransfertStatus } from "@/types/transferts";
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";

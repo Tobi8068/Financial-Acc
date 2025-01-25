@@ -12,9 +12,15 @@ const productionBackendData = (backendData: any): ProductionData => {
     productionStartDate: backendData.p_start_date,
     productionEndDate: backendData.p_end_date,
     status: capitalizeLetter(backendData.p_status) as ProductionStatus,
-    createdBy: "Creator",
-    approved: backendData.approved,
-    approvedBy: backendData.approved_by.first_name + backendData.approved_by.last_name,
+    createdBy: {
+      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
+      avatar: backendData.created_by.avatar || ''
+    },
+    approvedBy: {
+      name: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
+      avatar: backendData.approved_by.avatar || ''
+    },
+    approved: backendData.approved || false,
     items: backendData.items
   };
 };
