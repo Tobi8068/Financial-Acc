@@ -17,21 +17,21 @@ function Requisitions() {
     id: '',
     dateCreated: '',
     shipTo: '',
-    billTo: '', 
+    billTo: '',
     department: '',
     status: 'Created',
-    approvedBy: { 
-      name: '', 
-      avatar: '' 
+    approvedBy: {
+      name: '',
+      avatar: ''
     },
-    createdBy: { 
-      name: '', 
-      avatar: '' 
+    createdBy: {
+      name: '',
+      avatar: ''
     },
     totalNetAmount: 0,
     totalTaxAmount: 0,
     totalAmount: 0,
-    items: [] 
+    items: []
   });
 
   const handlePage = (page: number) => {
@@ -65,20 +65,26 @@ function Requisitions() {
           <>
             <InsideNavbar text="Requisitions" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center bg-white bg-opacity-50">
-              <CreateRequisitions />
+              <CreateRequisitions
+                onClickUndo={() => handlePage(1)}
+              />
             </main>
           </>
         ) : scene === 3 ? (
           <>
             <InsideNavbar text="Requisitions" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
-              <RequisitionsDetail {...detailData} />
+              <RequisitionsDetail
+                props={detailData}
+                onClickUndo={
+                  () => handlePage(1)
+                }
+              />
             </main>
           </>
         ) : ''
       }
     </div>
   );
-
 }
 export default Requisitions;

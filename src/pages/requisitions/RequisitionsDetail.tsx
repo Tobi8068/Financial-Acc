@@ -7,13 +7,18 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { formatDate } from '@/lib/date';
+import { Undo2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getUserAvatarPath } from '@/lib/utils';
-
 import { RequisitionsData, RequisitionsStatus } from '@/types/requisitions';
 
-export function RequisitionsDetail(props: RequisitionsData) {
+interface RequisitionsDetailProps {
+    props: RequisitionsData;
+    onClickUndo: (value: any) => void;
+}
+
+export function RequisitionsDetail({ props, onClickUndo }: RequisitionsDetailProps) {
 
     const getStatusBadge = (status: RequisitionsStatus) => {
         const styles = {
@@ -34,7 +39,12 @@ export function RequisitionsDetail(props: RequisitionsData) {
 
     return (
         <div>
-            <h2 className="text-xl font-semibold">Requisitions Details</h2>
+            <div className='flex justify-between items-center'>
+                <h2 className="text-xl font-semibold">Requisitions Details</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <h2 className='text-[#636692] font-semibold'>Requisition Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
@@ -71,7 +81,6 @@ export function RequisitionsDetail(props: RequisitionsData) {
                                 </Avatar>
                                 <span className=" ">{props.approvedBy.name}</span>
                             </div>
-
                         </div>
                         <div className="text-md text-[#2B2D40] flex "><span className="font-bold w-[148px]">Total Net Amount:&nbsp;</span><span>${props.totalNetAmount}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Total Tax Amount:&nbsp;</span><span>${props.totalTaxAmount}</span></div>
@@ -98,22 +107,21 @@ export function RequisitionsDetail(props: RequisitionsData) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {
-                                    props.items.length >= 0 && props.items.map((item, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell className='pl-6'>{item.name}</TableCell>
-                                            <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturer}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.supplierName}</TableCell>
-                                            <TableCell>{item.unitOfMeasure}</TableCell>
-                                            <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>{item.price}</TableCell>
-                                            <TableCell>{item.netAmount}</TableCell>
-                                            <TableCell>{item.taxAmount}</TableCell>
-                                            <TableCell>{item.taxGroup}</TableCell>
-                                        </TableRow>
-                                    ))
+                                {props.items.length >= 0 && props.items.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className='pl-6'>{item.name}</TableCell>
+                                        <TableCell>{item.description}</TableCell>
+                                        <TableCell>{item.manufacturer}</TableCell>
+                                        <TableCell>{item.manufacturerCode}</TableCell>
+                                        <TableCell>{item.supplierName}</TableCell>
+                                        <TableCell>{item.unitOfMeasure}</TableCell>
+                                        <TableCell>{item.quantity}</TableCell>
+                                        <TableCell>{item.price}</TableCell>
+                                        <TableCell>{item.netAmount}</TableCell>
+                                        <TableCell>{item.taxAmount}</TableCell>
+                                        <TableCell>{item.taxGroup}</TableCell>
+                                    </TableRow>
+                                ))
                                 }
                             </TableBody>
                         </Table>

@@ -6,10 +6,9 @@ import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { Checkbox } from '@/components/ui/checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Undo2 } from 'lucide-react';
 import { PurchaseOrderItemStatus } from '@/types/purchaseOrder';
 
-// import { capitalizeLetter } from "@/lib/utils";
 import {
     Table,
     TableBody,
@@ -22,8 +21,10 @@ import { usePurchaseOrderItemsData, } from "@/hooks/usePurchaseOrderData";
 import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from "@/hooks/useNotifications";
+import { useAuth } from "@/context/authProvider";
 
-export function CreatePurchaseOrder() {
+export function CreatePurchaseOrder({ onClickUndo }: { onClickUndo: (value: any) => void }) {
+    const { user } = useAuth();
     const [formData, setFormData] = useState<any>(
         {
             ship_to: '',
@@ -31,7 +32,7 @@ export function CreatePurchaseOrder() {
             department: '',
 
             approved_by: 1,
-            created_by: 1,
+            created_by: user.id,
             status: 'created',
 
             approved: false,
@@ -245,7 +246,12 @@ export function CreatePurchaseOrder() {
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <h2 className="text-xl font-semibold mb-6">Create Purchase Order</h2>
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold mb-6">Create Purchase Order</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-x-12 gap-y-4">
@@ -291,39 +297,39 @@ export function CreatePurchaseOrder() {
                             </TableHeader>
                             <TableBody>
                                 {data && data.map((item, index) => (
-                                        <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
-                                            <TableCell className="w-12 flex items-center justify-center">
-                                                <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
-                                            </TableCell>
-                                            <TableCell className='pl-6'>{item.name}</TableCell>
-                                            <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturer}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.supplierCode}</TableCell>
-                                            <TableCell>{item.unitOfMeasure}</TableCell>
-                                            <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>{item.price}</TableCell>
-                                            <TableCell>{item.netAmount}</TableCell>
-                                            <TableCell>{item.taxAmount}</TableCell>
-                                            <TableCell>{item.taxGroup}</TableCell>
-                                            <TableCell>{getStatusItemBadge(item.status)}</TableCell>
-                                            <TableCell>
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <button className="p-2 hover:bg-gray-100 rounded-full">
-                                                            <MoreVertical className="h-4 w-4" />
-                                                        </button>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
-                                                        <ul className="space-y-2">
-                                                            <li onClick={() => alert("Hi, PO")}>Edit</li>
-                                                            <li onClick={() => handleDelete(item.id)}>Delete</li>
-                                                        </ul>
-                                                    </PopoverContent>
-                                                </Popover>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                    <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
+                                        <TableCell className="w-12 flex items-center justify-center">
+                                            <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
+                                        </TableCell>
+                                        <TableCell className='pl-6'>{item.name}</TableCell>
+                                        <TableCell>{item.description}</TableCell>
+                                        <TableCell>{item.manufacturer}</TableCell>
+                                        <TableCell>{item.manufacturerCode}</TableCell>
+                                        <TableCell>{item.supplierCode}</TableCell>
+                                        <TableCell>{item.unitOfMeasure}</TableCell>
+                                        <TableCell>{item.quantity}</TableCell>
+                                        <TableCell>{item.price}</TableCell>
+                                        <TableCell>{item.netAmount}</TableCell>
+                                        <TableCell>{item.taxAmount}</TableCell>
+                                        <TableCell>{item.taxGroup}</TableCell>
+                                        <TableCell>{getStatusItemBadge(item.status)}</TableCell>
+                                        <TableCell>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <button className="p-2 hover:bg-gray-100 rounded-full">
+                                                        <MoreVertical className="h-4 w-4" />
+                                                    </button>
+                                                </PopoverTrigger>
+                                                <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
+                                                    <ul className="space-y-2">
+                                                        <li onClick={() => alert("Hi, PO")}>Edit</li>
+                                                        <li onClick={() => handleDelete(item.id)}>Delete</li>
+                                                    </ul>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                     </div>
