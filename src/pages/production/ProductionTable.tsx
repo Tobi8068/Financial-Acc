@@ -111,9 +111,9 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
                 <TableCell className='text-[#535862]'>{formatDate(item.productionStartDate)}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.productionEndDate)}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
-                <TableCell className='text-[#535862]'>{item.createdBy}</TableCell>
+                <TableCell className='text-[#535862]'>{item.createdBy.name}</TableCell>
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
-                <TableCell className='text-[#535862]'>{item.approvedBy}</TableCell>
+                <TableCell className='text-[#535862]'>{item.approvedBy.name}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

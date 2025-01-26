@@ -1,11 +1,15 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/authProvider';
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function ProtectedRoute() {
     const { isAuthenticated, isLoading } = useAuth();
     const location = useLocation();
 
+    useEffect(() => {
+        console.log('Protected route')
+    }, []);
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen">
