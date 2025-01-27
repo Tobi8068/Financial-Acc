@@ -7,7 +7,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { formatDate } from '@/lib/date';
-import { Undo2 } from 'lucide-react';
+import { Undo2, UserX } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getUserAvatarPath } from '@/lib/utils';
@@ -49,7 +49,7 @@ export function RequisitionsDetail({ props, onClickUndo }: RequisitionsDetailPro
                 <h2 className='text-[#636692] font-semibold'>Requisition Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Number:&nbsp;</span><span>{props.id}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">ID:&nbsp;</span><span>{props.id}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date Created:&nbsp;</span><span>{formatDate(props.dateCreated)}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Ship To:&nbsp;</span><span>{props.shipTo}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Bill To:&nbsp;</span><span>{props.billTo}</span></div>
@@ -73,13 +73,22 @@ export function RequisitionsDetail({ props, onClickUndo }: RequisitionsDetailPro
                         <div className="text-md text-[#2B2D40] flex">
                             <span className="font-bold w-[148px]">Approved By:&nbsp;</span>
                             <div className='flex items-center gap-2'>
-                                <Avatar className="h-8 w-8">
-                                    <AvatarImage src={getUserAvatarPath(props.approvedBy.avatar)} alt={props.approvedBy.name} />
-                                    <AvatarFallback>
+                                {props.approvedBy.name.length !== 2 ? (
+                                    <>
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarImage src={getUserAvatarPath(props.approvedBy.avatar)} alt={props.approvedBy.name} />
+                                            <AvatarFallback>
+                                                <span>{props.approvedBy.name}</span>
+                                            </AvatarFallback>
+                                        </Avatar>
                                         <span>{props.approvedBy.name}</span>
-                                    </AvatarFallback>
-                                </Avatar>
-                                <span className=" ">{props.approvedBy.name}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <UserX className="h-8 w-8 text-red-400 rounded-full" />
+                                        <span>None</span>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="text-md text-[#2B2D40] flex "><span className="font-bold w-[148px]">Total Net Amount:&nbsp;</span><span>${props.totalNetAmount}</span></div>
