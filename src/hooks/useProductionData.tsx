@@ -98,10 +98,13 @@ export function useProductionData(page: number, filters: ProductionFilters, sear
         method: 'GET',
       });
 
-      const text = await response.text(); // First get the raw response text
-      const data = text ? JSON.parse(text) : null; // Then parse if there's content
-      let transformedData = data.map((item: any) => productionBackendData(item));
-      setServerData(transformedData);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data:ProductionData[] = await response.json();
+
+      let Production_Data = data.map((item: any) => productionBackendData(item));
+      setServerData(Production_Data);
     } catch (error) {
       console.error("Error fetching productions:", error);
     }
@@ -122,11 +125,13 @@ export function useProductionItemsData(page: number, filters?: ProductionFilters
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/production-items`, {
         method: 'GET',
       });
-
-      const text = await response.text(); // First get the raw response text
-      const data = text ? JSON.parse(text) : null; // Then parse if there's content
-      let transformedData = data.map((item: any) => productionItemBackendData(item));
-      setServerData(transformedData);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data:ProductionItem[] = await response.json();
+      let Production_Item = data.map((item: any) => productionItemBackendData(item));
+      setServerData(Production_Item);
     } catch (error) {
       console.error("Error fetching Production:", error);
     }

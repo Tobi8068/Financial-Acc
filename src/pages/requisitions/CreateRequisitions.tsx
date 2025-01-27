@@ -29,7 +29,7 @@ export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) 
             ship_to: '',
             bill_to: '',
             department: '',
-            approved_by: 1,
+            // approved_by: 1,
             created_by: user.id,
             status: 'created',
             requisition_doc: 1,

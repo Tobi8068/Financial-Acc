@@ -1,47 +1,53 @@
+
+
 import { useState, useEffect, useMemo } from 'react';
-import { RequisitionItem, RequisitionItemStatus, RequisitionsData, RequisitionsFilters, RequisitionsStatus } from '@/types/requisitions';
+import { PurchaseOrderData, PurchaseOrderFilters, PurchaseOrderItem, PurchaseOrderStatus, PurchaseOrderItemStatus } from '@/types/purchaseOrder';
 import { capitalizeLetter } from '@/lib/utils';
 
-const transformItemBackendData = (backendData: any): RequisitionItem => {
+const transformItemBackendData = (backendData: any): PurchaseOrderItem => {
   return {
     pid: backendData.id,
     name: backendData.item_name,
     description: backendData.description,
     manufacturer: backendData.manufacturer,
     manufacturerCode: backendData.manufacturer_code,
-    supplierName: backendData.supplier,
+    supplierCode: backendData.supplier_code,
     unitOfMeasure: backendData.measure_unit,
     quantity: backendData.quantity,
     price: backendData.price,
     netAmount: backendData.net_amount,
     taxAmount: backendData.tax_amount,
     taxGroup: backendData.tax_group,
-    status: capitalizeLetter(backendData.status) as RequisitionItemStatus
+    status: capitalizeLetter(backendData.status) as PurchaseOrderItemStatus,
+    account: backendData.account || '',
+    reception_quantity: backendData.reception_quantity || 0
   };
 };
 
-const transformBackendData = (backendData: any): RequisitionsData => {
+const transformBackendData = (backendData: any): PurchaseOrderData => {
   const itemsData = backendData.items.map((item: any) => transformItemBackendData(item));
   return {
     pid: backendData.id,
-    id: backendData.requisition_number.toString(),
-    dateCreated: backendData.date,
+    id: backendData.po_number.toString(),
+    created_date: backendData.created_date,
     shipTo: backendData.ship_to,
     billTo: backendData.bill_to,
     department: backendData.department.name,
     items: itemsData,
-    status: capitalizeLetter(backendData.status) as RequisitionsStatus,
+    status: capitalizeLetter(backendData.status) as PurchaseOrderStatus,
+    totalNetAmount: backendData.total_net_amount || 0,
+    totalTaxAmount: backendData.total_tax_amount || 0,
+    totalAmount: backendData.total_amount || 0,
+    approved: backendData.approved || false,
+    sent: backendData.sent || false,
     createdBy: {
-      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name} `,
+      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
       avatar: backendData.created_by.avatar || ''
     },
     approvedBy: {
-      name: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name} `,
+      name: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
       avatar: backendData.approved_by.avatar || ''
     },
-    totalNetAmount: backendData.total_net_amount || 0,
-    totalTaxAmount: backendData.total_tax_amount || 0,
-    totalAmount: backendData.total_amount || 0
   };
 };
 
@@ -49,7 +55,7 @@ function useData(
   sourceData: any,
   page: number,
   refreshData: () => void,
-  filters?: RequisitionsFilters,
+  filters?: PurchaseOrderFilters,
   searchQuery?: string
 ) {
   const [data, setData] = useState<any[]>([]);
@@ -106,22 +112,23 @@ function useData(
   };
 }
 
-export function useRequisitionsData(page: number, filters?: RequisitionsFilters, searchQuery?: string) {
-  const [serverData, setServerData] = useState<RequisitionsData[]>([]);
+export function usePurchaseOrderData(page: number, filters?: PurchaseOrderFilters, searchQuery?: string) {
+  const [serverData, setServerData] = useState<PurchaseOrderData[]>([]);
   const fetchFunc = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/purchase-orders`, {
         method: 'GET',
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data: RequisitionsData[] = await response.json();
+      const text = await response.text(); // First get the raw response text
+      const data = text ? JSON.parse(text) : null; // Then parse if there's content
       let transformedData = data.map((item: any) => transformBackendData(item));
       setServerData(transformedData);
     } catch (error) {
-      console.error("Error fetching Requisitions:", error);
+      console.error("Error fetching Purchase_Orders", error);
     }
   };
 
@@ -136,32 +143,63 @@ export function useRequisitionsData(page: number, filters?: RequisitionsFilters,
   return useData(serverData, page, refreshData, filters, searchQuery);
 }
 
-export function useRequisitionItemsData(page: number, filters?: RequisitionsFilters, searchQuery?: string) {
-  const [serverData, setServerData] = useState<RequisitionItem[]>([]);
+
+
+interface UsePurchaseOrderItemsDataResponse {
+  data: PurchaseOrderItem[];
+  page: number;
+  loading: boolean;
+  error: string | null;
+  refreshData: () => void;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+}
+
+export function usePurchaseOrderItemsData(page: number, filters?: PurchaseOrderFilters, searchQuery?: string): UsePurchaseOrderItemsDataResponse {
+  const [serverData, setServerData] = useState<PurchaseOrderItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
   const fetchFunc = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisition-items`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/purchaseOrders-items`, {
         method: 'GET',
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data: RequisitionItem[] = await response.json();
-      let transformedData = data.map((item: any) => transformItemBackendData(item));
+
+      const data: PurchaseOrderItem[] = await response.json(); // Ensure the response is typed
+      const transformedData = data.map((item: PurchaseOrderItem) => transformItemBackendData(item));
       setServerData(transformedData);
     } catch (error) {
-      console.error("Error fetching Requisition Item:", error);
+      console.error("Error fetching PO item:", error);
+      setError(error instanceof Error ? error.message : "An unknown error occurred");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchFunc();
-  }, [])
+  }, [filters, searchQuery]); // Re-fetch when filters or searchQuery change
 
   const refreshData = () => {
-    fetchFunc(); // Your existing fetch function
+    fetchFunc(); // Refresh data
   };
 
-  return useData(serverData, page, refreshData, filters, searchQuery);
+  return { 
+    data: serverData, 
+    page, 
+    loading, 
+    error, 
+    refreshData, 
+    totalPages, 
+    totalItems, 
+    itemsPerPage 
+  };
 }

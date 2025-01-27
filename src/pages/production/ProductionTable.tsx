@@ -8,11 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useProductionData } from '@/hooks/useProductionData';
 import { ProductionStatus, ProductionFilters } from '@/types/production';
 import { SortOption } from '@/types/utils';
+import { getUserAvatarPath } from '@/lib/utils';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
@@ -94,8 +96,8 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
               <TableHead>End Date</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Created By</TableHead>
-              <TableHead>Approved</TableHead>
               <TableHead>Approved By</TableHead>
+              <TableHead>Approved</TableHead>
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -111,9 +113,29 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
                 <TableCell className='text-[#535862]'>{formatDate(item.productionStartDate)}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.productionEndDate)}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
-                <TableCell className='text-[#535862]'>{item.createdBy.name}</TableCell>
+                <TableCell className='text-[#535862] '>
+                  <div className='flex items-center gap-2'>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} />
+                      <AvatarFallback>
+                        <span>{item.createdBy.name}</span>
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>{item.createdBy.name}</span>
+                  </div>
+                </TableCell>
+                <TableCell className='text-[#535862] '>
+                  <div className='flex items-center gap-2'>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />
+                      <AvatarFallback>
+                        <span>{item.approvedBy.name}</span>
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>{item.createdBy.name}</span>
+                  </div>
+                </TableCell>
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
-                <TableCell className='text-[#535862]'>{item.approvedBy.name}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

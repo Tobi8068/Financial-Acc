@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, UserX } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -49,7 +49,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
       Rejected: 'bg-[#F4F3FF] text-[#FF9900]',
       In_Progress: 'bg-[#F4F3FF] text-[#5925DC]',
       Cancel: 'bg-[#FEF3F2] text-[#B42318]',
-  };
+    };
 
     return (
       <Badge className={styles[status]} variant="secondary">
@@ -114,34 +114,39 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                 <TableCell className='text-[#3e4450]'>$ {item.totalTaxAmount}</TableCell>
                 <TableCell className='text-[#535862]'>$ {item.totalAmount}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-2'>
-                  <div>
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-2'>
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} />
                       <AvatarFallback>
                         <span>{item.createdBy.name}</span>
                       </AvatarFallback>
                     </Avatar>
-                  </div>
-                  <div className='flex flex-col'>
                     <span>{item.createdBy.name}</span>
                   </div>
                 </TableCell>
-       
-                <TableCell className='text-[#535862] flex items-center gap-2'>
-                  <div>
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />
-                      <AvatarFallback>
+
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-2'>
+                    {item.approvedBy.name !== "" ? (
+                      <>
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />
+                          <AvatarFallback>
+                            <span>{item.approvedBy.name}</span>
+                          </AvatarFallback>
+                        </Avatar>
                         <span>{item.approvedBy.name}</span>
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <div className='flex flex-col'>
-                    <span>{item.approvedBy.name}</span>
+                      </>
+                    ) : (
+                      <>
+                        <UserX className="h-8 w-8" />
+                        <span>Not approved</span>
+                      </>
+                    )}
                   </div>
                 </TableCell>
-                
+
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -152,7 +157,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                       <ul className="space-y-2">
                         <li onClick={() => onClickView(item)}>View</li>
-                        <li>Edit</li>
+                        <li onClick={() => alert("haha")}>Edit</li>
                         <li onClick={() => handleDelete(item.pid)}>Delete</li>
                       </ul>
                     </PopoverContent>
@@ -176,6 +181,6 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
         onClose={() => setDeleteDialogOpen(false)}
         onConfirm={handleConfirmDelete}
       />
-    </div>
+    </div >
   );
 }

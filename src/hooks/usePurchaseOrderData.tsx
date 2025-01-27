@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PurchaseOrderData, PurchaseOrderFilters, PurchaseOrderItem, PurchaseOrderStatus, PurchaseOrderItemStatus } from '@/types/purchaseOrder';
 import { capitalizeLetter } from '@/lib/utils';
+import { data } from 'react-router';
+import { purchaseOrderData } from '@/lib/mock-data';
 
 const transformItemBackendData = (backendData: any): PurchaseOrderItem => {
   return {
@@ -121,10 +123,9 @@ export function usePurchaseOrderData(page: number, filters?: PurchaseOrderFilter
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const text = await response.text(); // First get the raw response text
-      const data = text ? JSON.parse(text) : null; // Then parse if there's content
-      let transformedData = data.map((item: any) => transformBackendData(item));
-      setServerData(transformedData);
+      const data: PurchaseOrderData[] = await response.json();
+      let PO_Data = data.map((item: any) => transformBackendData(item));
+      setServerData(PO_Data);
     } catch (error) {
       console.error("Error fetching Purchase_Orders", error);
     }
@@ -149,11 +150,13 @@ export function usePurchaseOrderItemsData(page: number, filters?: PurchaseOrderF
         method: 'GET',
       });
 
-      const text = await response.text(); // First get the raw response text
-      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      let transformedData = data.map((item: any) => transformItemBackendData(item));
-      setServerData(transformedData);
+      const data: PurchaseOrderItem[] = await response.json();
+      let PO_Items = data.map((item: PurchaseOrderItem) => transformItemBackendData(item));
+      setServerData(PO_Items);
     } catch (error) {
       console.error("Error fetching PO item:", error);
     }
@@ -167,4 +170,4 @@ export function usePurchaseOrderItemsData(page: number, filters?: PurchaseOrderF
   };
 
   return useData(serverData, page, refreshData, filters, searchQuery);
-} 
+}

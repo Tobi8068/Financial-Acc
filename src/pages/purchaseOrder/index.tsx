@@ -15,13 +15,19 @@ export default function PurchaseOrder() {
     const [detailData, setDetailData] = useState<PurchaseOrderData>({
         pid: '',
         id: '',
-        dateCreated: '',
+        created_date: '',
         shipTo: '',
         billTo: '',
         department: '',
         status: 'Created',
-        approvedBy: '',
-        createdBy: '',
+        createdBy: {
+            name: '',
+            avatar: ''
+        },
+        approvedBy: {
+            name: '',
+            avatar: ''
+        },
         totalNetAmount: 0,
         totalTaxAmount: 0,
         totalAmount: 0,
