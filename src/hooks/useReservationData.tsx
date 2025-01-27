@@ -1,9 +1,46 @@
 import { useState, useEffect, useMemo } from 'react';
-import { reservationData, reservationItemsData } from '@/lib/mock-data';
+import { ReservationData, ReservationItem, ReservationStatus, ReservationFilters } from '@/types/reservation';
+import { capitalizeLetter } from '@/lib/utils';
+
+const ItemBackendData = (backendData: any): ReservationItem => {
+  return {
+    id: backendData.id,
+    name: backendData.item_name,
+    description: backendData.description,
+    manufacturer: backendData.manufacturer,
+    manufacturer_code: backendData.manufacturer_code,
+    measure_unit: backendData.measure_unit,
+    quantity: backendData.quantity,
+    item_code: backendData.item_code,
+  }
+}
+
+const BackendData = (backendData: any): ReservationData => {
+  const itemsData = backendData.items.map((item: any) => ItemBackendData(item));
+  return {
+    id: backendData.id,
+    reason: backendData.reason,
+    status: capitalizeLetter(backendData.status) as ReservationStatus,
+    storeKeeper: {
+      name: `${backendData.storekeeper.first_name} ${backendData.storekeeper.last_name}`,
+      avatar: backendData.storekeeper.avatar || ''
+    },
+    reservedBy: {
+      name: `${backendData.reserved_by.first_name} ${backendData.reserved_by.last_name}`,
+      avatar: backendData.reserved_by.avatar || ''
+    },
+    project: backendData.project,
+    created_date: backendData.created_date,
+    items: itemsData,
+    reservation_date: backendData.reservation_date
+  }
+}
 
 function useData(
   sourceData: any,
   page: number,
+  refreshData: () => void,
+  filters?: ReservationFilters,
   searchQuery?: string
 ) {
   const [data, setData] = useState<any[]>([]);
@@ -30,8 +67,14 @@ function useData(
       );
     }
 
+    if (filters) {
+      if (filters.status && filters.status !== 'all') {
+        result = result.filter(item => item.status.toLowerCase() === filters.status);
+      }
+    }
+
     return result;
-  }, [sourceData, searchQuery]);
+  }, [sourceData, searchQuery, filters]);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -46,14 +89,64 @@ function useData(
     data,
     totalPages,
     totalItems,
-    itemsPerPage
+    itemsPerPage,
+    refreshData
   };
 }
+export function useReservationItemsData(page: number, filters: ReservationFilters | undefined, searchQuery?: string) {
+  const [serverData, setServerData] = useState<ReservationItem[]>([]);
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/reservation-items`, {
+        method: 'GET',
+      });
 
-export function useReservationData(page: number, searchQuery?: string) {
-  return useData(reservationData, page, searchQuery);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data: ReservationItem[] = await response.json();
+      const itemData = data.map((item: any) => ItemBackendData(item));
+      setServerData(itemData);
+    } catch (error) {
+      console.error("Error fetching Reservation Item:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFunc();
+  }, [])
+
+  const refreshData = () => {
+    fetchFunc();
+  };
+  return useData(serverData, page, refreshData, filters, searchQuery);
 }
 
-export function useReservationItemsData(page: number, searchQuery?: string) {
-  return useData(reservationItemsData, page, searchQuery);
+export function useReservationData(page: number, filters?: ReservationFilters, searchQuery?: string) {
+  const [serverData, setServerData] = useState<ReservationData[]>([]);
+  const fetchFunc = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/reservations`, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data: ReservationData[] = await response.json();
+      const reservationData = data.map((item: any) => BackendData(item));
+      setServerData(reservationData);
+    } catch (error) {
+      console.error("Error fetching Reservations", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFunc();
+  }, [])
+
+  const refreshData = () => {
+    fetchFunc();
+  };
+  return useData(serverData, page, refreshData, filters, searchQuery);
 }

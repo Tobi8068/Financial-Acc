@@ -30,6 +30,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
   const { showNotification } = useNotification();
+  
   const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionsData(
     currentPage,
     filters,
