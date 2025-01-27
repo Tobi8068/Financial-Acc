@@ -94,8 +94,8 @@ export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.bin}</TableCell>
                                             <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>

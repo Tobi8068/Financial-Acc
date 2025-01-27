@@ -10,8 +10,8 @@ export interface ReceptionItem {
   name: string,
   itemCode: string,
   description: string,
-  manufacturerName: string,
-  manufacturerCode: string,
+  manufacturer: string,
+  manufacturer_code: string,
   quantity: number,
   bin: number,
 }

@@ -34,7 +34,7 @@ export interface PurchaseOrderItem {
   name: string;
   description: string;
   manufacturer: string;
-  manufacturerCode: string;
+  manufacturer_code: string;
   supplierCode: string;
   unitOfMeasure: string;
   quantity: number;

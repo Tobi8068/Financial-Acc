@@ -27,8 +27,8 @@ export interface ShippingItem {
   id: string,
   name: string;
   description: string;
-  manufacturerCode: string;
-  manufacturerName: string;
+  manufacturer: string;
+  manufacturer_code: string;
   itemCode: string;
   quantity: number;
   approved_quantity: number;

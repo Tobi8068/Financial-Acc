@@ -10,7 +10,7 @@ export interface RequisitionItem {
   name: string,
   description: string,
   manufacturer: string,
-  manufacturerCode: string,
+  manufacturer_code: string,
   supplierName: string,
   unitOfMeasure: string,
   quantity: number,

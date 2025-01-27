@@ -127,8 +127,8 @@ export function ProductionDetail({ props, onClickUndo }: ProductionDetailProps) 
                                         <TableRow key={index}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturerName}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
+                                            <TableCell>{item.manufacturer}</TableCell>
+                                            <TableCell>{item.manufacturer_code}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>
                                             <TableCell>{item.approvedQuantity}</TableCell>
                                             <TableCell>{item.unitOfMeasure}</TableCell>

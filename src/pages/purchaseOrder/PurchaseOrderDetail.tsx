@@ -120,8 +120,8 @@ export function PurchaseOrderDetail({ props, onClickUndo }: PurchaseOrderDetailP
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Description</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Supplier Code</TableHead>
                                     <TableHead>Supplier Name</TableHead>
                                     <TableHead>Measure Unit</TableHead>
@@ -138,8 +138,8 @@ export function PurchaseOrderDetail({ props, onClickUndo }: PurchaseOrderDetailP
                                         <TableRow key={index}>
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
-                                            <TableCell>{item.manufacturerName}</TableCell>
+                                            <TableCell>{item.manufacturer}</TableCell>
+                                            <TableCell>{item.manufacturer_code}</TableCell>
                                             <TableCell>{item.supplierCode}</TableCell>
                                             <TableCell>{item.supplierName}</TableCell>
                                             <TableCell>{item.unitOfMeasure}</TableCell>

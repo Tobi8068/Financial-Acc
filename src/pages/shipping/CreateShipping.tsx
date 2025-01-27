@@ -33,8 +33,8 @@ export function CreateShipping({ onClick }: CreateShippingProps) {
             id: '',
             name: '',
             description: '',
-            manufacturerName: '',
-            manufacturerCode: '',
+            manufacturer: '',
+            manufacturer_code: '',
             itemCode: '',
             quantity: 0,
             approved_quantity: 0,
@@ -136,8 +136,8 @@ export function CreateShipping({ onClick }: CreateShippingProps) {
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell>
@@ -177,8 +177,8 @@ export function CreateShipping({ onClick }: CreateShippingProps) {
                     <div className="w-full grid grid-cols-10 gap-3">
                         <div className="col-span-2"><TextInput value={formData.name} text='Name' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-4"><TextInput value={formData.description} text='Description' onChange={(value) => handleChange('description', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.manufacturerName} text='Manufacturer Name' onChange={(value) => handleChange('manufacturerName', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.manufacturerCode} text='Manufacturer Code' onChange={(value) => handleChange('manufacturerCode', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.manufacturer} text='Manufacturer Name' onChange={(value) => handleChange('manufacturer', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleChange('manufacturer_code', value)} /></div>
                         <div className="col-span-1"><TextInput value={formData.itemCode} text='Item Code' onChange={(value) => handleChange('itemCode', value)} /></div>
                         <div className="col-span-1">
                             <NumberInput label="Approved Quantity" value={formDataItem.quantity} onChange={(value) => handleChange('approved_quantity', value)} />

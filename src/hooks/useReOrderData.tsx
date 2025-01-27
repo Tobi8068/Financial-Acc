@@ -31,8 +31,8 @@ export function useReOrderData(
         item.preferredSupplier.toLowerCase().includes(query) ||
         item.price.toString().toLowerCase().includes(query) ||
         item.itemCode.toLowerCase().includes(query) ||
-        item.manufacturerName.toString().toLowerCase().includes(query) ||
-        item.manufacturerCode.toString().toLowerCase().includes(query)
+        item.manufacturer.toString().toLowerCase().includes(query) ||
+        item.manufacturer_code.toString().toLowerCase().includes(query)
       );
     }
 

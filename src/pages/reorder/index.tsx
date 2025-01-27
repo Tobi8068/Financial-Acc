@@ -24,8 +24,8 @@ function Reorder() {
     preferredSupplier: '',
     price: 0,
     itemCode: '',
-    manufacturerName: '',
-    manufacturerCode: '',
+    manufacturer: '',
+    manufacturer_code: '',
   });
 
   const handlePage = (page: number) => {

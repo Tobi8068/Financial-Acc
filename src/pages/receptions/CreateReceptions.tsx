@@ -31,8 +31,8 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
             name: '',
             itemCode: '',
             description: '',
-            manufacturerName: '',
-            manufacturerCode: '',
+            manufacturer: '',
+            manufacturer_code: '',
             quantity: 0,
             bin: 0,
         }
@@ -98,8 +98,8 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.bin}</TableCell>
                                             <TableCell>
