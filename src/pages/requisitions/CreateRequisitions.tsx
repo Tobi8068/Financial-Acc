@@ -235,8 +235,8 @@ export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) 
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold mb-6">Create Requisition</h2>
+            <div className="flex items-center justify-between pb-2">
+                <h2 className="text-xl font-semibold">Create Requisition</h2>
                 <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
                     <Undo2 onClick={() => onClickUndo(1)} />
                 </div>

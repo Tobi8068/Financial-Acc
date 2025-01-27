@@ -234,7 +234,6 @@ export function CreatePurchaseOrder({ onClickUndo }: { onClickUndo: (value: any)
             Created: 'bg-[#EFF8FF] text-[#175CD3]',
             Approved: 'bg-[#ECFDF3] text-[#027A48]',
             Partially_Received: 'bg-[#F4F3FF] text-[#FF9900]'
-
         };
 
         return (

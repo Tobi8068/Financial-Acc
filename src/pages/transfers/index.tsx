@@ -63,14 +63,17 @@ function Transfert() {
           <>
             <InsideNavbar text="transfert" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center bg-white bg-opacity-50">
-              <CreateTransfert />
+              <CreateTransfert onClickUndo={() => handlePage(1)} />
             </main>
           </>
         ) : scene === 3 ? (
           <>
             <InsideNavbar text="Transfert" onClick={() => handlePage(1)} />
             <main className="flex-1 bg-white bg-opacity-50">
-              <TransfertDetail {...detailData} />
+              <TransfertDetail
+                props={detailData}
+                onClickUndo={() => handlePage(1)}
+              />
             </main>
           </>
         ) : ''
