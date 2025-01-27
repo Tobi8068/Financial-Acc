@@ -74,7 +74,10 @@ export default function PurchaseOrder() {
                     <>
                         <InsideNavbar text="Purchase Order" onClick={() => handlePage(1)} />
                         <main className="flex-1 p-6 bg-white bg-opacity-50">
-                            <PurchaseOrderDetail {...detailData} />
+                            <PurchaseOrderDetail
+                                props={detailData}
+                                onClickUndo={() => handlePage(1)}
+                            />
                         </main>
                     </>
                 ) : ''

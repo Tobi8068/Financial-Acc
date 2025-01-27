@@ -7,6 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { Undo2, UserX } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Pagination } from '@/components/pagination/Pagination';
 import { formatDate } from '@/lib/date';
@@ -15,7 +16,11 @@ import { getUserAvatarPath } from '@/lib/utils';
 import { PurchaseOrderData, PurchaseOrderItemStatus, PurchaseOrderStatus } from '@/types/purchaseOrder';
 import { usePurchaseOrderItemsData } from '@/hooks/usePurchaseOrderData';
 
-export function PurchaseOrderDetail(props: PurchaseOrderData) {
+interface PurchaseOrderDetailProps {
+    props: PurchaseOrderData;
+    onClickUndo: (value: any) => void;
+}
+export function PurchaseOrderDetail({ props, onClickUndo }: PurchaseOrderDetailProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages, totalItems, itemsPerPage } = usePurchaseOrderItemsData(
         currentPage,
@@ -55,7 +60,12 @@ export function PurchaseOrderDetail(props: PurchaseOrderData) {
 
     return (
         <div>
-            <h2 className="text-xl font-semibold">Purchase Order Details</h2>
+            <div className='flex justify-between items-center'>
+                <h2 className="text-xl font-semibold">Purchase Orde Details</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                     <div className="space-y-4">
@@ -82,17 +92,21 @@ export function PurchaseOrderDetail(props: PurchaseOrderData) {
                         </div>
                         <div className="text-md text-[#2B2D40] flex">
                             <span className="font-bold w-[148px]">Approved By:&nbsp;</span>
-                            {props.approvedBy ? (
-                                <div className='flex items-center gap-2'>
+                            {props.approvedBy.name.length !== 2 ? (
+                                <>
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage src={getUserAvatarPath(props.approvedBy.avatar)} alt={props.approvedBy.name} />
                                         <AvatarFallback>
                                             <span>{props.approvedBy.name}</span>
                                         </AvatarFallback>
                                     </Avatar>
-                                    <span className=" ">{props.approvedBy.name}</span>
-                                </div>) : (
-                                <span className=" ">Not Approved</span>
+                                    <span>{props.approvedBy.name}</span>
+                                </>
+                            ) : (
+                                <>
+                                    <UserX className="h-8 w-8 text-red-400 rounded-full" />
+                                    <span>None</span>
+                                </>
                             )}
                         </div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Approved:&nbsp;</span><span>{props.approved ? "Yes" : "No"}</span></div>

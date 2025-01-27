@@ -86,6 +86,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
               <TableHead className='pl-6'>No.</TableHead>
+              <TableHead>ID</TableHead>
               <TableHead>Date Created</TableHead>
               <TableHead>Ship To</TableHead>
               <TableHead>Bill To</TableHead>
@@ -106,6 +107,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                 key={item.id}
               >
                 <TableCell className="font-medium pl-6">{index + (currentPage - 1) * itemsPerPage + 1}</TableCell>
+                <TableCell className='text-[#535862'>{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{formatDate(item.dateCreated)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.shipTo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.billTo}</TableCell>
@@ -128,7 +130,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
 
                 <TableCell className='text-[#535862]'>
                   <div className='flex items-center gap-2'>
-                    {item.approvedBy.name !== "" ? (
+                    {item.approvedBy.name.length !== 2 ? (
                       <>
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />
@@ -140,13 +142,12 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                       </>
                     ) : (
                       <>
-                        <UserX className="h-8 w-8" />
-                        <span>Not approved</span>
+                        <UserX className="h-8 w-8 text-red-400 rounded-full" />
+                        <span>None</span>
                       </>
                     )}
                   </div>
                 </TableCell>
-
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

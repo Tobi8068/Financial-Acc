@@ -1,8 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PurchaseOrderData, PurchaseOrderFilters, PurchaseOrderItem, PurchaseOrderStatus, PurchaseOrderItemStatus } from '@/types/purchaseOrder';
 import { capitalizeLetter } from '@/lib/utils';
-import { data } from 'react-router';
-import { purchaseOrderData } from '@/lib/mock-data';
 
 const transformItemBackendData = (backendData: any): PurchaseOrderItem => {
   return {

@@ -17,7 +17,7 @@ export interface PurchaseOrderData {
     name: string;
     avatar: string;
   };
-  approvedBy?: {
+  approvedBy: {
     name: string;
     avatar: string;
   };

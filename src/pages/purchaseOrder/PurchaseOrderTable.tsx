@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, UserX } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -122,7 +122,7 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                 <TableCell className='text-[#535862]'>
                   <div className='flex items-center gap-2'>
                     <Avatar className="h-8 w-8">
-                      <img src={getUserAvatarPath(item.created_by.avatar)} alt="d" />
+                      <img src={getUserAvatarPath(item.createdBy.avatar)} alt="d" />
                       {/* <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} /> */}
                       <AvatarFallback>
                         <span>{item.createdBy.name}</span>
@@ -133,13 +133,22 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                 </TableCell>
                 <TableCell className='text-[#535862]'>
                   <div className='flex items-center gap-2'>
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />
-                      <AvatarFallback>
+                    {item.approvedBy.name.length !== 2 ? (
+                      <>
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />
+                          <AvatarFallback>
+                            <span>{item.approvedBy.name}</span>
+                          </AvatarFallback>
+                        </Avatar>
                         <span>{item.approvedBy.name}</span>
-                      </AvatarFallback>
-                    </Avatar>
-                    <span>{item.approvedBy.name}</span>
+                      </>
+                    ) : (
+                      <>
+                        <UserX className="h-8 w-8 text-red-400 rounded-full" />
+                        <span>None</span>
+                      </>
+                    )}
                   </div>
                 </TableCell>
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
