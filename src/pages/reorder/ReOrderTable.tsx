@@ -73,8 +73,8 @@ export function ReOrderTable({ filters, sortOption, searchQuery, onClickView }: 
                 <TableCell className='text-[#535862]'>{item.preferredSupplier}</TableCell>
                 <TableCell className='text-[#535862]'>{item.price}</TableCell>
                 <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
-                <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
-                <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
+                <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
+                <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>

@@ -34,7 +34,7 @@ const transformItemBackendData = (backendData: any): SalesItemData => {
     name: backendData.item_name,
     description: backendData.description,
     manufacturer: backendData.manufacturer,
-    manufacturerCode: backendData.manufacturer_code,
+    manufacturer_code: backendData.manufacturer_code,
     status: capitalizeLetter(backendData.status) as SalesItemStatus,
     
     // itemCode: backendData.measure_unit.orderUnitName,

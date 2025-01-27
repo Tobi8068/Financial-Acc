@@ -16,7 +16,7 @@ export function SalesDetail(props: SalesData) {
             name: 'Computer',
             description: 'Monthly Subscription',
             manufacturer: 'Apple Inc',
-            manufacturerCode: '35412AB',
+            manufacturer_code: '35412AB',
             itemCode: '35412AB',
             quantity: 5,
             unit: 'Unit',
@@ -31,7 +31,7 @@ export function SalesDetail(props: SalesData) {
             name: 'Mobile',
             description: 'Monthly Subscription',
             manufacturer: 'Apple Inc',
-            manufacturerCode: '35412AB',
+            manufacturer_code: '35412AB',
             itemCode: '35412AB',
             quantity: 5,
             unit: 'Unit',
@@ -46,7 +46,7 @@ export function SalesDetail(props: SalesData) {
             name: 'Keyboard',
             description: 'Monthly Subscription',
             manufacturer: 'Apple Inc',
-            manufacturerCode: '35412AB',
+            manufacturer_code: '35412AB',
             itemCode: '35412AB',
             quantity: 5,
             unit: 'Unit',
@@ -61,7 +61,7 @@ export function SalesDetail(props: SalesData) {
             name: 'Keyboard',
             description: 'Monthly Subscription',
             manufacturer: 'Apple Inc',
-            manufacturerCode: '35412AB',
+            manufacturer_code: '35412AB',
             itemCode: '35412AB',
             quantity: 5,
             unit: 'Unit',
@@ -76,7 +76,7 @@ export function SalesDetail(props: SalesData) {
             name: 'Keyboard',
             description: 'Monthly Subscription',
             manufacturer: 'Apple Inc',
-            manufacturerCode: '35412AB',
+            manufacturer_code: '35412AB',
             itemCode: '35412AB',
             quantity: 5,
             unit: 'Unit',
@@ -127,7 +127,7 @@ export function SalesDetail(props: SalesData) {
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
                                             <TableCell>{item.manufacturer}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
+                                            <TableCell>{item.manufacturer_code}</TableCell>
                                             <TableCell>{item.itemCode}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>
                                             <TableCell>{item.unit}</TableCell>

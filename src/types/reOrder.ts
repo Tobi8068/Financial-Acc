@@ -15,15 +15,15 @@ export interface ReOrderData {
   preferredSupplier: string;
   price: number;
   itemCode: string;
-  manufacturerName: string;
-  manufacturerCode: string;
+  manufacturer: string;
+  manufacturer_code: string;
 }
 
 export interface ReOrderItem {
   name: string,
   description: string,
-  manufacturerCode: string,
-  manufacturerName: string,
+  manufacturer: string,
+  manufacturer_code: string,
   supplierCode: string,
   supplierName: string,
   unitOfMeasure: string,

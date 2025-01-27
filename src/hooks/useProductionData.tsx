@@ -31,8 +31,8 @@ const productionItemBackendData = (backendData: any): ProductionItem => {
     name: backendData.item_name,
     description: backendData.description,
     quantity: backendData.quantity,
-    manufacturerName: backendData.manufacturer,
-    manufacturerCode: backendData.manufacturer_code,
+    manufacturer: backendData.manufacturer,
+    manufacturer_code: backendData.manufacturer_code,
     unitOfMeasure: backendData.measure_unit.orderUnitName,
     status: capitalizeLetter(backendData.status) as ProductionItemStatus,
     approvedQuantity: backendData.approved_quantity

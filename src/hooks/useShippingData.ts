@@ -22,8 +22,8 @@ const transformItemBackendData = (backendData: any): ShippingItem => {
     id: backendData.id,
     name: backendData.item_name,
     description: backendData.description,
-    manufacturerCode: backendData.manufacturer_code,
-    manufacturerName: backendData.manufacturer,
+    manufacturer: backendData.manufacturer,
+    manufacturer_code: backendData.manufacturer_code,
     itemCode: backendData.measure_unit.orderUnitName,
     quantity: backendData.quantity,
     approved_quantity: backendData.approved_quantity

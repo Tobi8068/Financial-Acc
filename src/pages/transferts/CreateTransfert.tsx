@@ -30,8 +30,8 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
     const [formItemData, setFormItemData] = useState<any>({
         name: '',
         description: '',
-        manufacturerName: '',
-        manufacturerCode: '',
+        manufacturer: '',
+        manufacturer_code: '',
         quantity: 0,
         bin: '',
         status: 'Approved',
@@ -89,13 +89,15 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                 setFormItemData({
                     name: '',
                     description: '',
-                    manufacturerName: '',
-                    manufacturerCode: '',
+                    manufacturer: '',
+                    manufacturer_code: '',
                     quantity: 0,
                     bin: '',
                     status: 'Approved',
                 });
                 refreshData();
+            } else {
+                showNotification('Faild Item creating ', 'error');
             }
         } catch (error) {
             console.error('Error creating item:', error);
@@ -185,8 +187,8 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.bin}</TableCell>
                                             <TableCell className='text-[#535862]'>{getItemStatusBadge(item.status)}</TableCell>
@@ -227,15 +229,15 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                     <div className="w-full grid grid-cols-10 gap-3">
                         <div className="col-span-2"><TextInput text='Name' value={formItemData.name} onChange={(value) => handleItemChange('name', value)} /></div>
                         <div className="col-span-2"><TextInput text='Description' value={formItemData.description} onChange={(value) => handleItemChange('description', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Manufacturer Name' value={formItemData.manufacturerName} onChange={(value) => handleItemChange('manufacturerName', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Manufacturer Code' value={formItemData.manufacturerCode} onChange={(value) => handleItemChange('manufacturerCode', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Manufacturer Name' value={formItemData.manufacturer} onChange={(value) => handleItemChange('manufacturer', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Manufacturer Code' value={formItemData.manufacturer_code} onChange={(value) => handleItemChange('manufacturer_code', value)} /></div>
 
                         <div className="col-span-1">
                             <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleItemChange('quantity', value)} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput
-                                label="Bin8"
+                                label="Bin"
                                 value={formItemData.bin}
                                 onChange={(value) => handleItemChange('bin', value)}
                                 options={binList?.map(item => (

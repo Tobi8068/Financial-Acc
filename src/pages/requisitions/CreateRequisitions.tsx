@@ -306,7 +306,7 @@ export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) 
                                             <TableCell className='pl-6'>{item.name}</TableCell>
                                             <TableCell>{item.description}</TableCell>
                                             <TableCell>{item.manufacturer}</TableCell>
-                                            <TableCell>{item.manufacturerCode}</TableCell>
+                                            <TableCell>{item.manufacturer_code}</TableCell>
                                             <TableCell>{item.supplierName}</TableCell>
                                             <TableCell>{item.unitOfMeasure}</TableCell>
                                             <TableCell>{item.quantity}</TableCell>

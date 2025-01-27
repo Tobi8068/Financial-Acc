@@ -33,7 +33,7 @@ export interface SalesItemData {
   name: string,
   description: string,
   manufacturer: string,
-  manufacturerCode: string,
+  manufacturer_code: string,
 
   quantity: number,
   price: number,
@@ -51,7 +51,7 @@ export interface SalesDetailData {
   name: string;
   description: string;
   manufacturer: string;
-  manufacturerCode: string;
+  manufacturer_code: string;
   itemCode: string;
   quantity: number;
   unit: string;
