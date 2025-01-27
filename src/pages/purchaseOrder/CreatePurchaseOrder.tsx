@@ -93,15 +93,9 @@ export function CreatePurchaseOrder({ onClickUndo }: { onClickUndo: (value: any)
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = usePurchaseOrderItemsData(
         currentPage,
     );
-    const handleChange = (field: string, value: any) => {
-        setFormData({ ...formData, [field]: value });
-    };
+   
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
-    };
-    const handleDeleteItem = (itemId: string) => {
-        setDeleteItemId(itemId);
-        setDeleteDialogOpen(true);
     };
 
     const handleFormItemData = (field: string, value: any) => {
