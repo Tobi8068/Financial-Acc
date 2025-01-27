@@ -192,12 +192,12 @@ export function CreatePurchaseOrder({ onClickUndo }: { onClickUndo: (value: any)
                     ship_to: '',
                     bill_to: '',
                     department: '',
-                    status: 'waiting_approval',
+                    status: 'created',
                     items: [],
                     requisition_doc: 1,
                     approved: true,
-                    approved_by: 1,
-                    created_by: 1,
+                    approved_by: '',
+                    created_by: '',
                 });
                 setSelectedItems([]);
                 refreshData();

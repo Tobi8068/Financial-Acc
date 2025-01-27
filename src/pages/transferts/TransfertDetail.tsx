@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Download, Undo2 } from 'lucide-react';
 import {
     Table,
@@ -9,9 +8,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { TransfertData } from '@/types/transferts';
-import { useTransferItemsData } from '@/hooks/useTransfertData';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Pagination } from '@/components/pagination/Pagination';
 import { TransfertStatus } from "@/types/transferts";
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
