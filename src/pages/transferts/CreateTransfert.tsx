@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Badge } from '@/components/ui/badge';
 import { TextInput, TextAreaInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
+import { Checkbox } from '@/components/ui/checkbox';
 import { TransfertItemStatus } from "@/types/transferts";
 import { MoreVertical, Undo2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -26,6 +27,7 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
     const [currentPage, setCurrentPage] = useState(1);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
     const [formItemData, setFormItemData] = useState<any>({
         item_name: '',
@@ -129,6 +131,22 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
         setDeleteItemId(null);
     };
 
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectedItems(data.map(item => item.id));
+        } else {
+            setSelectedItems([]);
+        }
+    };
+    
+    const handleSelectItem = (id: string, checked: boolean) => {
+        if (checked) {
+            setSelectedItems([...selectedItems, Number(id)]);
+        } else {
+            setSelectedItems(selectedItems.filter(item => item !== Number(id)));
+        }
+    };
+
     const getItemStatusBadge = (status: TransfertItemStatus) => {
         const styles = {
             Approved: 'bg-green-100 text-green-800',
@@ -180,6 +198,12 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                 <Table>
                     <TableHeader>
                         <TableRow>
+                            <TableHead className="w-12 flex items-center justify-center">
+                                <Checkbox
+                                    checked={selectedItems.length === data.length}
+                                    onCheckedChange={handleSelectAll}
+                                />
+                            </TableHead>
                             <TableHead className='pl-6'>Name</TableHead>
                             <TableHead>Description</TableHead>
                             <TableHead>Manufacturer</TableHead>
@@ -194,6 +218,9 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                         {
                             data.length !== 0 && data.map((item, index) => (
                                 <TableRow key={index}>
+                                    <TableCell className="w-12 flex items-center justify-center">
+                                        <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
+                                    </TableCell>
                                     <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                     <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                     <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>

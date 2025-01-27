@@ -23,6 +23,7 @@ import { useAuth } from "@/context/authProvider";
 
 export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) => void }) {   
     const { user } = useAuth();
+    
     const [formData, setFormData] = useState<any>(
         {
             requisition_number: 0,
