@@ -76,7 +76,8 @@ export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className='pl-6'>Name</TableHead>
+                                    <TableHead className='pl-6'>No.</TableHead>
+                                    <TableHead>Name</TableHead>
                                     <TableHead>Description</TableHead>
                                     <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
@@ -89,7 +90,8 @@ export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
                                 {
                                     props.items.map((item, index) => (
                                         <TableRow key={index}>
-                                            <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
+                                            <TableCell className='text-[#535862] pl-6'>{index + 1}</TableCell>
+                                            <TableCell className='text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>

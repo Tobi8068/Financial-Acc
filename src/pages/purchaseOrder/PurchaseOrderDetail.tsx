@@ -118,7 +118,8 @@ export function PurchaseOrderDetail({ props, onClickUndo }: PurchaseOrderDetailP
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className='pl-6'>Name</TableHead>
+                                    <TableHead className='pl-6'>No.</TableHead>
+                                    <TableHead>Name</TableHead>
                                     <TableHead>Description</TableHead>
                                     <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
@@ -136,18 +137,19 @@ export function PurchaseOrderDetail({ props, onClickUndo }: PurchaseOrderDetailP
                                 {
                                     data.map((item, index) => (
                                         <TableRow key={index}>
-                                            <TableCell className='pl-6'>{item.name}</TableCell>
-                                            <TableCell>{item.description}</TableCell>
-                                            <TableCell>{item.manufacturer}</TableCell>
-                                            <TableCell>{item.manufacturer_code}</TableCell>
-                                            <TableCell>{item.supplierCode}</TableCell>
-                                            <TableCell>{item.supplierName}</TableCell>
-                                            <TableCell>{item.unitOfMeasure}</TableCell>
-                                            <TableCell>{item.quantity}</TableCell>
-                                            <TableCell>${item.price}</TableCell>
-                                            <TableCell>${item.total}</TableCell>
-                                            <TableCell>{item.taxGroup}</TableCell>
-                                            <TableCell>{getItemStatusBadge(item.status)}</TableCell>
+                                            <TableCell className='text-[#535862] pl-6'>{index + 1}</TableCell>
+                                            <TableCell className='text-[#181D27] font-semibold'>{item.name}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.supplierCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.supplierName}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.unitOfMeasure}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
+                                            <TableCell className='text-[#535862]'>${item.price}</TableCell>
+                                            <TableCell className='text-[#535862]'>${item.total}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.taxGroup}</TableCell>
+                                            <TableCell className='text-[#535862]'>{getItemStatusBadge(item.status)}</TableCell>
                                         </TableRow>
                                     ))
                                 }

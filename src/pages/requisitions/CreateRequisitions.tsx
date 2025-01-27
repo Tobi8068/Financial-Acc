@@ -21,9 +21,9 @@ import useNotification from "@/hooks/useNotifications";
 import { RequisitionItemStatus } from "@/types/requisitions";
 import { useAuth } from "@/context/authProvider";
 
-export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) => void }) {   
+export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) => void }) {
     const { user } = useAuth();
-    
+
     const [formData, setFormData] = useState<any>(
         {
             requisition_number: 0,
@@ -167,8 +167,6 @@ export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) 
     }
 
     const handleCreate = async () => {
-        console.log(formData)
-
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions`, {
                 method: 'POST',
@@ -179,24 +177,26 @@ export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) 
             });
 
             if (response.status === 201) {
-                showNotification('New Production created successfully', 'success');
+                showNotification('New Requisition created successfully', 'success');
                 setFormData({
                     requisition_number: '',
                     ship_to: '',
                     bill_to: '',
                     department: '',
-                    status: 'created',
+                    status: '',
                     items: [],
                     requisition_doc: 1,
-                    approved: true,
+                    approved: false,
                     approved_by: '',
                     created_by: '',
                 });
                 setSelectedItems([]);
                 refreshData();
+            } else {
+                showNotification('Failed Transfert creating ', 'error');
             }
         } catch (error) {
-            console.error('Error creating item:', error);
+            console.error('Error creating Requisition:', error);
         }
     }
 
