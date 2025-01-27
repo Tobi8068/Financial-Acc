@@ -13,6 +13,8 @@ import { useReservationData } from '@/hooks/useReservationData';
 import { Pagination } from '@/components/pagination/Pagination';
 import { Badge } from '@/components/ui/badge';
 import { ReservationStatus } from '@/types/reservation';
+import DeleteDialog from '@/components/table/DeleteDialog';
+
 import AvatarImg from '../../assets/img/avatar.png';
 
 interface ReservationTableProps {
