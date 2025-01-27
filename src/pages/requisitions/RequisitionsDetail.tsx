@@ -39,7 +39,7 @@ export function RequisitionsDetail({ props, onClickUndo }: RequisitionsDetailPro
 
     return (
         <div>
-            <div className='flex justify-between items-center'>
+            <div className='flex justify-between items-center pb-2'>
                 <h2 className="text-xl font-semibold">Requisitions Details</h2>
                 <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
                     <Undo2 onClick={() => onClickUndo(1)} />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Download } from 'lucide-react';
+import { Download, Undo2 } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -16,7 +16,11 @@ import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
 import { Badge } from '@/components/ui/badge';
 
-export function TransfertDetail(props: TransfertData) {
+interface TransfertDetailProps {
+    props: TransfertData;
+    onClickUndo: (val: any) => void;
+}
+export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
         currentPage,
@@ -35,10 +39,15 @@ export function TransfertDetail(props: TransfertData) {
         );
     };
 
-
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-200px)]">
-            <h2 className="text-xl font-semibold">Transfert Details</h2>
+            <div className="flex items-center justify-between pb-2">
+                <h2 className="text-xl font-semibold">Transfert Details</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
+
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <h2 className='text-[#636692] font-semibold'>Transfert Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
