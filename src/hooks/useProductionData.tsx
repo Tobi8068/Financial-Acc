@@ -63,9 +63,8 @@ function useData(
         item.productionStartDate.toLowerCase().includes(query) ||
         item.productionEndDate.toLowerCase().includes(query) ||
         item.status.toLowerCase().includes(query) ||
-        item.createdBy.toLowerCase().includes(query) ||
-        item.approved.toString().toLowerCase().includes(query) ||
-        item.approvedBy.toLowerCase().includes(query)
+        item.createdBy.name.toLowerCase().includes(query) ||
+        item.approvedBy.name.toLowerCase().includes(query)
       );
     }
     if (filters) {
