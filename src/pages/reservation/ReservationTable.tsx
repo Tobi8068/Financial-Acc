@@ -8,27 +8,31 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getUserAvatarPath } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useReservationData } from '@/hooks/useReservationData';
 import { Pagination } from '@/components/pagination/Pagination';
 import { Badge } from '@/components/ui/badge';
-import { ReservationStatus } from '@/types/reservation';
+import { ReservationStatus, ReservationFilters } from '@/types/reservation';
 import DeleteDialog from '@/components/table/DeleteDialog';
-
-import AvatarImg from '../../assets/img/avatar.png';
+import useNotification from '@/hooks/useNotifications';
 
 interface ReservationTableProps {
+  filters: ReservationFilters;
   searchQuery: string;
   onClickView: (item: any) => void;
 }
 
-export function ReservationTable({ searchQuery, onClickView }: ReservationTableProps) {
+export function ReservationTable({ filters, searchQuery, onClickView }: ReservationTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
+  const { showNotification } = useNotification();
 
-  const { data, totalPages, totalItems, itemsPerPage } = useReservationData(
+  const { data, totalPages, totalItems, itemsPerPage, refreshData } = useReservationData(
     currentPage,
+    filters,
     searchQuery
   );
 
@@ -43,9 +47,19 @@ export function ReservationTable({ searchQuery, onClickView }: ReservationTableP
     setDeleteItemId(id);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (deleteItemId) {
-      console.log('Deleting item with id:', deleteItemId);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/reservations/${deleteItemId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.status === 204) {
+        showNotification('Reservation deleted successfully', 'success');
+        refreshData();
+      } else {
+        showNotification('Failed to delete reservation', 'error');
+      }
+
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }
@@ -72,9 +86,8 @@ export function ReservationTable({ searchQuery, onClickView }: ReservationTableP
         <Table>
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
-              <TableHead className='pl-6'>Issue No.</TableHead>
-              <TableHead>Date Created</TableHead>
-              <TableHead>Items</TableHead>
+              <TableHead className='pl-6'>No.</TableHead>
+              <TableHead>Created Date</TableHead>
               <TableHead>Reservation Date</TableHead>
               <TableHead>Reason</TableHead>
               <TableHead>Project</TableHead>
@@ -92,28 +105,29 @@ export function ReservationTable({ searchQuery, onClickView }: ReservationTableP
               >
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{item.dateCreated}</TableCell>
-                <TableCell className='text-[#535862]'>{item.items}</TableCell>
                 <TableCell className='text-[#535862]'>{item.reservationDate}</TableCell>
                 <TableCell className='text-[#535862]'>{item.reason}</TableCell>
                 <TableCell className='text-[#535862]'>{item.project}</TableCell>
                 <TableCell className='text-[#535862]'>
-                  <div className='flex items-center gap-1'>
-                    <div>
-                      <img src={AvatarImg} className='rounded-[100%]'></img>
-                    </div>
-                    <div className='flex flex-col'>
-                      <span>{item.storeKeeper.name}</span>
-                    </div>
+                  <div className='flex items-center gap-2'>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={getUserAvatarPath(item.storeKeeper.avatar)} alt={item.storeKeeper.name} />
+                      <AvatarFallback>
+                        <span>{item.storeKeeper.name}</span>
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>{item.storeKeeper.name}</span>
                   </div>
                 </TableCell>
                 <TableCell className='text-[#535862] flex items-center gap-1'>
-                  <div className='flex items-center gap-1'>
-                    <div>
-                      <img src={AvatarImg} className='rounded-[100%]'></img>
-                    </div>
-                    <div className='flex flex-col'>
-                      <span>{item.reservedBy.name}</span>
-                    </div>
+                  <div className='flex items-center gap-2'>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={getUserAvatarPath(item.reservedBy.avatar)} alt={item.reservedBy.name} />
+                      <AvatarFallback>
+                        <span>{item.reservedBy.name}</span>
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>{item.reservedBy.name}</span>
                   </div>
                 </TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
