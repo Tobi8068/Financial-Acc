@@ -94,7 +94,6 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
               <TableHead>Bin</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Created By</TableHead>
-
               <TableHead className="w-12">Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -103,13 +102,13 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
               <TableRow
                 key={item.id}
               >
-                <TableCell className="font-medium pl-6">{index + (currentPage - 1) * itemsPerPage + 1}</TableCell>
-                <TableCell className="font-medium ">{item.trans_num}</TableCell>
-                <TableCell className='text-[#535862]'>{formatDate(item.date)}</TableCell>
-                <TableCell className="font-medium">{item.reason}</TableCell>
-                <TableCell className="font-medium">{item.bin}</TableCell>
-                <TableCell className='text-[#535862]'>{getStatusBadge(item.status)} </TableCell>
-                <TableCell className='text-[#535862] '>
+                <TableCell className="text-[#535862] pl-6">{index + (currentPage - 1) * itemsPerPage + 1}</TableCell>
+                <TableCell className="text-[#535862]">{item.trans_num}</TableCell>
+                <TableCell className="text-[#535862]">{formatDate(item.date)}</TableCell>
+                <TableCell className="text-[#535862]">{item.reason}</TableCell>
+                <TableCell className="text-[#535862]">{item.bin}</TableCell>
+                <TableCell className="text-[#535862]">{getStatusBadge(item.status)} </TableCell>
+                <TableCell className="text-[#535862]">
                   <div className='flex items-center gap-2'>
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} />

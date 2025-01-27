@@ -68,7 +68,7 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
 
   const getStatusBadge = (status: PurchaseOrderStatus) => {
     const styles = {
-      Created: 'bg-[#F5F5F5] text-[#414651]',
+      Created: 'bg-[#F5F5A0] text-[#414651]',
       Approved: 'bg-[#ECFDF3] text-[#027A48]',
       Sent: 'bg-[#EFF8FF] text-[#175CD3]',
       Partially_Received: 'bg-[#F4F3FF] text-[#5925DC]',
@@ -123,14 +123,13 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                 <TableCell className='text-[#535862]'>
                   <div className='flex items-center gap-2'>
                     <Avatar className="h-8 w-8">
-                      <img src={getUserAvatarPath(item.createdBy.avatar)} alt="d" />
-                      {/* <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} /> */}
+                      <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} />
                       <AvatarFallback>
                         <span>{item.createdBy.name}</span>
                       </AvatarFallback>
                     </Avatar>
+                    <span>{item.createdBy.name}</span>
                   </div>
-                  <span>{item.createdBy.name}</span>
                 </TableCell>
                 <TableCell className='text-[#535862]'>
                   <div className='flex items-center gap-2'>
@@ -152,6 +151,7 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                     )}
                   </div>
                 </TableCell>
+
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
                 <TableCell className='text-[#535862]'>{item.sent ? "Yes" : "No"}</TableCell>
                 <TableCell>

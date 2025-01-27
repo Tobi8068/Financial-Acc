@@ -166,14 +166,14 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
     };
 
     useEffect(() => {
-        handleFormChange('items', selectedItems);
+        handleFormData('items', selectedItems);
     }, [selectedItems])
 
-    const handleFormChange = (field: string, value: any) => {
+    const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
 
-    const handleFormItemChange = (field: string, value: any) => {
+    const handleFormItemData = (field: string, value: any) => {
         const updatedData = { ...formItemData, [field]: value };
 
         if (field === 'quantity' || field === 'approved_quantity') {
@@ -236,12 +236,12 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput text='Name' value={formData.p_name} onChange={(value) => handleFormChange('p_name', value)} />
+                        <TextInput text='Name' value={formData.p_name} onChange={(value) => handleFormData('p_name', value)} />
 
                         <SelectInput
                             label="Project"
                             value={formItemData.project}
-                            onChange={(value) => handleFormChange('project', value)}
+                            onChange={(value) => handleFormData('project', value)}
                             options={projectList.map(item => (
                                 {
                                     value: item.id,
@@ -250,8 +250,8 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
                             ))}
                         />
 
-                        <DateInput value={formData.p_start_date} text='Start Date' onChange={(value) => handleFormChange('p_start_date', convertDate(value))} />
-                        <DateInput value={formData.p_end_date} text='End Date' onChange={(value) => handleFormChange('p_end_date', convertDate(value))} />
+                        <DateInput value={formData.p_start_date} text='Start Date' onChange={(value) => handleFormData('p_start_date', convertDate(value))} />
+                        <DateInput value={formData.p_end_date} text='End Date' onChange={(value) => handleFormData('p_end_date', convertDate(value))} />
                     </div>
 
                     <h2 className="font-semibold text-[18px] text-[#636692]">Production Items</h2>
@@ -326,20 +326,20 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">Production Item</h2>
                     <div className="w-full grid grid-cols-9 gap-3">
-                        <div className="col-span-2"><TextInput text='Name' value={formItemData.item_name} onChange={(value) => handleFormItemChange('item_name', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Description' value={formItemData.description} onChange={(value) => handleFormItemChange('description', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Name' value={formItemData.manufacturer} onChange={(value) => handleFormItemChange('manufacturer', value)} /></div>
-                        <div className="col-span-1"><TextInput text='Manufacturer Code' value={formItemData.manufacturer_code} onChange={(value) => handleFormItemChange('manufacturer_code', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Name' value={formItemData.item_name} onChange={(value) => handleFormItemData('item_name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Description' value={formItemData.description} onChange={(value) => handleFormItemData('description', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Name' value={formItemData.manufacturer} onChange={(value) => handleFormItemData('manufacturer', value)} /></div>
+                        <div className="col-span-1"><TextInput text='Manufacturer Code' value={formItemData.manufacturer_code} onChange={(value) => handleFormItemData('manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemChange('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('quantity', value)} />
                         </div>
                         <div className="col-span-1">
-                            <NumberInput label="Approved Quantity" value={formItemData.approved_quantity} onChange={(value) => handleFormItemChange('approved_quantity', value)} />
+                            <NumberInput label="Approved Quantity" value={formItemData.approved_quantity} onChange={(value) => handleFormItemData('approved_quantity', value)} />
                         </div>
                         <SelectInput
                             label="Measure Unit"
                             value={formItemData.measure_unit}
-                            onChange={(value) => handleFormItemChange('measure_unit', value)}
+                            onChange={(value) => handleFormItemData('measure_unit', value)}
                             options={Array.isArray(unitList) && unitList.length > 0
                                 ? unitList.map(item => ({
                                     value: item.id,

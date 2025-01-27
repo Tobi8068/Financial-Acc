@@ -65,7 +65,7 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
         fetchDatas();
     }, [])
 
-    const handleChange = (field: string, value: any) => {
+    const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
 
@@ -146,129 +146,125 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
             <div className="flex item-center justify-between pb-2">
-                <h2 className="text-xl font-semibold">Create Transfers</h2>
+                <h2 className="text-xl font-semibold">Create Transferts</h2>
                 <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
                     <Undo2 onClick={() => onClickUndo(1)} />
                 </div>
             </div>
-            <div className="w-full flex items-center justify-center">
-                <div className="w-[98%] flex flex-col gap-3 item">
-                    <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput text='Number' value={formData.number} onChange={(value) => handleChange('number', value)} />
-                        <TextInput text='Created By' value={formData.createdBy} onChange={(value) => handleChange('createdBy', value)} />
-                        <SelectInput
+            <div className="flex w-full item-center gap-2 pb-2">
+                <div className="flex item-center">
+                    {/* <SelectInput
                             label="Status"
                             value={formData.status}
-                            onChange={(value) => handleChange('status', value)}
+                            onChange={(value) => handleFormData('status', value)}
                             options={[
                                 { value: 'transfered', label: 'Transfered' },
                                 { value: 'approve', label: 'Approved' },
-                            ]} />
-                        <SelectInput
-                            label="Bin"
-                            value={formData.bin}
-                            onChange={(value) => handleChange('bin', value)}
-                            options={binList?.map(item => ({
-                                value: item.id,
-                                label: item.bin_name
-                            }))}
-                        />
-                    </div>
-                    <div className="grid w-full grid-cols-3 gap-12">
-                        <TextAreaInput text='Reason' value={formData.reason} onChange={(value) => handleChange('reason', value)} />
-                    </div>
-                    <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
-                    <div className='rounded-lg border bg-white'>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className='pl-6'>Name</TableHead>
-                                    <TableHead>Description</TableHead>
-                                    <TableHead>Manufacturer</TableHead>
-                                    <TableHead>Manufacturer Code</TableHead>
-                                    <TableHead>Quantity</TableHead>
-                                    <TableHead>Bin</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Action</TableHead>
+                            ]} /> */}
+                    <TextAreaInput text='Reason' value={formData.reason} onChange={(value) => handleFormData('reason', value)} />
+                </div>
+                <div className="flex w-48 item-center">
+                    <SelectInput
+                        label="Bin"
+                        value={formData.bin}
+                        onChange={(value) => handleFormData('bin', value)}
+                        options={binList?.map(item => ({
+                            value: item.id,
+                            label: item.bin_name
+                        }))}
+                    />
+                </div>
+            </div>
+            <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
+            <div className='rounded-lg border bg-white mb-2'>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className='pl-6'>Name</TableHead>
+                            <TableHead>Description</TableHead>
+                            <TableHead>Manufacturer</TableHead>
+                            <TableHead>Manufacturer Code</TableHead>
+                            <TableHead>Quantity</TableHead>
+                            <TableHead>Bin</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Action</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {
+                            data.length !== 0 && data.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
+                                    <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                    <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
+                                    <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
+                                    <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
+                                    <TableCell className='text-[#535862]'>{item.bin}</TableCell>
+                                    <TableCell className='text-[#535862]'>{getItemStatusBadge(item.status)}</TableCell>
+                                    <TableCell>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <button className="p-2 hover:bg-gray-100 rounded-full">
+                                                    <MoreVertical className="h-4 w-4" />
+                                                </button>
+                                            </PopoverTrigger>
+                                            <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
+                                                <ul className="space-y-2">
+                                                    <li onClick={() => alert("Hi")}>Edit</li>
+                                                    <li onClick={() => handleDelete(item.id)}>Delete</li>
+                                                </ul>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </TableCell>
                                 </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {
-                                    data.length !== 0 && data.map((item, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.description}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.bin}</TableCell>
-                                            <TableCell className='text-[#535862]'>{getItemStatusBadge(item.status)}</TableCell>
-                                            <TableCell>
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <button className="p-2 hover:bg-gray-100 rounded-full">
-                                                            <MoreVertical className="h-4 w-4" />
-                                                        </button>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
-                                                        <ul className="space-y-2">
-                                                            <li onClick={() => alert("Hi")}>Edit</li>
-                                                            <li onClick={() => handleDelete(item.id)}>Delete</li>
-                                                        </ul>
-                                                    </PopoverContent>
-                                                </Popover>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                }
-                            </TableBody>
-                        </Table>
-                    </div>
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={setCurrentPage}
-                        itemsPerPage={itemsPerPage}
-                        totalItems={totalItems}
-                    />
-                    <DeleteDialog
-                        open={deleteDialogOpen}
-                        onClose={() => setDeleteDialogOpen(false)}
-                        onConfirm={handleConfirmDelete}
-                    />
-                    <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
-                    <div className="w-full grid grid-cols-10 gap-3">
-                        <div className="col-span-2"><TextInput text='Name' value={formItemData.item_name} onChange={(value) => handleFormItemData('item_name', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Description' value={formItemData.item_description} onChange={(value) => handleFormItemData('item_description', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Manufacturer' value={formItemData.item_manufacturer} onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Manufacturer Code' value={formItemData.item_manufacturer_code} onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                itemsPerPage={itemsPerPage}
+                totalItems={totalItems}
+            />
+            <DeleteDialog
+                open={deleteDialogOpen}
+                onClose={() => setDeleteDialogOpen(false)}
+                onConfirm={handleConfirmDelete}
+            />
+            <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
+            <div className="w-full grid grid-cols-10 py-2 gap-3">
+                <div className="col-span-2"><TextInput text='Name' value={formItemData.item_name} onChange={(value) => handleFormItemData('item_name', value)} /></div>
+                <div className="col-span-2"><TextInput text='Description' value={formItemData.item_description} onChange={(value) => handleFormItemData('item_description', value)} /></div>
+                <div className="col-span-2"><TextInput text='Manufacturer' value={formItemData.item_manufacturer} onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
+                <div className="col-span-2"><TextInput text='Manufacturer Code' value={formItemData.item_manufacturer_code} onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
 
-                        <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
-                        </div>
-                        <div className="col-span-1">
-                            <SelectInput
-                                label="Bin"
-                                value={formItemData.bin}
-                                onChange={(value) => handleFormItemData('item_bin', value)}
-                                options={binList?.map(item => (
-                                    {
-                                        value: item.id,
-                                        label: item.bin_name,
-                                    }
-                                ))}
-                            />
-                        </div>
-                    </div>
-                    <hr className="border-t border-[#D7D8E4] w-full" />
-                    <div className="w-full flex justify-end mt-4 gap-4 font-semibold">
-                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
-                            <span className="text-white" onClick={handleSaveItem}>Save</span>
-                        </div>
-                        <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={() => alert("Okay")}>
-                            <span className="text-white">Create Transfert</span>
-                        </div>
-                    </div>
+                <div className="col-span-1">
+                    <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
+                </div>
+                <div className="col-span-1">
+                    <SelectInput
+                        label="Bin"
+                        value={formItemData.bin}
+                        onChange={(value) => handleFormItemData('item_bin', value)}
+                        options={binList?.map(item => (
+                            {
+                                value: item.id,
+                                label: item.bin_name,
+                            }
+                        ))}
+                    />
+                </div>
+            </div>
+            <hr className="border-t border-[#D7D8E4] w-full" />
+            <div className="w-full flex justify-end mt-4 gap-4 font-semibold">
+                <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
+                    <span className="text-white" onClick={handleSaveItem}>Save</span>
+                </div>
+                <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={() => alert("Okay")}>
+                    <span className="text-white">Create Transfert</span>
                 </div>
             </div>
         </div>
