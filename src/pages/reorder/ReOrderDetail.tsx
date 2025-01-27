@@ -123,54 +123,54 @@ export function ReOrderDetail(props: ReOrderData) {
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Preferred Supplier:&nbsp;</span><span>{props.preferredSupplier}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Price:&nbsp;</span><span>{props.price}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Item Code:&nbsp;</span><span>{props.itemCode}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Manufacturer Name:&nbsp;</span><span>{props.manufacturerName}</span></div>
-                        <>
-                            <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Manufacturer Code:&nbsp;</span><span>{props.manufacturer_code}</span></div>
-                        </div>
-                        <div className='flex flex-col gap-6'>
-                            <h2>Reorder Items</h2>
-                            <div className='rounded-lg border bg-white'>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead className='pl-6'>Name</TableHead>
-                                            <TableHead>Description</TableHead>
-                                            <TableHead>Manufacturer Code</TableHead>
-                                            <TableHead>Manufacturer Name</TableHead>
-                                            <TableHead>Supplier Code</TableHead>
-                                            <TableHead>Supplier Name</TableHead>
-                                            <TableHead>Measure Unit</TableHead>
-                                            <TableHead>Quantity</TableHead>
-                                            <TableHead>Price</TableHead>
-                                            <TableHead>Total</TableHead>
-                                            <TableHead>Tax Group</TableHead>
-                                            <TableHead>Status</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {
-                                            data.map((item, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell className='pl-6'>{item.name}</TableCell>
-                                                    <TableCell>{item.description}</TableCell>
-                                                    <TableCell>{item.manufacturer}</TableCell>
-                                                    <TableCell>{item.manufacturer_code}</TableCell>
-                                                    <TableCell>{item.supplierCode}</TableCell>
-                                                    <TableCell>{item.supplierName}</TableCell>
-                                                    <TableCell>{item.unitOfMeasure}</TableCell>
-                                                    <TableCell>{item.quantity}</TableCell>
-                                                    <TableCell>${item.price}</TableCell>
-                                                    <TableCell>{item.total}</TableCell>
-                                                    <TableCell>{item.taxGroup}</TableCell>
-                                                    <TableCell>{getStatusBadge(item.status)}</TableCell>
-                                                </TableRow>
-                                            ))
-                                        }
-                                    </TableBody>
-                                </Table>
-                            </div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Manufacturer Name:&nbsp;</span><span>{props.manufacturer}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[200px]">Manufacturer Code:&nbsp;</span><span>{props.manufacturer_code}</span></div>
+                    </div>
+                    <div className='flex flex-col gap-6'>
+                        <h2>Reorder Items</h2>
+                        <div className='rounded-lg border bg-white'>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead className='pl-6'>Name</TableHead>
+                                        <TableHead>Description</TableHead>
+                                        <TableHead>Manufacturer Code</TableHead>
+                                        <TableHead>Manufacturer Name</TableHead>
+                                        <TableHead>Supplier Code</TableHead>
+                                        <TableHead>Supplier Name</TableHead>
+                                        <TableHead>Measure Unit</TableHead>
+                                        <TableHead>Quantity</TableHead>
+                                        <TableHead>Price</TableHead>
+                                        <TableHead>Total</TableHead>
+                                        <TableHead>Tax Group</TableHead>
+                                        <TableHead>Status</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {
+                                        data.map((item, index) => (
+                                            <TableRow key={index}>
+                                                <TableCell className='pl-6'>{item.name}</TableCell>
+                                                <TableCell>{item.description}</TableCell>
+                                                <TableCell>{item.manufacturer}</TableCell>
+                                                <TableCell>{item.manufacturer_code}</TableCell>
+                                                <TableCell>{item.supplierCode}</TableCell>
+                                                <TableCell>{item.supplierName}</TableCell>
+                                                <TableCell>{item.unitOfMeasure}</TableCell>
+                                                <TableCell>{item.quantity}</TableCell>
+                                                <TableCell>${item.price}</TableCell>
+                                                <TableCell>{item.total}</TableCell>
+                                                <TableCell>{item.taxGroup}</TableCell>
+                                                <TableCell>{getStatusBadge(item.status)}</TableCell>
+                                            </TableRow>
+                                        ))
+                                    }
+                                </TableBody>
+                            </Table>
                         </div>
                     </div>
                 </div>
-                )
+            </div>
+        </div>
+    )
 }
