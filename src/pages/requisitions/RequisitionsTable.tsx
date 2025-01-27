@@ -17,6 +17,7 @@ import { RequisitionsStatus, RequisitionsFilters } from '@/types/requisitions';
 import { formatDate } from '@/lib/date';
 import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
+import useNotification from '@/hooks/useNotifications';
 
 interface RequisitionsTableProps {
   filters: RequisitionsFilters;
@@ -28,7 +29,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
-
+  const { showNotification } = useNotification();
   const { data, totalPages, totalItems, itemsPerPage, refreshData } = useRequisitionsData(
     currentPage,
     filters,
@@ -70,9 +71,12 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/requisitions/${deleteItemId}`, {
         method: 'DELETE',
       })
-      console.log(response.status);
+
       if (response.status === 204) {
+        showNotification('Requisition deleted successfully', 'success');
         refreshData();
+      } else {
+        showNotification('Failed to delete Requisition', 'error',);
       }
       setDeleteDialogOpen(false);
       setDeleteItemId(null);

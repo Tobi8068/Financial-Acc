@@ -20,7 +20,7 @@ export interface ProductionData {
   date: string;
   name: string;
   project: string;
-  items: any;
+  items: any[];
   productionStartDate: string;
   productionEndDate: string;
   status: ProductionStatus;

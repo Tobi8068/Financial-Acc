@@ -2,21 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { TransfertData, TransfertItem, TransfertFilters, TransfertStatus, TransfertItemStatus } from '@/types/transferts';
 import { capitalizeLetter } from '@/lib/utils';
 
-const transformBackendData = (backendData: any): TransfertData => {
-  return {
-    id: backendData.id,
-    date: backendData.date,
-    items: backendData.trans_items_id,
-    reason: backendData.reason,
-    createdBy: {
-      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
-      avatar: backendData.created_by.avatar || ''
-    },
-    status: capitalizeLetter(backendData.status) as TransfertStatus,
-    bin: backendData.item_bin
-  };
-};
-
 const transformItemBackendData = (backendData: any): TransfertItem => {
   return {
     id: backendData.id,
@@ -27,6 +12,23 @@ const transformItemBackendData = (backendData: any): TransfertItem => {
     quantity: backendData.item_quantity,
     bin: backendData.item_bin,
     status: capitalizeLetter(backendData.status) as TransfertItemStatus,
+  };
+};
+
+const transformBackendData = (backendData: any): TransfertData => {
+  const itemData = backendData.trans_items.map((item: any) => transformItemBackendData(item));
+  return {
+    id: backendData.id,
+    trans_num: backendData.trans_num,
+    date: backendData.date,
+    items: itemData,
+    reason: backendData.trans_reason,
+    createdBy: {
+      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
+      avatar: backendData.created_by.avatar || ''
+    },
+    status: capitalizeLetter(backendData.status) as TransfertStatus,
+    bin: backendData.trans_bin.bin_name
   };
 };
 
@@ -102,6 +104,7 @@ export function useTransfertData(page: number, filters: TransfertFilters, search
       }
 
       const data: TransfertData[] = await response.json();
+
       let transformedData = data.map((item: any) => transformBackendData(item));
       setServerData(transformedData);
     } catch (error) {
@@ -130,7 +133,7 @@ export function useTransferItemsData(page: number, filters?: TransfertFilters, s
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data: TransfertItem[] = await response.json();
       let transformedData = data.map((item: any) => transformItemBackendData(item));
       setServerData(transformedData);

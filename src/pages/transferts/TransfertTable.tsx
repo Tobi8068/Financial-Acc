@@ -50,9 +50,19 @@ export function TransfertTable({ filters, searchQuery, onClickView }: TransfertT
     setDeleteItemId(id);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
+    console.log('Delete Ready', deleteItemId)
     if (deleteItemId) {
       console.log('Deleting item with id:', deleteItemId);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transferts/${deleteItemId}`, {
+        method: 'DELETE',
+      });
+      if (response.status === 204) {
+        showNotification('Transfert deleted successfully', 'success');
+        refreshData();
+      } else {
+        showNotification('Failed to delete Transfert', 'error',);
+      }
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }
