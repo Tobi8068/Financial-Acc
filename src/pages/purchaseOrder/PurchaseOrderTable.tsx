@@ -72,7 +72,7 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
       Sent: 'bg-[#EFF8FF] text-[#175CD3]',
       Partially_Received: 'bg-[#F4F3FF] text-[#5925DC]',
       Completed: 'bg-[#ECFDF3] text-[#027A48]',
-      Cancelled: 'bg-[#FEF3F2] text-[#B42318]',
+      Cancelled: 'bg-[#FE00F2] text-[#B42318]',
     };
 
     return (
@@ -119,29 +119,26 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                 <TableCell className='text-[#535862]'>$ {item.totalNetAmount}</TableCell>
                 <TableCell className='text-[#3e4450]'>$ {item.totalTaxAmount}</TableCell>
                 <TableCell className='text-[#535862]'>$ {item.totalAmount}</TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-2'>
-                  <div>
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-2'>
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} />
+                      <img src={getUserAvatarPath(item.created_by.avatar)} alt="d" />
+                      {/* <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} /> */}
                       <AvatarFallback>
                         <span>{item.createdBy.name}</span>
                       </AvatarFallback>
                     </Avatar>
                   </div>
-                  <div className='flex flex-col'>
-                    <span>{item.createdBy.name}</span>
-                  </div>
+                  <span>{item.createdBy.name}</span>
                 </TableCell>
-                <TableCell className='text-[#535862] flex items-center gap-2'>
-                  <div>
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-2'>
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />
                       <AvatarFallback>
                         <span>{item.approvedBy.name}</span>
                       </AvatarFallback>
                     </Avatar>
-                  </div>
-                  <div className='flex flex-col'>
                     <span>{item.approvedBy.name}</span>
                   </div>
                 </TableCell>

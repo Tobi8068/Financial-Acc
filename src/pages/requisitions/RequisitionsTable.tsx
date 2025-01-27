@@ -114,7 +114,7 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                 <TableCell className='text-[#3e4450]'>$ {item.totalTaxAmount}</TableCell>
                 <TableCell className='text-[#535862]'>$ {item.totalAmount}</TableCell>
                 <TableCell className='text-[#535862]'>{getStatusBadge(item.status)}</TableCell>
-                <TableCell className='text-[#535862] border flex items-center gap-2'>
+                <TableCell className='text-[#535862]'>
                   <div className='flex items-center gap-2'>
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={getUserAvatarPath(item.createdBy.avatar)} alt={item.createdBy.name} />
@@ -122,13 +122,13 @@ export function RequisitionsTable({ filters, searchQuery, onClickView }: Requisi
                         <span>{item.createdBy.name}</span>
                       </AvatarFallback>
                     </Avatar>
+                    <span>{item.createdBy.name}</span>
                   </div>
-                  <span>{item.createdBy.name}</span>
                 </TableCell>
 
-                <TableCell className='text-[#535862] flex items-center gap-2'>
+                <TableCell className='text-[#535862]'>
                   <div className='flex items-center gap-2'>
-                    {item.approvedBy.name === '' ? (
+                    {item.approvedBy.name !== "" ? (
                       <>
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={getUserAvatarPath(item.approvedBy.avatar)} alt={item.approvedBy.name} />

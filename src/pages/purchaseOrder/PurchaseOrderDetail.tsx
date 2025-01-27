@@ -59,7 +59,7 @@ export function PurchaseOrderDetail(props: PurchaseOrderData) {
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                     <div className="space-y-4">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">No:&nbsp;</span><span>{props.id}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">No:&nbsp;</span><span>{props.pid}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created Date:&nbsp;</span><span>{formatDate(props.created_date)}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Ship To:&nbsp;</span><span>{props.shipTo}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Bill To:&nbsp;</span><span>{props.billTo}</span></div>

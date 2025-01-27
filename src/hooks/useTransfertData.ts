@@ -97,8 +97,11 @@ export function useTransfertData(page: number, filters: TransfertFilters, search
         method: 'GET',
       });
 
-      const text = await response.text(); // First get the raw response text
-      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: TransfertData[] = await response.json();
       let transformedData = data.map((item: any) => transformBackendData(item));
       setServerData(transformedData);
     } catch (error) {
@@ -117,15 +120,18 @@ export function useTransfertData(page: number, filters: TransfertFilters, search
 }
 
 export function useTransferItemsData(page: number, filters?: TransfertFilters, searchQuery?: string) {
-  const [serverData, setServerData] = useState<TransfertData[]>([]);
+  const [serverData, setServerData] = useState<TransfertItem[]>([]);
   const fetchFunc = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transfert-items`, {
         method: 'GET',
       });
 
-      const text = await response.text(); // First get the raw response text
-      const data = text ? JSON.parse(text) : null; // Then parse if there's content
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data: TransfertItem[] = await response.json();
       let transformedData = data.map((item: any) => transformItemBackendData(item));
       setServerData(transformedData);
     } catch (error) {
