@@ -19,8 +19,10 @@ import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useTransferItemsData } from '@/hooks/useTransfertData';
 import useNotification from "@/hooks/useNotifications";
+import { useAuth } from "@/context/authProvider";
 
 export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => void }) {
+    const { user } = useAuth();
     const { showNotification } = useNotification();
 
     const [binList, setBinList] = useState<any[]>([]);
@@ -36,17 +38,14 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
         item_manufacturer_code: '',
         item_quantity: 0,
         item_bin: '',
-        status: 'approve',
+        status: 'approved',
     });
 
     const [formData, setFormData] = useState<any>({
         date: '',
         items: [],
         reason: '',
-        createdBy: {
-            name: '',
-            avatar: '',
-        },
+        createdBy: user.id,
         status: 'transfered',
         bin: '',
     });
@@ -105,6 +104,39 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
         console.log("after:::::::::::::", formItemData)
     }
 
+    const handleCreate = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transferts`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            });
+            if (response.status === 201) {
+                showNotification('New Transfert created successfully', 'success');
+                setFormData({
+                    date: '',
+                    items: [],
+                    reason: '',
+                    createdBy: {
+                        name: '',
+                        avatar: '',
+                    },
+                    status: '',
+                    bin: '',
+                });
+                setSelectedItems([]);
+                refreshData();
+            } else {
+                showNotification('Failed Transfert creating ', 'error');
+            }
+        } catch (error) {
+            console.error('Error creating Transfert:', error);
+        }
+        console.log("after:::::::::::::", formData)
+    }
+
     const handleDelete = (id: string) => {
         setDeleteDialogOpen(true);
         setDeleteItemId(id);
@@ -138,7 +170,7 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
             setSelectedItems([]);
         }
     };
-    
+
     const handleSelectItem = (id: string, checked: boolean) => {
         if (checked) {
             setSelectedItems([...selectedItems, Number(id)]);
@@ -146,6 +178,10 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
             setSelectedItems(selectedItems.filter(item => item !== Number(id)));
         }
     };
+    
+    useEffect(() => {
+        handleFormData('items', selectedItems);
+    }, [selectedItems])
 
     const getItemStatusBadge = (status: TransfertItemStatus) => {
         const styles = {
@@ -217,9 +253,9 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                     <TableBody>
                         {
                             data.length !== 0 && data.map((item, index) => (
-                                <TableRow key={index}>
+                                <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
                                     <TableCell className="w-12 flex items-center justify-center">
-                                        <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
+                                        <Checkbox checked={selectedItems.includes(item.id)} onCheckedChange={(checked) => handleSelectItem(item.id, checked)} />
                                     </TableCell>
                                     <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                     <TableCell className='text-[#535862]'>{item.description}</TableCell>
@@ -290,7 +326,7 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                 <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer">
                     <span className="text-white" onClick={handleSaveItem}>Save</span>
                 </div>
-                <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={() => alert("Okay")}>
+                <div className="bg-[#3A3FF2] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={handleCreate}>
                     <span className="text-white">Create Transfert</span>
                 </div>
             </div>
