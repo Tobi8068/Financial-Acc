@@ -7,13 +7,17 @@ import { InsideNavbar } from "@/components/ui/inside-navbar";
 import { ReservationDetail } from "./ReservationDetail";
 
 function Reservation() {
+  const [filters, setFilters] = useState<any>({
+    status: "all"
+  });
+  const [sortOption, setSortOption] = useState<any>("newest");
   const [searchQuery, setSearchQuery] = useState("");
   const [scene, setScene] = useState(1);
   const [detailData, setDetailData] = useState<ReservationData>({
     id: '',
-    dateCreated: '',
-    items: '',
-    reservationDate: '',
+    created_date: '',
+    items: [],
+    reservation_date: '',
     reason: '',
     project: '',
     storeKeeper: {
@@ -30,10 +34,7 @@ function Reservation() {
   const handlePage = (page: number) => {
     setScene(page);
   }
-
-  const handleCreate = () => {
-    setScene(3);
-  }
+ 
 
   return (
     <div className="border-none">
@@ -43,10 +44,14 @@ function Reservation() {
             <InsideNavbar text="" onClick={() => handlePage(2)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
               <ReservationHeader
+                onFiltersChange={setFilters}
+                onSortChange={setSortOption}
                 onSearchChange={setSearchQuery}
                 onCreate={() => handlePage(2)}
               />
               <ReservationTable
+                filters={filters}
+                sortOption={sortOption}
                 searchQuery={searchQuery}
                 onClickView={(item) => {
                   handlePage(3);
@@ -60,20 +65,21 @@ function Reservation() {
           <>
             <InsideNavbar text="Reservation" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-end bg-white bg-opacity-50">
-              <CreateReservation onClick={() => handleCreate()} />
+              <CreateReservation onClick={() => handlePage(1)} />
             </main>
           </>
         ) : scene === 3 ? (
           <>
-            <InsideNavbar text="Reservation" onClick={() => handlePage(1)} />
+            <InsideNavbar text="Reservation Detail" onClick={() => handlePage(1)} />
             <main className="flex-1 bg-white bg-opacity-50">
-              <ReservationDetail {...detailData} />
+              <ReservationDetail
+                props={detailData}
+                onClickUndo={() => handlePage(1)}
+              />
             </main>
           </>
         ) : ''
       }
     </div>
   );
-}
-
-export default Reservation;
+}export default Reservation;
