@@ -28,13 +28,13 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
     const [formItemData, setFormItemData] = useState<any>({
-        name: '',
-        description: '',
-        manufacturer: '',
-        manufacturer_code: '',
-        quantity: 0,
-        bin: '',
-        status: 'Approved',
+        item_name: '',
+        item_description: '',
+        item_manufacturer: '',
+        item_manufacturer_code: '',
+        item_quantity: 0,
+        item_bin: '',
+        status: 'approve',
     });
 
     const [formData, setFormData] = useState<any>({
@@ -69,12 +69,11 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
         setFormData({ ...formData, [field]: value });
     };
 
-    const handleItemChange = (field: string, value: any) => {
+    const handleFormItemData = (field: string, value: any) => {
         setFormItemData({ ...formItemData, [field]: value });
     };
 
     const handleSaveItem = async () => {
-        console.log(formItemData)
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transfert-items`, {
                 method: 'POST',
@@ -83,21 +82,20 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                 },
                 body: JSON.stringify(formItemData),
             });
-
             if (response.status === 201) {
                 showNotification('Item created successfully', 'success');
                 setFormItemData({
-                    name: '',
-                    description: '',
-                    manufacturer: '',
-                    manufacturer_code: '',
-                    quantity: 0,
-                    bin: '',
-                    status: 'Approved',
+                    item_name: '',
+                    item_description: '',
+                    item_manufacturer: '',
+                    item_manufacturer_code: '',
+                    item_quantity: 0,
+                    item_bin: '',
+                    status: 'approve',
                 });
                 refreshData();
             } else {
-                showNotification('Faild Item creating ', 'error');
+                showNotification('Failed Item creating ', 'error');
             }
         } catch (error) {
             console.error('Error creating item:', error);
@@ -110,12 +108,25 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
         setDeleteItemId(id);
     };
 
-    const handleConfirmDelete = () => {
+    const handleConfirmDelete = async () => {
         if (deleteItemId) {
             console.log('Deleting item with id:', deleteItemId);
-            setDeleteDialogOpen(false);
-            setDeleteItemId(null);
-        }
+            try {
+                const response = await fetch(`${import.meta.env.VITE_BASE_URL}/transfert-items/${deleteItemId}`, {
+                    method: 'DELETE',
+                });
+                if (response.status === 204) {
+                    showNotification('Item deleted successfully', 'success');
+                    refreshData();
+                } else {
+                    showNotification('Failed Item deleting ', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting item:', error);
+            }
+        };
+        setDeleteDialogOpen(false);
+        setDeleteItemId(null);
     };
 
     const getItemStatusBadge = (status: TransfertItemStatus) => {
@@ -134,8 +145,8 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <div className="flex item-center justify-between mb-6">
-                <h2 className="text-xl font-semibold mb-6">Create Transfers</h2>
+            <div className="flex item-center justify-between pb-2">
+                <h2 className="text-xl font-semibold">Create Transfers</h2>
                 <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
                     <Undo2 onClick={() => onClickUndo(1)} />
                 </div>
@@ -201,8 +212,8 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                                                     </PopoverTrigger>
                                                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                                                         <ul className="space-y-2">
-                                                            <li>Edit</li>
-                                                            <li onClick={() => handleDelete(item.name)}>Delete</li>
+                                                            <li onClick={() => alert("Hi")}>Edit</li>
+                                                            <li onClick={() => handleDelete(item.id)}>Delete</li>
                                                         </ul>
                                                     </PopoverContent>
                                                 </Popover>
@@ -227,19 +238,19 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-10 gap-3">
-                        <div className="col-span-2"><TextInput text='Name' value={formItemData.name} onChange={(value) => handleItemChange('name', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Description' value={formItemData.description} onChange={(value) => handleItemChange('description', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Manufacturer Name' value={formItemData.manufacturer} onChange={(value) => handleItemChange('manufacturer', value)} /></div>
-                        <div className="col-span-2"><TextInput text='Manufacturer Code' value={formItemData.manufacturer_code} onChange={(value) => handleItemChange('manufacturer_code', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Name' value={formItemData.item_name} onChange={(value) => handleFormItemData('item_name', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Description' value={formItemData.item_description} onChange={(value) => handleFormItemData('item_description', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Manufacturer' value={formItemData.item_manufacturer} onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
+                        <div className="col-span-2"><TextInput text='Manufacturer Code' value={formItemData.item_manufacturer_code} onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
 
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleItemChange('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput
                                 label="Bin"
                                 value={formItemData.bin}
-                                onChange={(value) => handleItemChange('bin', value)}
+                                onChange={(value) => handleFormItemData('item_bin', value)}
                                 options={binList?.map(item => (
                                     {
                                         value: item.id,
