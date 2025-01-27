@@ -10,21 +10,19 @@ import {
 } from '@/components/ui/table';
 import { TransfertData } from '@/types/transferts';
 import { useTransferItemsData } from '@/hooks/useTransfertData';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Pagination } from '@/components/pagination/Pagination';
 import { TransfertStatus } from "@/types/transferts";
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
 import { Badge } from '@/components/ui/badge';
+import { getUserAvatarPath } from "@/lib/utils";
 
 interface TransfertDetailProps {
     props: TransfertData;
     onClickUndo: (val: any) => void;
 }
 export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
-    const [currentPage, setCurrentPage] = useState(1);
-    const { data, totalPages, totalItems, itemsPerPage } = useTransferItemsData(
-        currentPage,
-    );
 
     const getStatusBadge = (status: TransfertStatus) => {
         const styles = {
@@ -52,13 +50,27 @@ export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
                 <h2 className='text-[#636692] font-semibold'>Transfert Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Transfer No:&nbsp;</span><span>{props.id}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created Date:&nbsp;</span><span>{props.date}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reason:&nbsp;</span><span>{props.reason}</span></div>
+                        <div className="flex text-md text-[#2B2D40]"><span className="font-bold w-[140px]">ID:&nbsp;</span><span>{props.trans_num}</span></div>
+                        <div className="flex text-md text-[#2B2D40]"><span className="font-bold w-[140px]">Created Date:&nbsp;</span><span>{props.date}</span></div>
+                        <div className="flex text-md text-[#2B2D40]"><span className="font-bold w-[140px]">Reason:&nbsp;</span><span>{props.reason}</span></div>
                     </div>
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Created By:&nbsp;</span><span>{props.createdBy.name}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
+                        <div className="flex text-md text-[#2B2D40]">
+                            <span className="font-bold w-[140px]">Created By:&nbsp;</span>
+                            <div className="flex items-center gap-2">
+                                <Avatar className="h-8 w-8">
+                                    <AvatarImage src={getUserAvatarPath(props.createdBy.avatar)} alt={props.createdBy.name} />
+                                    <AvatarFallback>
+                                        <span>{props.createdBy.name}</span>
+                                    </AvatarFallback>
+                                </Avatar>
+                                <span>{props.createdBy.name}</span>
+                            </div>
+                        </div>
+                        <div className="flex text-md text-[#2B2D40] item=center">
+                            <span className="font-bold w-[140px]">Status:&nbsp;</span>
+                            <span>{getStatusBadge(props.status)}</span>
+                        </div>
                     </div>
                 </div>
                 <div className='flex flex-col gap-6'>
@@ -68,7 +80,6 @@ export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
-                                    <TableHead>Item Code</TableHead>
                                     <TableHead>Description</TableHead>
                                     <TableHead>Manufacturer Name</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
@@ -79,10 +90,9 @@ export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
                             </TableHeader>
                             <TableBody>
                                 {
-                                    data.map((item, index) => (
+                                    props.items.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturerName}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturerCode}</TableCell>
@@ -95,13 +105,7 @@ export function TransfertDetail({ props, onClickUndo }: TransfertDetailProps) {
                             </TableBody>
                         </Table>
                     </div>
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={setCurrentPage}
-                        itemsPerPage={itemsPerPage}
-                        totalItems={totalItems}
-                    />
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                         {/* Notes Section */}
                         <Notes messages={messageData} />

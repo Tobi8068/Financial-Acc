@@ -16,6 +16,7 @@ function Transfert() {
   const [scene, setScene] = useState(1);
   const [detailData, setDetailData] = useState<TransfertData>({
     id: '',
+    trans_num: '',
     date: '',
     reason: '',
     createdBy: {
@@ -24,7 +25,7 @@ function Transfert() {
     },
     status: 'Approve',
     bin: '',
-    items: []
+    items: [],
   });
 
   const handlePage = (page: number) => {
@@ -81,5 +82,4 @@ function Transfert() {
     </div>
   );
 }
-
 export default Transfert;

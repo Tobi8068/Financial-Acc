@@ -56,11 +56,14 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/productions/${deleteItemId}`, {
         method: 'DELETE',
       })
-      console.log(response.status);
+
       if (response.status === 204) {
-        showNotification('Item deleted successfully', 'success');
+        showNotification('Production deleted successfully', 'success');
         refreshData();
+      } else {
+        showNotification('Failed to delete Production', 'error',);
       }
+      
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }

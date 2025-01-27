@@ -16,7 +16,7 @@ import Issues from "@/pages/issues"
 import Receptions from "@/pages/receptions"
 import Reorder from "@/pages/reorder"
 import Reservation from "@/pages/reservation"
-import Transfers from "@/pages/transfers"
+import Transferts from "@/pages/transferts"
 import Production from "@/pages/production"
 import Suppliers from "@/pages/suppliers"
  
@@ -95,8 +95,8 @@ const MainRoutes = {
             element: <Reservation />
         },
         {
-            path: "transfers",
-            element: <Transfers />
+            path: "transferts",
+            element: <Transferts />
         },
         {
             path: "production",

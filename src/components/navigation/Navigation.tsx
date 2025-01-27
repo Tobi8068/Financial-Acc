@@ -84,7 +84,7 @@ export function Navigation() {
             <NavItem icon={LayoutGrid} label="Issues" />
             <NavItem icon={LayoutGrid} label="Receptions" />
             <NavItem icon={LayoutGrid} label="Reservation" />
-            <NavItem icon={LayoutGrid} label="Transfers" />
+            <NavItem icon={LayoutGrid} label="Transferts" />
             <NavItem icon={LayoutGrid} label="Purchase Order" />
             <NavItem icon={LayoutGrid} label="Reorder" />
             <NavItem icon={ClipboardList} label="Requisitions" />
@@ -98,7 +98,7 @@ export function Navigation() {
             <NavItem icon={Package} label="Shipping" />
             <NavItem icon={LayoutGrid} label="Receptions" />
             <NavItem icon={LayoutGrid} label="Reservation" />
-            <NavItem icon={LayoutGrid} label="Transfers" />
+            <NavItem icon={LayoutGrid} label="Transferts" />
             <NavItem icon={LayoutGrid} label="Purchase Order" />
             <NavItem icon={LayoutGrid} label="Reorder" />
             <NavItem icon={ClipboardList} label="Requisitions" />
