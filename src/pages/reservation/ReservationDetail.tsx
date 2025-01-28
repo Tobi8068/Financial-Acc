@@ -21,8 +21,8 @@ interface ReservationDetailProps {
 }
 
 export function ReservationDetail({ props, onClickUndo }: ReservationDetailProps) {
+    
     const [currentPage, setCurrentPage] = useState(1);
-
     const { data, totalPages, totalItems, itemsPerPage } = useReservationItemsData(
         currentPage,
     );
