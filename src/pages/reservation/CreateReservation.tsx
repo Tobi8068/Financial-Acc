@@ -49,28 +49,28 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
         {
             reservationDate: '',
             project: '',
-            storeKeeper: '',
-            reservedBy: user.id,
-            status: '',
+            storeKeeper: user.id,
+            reservedBy: '',
+            status: 'created',
         }
     );
 
     const { data, totalPages, totalItems, itemsPerPage, refreshData } = useReservationItemsData(
         currentPage,
     );
-    const [projectList, setProjectList] = useState<string | null>(null);
+    const [projectList, setProjectList] = useState<any[]>([]);
 
     useEffect(() => {
-        const fetchRequisition = async () => {
+        const fetchProject = async () => {
             try {
                 const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
                 const dataUnit = await responseUnit.json();
                 setProjectList(dataUnit);
             } catch (error) {
-                console.error('Error fetching projects and Tax:', error);
+                console.error('Error fetching projects:', error);
             }
         };
-        fetchRequisition();
+        fetchProject();
     }, [])
 
     const handleFormData = (field: string, value: any) => {
@@ -185,7 +185,7 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <DateInput value={formData.name} text='Reservation Date' onChange={(value) => handleChange('name', value)} />
+                        <TextInput value={formData.reason} text='Reason' onChange={(value) => handleChange('reason', value)} />
                         <SelectInput
                             label="Project"
                             value={formData.project}
@@ -197,25 +197,6 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                                 }
                             ))}
                         />
-
-                        <TextInput value={formData.project} text='Project' onChange={(value) => handleChange('project', value)} />
-                        <TextInput value={formData.storeKeeper} text='Storekeeper' onChange={(value) => handleChange('storeKeeper', value)} />
-                    </div>
-                    <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput value={formData.reservedBy} text='Reservation By' onChange={(value) => handleChange('reservedBy', value)} />
-                        <SelectInput
-                            label="Status"
-                            value={formData.status}
-                            onChange={(value) => handleChange('status', value)}
-                            options={[
-                                { value: 'created', label: 'Created' },
-                                { value: 'approved', label: 'Approved' },
-                                { value: 'completed', label: 'Completed' },
-                                { value: 'cancelled', label: 'Cancelled' },
-                            ]} />
-                    </div>
-                    <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput value={formData.reason} text='Reason' onChange={(value) => handleChange('reason', value)} />
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
