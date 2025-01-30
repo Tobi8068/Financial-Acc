@@ -23,6 +23,7 @@ import { useAuth } from "@/context/authProvider";
 
 export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) => void }) {
     const { user } = useAuth();
+    const { showNotification } = useNotification();
 
     const [formData, setFormData] = useState<any>(
         {
@@ -51,7 +52,6 @@ export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) 
             reception_quantity: 1
         }
     );
-    const { showNotification } = useNotification();
 
     const [unitList, setUnitList] = useState<any[]>([]);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
