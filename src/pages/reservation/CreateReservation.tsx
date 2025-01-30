@@ -35,12 +35,12 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
     const [formItemData, setFormItemData] = useState<ReservationItem>(
         {
             id: '',
-            item_name: '',
+            name: '',
             item_code: '',
-            item_description: '',
-            item_manufacturer: '',
-            item_manufacturer_code: '',
-            item_quantity: 0,
+            description: '',
+            manufacturer: '',
+            manufacturer_code: '',
+            quantity: 0,
             measure_unit: '',
         }
     );
@@ -76,7 +76,8 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
         };
         fetchProject();
     }, [])
-
+    console.log("dddddddddddd", projectList)
+    
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
@@ -103,12 +104,12 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                 showNotification('Item created successfully', 'success');
                 setFormItemData({
                     id: '',
-                    item_name: '',
+                    name: '',
                     item_code: '',
-                    item_description: '',
-                    item_manufacturer: '',
-                    item_manufacturer_code: '',
-                    item_quantity: 0,
+                    description: '',
+                    manufacturer: '',
+                    manufacturer_code: '',
+                    quantity: 0,
                     measure_unit: '',
                 });
                 refreshData();
@@ -153,19 +154,27 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
         setDeleteItemId(id);
     };
 
-    const handleConfirmDelete = () => {
-        if (deleteItemId) {
-            console.log('Deleting item with id:', deleteItemId);
-            setDeleteDialogOpen(false);
-            setDeleteItemId(null);
-        }
-    };
-
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
             setSelectedItems(data.map(item => item.id));
         } else {
             setSelectedItems([]);
+        }
+    };
+
+    const handleConfirmDelete = async () => {
+        if (deleteItemId) {
+            console.log('Deleting item with id:', deleteItemId);
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/reservation-items/${deleteItemId}`, {
+                method: 'DELETE',
+            })
+            console.log(response.status);
+            if (response.status === 204) {
+                showNotification('Item deleted successfully', 'success');
+                refreshData();
+            }
+            setDeleteDialogOpen(false);
+            setDeleteItemId(null);
         }
     };
 
@@ -269,13 +278,13 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-12 gap-3">
-                        <div className="col-span-2"><TextInput value={formItemData.item_name} text='Name' onChange={(value) => handleFormItemData('item_name', value)} /></div>
-                        <div className="col-span-2"><TextInput value={formItemData.item_description} text='Description' onChange={(value) => handleFormItemData('item_description', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.name} text='Name' onChange={(value) => handleFormItemData('name', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.description} text='Description' onChange={(value) => handleFormItemData('description', value)} /></div>
                         <div className="col-span-2"><TextInput value={formItemData.item_code} text='Item Code' onChange={(value) => handleFormItemData('item_code', value)} /></div>
-                        <div className="col-span-2"><TextInput value={formItemData.item_manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
-                        <div className="col-span-2"><TextInput value={formItemData.item_manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('manufacturer', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('quantity', value)} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput
@@ -320,14 +329,14 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                             </div>
                             <div className="mt-4 flex justify-end">
                                 <button className="px-4 py-2 bg-[#3A3B55] text-white rounded-lg hover:bg-[#2c3b4f] transition-colors">
-                                    Add Document
+                                    Create Document
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div className="w-full flex justify-end">
                         <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={handleCreate}>
-                            <span className="text-white font-semibold">Add Reservation</span>
+                            <span className="text-white font-semibold">Create Reservation</span>
                         </div>
                     </div>
                 </div>

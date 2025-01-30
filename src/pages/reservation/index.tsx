@@ -60,7 +60,6 @@ function Reservation() {
               />
             </main>
           </>
-
         ) : scene === 2 ? (
           <>
             <InsideNavbar text="Reservation" onClick={() => handlePage(1)} />
