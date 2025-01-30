@@ -72,7 +72,7 @@ function Requisitions() {
           </>
         ) : scene === 3 ? (
           <>
-            <InsideNavbar text="Requisitions" onClick={() => handlePage(1)} />
+            <InsideNavbar text="Requisitions Detail" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
               <RequisitionsDetail
                 props={detailData}
