@@ -6,12 +6,12 @@ export interface ReservationFilters {
 
 export interface ReservationItem {
   id: string,
-  name: string,
-  description: string,
+  item_name: string,
+  item_description: string,
   item_code: string,
-  manufacturer: string,
-  manufacturer_code: string,
-  quantity: number,
+  item_manufacturer: string,
+  item_manufacturer_code: string,
+  item_quantity: number,
   measure_unit: string,
 }
 

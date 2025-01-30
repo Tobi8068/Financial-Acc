@@ -6,11 +6,11 @@ const ItemBackendData = (backendData: any): ReservationItem => {
   return {
     id: backendData.id,
     name: backendData.item_name,
-    description: backendData.description,
-    manufacturer: backendData.manufacturer,
-    manufacturer_code: backendData.manufacturer_code,
-    measure_unit: backendData.measure_unit,
-    quantity: backendData.quantity,
+    description: backendData.item_description,
+    manufacturer: backendData.item_manufacturer,
+    manufacturer_code: backendData.item_manufacturer_code,
+    measure_unit: backendData.item_measure_unit,
+    quantity: backendData.item_quantity,
     item_code: backendData.item_code,
   }
 }

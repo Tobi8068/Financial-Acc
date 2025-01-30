@@ -19,7 +19,6 @@ import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useReservationItemsData } from '@/hooks/useReservationData';
 import { messageData } from "@/lib/message-data";
-import { DateInput } from "@/components/ui/date-input";
 import { useAuth } from "@/context/authProvider";
 import useNotification from "@/hooks/useNotifications";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -36,12 +35,12 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
     const [formItemData, setFormItemData] = useState<ReservationItem>(
         {
             id: '',
-            name: '',
+            item_name: '',
             item_code: '',
-            description: '',
-            manufacturer: '',
-            manufacturer_code: '',
-            quantity: 0,
+            item_description: '',
+            item_manufacturer: '',
+            item_manufacturer_code: '',
+            item_quantity: 0,
             measure_unit: '',
         }
     );
@@ -59,13 +58,18 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
         currentPage,
     );
     const [projectList, setProjectList] = useState<any[]>([]);
+    const [unitList, setUnitList] = useState<any[]>([]);
 
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
+                const responseProject = await fetch(`${import.meta.env.VITE_BASE_URL}/projects`);
+                const data = await responseProject.json();
+                setProjectList(data);
+
+                const responseUnit = await fetch(`${import.meta.env.VITE_BASE_URL}/order-units`);
                 const dataUnit = await responseUnit.json();
-                setProjectList(dataUnit);
+                setUnitList(dataUnit);
             } catch (error) {
                 console.error('Error fetching projects:', error);
             }
@@ -76,15 +80,14 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
+    const handleFormItemData = (field: string, value: any) => {
+        setFormData({ ...formItemData, [field]: value });
+    };
 
     useEffect(() => {
         handleFormData('items', selectedItems);
     }, [selectedItems])
 
-    const handleChange = (field: string, value: any) => {
-        setFormData({ ...formData, [field]: value });
-        setFormItemData({ ...formItemData, [field]: value });
-    };
 
     const handleSaveItem = async () => {
         try {
@@ -100,12 +103,12 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                 showNotification('Item created successfully', 'success');
                 setFormItemData({
                     id: '',
-                    name: '',
+                    item_name: '',
                     item_code: '',
-                    description: '',
-                    manufacturer: '',
-                    manufacturer_code: '',
-                    quantity: 0,
+                    item_description: '',
+                    item_manufacturer: '',
+                    item_manufacturer_code: '',
+                    item_quantity: 0,
                     measure_unit: '',
                 });
                 refreshData();
@@ -185,18 +188,18 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput value={formData.reason} text='Reason' onChange={(value) => handleChange('reason', value)} />
-                        <SelectInput
+                        <TextInput value={formData.reason} text='Reason' onChange={(value) => handleFormData('reason', value)} />
+                        {/* <SelectInput
                             label="Project"
                             value={formData.project}
-                            onChange={(value) => handleChange('project', value)}
+                            onChange={(value) => handleFormData('project', value)}
                             options={projectList.map(item => (
                                 {
                                     value: item.id,
                                     label: item.project_name,
                                 }
                             ))}
-                        />
+                        /> */}
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -223,14 +226,14 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                                     data.map((item, index) => (
                                         <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
                                             <TableCell className="w-12 flex items-center justify-center">
-                                                <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
+                                                <Checkbox checked={selectedItems.includes(item.id)} onCheckedChange={(checked) => handleSelectItem(item.id, checked)} />
                                             </TableCell>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.item_code}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
@@ -241,7 +244,7 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                                                     <PopoverContent align="end" className='w-24 cursor-pointer' sideOffset={2}>
                                                         <ul className="space-y-2">
                                                             <li>Edit</li>
-                                                            <li onClick={() => handleDelete(item.name)}>Delete</li>
+                                                            <li onClick={() => handleDelete(item.id)}>Delete</li>
                                                         </ul>
                                                     </PopoverContent>
                                                 </Popover>
@@ -265,14 +268,27 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                         onConfirm={handleConfirmDelete}
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
-                    <div className="w-full grid grid-cols-10 gap-3">
-                        <div className="col-span-2"><TextInput value={formData.name} text='Name' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.item_code} text='Item Code' onChange={(value) => handleChange('item_code', value)} /></div>
-                        <div className="col-span-3"><TextInput value={formData.description} text='Description' onChange={(value) => handleChange('description', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.manufacturer} text='Manufacturer' onChange={(value) => handleChange('manufacturer', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleChange('manufacturer_code', value)} /></div>
+                    <div className="w-full grid grid-cols-12 gap-3">
+                        <div className="col-span-2"><TextInput value={formItemData.item_name} text='Name' onChange={(value) => handleFormItemData('item_name', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.item_description} text='Description' onChange={(value) => handleFormItemData('item_description', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.item_code} text='Item Code' onChange={(value) => handleFormItemData('item_code', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.item_manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.item_manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleChange('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
+                        </div>
+                        <div className="col-span-1">
+                            <SelectInput
+                                label="Measure Unit"
+                                value={formItemData.measure_unit}
+                                onChange={(value) => handleFormItemData('measure_unit', value)}
+                                options={unitList.map(item => (
+                                    {
+                                        value: item.id,
+                                        label: item.orderUnitName,
+                                    }
+                                ))}
+                            />
                         </div>
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />
