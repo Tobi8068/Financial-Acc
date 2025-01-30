@@ -49,11 +49,10 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
             p_name: '',
             p_start_date: '',
             p_end_date: '',
-            p_status: 'waiting_approval',
+            p_status: 'create',
             project: 1,
             approved: true,
             created_by: user.id,
-            
             approved_by: 1,
             items: [],
             production_doc: 1,
@@ -132,13 +131,13 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
                     p_name: '',
                     p_start_date: '',
                     p_end_date: '',
-                    p_status: 'waiting_approval',
+                    p_status: 'created',
                     project: '',
                     items: [],
                     production_doc: 1,
-                    approved: true,
-                    approved_by: 1,
-                    created_by: 1,
+                    approved: false,
+                    approved_by: '',
+                    created_by: '',
                 });
                 setSelectedItems([]);
                 refreshData();

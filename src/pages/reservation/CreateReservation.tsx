@@ -3,7 +3,7 @@ import { Upload } from 'lucide-react';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { ReservationItem } from "@/types/reservation";
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, Undo2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
     Table,
@@ -32,13 +32,14 @@ export function CreateReservation({ onClick }: CreateReservationProps) {
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
     const [formDataItem, setFormDataItem] = useState<ReservationItem>(
         {
+            id: '',
             name: '',
-            itemCode: '',
+            item_code: '',
             description: '',
             manufacturer: '',
             manufacturer_code: '',
             quantity: 0,
-            bin: 0,
+            measure_unit: '',
         }
     );
     const [formData, setFormData] = useState<any>(
@@ -51,7 +52,7 @@ export function CreateReservation({ onClick }: CreateReservationProps) {
         }
     );
 
-    const { data, totalPages, totalItems, itemsPerPage } = useReservationItemsData(
+    const { data, totalPages, totalItems, itemsPerPage, refreshData } = useReservationItemsData(
         currentPage,
     );
 
@@ -79,7 +80,12 @@ export function CreateReservation({ onClick }: CreateReservationProps) {
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <h2 className="text-xl font-semibold mb-6">Add Reception</h2>
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold mb-6">New Reservation</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
@@ -109,12 +115,11 @@ export function CreateReservation({ onClick }: CreateReservationProps) {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className='pl-6'>Name</TableHead>
-                                    <TableHead>Item Code</TableHead>
                                     <TableHead>Description</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
+                                    <TableHead>Item Code</TableHead>
                                     <TableHead>Quantity</TableHead>
-                                    <TableHead>Bin</TableHead>
                                     <TableHead>Action</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -123,12 +128,11 @@ export function CreateReservation({ onClick }: CreateReservationProps) {
                                     data.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.bin}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.item_code}</TableCell>
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
@@ -165,25 +169,12 @@ export function CreateReservation({ onClick }: CreateReservationProps) {
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-10 gap-3">
                         <div className="col-span-2"><TextInput value={formData.name} text='Name' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.name} text='Item Code' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-3"><TextInput value={formData.name} text='Description' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.item_code} text='Item Code' onChange={(value) => handleChange('item_code', value)} /></div>
+                        <div className="col-span-3"><TextInput value={formData.description} text='Description' onChange={(value) => handleChange('description', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.manufacturer} text='Manufacturer' onChange={(value) => handleChange('manufacturer', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleChange('manufacturer_code', value)} /></div>
                         <div className="col-span-1">
                             <NumberInput label="Quantity" value={formDataItem.quantity} onChange={(value) => handleChange('quantity', value)} />
-                        </div>
-                        <div className="col-span-1">
-                            <SelectInput
-                                label="Bin"
-                                value={formDataItem.bin.toString()}
-                                onChange={(value) => handleChange('bin', value)}
-                                options={[
-                                    { value: '1', label: '1' },
-                                    { value: '2', label: '2' },
-                                    { value: '3', label: '3' },
-                                    { value: '4', label: '4' },
-                                    { value: '5', label: '5' },
-                                ]} />
                         </div>
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />

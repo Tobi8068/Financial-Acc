@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Download } from 'lucide-react';
+import { Download, Undo2 } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -15,9 +15,14 @@ import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
 import { Badge } from '@/components/ui/badge';
 
-export function ReservationDetail(props: ReservationData) {
-    const [currentPage, setCurrentPage] = useState(1);
+interface ReservationDetailProps {
+    props: ReservationData;
+    onClickUndo: (value: any) => void;
+}
 
+export function ReservationDetail({ props, onClickUndo }: ReservationDetailProps) {
+    
+    const [currentPage, setCurrentPage] = useState(1);
     const { data, totalPages, totalItems, itemsPerPage } = useReservationItemsData(
         currentPage,
     );
@@ -39,17 +44,22 @@ export function ReservationDetail(props: ReservationData) {
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-200px)]">
-            <h2 className="text-xl font-semibold">Reservations Details</h2>
+            <div className='flex justify-between items-center pb-2'>
+                <h2 className="text-xl font-semibold">Reservations Details</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <h2 className='text-[#636692] font-semibold'>Reservation Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{props.dateCreated}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Date:&nbsp;</span><span>{props.created_date}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">StoreKeeper:&nbsp;</span><span>{props.storeKeeper.name}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reason:&nbsp;</span><span>{props.reason}</span></div>
                     </div>
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reservation Date:&nbsp;</span><span>{props.reservationDate}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reservation Date:&nbsp;</span><span>{props.reservation_date}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reserved By:&nbsp;</span><span>{props.reservedBy.name}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Status:&nbsp;</span><span>{getStatusBadge(props.status)}</span></div>
                     </div>

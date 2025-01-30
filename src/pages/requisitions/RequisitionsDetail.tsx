@@ -36,7 +36,7 @@ export function RequisitionsDetail({ props, onClickUndo }: RequisitionsDetailPro
             </Badge>
         );
     };
-
+ 
     return (
         <div>
             <div className='flex justify-between items-center pb-2'>

@@ -3,27 +3,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { ProductionData, ProductionFilters, ProductionItem, ProductionStatus, ProductionItemStatus } from '@/types/production';
 import { capitalizeLetter } from '@/lib/utils';
 
-const productionBackendData = (backendData: any): ProductionData => {
-  return {
-    id: backendData.id.toString(),
-    date: backendData.date,
-    name: backendData.p_name,
-    project: backendData.project.project_name,
-    productionStartDate: backendData.p_start_date,
-    productionEndDate: backendData.p_end_date,
-    status: capitalizeLetter(backendData.p_status) as ProductionStatus,
-    createdBy: {
-      name: `${backendData.created_by.first_name} ${backendData.created_by.last_name}`,
-      avatar: backendData.created_by.avatar || ''
-    },
-    approvedBy: {
-      name: `${backendData.approved_by.first_name} ${backendData.approved_by.last_name}`,
-      avatar: backendData.approved_by.avatar || ''
-    },
-    approved: backendData.approved || false,
-    items: backendData.items
-  };
-};
 
 const productionItemBackendData = (backendData: any): ProductionItem => {
   return {
@@ -82,6 +61,7 @@ function useData(
     setTotalItems(filteredAndSortedData.length);
   }, [page, filteredAndSortedData]);
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
   return {
     data,
     totalPages,
@@ -90,6 +70,7 @@ function useData(
     refreshData
   };
 }
+
 export function useProductionData(page: number, filters: ProductionFilters, searchQuery?: string) {
   const [serverData, setServerData] = useState<ProductionData[]>([]);
   const fetchFunc = async () => {

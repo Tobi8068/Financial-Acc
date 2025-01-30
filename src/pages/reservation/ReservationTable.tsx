@@ -14,12 +14,14 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useReservationData } from '@/hooks/useReservationData';
 import { Pagination } from '@/components/pagination/Pagination';
 import { Badge } from '@/components/ui/badge';
+import { SortOption } from '@/types/utils';
 import { ReservationStatus, ReservationFilters } from '@/types/reservation';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import useNotification from '@/hooks/useNotifications';
 
 interface ReservationTableProps {
   filters: ReservationFilters;
+  sortOption: SortOption;
   searchQuery: string;
   onClickView: (item: any) => void;
 }
