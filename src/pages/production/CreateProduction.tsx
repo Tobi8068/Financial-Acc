@@ -32,7 +32,6 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [projectList, setProjectList] = useState<any[]>([]);
     const [unitList, setUnitList] = useState<any[]>([]);
-
     const [formItemData, setFormItemData] = useState<any>(
         {
             item_name: '',
