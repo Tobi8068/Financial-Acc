@@ -159,9 +159,11 @@ export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) 
                     price: ''
                 });
                 refreshData();
+            } else {
+                showNotification('Error creating item', 'error');
             }
         } catch (error) {
-            console.error('Error creating item:', error);
+            showNotification('Error creating item', 'error');
         }
         console.log("after====>", formItemData)
     }
