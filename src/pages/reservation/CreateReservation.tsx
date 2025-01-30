@@ -21,11 +21,7 @@ import { useReservationItemsData } from '@/hooks/useReservationData';
 import { messageData } from "@/lib/message-data";
 import { DateInput } from "@/components/ui/date-input";
 
-interface CreateReservationProps {
-    onClick: () => void;
-}
-
-export function CreateReservation({ onClick }: CreateReservationProps) {
+export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =>void}) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -212,7 +208,7 @@ export function CreateReservation({ onClick }: CreateReservationProps) {
                         </div>
                     </div>
                     <div className="w-full flex justify-end">
-                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
+                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={}>
                             <span className="text-white font-semibold">Add Reservation</span>
                         </div>
                     </div>
