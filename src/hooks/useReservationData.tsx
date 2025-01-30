@@ -93,7 +93,7 @@ function useData(
     refreshData
   };
 }
-export function useReservationItemsData(page: number, filters: ReservationFilters, searchQuery?: string) {
+export function useReservationItemsData(page: number, filters?: ReservationFilters, searchQuery?: string) {
   const [serverData, setServerData] = useState<ReservationItem[]>([]);
   const fetchFunc = async () => {
     try {

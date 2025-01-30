@@ -34,7 +34,7 @@ function Reservation() {
   const handlePage = (page: number) => {
     setScene(page);
   }
- 
+
 
   return (
     <div className="border-none">
@@ -65,7 +65,9 @@ function Reservation() {
           <>
             <InsideNavbar text="Reservation" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-end bg-white bg-opacity-50">
-              <CreateReservation onClick={() => handlePage(1)} />
+              <CreateReservation
+                onClickUndo={() => handlePage(1)}
+              />
             </main>
           </>
         ) : scene === 3 ? (
@@ -82,4 +84,4 @@ function Reservation() {
       }
     </div>
   );
-}export default Reservation;
+} export default Reservation;

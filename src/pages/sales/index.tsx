@@ -63,7 +63,7 @@ function Sales() {
 
         ) : scene === 2 ? (
           <>
-            <InsideNavbar text="Sales" onClick={() => handlePage(1)} />
+            <InsideNavbar text="Sales Detail" onClick={() => handlePage(1)} />
             <main className="flex-1 p-6 bg-white bg-opacity-50">
               <SalesDetail {...detailData} />
             </main>
