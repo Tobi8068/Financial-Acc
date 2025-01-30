@@ -21,7 +21,7 @@ import useNotification from "@/hooks/useNotifications";
 import { RequisitionItemStatus } from "@/types/requisitions";
 import { useAuth } from "@/context/authProvider";
 
-export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) => void }) {
+export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) => void }): JSX.Element {
     const { user } = useAuth();
     const { showNotification } = useNotification();
 
