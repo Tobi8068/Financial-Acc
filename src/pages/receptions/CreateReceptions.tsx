@@ -26,7 +26,7 @@ interface CreateReceptionsProps {
 
 export function CreateReceptions({ onClick }: CreateReceptionsProps) {
 
-    const [formData, setFormData] = useState<ReceptionItem>(
+    const [formData, setFormData] = useState<any>(
         {
             name: '',
             itemCode: '',

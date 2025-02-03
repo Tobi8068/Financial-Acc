@@ -10,7 +10,7 @@ export default function SignUp() {
   const validateNumber = (password: string) => /\d/.test(password);
   const validateSpecial = (password: string) => /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     first_name: '',
     last_name: '',
     email: '',

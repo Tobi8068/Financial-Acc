@@ -13,7 +13,7 @@ export default function SignIn() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<any>({
         email: '',
         password: ''
     });
