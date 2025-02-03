@@ -22,9 +22,8 @@ interface CreateSuppliersProps {
 
 export function CreateSuppliers({ onClick }: CreateSuppliersProps) {
 
-    const [formData, setFormData] = useState<SuppliersData>(
+    const [formData, setFormData] = useState<any>(
         {
-            id: '',
             supplierName: '',
             supplierCode: '',
             address: '',

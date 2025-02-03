@@ -32,15 +32,14 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
-    const [formItemData, setFormItemData] = useState<ReservationItem>(
+    const [formItemData, setFormItemData] = useState<any>(
         {
-            id: '',
-            name: '',
+            item_name: '',
             item_code: '',
-            description: '',
-            manufacturer: '',
-            manufacturer_code: '',
-            quantity: 0,
+            item_description: '',
+            item_manufacturer: '',
+            item_manufacturer_code: '',
+            item_quantity: 0,
             measure_unit: '',
         }
     );
@@ -76,13 +75,13 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
         };
         fetchProject();
     }, [])
-    console.log("dddddddddddd", projectList)
+    console.log("dddddddddddd", unitList)
     
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
     const handleFormItemData = (field: string, value: any) => {
-        setFormData({ ...formItemData, [field]: value });
+        setFormItemData({ ...formItemData, [field]: value });
     };
 
     useEffect(() => {
@@ -103,13 +102,12 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
             if (response.status === 201) {
                 showNotification('Item created successfully', 'success');
                 setFormItemData({
-                    id: '',
-                    name: '',
+                    item_name: '',
                     item_code: '',
-                    description: '',
-                    manufacturer: '',
-                    manufacturer_code: '',
-                    quantity: 0,
+                    item_description: '',
+                    item_manufacturer: '',
+                    item_manufacturer_code: '',
+                    item_quantity: 0,
                     measure_unit: '',
                 });
                 refreshData();
@@ -198,7 +196,7 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
                         <TextInput value={formData.reason} text='Reason' onChange={(value) => handleFormData('reason', value)} />
-                        {/* <SelectInput
+                        <SelectInput
                             label="Project"
                             value={formData.project}
                             onChange={(value) => handleFormData('project', value)}
@@ -208,7 +206,7 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                                     label: item.project_name,
                                 }
                             ))}
-                        /> */}
+                        />
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -278,13 +276,13 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-12 gap-3">
-                        <div className="col-span-2"><TextInput value={formItemData.name} text='Name' onChange={(value) => handleFormItemData('name', value)} /></div>
-                        <div className="col-span-2"><TextInput value={formItemData.description} text='Description' onChange={(value) => handleFormItemData('description', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.name} text='Name' onChange={(value) => handleFormItemData('item_name', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.description} text='Description' onChange={(value) => handleFormItemData('item_description', value)} /></div>
                         <div className="col-span-2"><TextInput value={formItemData.item_code} text='Item Code' onChange={(value) => handleFormItemData('item_code', value)} /></div>
-                        <div className="col-span-2"><TextInput value={formItemData.manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('manufacturer', value)} /></div>
-                        <div className="col-span-2"><TextInput value={formItemData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('manufacturer_code', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput
