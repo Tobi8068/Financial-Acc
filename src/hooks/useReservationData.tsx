@@ -29,10 +29,10 @@ const BackendData = (backendData: any): ReservationData => {
       name: `${backendData.reserved_by.first_name} ${backendData.reserved_by.last_name}`,
       avatar: backendData.reserved_by.avatar || ''
     },
-    project: backendData.project,
-    created_date: backendData.created_date,
+    project: backendData.project.project_name,
+    created_date: backendData.date,
     items: itemsData,
-    reservation_date: backendData.reservation_date
+    reservation_date: backendData.reserved_date
   }
 }
 

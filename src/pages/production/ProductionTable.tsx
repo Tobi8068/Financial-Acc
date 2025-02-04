@@ -63,7 +63,7 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
       } else {
         showNotification('Failed to delete Production', 'error',);
       }
-      
+
       setDeleteDialogOpen(false);
       setDeleteItemId(null);
     }
@@ -139,10 +139,10 @@ export function ProductionTable({ filters, searchQuery, onClickView }: Productio
                   </div>
                 </TableCell>
                 <TableCell className='text-[#535862]'>{item.approved ? "Yes" : "No"}</TableCell>
-                <TableCell>
+                <TableCell className='text-[#535862]'>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <button className="p-2 hover:bg-gray-100 rounded-full">
+                      <button className="p-2 bg-white hover:bg-gray-100 shadow-lg rounded-full">
                         <MoreVertical className="h-4 w-4" />
                       </button>
                     </PopoverTrigger>
