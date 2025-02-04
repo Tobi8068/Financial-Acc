@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Download } from 'lucide-react';
+import { Download, Undo2 } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -9,20 +8,25 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { ReceptionsData } from '@/types/receptions';
-import { useReceptionItemsData } from '@/hooks/useReceptionsData';
-import { Pagination } from '@/components/pagination/Pagination';
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
 
-export function ReceptionsDetail(props: ReceptionsData) {
-    const [currentPage, setCurrentPage] = useState(1);
 
-    const { data, totalPages, totalItems, itemsPerPage } = useReceptionItemsData(
-        currentPage,
-    );
+interface ReceptionsDetailprops {
+    props: ReceptionsData;
+    onClickUndo: (value: any) => void;
+}
+
+export function ReceptionsDetail({ props, onClickUndo }: ReceptionsDetailprops) {
+
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-200px)]">
-            <h2 className="text-xl font-semibold">Receptions Details</h2>
+            <div className='flex justify-between items-center pb-2'>
+                <h2 className="text-xl font-semibold">Receptions Details</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="flex flex-col gap-6 rounded-lg p-6 shadow-sm">
                 <h2 className='text-[#636692] font-semibold'>Reception Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
@@ -48,29 +52,23 @@ export function ReceptionsDetail(props: ReceptionsData) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {
-                                    data.map((item, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.description}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.bin}</TableCell>
-                                        </TableRow>
-                                    ))
+                                {props.items.length >= 0 && props.items.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell className='text-[#535862] pl-6'>{index + 1}</TableCell>
+                                        <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.bin}</TableCell>
+                                    </TableRow>
+                                ))
                                 }
                             </TableBody>
                         </Table>
                     </div>
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={setCurrentPage}
-                        itemsPerPage={itemsPerPage}
-                        totalItems={totalItems}
-                    />
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                         {/* Notes Section */}
                         <Notes messages={messageData} />
