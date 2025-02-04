@@ -40,7 +40,7 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
     status: "Active",
     itemCode: '',
     quantity: 0,
-  }); 
+  });
   const transformCarrierData = (data: CarrierData) => {
     return {
       name: data.name,
@@ -139,7 +139,7 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <button className="p-2 hover:bg-gray-100 rounded-full">
+                      <button className="p-2 bg-white hover:bg-gray-100 shadow-lg rounded-full">
                         <MoreVertical className="h-4 w-4" />
                       </button>
                     </PopoverTrigger>
@@ -171,7 +171,7 @@ export function CarriesTable({ filters, sortOption, searchQuery }: CarriesTableP
       />
       <EditCarries
         initialData={transformCarrierDataEdit(viewItem)}
-        onSave={() => {}}
+        onSave={() => { }}
         open={editableDialogOpen}
         onClose={() => setEditableDialogOpen(false)}
       />

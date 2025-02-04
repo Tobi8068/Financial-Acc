@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Upload } from 'lucide-react';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { ReservationItem } from "@/types/reservation";
 import { MoreVertical, Undo2 } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -245,7 +244,7 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
-                                                        <button className="p-2 hover:bg-gray-100 rounded-full">
+                                                        <button className="p-2 bg-white hover:bg-gray-100 shadow-lg rounded-full">
                                                             <MoreVertical className="h-4 w-4" />
                                                         </button>
                                                     </PopoverTrigger>
@@ -283,7 +282,7 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                         <div className="col-span-2"><TextInput value={formItemData.manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
                         <div className="col-span-2"><TextInput value={formItemData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('item_quantity', Number(value))} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput

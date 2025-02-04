@@ -321,7 +321,7 @@ export function CreateRequisitions({ onClickUndo }: { onClickUndo: (value: any) 
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
-                                                        <button className="p-2 hover:bg-gray-100 rounded-full">
+                                                        <button className="p-2 bg-white hover:bg-gray-100 shadow-lg rounded-full">
                                                             <MoreVertical className="h-4 w-4" />
                                                         </button>
                                                     </PopoverTrigger>

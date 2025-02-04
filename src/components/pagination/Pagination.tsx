@@ -70,6 +70,7 @@ export function Pagination({
           typeof page === 'number' ? (
             <Button
               key={index}
+              className='bg-white text-black'
               variant={currentPage === page ? "default" : "outline"}
               size="sm"
               onClick={() => onPageChange(page)}
@@ -77,7 +78,7 @@ export function Pagination({
               {page}
             </Button>
           ) : (
-            <span key={index} className="px-2">
+            <span key={index} className="px-2 bg-white">
               {page}
             </span>
           )
