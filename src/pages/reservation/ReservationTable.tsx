@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { SortOption } from '@/types/utils';
 import { ReservationStatus, ReservationFilters } from '@/types/reservation';
 import DeleteDialog from '@/components/table/DeleteDialog';
+import { formatDate } from '@/lib/date';
 import useNotification from '@/hooks/useNotifications';
 
 interface ReservationTableProps {
@@ -90,10 +91,10 @@ export function ReservationTable({ filters, searchQuery, onClickView }: Reservat
             <TableRow className='bg-[#FAFAFA]'>
               <TableHead className='pl-6'>No.</TableHead>
               <TableHead>Created Date</TableHead>
-              <TableHead>Reservation Date</TableHead>
               <TableHead>Reason</TableHead>
               <TableHead>Project</TableHead>
               <TableHead>Store keeper</TableHead>
+              <TableHead>Reservation Date</TableHead>
               <TableHead>Reserved By</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-12">Action</TableHead>
@@ -106,8 +107,7 @@ export function ReservationTable({ filters, searchQuery, onClickView }: Reservat
                 key={item.id}
               >
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
-                <TableCell className='text-[#535862]'>{item.dateCreated}</TableCell>
-                <TableCell className='text-[#535862]'>{item.reservationDate}</TableCell>
+                <TableCell className='text-[#535862]'>{formatDate(item.created_date)}</TableCell>
                 <TableCell className='text-[#535862]'>{item.reason}</TableCell>
                 <TableCell className='text-[#535862]'>{item.project}</TableCell>
                 <TableCell className='text-[#535862]'>
@@ -121,6 +121,7 @@ export function ReservationTable({ filters, searchQuery, onClickView }: Reservat
                     <span>{item.storeKeeper.name}</span>
                   </div>
                 </TableCell>
+                <TableCell className='text-[#535862]'>{formatDate(item.reservation_date)}</TableCell>
                 <TableCell className='text-[#535862] flex items-center gap-1'>
                   <div className='flex items-center gap-2'>
                     <Avatar className="h-8 w-8">
@@ -136,7 +137,7 @@ export function ReservationTable({ filters, searchQuery, onClickView }: Reservat
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <button className="p-2 hover:bg-gray-100 rounded-full">
+                      <button className="p-2 bg-white hover:bg-gray-100 shadow-lg rounded-full">
                         <MoreVertical className="h-4 w-4" />
                       </button>
                     </PopoverTrigger>

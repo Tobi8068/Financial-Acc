@@ -21,10 +21,8 @@ export function NavItem({ icon: Icon, label }: NavItemProps) {
     <button
       onClick={handleClick}
       className={cn(
-        'flex items-center gap-2 rounded-lg transition-colors',
-        isActive
-          ? 'bg-primary text-primary-foreground'
-          : 'text-gray-600 hover:bg-gray-100'
+        'flex items-center gap-2 rounded-lg transition-colors bg-white',
+        isActive && 'hover:bg-gray-200'
       )}
     >
       <Icon className="h-5 w-5" />

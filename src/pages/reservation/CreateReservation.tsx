@@ -76,7 +76,7 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
         fetchProject();
     }, [])
     console.log("dddddddddddd", unitList)
-    
+
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
@@ -128,52 +128,45 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
                 },
                 body: JSON.stringify(formData),
             });
-            if (response.status === 201) {
+            if (response.status === 201)
                 showNotification('Reservation created successfully', 'success');
-                setFormData({
-                    reservationDate: '',
-                    project: '',
-                    storeKeeper: '',
-                    reservedBy: '',
-                    status: '',
-                });
-                refreshData();
-            } else {
-                showNotification('Error creating reservation', 'error');
-            }
+            setFormData({
+                reservationDate: '',
+                project: '',
+                storeKeeper: '',
+                reservedBy: '',
+                status: '',
+            });
+            refreshData();
         }
         catch (error) {
             showNotification('Error creating reservation', 'error');
         }
     }
 
-    const handleDelete = (id: string) => {
-        setDeleteDialogOpen(true);
-        setDeleteItemId(id);
-    };
-
-    const handleSelectAll = (checked: boolean) => {
-        if (checked) {
-            setSelectedItems(data.map(item => item.id));
-        } else {
-            setSelectedItems([]);
-        }
-    };
-
     const handleConfirmDelete = async () => {
         if (deleteItemId) {
             console.log('Deleting item with id:', deleteItemId);
-            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/reservation-items/${deleteItemId}`, {
-                method: 'DELETE',
-            })
-            console.log(response.status);
-            if (response.status === 204) {
-                showNotification('Item deleted successfully', 'success');
-                refreshData();
+            try {
+                const response = await fetch(`${import.meta.env.VITE_BASE_URL}/reservation-items/${deleteItemId}`, {
+                    method: 'DELETE',
+                })
+                if (response.status === 204) {
+                    showNotification('Item deleted successfully', 'success');
+                    refreshData();
+                }
+
+            } catch (error) {
+                showNotification('Error creating reservation item', 'error');
             }
             setDeleteDialogOpen(false);
             setDeleteItemId(null);
         }
+    };
+
+    const handleDelete = (id: string) => {
+        setDeleteDialogOpen(true);
+        setDeleteItemId(id);
     };
 
     const handleSelectItem = (id: string, checked: boolean) => {
@@ -183,6 +176,14 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
             setSelectedItems(selectedItems.filter(item => item !== Number(id)));
         }
     }
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectedItems(data.map(item => item.id));
+        } else {
+            setSelectedItems([]);
+        }
+    };
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">

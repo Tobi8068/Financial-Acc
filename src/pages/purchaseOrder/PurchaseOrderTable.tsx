@@ -145,7 +145,7 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                       </>
                     ) : (
                       <>
-                        <UserX className="h-8 w-8 text-red-400 rounded-full" />
+                        <UserX className="h-8 w-8 text-red-400 rounded-full shadow-md" />
                         <span>None</span>
                       </>
                     )}
@@ -157,7 +157,7 @@ export function PurchaseOrderTable({ filters, searchQuery, onClickView }: Purcha
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <button className="p-2 hover:bg-gray-100 rounded-full">
+                      <button className="p-2 bg-white hover:bg-gray-100 shadow-lg rounded-full">
                         <MoreVertical className="h-4 w-4" />
                       </button>
                     </PopoverTrigger>
