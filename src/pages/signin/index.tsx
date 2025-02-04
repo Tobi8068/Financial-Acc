@@ -89,7 +89,7 @@ export default function SignIn() {
                                     <input
                                         type="email"
                                         name="email"
-                                        className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                                         placeholder="Email"
                                         onChange={handleChange}
                                     />
@@ -105,7 +105,7 @@ export default function SignIn() {
                                     <input
                                         type="password"
                                         name="password"
-                                        className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                        className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                                         placeholder="Password"
                                         onChange={handleChange}
                                         onKeyDown={(e) => {

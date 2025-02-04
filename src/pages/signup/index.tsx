@@ -103,7 +103,7 @@ export default function SignUp() {
                       name="first_name"
                       value={formData.first_name}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                       placeholder="First Name"
                     />
                     <User className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -119,7 +119,7 @@ export default function SignUp() {
                       name="last_name"
                       value={formData.last_name}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                       placeholder="Last Name"
                     />
                     <User className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -138,7 +138,7 @@ export default function SignUp() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                       placeholder="Email"
                     />
                     <Mail className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -154,7 +154,7 @@ export default function SignUp() {
                       name="phone_number"
                       value={formData.phone_number}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                       placeholder="Phone Number"
                     />
                     <Phone className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -173,7 +173,7 @@ export default function SignUp() {
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                       placeholder="Password"
                     />
                     <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -210,7 +210,7 @@ export default function SignUp() {
                         }
                         setConfirmPassword(e.target.value)
                       }}
-                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-white"
                       placeholder="Confirm Password"
                     />
                     <Lock className="absolute right-3 top-3.5 h-5 w-5 text-gray-400" />
@@ -241,7 +241,7 @@ export default function SignUp() {
               <button
                 type="button"
                 onClick={handleSignUp}
-                className="w-full py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                className="w-full py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 bg-white"
               >
                 Sign Up
               </button>
