@@ -57,7 +57,10 @@ function Receptions() {
           <>
             <InsideNavbar text="Receptions Detail" onClick={() => handlePage(1)} />
             <main className="flex-1 bg-white bg-opacity-50">
-              <ReceptionsDetail {...detailData} />
+              <ReceptionsDetail
+                props={detailData}
+                onClickUndo={() => handlePage(1)}
+              />
             </main>
           </>
         ) : ''

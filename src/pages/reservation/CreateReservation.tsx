@@ -44,10 +44,10 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
     );
     const [formData, setFormData] = useState<any>(
         {
-            reservationDate: '',
+            // reservationDate: '',
             project: '',
-            storeKeeper: user.id,
-            reservedBy: '',
+            storekeeper: user.id,
+            // reservedBy: '',
             status: 'created',
         }
     );
@@ -73,8 +73,7 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
             }
         };
         fetchProject();
-    }, [])
-    console.log("dddddddddddd", unitList)
+    }, []) 
 
     const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
@@ -130,10 +129,8 @@ export function CreateReservation({ onClickUndo }: { onClickUndo: (value: any) =
             if (response.status === 201)
                 showNotification('Reservation created successfully', 'success');
             setFormData({
-                reservationDate: '',
                 project: '',
-                storeKeeper: '',
-                reservedBy: '',
+                storekeeper: '',
                 status: '',
             });
             refreshData();
