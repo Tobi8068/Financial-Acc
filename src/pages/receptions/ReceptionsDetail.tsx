@@ -11,7 +11,6 @@ import { ReceptionsData } from '@/types/receptions';
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
 
-
 interface ReceptionsDetailprops {
     props: ReceptionsData;
     onClickUndo: (value: any) => void;
