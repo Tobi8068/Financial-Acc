@@ -10,13 +10,12 @@ export interface ReceptionItem {
 }
 
 export interface ReceptionsData {
-  id: string;
-  purchaseOrderNo: number;
-  items: any[];
+  id: string,
+  po_number: number,
+  items: any[],
   storeKeeper: {
     name: string,
     avatar: string
   }
-  
-  purchaseOrder: string;
+  purchaseOrder: string,
 }
