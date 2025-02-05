@@ -63,10 +63,9 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
           </TableHeader>
 
           <TableBody>
-            {data.length !== 0 && data.map((item) => (
-              <TableRow
-                key={item.id}
-              >
+            {data.length !== 0 && data.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium pl-6">{index + 1}</TableCell>
                 <TableCell className="font-medium pl-6">{item.id}</TableCell>
                 <TableCell className='text-[#535862]'>{item.purchaseOrderNo}</TableCell>
                 <TableCell className='text-[#535862]'>{item.items}</TableCell>
@@ -89,7 +88,8 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
                   </Popover>
                 </TableCell>
               </TableRow>
-            ))}
+            ))
+            }
           </TableBody>
         </Table>
       </div>
