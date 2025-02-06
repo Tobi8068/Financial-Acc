@@ -16,6 +16,6 @@ export interface ReceptionsData {
   storeKeeper: {
     name: string,
     avatar: string
-  }
+  },
   purchaseOrder: string,
 }
