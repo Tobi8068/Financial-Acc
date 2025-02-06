@@ -1,4 +1,4 @@
-import { Download, Undo2 } from 'lucide-react';
+import { Download, Undo2, UserX } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -10,6 +10,8 @@ import {
 import { ReceptionsData } from '@/types/receptions';
 import { messageData } from "@/lib/message-data";
 import { Notes } from "@/components/organisms/notes";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getUserAvatarPath } from '@/lib/utils';
 
 interface ReceptionsDetailprops {
     props: ReceptionsData;
@@ -30,8 +32,25 @@ export function ReceptionsDetail({ props, onClickUndo }: ReceptionsDetailprops) 
                 <h2 className='text-[#636692] font-semibold'>Reception Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">PO No:&nbsp;</span><span>{props.purchaseOrderNo}</span></div>
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">StoreKeeper:&nbsp;</span><span>{props.storeKeeper}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">PO No:&nbsp;</span><span>{props.po_number}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">StoreKeeper:&nbsp;</span>
+                            {props.storeKeeper.name.length !== 2 ? (
+                                <>
+                                    <Avatar className="h-8 w-8">
+                                        <AvatarImage src={getUserAvatarPath(props.storeKeeper.avatar)} alt={props.storeKeeper.name} />
+                                        <AvatarFallback>
+                                            <span>{props.storeKeeper.name}</span>
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <span>{props.storeKeeper.name}</span>
+                                </>
+                            ) : (
+                                <>
+                                    <UserX className="h-8 w-8 text-red-400 rounded-full" />
+                                    <span>None</span>
+                                </>
+                            )}
+                        </div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Purchase Order:&nbsp;</span><span>{props.purchaseOrder}</span></div>
                     </div>
                 </div>
@@ -54,13 +73,13 @@ export function ReceptionsDetail({ props, onClickUndo }: ReceptionsDetailprops) 
                                 {props.items.length >= 0 && props.items.map((item, index) => (
                                     <TableRow key={index}>
                                         <TableCell className='text-[#535862] pl-6'>{index + 1}</TableCell>
-                                        <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.description}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.bin}</TableCell>
+                                        <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.item_name}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.item_code}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.item_description}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.item_manufacturer}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.item_manufacturer_code}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.item_quantity}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.item_bin}</TableCell>
                                     </TableRow>
                                 ))
                                 }

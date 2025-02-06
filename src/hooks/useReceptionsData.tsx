@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { ReceptionItem, ReceptionsData } from '@/types/receptions';
-import { receptionsData, receptionItemsData } from '@/lib/mock-data';
 
 const itemBackendData = (itemData: any): ReceptionItem => {
   return {
@@ -11,7 +10,7 @@ const itemBackendData = (itemData: any): ReceptionItem => {
     manufacturer: itemData.item_manufacurer,
     manufacturer_code: itemData.item_manufacturer_code,
     quantity: itemData.item_quantity || 0,
-    bin: itemData.item.bin,
+    bin: itemData.item_bin,
   }
 };
 
@@ -71,7 +70,8 @@ function useData(
     data,
     totalPages,
     totalItems,
-    itemsPerPage
+    itemsPerPage,
+    refreshData
   };
 }
 export function useReceptionItemsData(page: number, searchQuery?: string) {
