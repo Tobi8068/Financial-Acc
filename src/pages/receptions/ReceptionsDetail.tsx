@@ -32,7 +32,7 @@ export function ReceptionsDetail({ props, onClickUndo }: ReceptionsDetailprops) 
                 <h2 className='text-[#636692] font-semibold'>Reception Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">Reception No:&nbsp;</span><span>{props.po_number}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">Reception No:&nbsp;</span><span>{props.po_number}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">StoreKeeper:&nbsp;</span>
                             {props.storeKeeper.name.length !== 2 ? (
                                  <div className='flex items-center gap-2'>

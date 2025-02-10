@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Upload } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Upload, Undo2 } from 'lucide-react';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
 import { Checkbox } from '@/components/ui/checkbox';
@@ -19,17 +19,18 @@ import { Pagination } from '@/components/pagination/Pagination';
 import DeleteDialog from '@/components/table/DeleteDialog';
 import { useReceptionItemsData } from '@/hooks/useReceptionsData';
 import { messageData } from "@/lib/message-data";
+import useNotification from "@/hooks/useNotifications";
 
 interface CreateReceptionsProps {
-    onClick: () => void;
+    onClickUndo: (value: any) => void;
 }
 
-export function CreateReceptions({ onClick }: CreateReceptionsProps) {
-
+export function CreateReceptions({ onClickUndo }: CreateReceptionsProps) {
+    const { showNotification } = useNotification();
     const [formData, setFormData] = useState<any>(
         {
             name: '',
-            itemCode: '',
+            item_code: '',
             description: '',
             manufacturer: '',
             manufacturer_code: '',
@@ -37,16 +38,45 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
             bin: 0,
         }
     );
-    const [currentPage, setCurrentPage] = useState(1);
+    const [formItemData, setFormItemData] = useState<any>(
+        {
+            name: '',
+            item_code: '',
+            description: '',
+            manufacturer: '',
+            manufacturer_code: '',
+            quantity: 0,
+            bin: 0,
+        }
+    );
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const { data, totalPages, totalItems, itemsPerPage } = useReceptionItemsData(
         currentPage,
     );
 
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [binList, setBinList] = useState<any[]>([]);
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
+
+    useEffect(() => {
+      const fetchBin = async () => {
+        try {
+            const binList = await fetch(`${import.meta.env.VITE_BASE_URL}/bins`);
+            const binData = await binList.json();
+            setBinList(binData);
+        } catch (error) {
+            console.error('Error fetching Bin List:', error);        }
+      }
+    
+      return () => {
+        fetchBin
+      }
+    }, [])
+    
 
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
@@ -64,12 +94,41 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
         }
     };
 
-    const handleChange = (field: string, value: any) => {
+    const handleFormData = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
 
-    const handleSaveItem = () => {
+    const handleFormItemData = (field: string, value: any) => {
+        setFormItemData({ ...formItemData, [field]: value });
+    };
 
+    const handleSaveItem = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/receptions-items`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            if (response.ok) {
+                showNotification('Item created successfully', 'success');
+                setFormData({
+                    name: '',
+                    itemCode: '',
+                    description: '',
+                    manufacturer: '',
+                    manufacturer_code: '',
+                    quantity: 0,
+                    bin: 0,
+                });
+            } else {
+                console.error('Error saving item');
+            }
+        } catch (error) {
+            console.error('Error saving item:', error);
+
+        }
     }
 
     const handleDelete = (id: string) => {
@@ -87,12 +146,17 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
 
     return (
         <div className="w-full flex flex-col justify-start overflow-y-auto p-6 h-[calc(100vh-160px)]">
-            <h2 className="text-xl font-semibold mb-6">Add Reception</h2>
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold mb-6">Create Reception</h2>
+                <div className="flex cursor-pointer p-2 rounded-full hover:bg-white">
+                    <Undo2 onClick={() => onClickUndo(1)} />
+                </div>
+            </div>
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput value={formData.name} text='Purchase Order Number' onChange={(value) => handleChange('name', value)} />
-                        <TextInput value={formData.name} text='Storekeeper' onChange={(value) => handleChange('name', value)} />
+                        <TextInput value={formData.name} text='Purchase Order Number' onChange={(value) => handleFormData('name', value)} />
+                        <TextInput value={formData.name} text='Storekeeper' onChange={(value) => handleFormData('name', value)} />
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
                     <div className='rounded-lg border bg-white'>
@@ -108,7 +172,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Item Code</TableHead>
                                     <TableHead>Description</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Bin</TableHead>
@@ -123,7 +187,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                                                 <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
                                             </TableCell>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.item_code}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
@@ -164,27 +228,27 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-10 gap-3">
-                        <div className="col-span-2"><TextInput value={formData.name} text='Name' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.name} text='Item Code' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-3"><TextInput value={formData.name} text='Description' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.name} text='Name' onChange={(value) => handleFormItemData('name', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formItemData.item_code} text='Item Code' onChange={(value) => handleFormItemData('item_code', value)} /></div>
+                        <div className="col-span-3"><TextInput value={formItemData.description} text='Description' onChange={(value) => handleFormItemData('description', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formItemData.manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('manufacturer', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formItemData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            {/* <TextInput text='Quantity' onChange={(value) => handleChange('name', value)} /> */}
-                            <NumberInput label="Quantity" value={formData.quantity} onChange={(value) => handleChange('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('quantity', value)} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput
-                                label="Bin"
-                                value={formData.bin.toString()}
-                                onChange={(value) => handleChange('bin', value)}
-                                options={[
-                                    { value: '1', label: '1' },
-                                    { value: '2', label: '2' },
-                                    { value: '3', label: '3' },
-                                    { value: '4', label: '4' },
-                                    { value: '5', label: '5' },
-                                ]} />
+                                label="bin"
+                                value={formItemData.bin}
+                                onChange={(value) => handleFormItemData('bin', value)}
+                                options={Array.isArray(binList) && binList.length > 0
+                                    ? binList.map(item => ({
+                                        value: item.id,
+                                        label: item.bin_name,
+                                    }))
+                                    : []
+                                }
+                            />
                         </div>
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />
@@ -221,8 +285,11 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                             </div>
                         </div>
                     </div>
+
+                    <hr className="border-t border-[#D7D8E4] w-full" />
+
                     <div className="w-full flex justify-end">
-                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" onClick={onClick}>
+                        <div className="bg-[#3A3B55] px-[18px] py-[8px] rounded-md cursor-pointer" >
                             <span className="text-white font-semibold">Create Requisition</span>
                         </div>
                     </div>

@@ -30,7 +30,6 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
     searchQuery
   );
 
-  console.log("ddddddddddddddd", data)
   useEffect(() => {
     if (totalPages < currentPage) {
       setCurrentPage(1);
