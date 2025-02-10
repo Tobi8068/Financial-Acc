@@ -7,7 +7,7 @@ const itemBackendData = (itemData: any): ReceptionItem => {
     name: itemData.item_name,
     item_code: itemData.item_code,
     description: itemData.item_description,
-    manufacturer: itemData.item_manufacurer,
+    manufacturer: itemData.item_manufacturer,
     manufacturer_code: itemData.item_manufacturer_code,
     quantity: itemData.item_quantity || 0,
     bin: itemData.item_bin,
