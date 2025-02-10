@@ -329,10 +329,10 @@ export function CreateProduction({ onClickUndo }: { onClickUndo: (value: any) =>
                         <div className="col-span-1"><TextInput text='Manufacturer Name' value={formItemData.manufacturer} onChange={(value) => handleFormItemData('manufacturer', value)} /></div>
                         <div className="col-span-1"><TextInput text='Manufacturer Code' value={formItemData.manufacturer_code} onChange={(value) => handleFormItemData('manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('quantity', Number(value))} />
                         </div>
                         <div className="col-span-1">
-                            <NumberInput label="Approved Quantity" value={formItemData.approved_quantity} onChange={(value) => handleFormItemData('approved_quantity', value)} />
+                            <NumberInput label="Approved Quantity" value={formItemData.approved_quantity} onChange={(value) => handleFormItemData('approved_quantity', Number(value))} />
                         </div>
                         <SelectInput
                             label="Measure Unit"

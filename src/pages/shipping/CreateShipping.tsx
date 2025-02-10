@@ -181,7 +181,7 @@ export function CreateShipping({ onClick }: CreateShippingProps) {
                         <div className="col-span-1"><TextInput value={formData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleChange('manufacturer_code', value)} /></div>
                         <div className="col-span-1"><TextInput value={formData.itemCode} text='Item Code' onChange={(value) => handleChange('itemCode', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Approved Quantity" value={formDataItem.quantity} onChange={(value) => handleChange('approved_quantity', value)} />
+                            <NumberInput label="Approved Quantity" value={formDataItem.quantity} onChange={(value) => handleChange('approved_quantity', Number(value))} />
                         </div>
                     </div>
                     <hr className="border-t border-[#D7D8E4] w-full" />
