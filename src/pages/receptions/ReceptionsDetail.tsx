@@ -32,10 +32,10 @@ export function ReceptionsDetail({ props, onClickUndo }: ReceptionsDetailprops) 
                 <h2 className='text-[#636692] font-semibold'>Reception Info</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 bg-white p-5 rounded-lg border">
                     <div className="space-y-3">
-                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">PO No:&nbsp;</span><span>{props.po_number}</span></div>
+                        <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[180px]">Reception No:&nbsp;</span><span>{props.po_number}</span></div>
                         <div className="text-md text-[#2B2D40] flex"><span className="font-bold w-[148px]">StoreKeeper:&nbsp;</span>
                             {props.storeKeeper.name.length !== 2 ? (
-                                <>
+                                 <div className='flex items-center gap-2'>
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage src={getUserAvatarPath(props.storeKeeper.avatar)} alt={props.storeKeeper.name} />
                                         <AvatarFallback>
@@ -43,7 +43,7 @@ export function ReceptionsDetail({ props, onClickUndo }: ReceptionsDetailprops) 
                                         </AvatarFallback>
                                     </Avatar>
                                     <span>{props.storeKeeper.name}</span>
-                                </>
+                                </div>
                             ) : (
                                 <>
                                     <UserX className="h-8 w-8 text-red-400 rounded-full" />
@@ -60,10 +60,11 @@ export function ReceptionsDetail({ props, onClickUndo }: ReceptionsDetailprops) 
                         <Table>
                             <TableHeader>
                                 <TableRow>
+                                    <TableHead>NO.</TableHead>
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Item Code</TableHead>
                                     <TableHead>Description</TableHead>
-                                    <TableHead>Manufacturer Name</TableHead>
+                                    <TableHead>Manufacturer</TableHead>
                                     <TableHead>Manufacturer Code</TableHead>
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Bin</TableHead>
@@ -73,13 +74,13 @@ export function ReceptionsDetail({ props, onClickUndo }: ReceptionsDetailprops) 
                                 {props.items.length >= 0 && props.items.map((item, index) => (
                                     <TableRow key={index}>
                                         <TableCell className='text-[#535862] pl-6'>{index + 1}</TableCell>
-                                        <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.item_name}</TableCell>
+                                        <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                         <TableCell className='text-[#535862]'>{item.item_code}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.item_description}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.item_manufacturer}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.item_manufacturer_code}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.item_quantity}</TableCell>
-                                        <TableCell className='text-[#535862]'>{item.item_bin}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.description}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
+                                        <TableCell className='text-[#535862]'>{item.bin.bin_name}</TableCell>
                                     </TableRow>
                                 ))
                                 }

@@ -11,12 +11,15 @@ function Receptions() {
   const [scene, setScene] = useState(1);
   const [detailData, setDetailData] = useState<ReceptionsData>({
     id: '',
-    purchaseOrderNo: 0,
-    items: '',
-    storeKeeper: '',
+    po_number: 0,
+    items: [],
+    storeKeeper: {
+      name: '',
+      avatar: ''
+    },
     purchaseOrder: '',
   });
-
+ 
   const handlePage = (page: number) => {
     setScene(page);
   }
