@@ -40,10 +40,6 @@ function Suppliers() {
     setScene(page);
   }
 
-  const handleCreate = () => {
-
-  }
-
   return (
     <div className="border-none">
       {
@@ -72,7 +68,7 @@ function Suppliers() {
           <>
             <InsideNavbar text="Suppliers" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-center bg-white bg-opacity-50">
-              <CreateSuppliers onClick={() => handleCreate()} />
+              <CreateSuppliers onClick={() => handlePage(1)} />
             </main>
           </>
         ) : scene === 3 ? (

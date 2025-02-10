@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { 
+import { Plus } from 'lucide-react'
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -19,7 +20,7 @@ interface TransfertProps {
   onCreate: () => void;
 }
 
-export function TransfertHeader({ 
+export function TransfertHeader({
   onFiltersChange,
   onSearchChange,
   onCreate,
@@ -33,12 +34,13 @@ export function TransfertHeader({
     setFilters(newFilters);
     onFiltersChange(newFilters);
   };
- 
+
   return (
     <div className="space-y-4 mb-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">Transfert</h2>
         <Button className="gap-2" onClick={() => { onCreate() }}>
+          <Plus className="h-4 w-4" />
           Create Transfer
         </Button>
       </div>
@@ -51,7 +53,7 @@ export function TransfertHeader({
             onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
-        <Select 
+        <Select
           defaultValue="all"
           onValueChange={handleStatusChange}
         >

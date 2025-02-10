@@ -37,11 +37,6 @@ export default function Shipping() {
     setScene(page);
   }
 
-  const handleView = (item: any) => {
-    setScene(2);
-    setDetailData(item);
-  }
-
   const handleCarrier = () => {
     setScene(3);
   }
@@ -61,13 +56,16 @@ export default function Shipping() {
                 onFiltersChange={setShippingFilters}
                 onSortChange={setSortOption}
                 onSearchChange={setSearchQuery}
-                onCreate={() => handlePage(4)}
+                onCreate={() => handlePage(2)}
               />
               <ShippingTable
                 filters={shippingfilters}
                 sortOption={sortOption}
                 searchQuery={searchQuery}
-                onClickView={(item: any) => handleView(item)}
+                onClickView={(item)=>{
+                  handlePage(2);
+                  setDetailData(item);
+                }}
               />
             </main>
           </>
@@ -77,7 +75,7 @@ export default function Shipping() {
             <main className="flex-1 p-6 bg-white bg-opacity-50">
               <ShippingDetail
                 props={detailData}
-                onClickCarrier={() => handleCarrier()}
+                onClickCarrier={() => handlePage(1)}
               />
             </main>
           </>
