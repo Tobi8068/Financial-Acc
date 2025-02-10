@@ -300,7 +300,7 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                 <div className="col-span-2"><TextInput text='Manufacturer Code' value={formItemData.item_manufacturer_code} onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
 
                 <div className="col-span-1">
-                    <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
+                    <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', Number(value))} />
                 </div>
                 <div className="col-span-1">
                     <SelectInput

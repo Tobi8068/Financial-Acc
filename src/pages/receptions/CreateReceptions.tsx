@@ -224,12 +224,12 @@ export function CreateReceptions({ onClickUndo }: CreateReceptionsProps) {
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-10 gap-3">
                         <div className="col-span-2"><TextInput value={formItemData.item_name} text='Name' onChange={(value) => handleFormItemData('item_name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formItemData.item_code} text='Item Code' onChange={(value) => handleFormItemData('item_code', value)} /></div>
-                        <div className="col-span-3"><TextInput value={formItemData.item_description} text='Description' onChange={(value) => handleFormItemData('item_description', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.item_description} text='Description' onChange={(value) => handleFormItemData('item_description', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.item_code} text='Item Code' onChange={(value) => handleFormItemData('item_code', value)} /></div>
                         <div className="col-span-1"><TextInput value={formItemData.item_manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
                         <div className="col-span-1"><TextInput value={formItemData.item_manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', Number(value))} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput
