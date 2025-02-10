@@ -53,17 +53,16 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
         currentPage,
     );
     useEffect(() => {
-        const fetchDatas = async () => {
+        const fetchData = async () => {
             try {
                 const responseBin = await fetch(`${import.meta.env.VITE_BASE_URL}/bins`);
                 const dataPro = await responseBin.json();
                 setBinList(dataPro);
-
             } catch (error) {
                 console.error('Error fetching Data:', error);
             }
         };
-        fetchDatas();
+        fetchData();
     }, [])
 
     const handleFormData = (field: string, value: any) => {
@@ -95,13 +94,11 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                     status: 'approve',
                 });
                 refreshData();
-            } else {
-                showNotification('Failed Item creating ', 'error');
             }
         } catch (error) {
+            showNotification('Failed Item creating ', 'error');
             console.error('Error creating item:', error);
         }
-        console.log("after:::::::::::::", formItemData)
     }
 
     const handleCreate = async () => {
@@ -128,13 +125,11 @@ export function CreateTransfert({ onClickUndo }: { onClickUndo: (value: any) => 
                 });
                 setSelectedItems([]);
                 refreshData();
-            } else {
-                showNotification('Failed Transfert creating ', 'error');
             }
         } catch (error) {
+            showNotification('Failed Transfert creating ', 'error');
             console.error('Error creating Transfert:', error);
         }
-        console.log("after:::::::::::::", formData)
     }
 
     const handleDelete = (id: string) => {

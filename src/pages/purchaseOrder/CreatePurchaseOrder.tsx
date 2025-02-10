@@ -60,7 +60,7 @@ export function CreatePurchaseOrder({ onClickUndo }: { onClickUndo: (value: any)
     const { showNotification } = useNotification();
 
     const [unitList, setUnitList] = useState<any[]>([]);
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
     const [taxList, setTaxList] = useState<any[]>([]);
     const [departmentList, setDepartmentList] = useState<any[]>([]);
 
@@ -133,7 +133,6 @@ export function CreatePurchaseOrder({ onClickUndo }: { onClickUndo: (value: any)
     }, [selectedItems])
 
     const handleSaveItem = async () => {
-        console.log("++++++++++++++++++++++", formItemData)
         try {
             const response = await fetch(`${import.meta.env.VITE_BASE_URL}/purchaseOrders-items`, {
                 method: 'POST',
@@ -162,9 +161,8 @@ export function CreatePurchaseOrder({ onClickUndo }: { onClickUndo: (value: any)
                 refreshData();
             }
         } catch (error) {
-            console.error('Error creating item:', error);
+            showNotification('Failed saving item', 'error');
         }
-        console.log("after====>", formItemData)
     }
 
     const handleCreate = async () => {

@@ -24,10 +24,6 @@ function Receptions() {
     setScene(page);
   }
 
-  const handleCreate = () => {
-    setScene(3);
-  }
-
   return (
     <div className="border-none">
       {
@@ -53,7 +49,7 @@ function Receptions() {
           <>
             <InsideNavbar text="Receptions" onClick={() => handlePage(1)} />
             <main className="flex justify-center items-end bg-white bg-opacity-50">
-              <CreateReceptions onClickUndo={() => handleCreate()} />
+              <CreateReceptions onClickUndo={() => handlePage(1)} />
             </main>
           </>
         ) : scene === 3 ? (

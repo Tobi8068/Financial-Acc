@@ -40,18 +40,18 @@ export function CreateReceptions({ onClickUndo }: CreateReceptionsProps) {
     );
     const [formItemData, setFormItemData] = useState<any>(
         {
-            name: '',
+            item_name: '',
             item_code: '',
-            description: '',
-            manufacturer: '',
-            manufacturer_code: '',
-            quantity: 0,
-            bin: 0,
+            item_description: '',
+            item_manufacturer: '',
+            item_manufacturer_code: '',
+            item_quantity: 0,
+            item_bin: 0,
         }
     );
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const { data, totalPages, totalItems, itemsPerPage } = useReceptionItemsData(
+    const { data, totalPages, totalItems, itemsPerPage, refreshData } = useReceptionItemsData(
         currentPage,
     );
 
@@ -63,20 +63,17 @@ export function CreateReceptions({ onClickUndo }: CreateReceptionsProps) {
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
     useEffect(() => {
-      const fetchBin = async () => {
-        try {
-            const binList = await fetch(`${import.meta.env.VITE_BASE_URL}/bins`);
-            const binData = await binList.json();
-            setBinList(binData);
-        } catch (error) {
-            console.error('Error fetching Bin List:', error);        }
-      }
-    
-      return () => {
-        fetchBin
-      }
+        const fetchBin = async () => {
+            try {
+                const binList = await fetch(`${import.meta.env.VITE_BASE_URL}/bins`);
+                const binData = await binList.json();
+                setBinList(binData);
+            } catch (error) {
+                console.error('Error fetching Bin List:', error);
+            }
+        }
+        fetchBin();
     }, [])
-    
 
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
@@ -109,25 +106,23 @@ export function CreateReceptions({ onClickUndo }: CreateReceptionsProps) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(formItemData),
             });
-            if (response.ok) {
+            if (response.status === 201) {
                 showNotification('Item created successfully', 'success');
-                setFormData({
-                    name: '',
-                    itemCode: '',
-                    description: '',
-                    manufacturer: '',
-                    manufacturer_code: '',
-                    quantity: 0,
-                    bin: 0,
+                setFormItemData({
+                    item_name: '',
+                    item_code: '',
+                    item_description: '',
+                    item_manufacturer: '',
+                    item_manufacturer_code: '',
+                    item_quantity: 0,
+                    item_bin: 0,
                 });
-            } else {
-                console.error('Error saving item');
+                refreshData();
             }
         } catch (error) {
-            console.error('Error saving item:', error);
-
+            showNotification('Failed saving item', 'error');
         }
     }
 
@@ -155,7 +150,7 @@ export function CreateReceptions({ onClickUndo }: CreateReceptionsProps) {
             <div className="w-full flex items-center justify-center">
                 <div className="w-[98%] flex flex-col gap-3 item">
                     <div className="grid w-full grid-cols-4 gap-12">
-                        <TextInput value={formData.name} text='Purchase Order Number' onChange={(value) => handleFormData('name', value)} />
+                        <TextInput value={formData.name} text='Reception No.' onChange={(value) => handleFormData('name', value)} />
                         <TextInput value={formData.name} text='Storekeeper' onChange={(value) => handleFormData('name', value)} />
                     </div>
                     <h2 className="font-semibold text-[18px] text-[#636692]">Items</h2>
@@ -169,7 +164,7 @@ export function CreateReceptions({ onClickUndo }: CreateReceptionsProps) {
                                             onCheckedChange={handleSelectAll}
                                         />
                                     </TableHead>
-                                    <TableHead className='pl-6'>Name</TableHead>
+                                    <TableHead className='pl-6'>Name{formItemData.quantity}</TableHead>
                                     <TableHead>Item Code</TableHead>
                                     <TableHead>Description</TableHead>
                                     <TableHead>Manufacturer</TableHead>
@@ -228,26 +223,23 @@ export function CreateReceptions({ onClickUndo }: CreateReceptionsProps) {
                     />
                     <h2 className="font-semibold text-[18px] text-[#636692]">New Item</h2>
                     <div className="w-full grid grid-cols-10 gap-3">
-                        <div className="col-span-2"><TextInput value={formItemData.name} text='Name' onChange={(value) => handleFormItemData('name', value)} /></div>
+                        <div className="col-span-2"><TextInput value={formItemData.item_name} text='Name' onChange={(value) => handleFormItemData('item_name', value)} /></div>
                         <div className="col-span-1"><TextInput value={formItemData.item_code} text='Item Code' onChange={(value) => handleFormItemData('item_code', value)} /></div>
-                        <div className="col-span-3"><TextInput value={formItemData.description} text='Description' onChange={(value) => handleFormItemData('description', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formItemData.manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('manufacturer', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formItemData.manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('manufacturer_code', value)} /></div>
+                        <div className="col-span-3"><TextInput value={formItemData.item_description} text='Description' onChange={(value) => handleFormItemData('item_description', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formItemData.item_manufacturer} text='Manufacturer' onChange={(value) => handleFormItemData('item_manufacturer', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formItemData.item_manufacturer_code} text='Manufacturer Code' onChange={(value) => handleFormItemData('item_manufacturer_code', value)} /></div>
                         <div className="col-span-1">
-                            <NumberInput label="Quantity" value={formItemData.quantity} onChange={(value) => handleFormItemData('quantity', value)} />
+                            <NumberInput label="Quantity" value={formItemData.item_quantity} onChange={(value) => handleFormItemData('item_quantity', value)} />
                         </div>
                         <div className="col-span-1">
                             <SelectInput
-                                label="bin"
-                                value={formItemData.bin}
-                                onChange={(value) => handleFormItemData('bin', value)}
-                                options={Array.isArray(binList) && binList.length > 0
-                                    ? binList.map(item => ({
-                                        value: item.id,
-                                        label: item.bin_name,
-                                    }))
-                                    : []
-                                }
+                                label="Bin"
+                                value={formItemData.item_bin}
+                                onChange={(value) => handleFormItemData('item_bin', value)}
+                                options={binList?.map(item => ({
+                                    value: item.id,
+                                    label: item.bin_name
+                                }))}
                             />
                         </div>
                     </div>
