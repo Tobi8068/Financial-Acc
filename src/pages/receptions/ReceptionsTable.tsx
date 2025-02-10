@@ -8,6 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getUserAvatarPath } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useReceptionsData } from '@/hooks/useReceptionsData';
 import { Pagination } from '@/components/pagination/Pagination';
@@ -28,6 +30,7 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
     searchQuery
   );
 
+  console.log("ddddddddddddddd", data)
   useEffect(() => {
     if (totalPages < currentPage) {
       setCurrentPage(1);
@@ -53,9 +56,8 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
         <Table>
           <TableHeader>
             <TableRow className='bg-[#FAFAFA]'>
-              <TableHead className='pl-6'>Issue No.</TableHead>
-              <TableHead>Purchase Order No.</TableHead>
-              <TableHead>Items</TableHead>
+              <TableHead className='pl-6'>No.</TableHead>
+              <TableHead>Reception ID</TableHead>
               <TableHead>Storekeeper</TableHead>
               <TableHead>Purchase Order</TableHead>
               <TableHead className="w-12">Action</TableHead>
@@ -64,12 +66,20 @@ export function ReceptionsTable({ searchQuery, onClickView }: ReceptionsTablePro
 
           <TableBody>
             {data.length !== 0 && data.map((item, index) => (
-              <TableRow key={index}>
+              <TableRow key={item.id}>
                 <TableCell className="font-medium pl-6">{index + 1}</TableCell>
-                <TableCell className="font-medium pl-6">{item.id}</TableCell>
-                <TableCell className='text-[#535862]'>{item.purchaseOrderNo}</TableCell>
-                <TableCell className='text-[#535862]'>{item.items}</TableCell>
-                <TableCell className='text-[#535862]'>{item.storeKeeper}</TableCell>
+                <TableCell className='text-[#535862]'>{item.po_number}</TableCell>
+                <TableCell className='text-[#535862]'>
+                  <div className='flex items-center gap-2'>
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={getUserAvatarPath(item.storeKeeper.avatar)} alt={item.storeKeeper.name} />
+                      <AvatarFallback>
+                        <span>{item.storeKeeper.name}</span>
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>{item.storeKeeper.name}</span>
+                  </div>
+                </TableCell>
                 <TableCell className='text-[#535862]'>{item.purchaseOrder}</TableCell>
                 <TableCell>
                   <Popover>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Upload } from 'lucide-react';
 import { TextInput } from "@/components/ui/text-input";
 import { SelectInput } from "@/components/ui/select-input";
-import { ReceptionItem } from "@/types/receptions";
+import { Checkbox } from '@/components/ui/checkbox';
 import { MoreVertical } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -46,6 +46,24 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [deleteItemId, setDeleteItemId] = useState<string | null>(null);
 
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectedItems(data.map(item => item.id));
+        } else {
+            setSelectedItems([]);
+        }
+    };
+
+    const handleSelectItem = (id: string, checked: boolean) => {
+        if (checked) {
+            setSelectedItems([...selectedItems, Number(id)]);
+        } else {
+            setSelectedItems(selectedItems.filter(item => item !== Number(id)));
+        }
+    };
+
     const handleChange = (field: string, value: any) => {
         setFormData({ ...formData, [field]: value });
     };
@@ -81,6 +99,12 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                         <Table>
                             <TableHeader>
                                 <TableRow>
+                                    <TableHead className="w-12 flex items-center justify-center">
+                                        <Checkbox
+                                            checked={selectedItems.length === data.length}
+                                            onCheckedChange={handleSelectAll}
+                                        />
+                                    </TableHead>
                                     <TableHead className='pl-6'>Name</TableHead>
                                     <TableHead>Item Code</TableHead>
                                     <TableHead>Description</TableHead>
@@ -94,14 +118,17 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                             <TableBody>
                                 {
                                     data.map((item, index) => (
-                                        <TableRow key={index}>
+                                        <TableRow key={index} className={selectedItems.includes(item.id) ? 'bg-gray-50' : ''}>
+                                            <TableCell className="w-12 flex items-center justify-center">
+                                                <Checkbox checked={selectedItems.includes(item.pid)} onCheckedChange={(checked) => handleSelectItem(item.pid, checked)} />
+                                            </TableCell>
                                             <TableCell className='pl-6 text-[#181D27] font-semibold'>{item.name}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.itemCode}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.description}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.manufacturer_code}</TableCell>
                                             <TableCell className='text-[#535862]'>{item.quantity}</TableCell>
-                                            <TableCell className='text-[#535862]'>{item.bin}</TableCell>
+                                            <TableCell className='text-[#535862]'>{item.bin.bin_name}</TableCell>
                                             <TableCell>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
@@ -140,7 +167,7 @@ export function CreateReceptions({ onClick }: CreateReceptionsProps) {
                         <div className="col-span-2"><TextInput value={formData.name} text='Name' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1"><TextInput value={formData.name} text='Item Code' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-3"><TextInput value={formData.name} text='Description' onChange={(value) => handleChange('name', value)} /></div>
-                        <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer Name' onChange={(value) => handleChange('name', value)} /></div>
+                        <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1"><TextInput value={formData.name} text='Manufacturer Code' onChange={(value) => handleChange('name', value)} /></div>
                         <div className="col-span-1">
                             {/* <TextInput text='Quantity' onChange={(value) => handleChange('name', value)} /> */}
